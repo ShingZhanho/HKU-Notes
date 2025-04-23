@@ -24,7 +24,8 @@ jobs:
     runs-on: ubuntu-22.04 # Jammy
     needs: configure-matrix
     strategy:
-      matrix: ${{ fromJson(needs.configure-matrix.outputs.set-matrix) }}
+      matrix: 
+        target: ${{ fromJson(needs.configure-matrix.outputs.set-matrix) }}
     steps:
       - name: Placeholder
         run: echo "This job builds the target ${{ matrix.target }}."
