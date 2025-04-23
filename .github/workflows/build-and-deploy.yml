@@ -8,7 +8,7 @@ jobs:
   configure-matrix:
     runs-on: ubuntu-latest
     outputs:
-      set-matrix: ${{ steps.parse-build-targets.outputs.set-matrix}}
+      set-matrix: ${{ steps.parse-build-targets.outputs.set-matrix }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-22.04 # Jammy
     needs: configure-matrix
     strategy:
-      matrix: ${{ fromJson(needs.configure-matrix.outputs.set-matrix)}}
+      matrix: ${{ fromJson(needs.configure-matrix.outputs.set-matrix) }}
     steps:
       - name: Placeholder
         run: echo "This job builds the target ${{ matrix.target }}."
