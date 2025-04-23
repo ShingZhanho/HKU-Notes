@@ -22,7 +22,7 @@ def main():
     # Flatten the tree into a list
     targets_list = flatten_tree(targets_tree)
 
-    output_str = "set-matrix={\"targets\"=["
+    output_str = "set-matrix={\"targets\":["
     for target in targets_list:
         output_str += f"\"{target}\","
     output_str = output_str[:-1] + "]}"
