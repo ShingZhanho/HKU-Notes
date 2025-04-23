@@ -1,0 +1,30 @@
+name: Build LaTeX PDFs and Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - master
+jobs:
+
+  configure-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      set-matrix: ${{ steps.parse-build-targets.outputs.set-matrix}}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Parse build-targets.txt
+        id: parse-build-targets
+        run: python ./build/resolve-targets.py >> $GITHUB_OUTPUT
+
+  build-target:
+    runs-on: ubuntu-22.04 # Jammy
+    needs: configure-matrix
+    strategy:
+      matrix: ${{ fromJson(needs.configure-matrix.outputs.set-matrix)}}
+    steps:
+      - name: Placeholder
+        run: echo "This job builds the target ${{ matrix.target }}."
