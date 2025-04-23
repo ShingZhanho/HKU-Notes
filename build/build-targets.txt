@@ -1,0 +1,30 @@
+# Here lists all the LaTeX build targets.
+# Lines starting with # are ignored. Leading and trailing spaces are ignored.
+# All targets will be looked up in the /src directory.
+# Target name prefixes are supported by TAB indentation. Example:
+# 	COMP2120-
+# 		Notes
+#		Cheatsheet
+# will yield two build targets:
+#	COMP2120-Notes.tex		(in /src/COMP2120-Notes/COMP2120-Notes.tex)
+#	COMP2120-Cheatsheet.tex	(in /src/COMP2120-Cheatsheet/COMP2120-Cheatsheet.tex)
+# in /src/COMP2120-Notes/COMP2120-Notes.tex and /src/COMP2120-Cheatsheet/COMP2120-Cheatsheet.tex
+# The root tex file must have the same name as the target.
+# Multilevel indentation is supported. Example:
+#	ENGG1340-
+#		Assignment
+#			1
+#			2
+#		Notes
+# will yield three targets:
+#	ENGG1340-Assignment1.tex 	(in /src/ENGG1340-Assignment1/ENGG1340-Assignment1.tex)
+#	ENGG1340-Assignment2.tex 	(in /src/ENGG1340-Assignment2/ENGG1340-Assignment2.tex)
+#	ENGG1340-Notes.tex			(in /src/ENGG1340-Notes/ENGG1340-Notes.tex)
+# Note that hyphens (-) are not added automatically when resolving the target name.
+# Targets of the same prefix declared in different lines will be merged after resolving.
+# Duplicate target names will only be resolved once.
+
+# COMP2120 - Computer Organisation
+COMP2120-
+	Notes
+	Cheatsheet
