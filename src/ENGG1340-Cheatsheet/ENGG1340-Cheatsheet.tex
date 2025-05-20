@@ -1,0 +1,22 @@
+% !TEX program = latexmk
+% !TEX options = --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./ENGG1340-Cheatsheet.tex
+
+\documentclass[10pt,landscape,a4paper]{article}
+\input{packages}
+
+\let\bar\overline
+
+\input{preambles}
+
+\begin{document}
+%\footnotesize
+\scriptsize
+\begin{multicols*}{4}
+\raggedright
+\input{linux-and-shell.tex}
+\input{compiling-and-makefile.tex}
+\input{c-plus-plus.tex}
+\input{c-lang.tex}
+\input{regexpr.tex}
+\end{multicols*}
+\end{document}

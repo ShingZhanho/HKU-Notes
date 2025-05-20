@@ -24,7 +24,5 @@
 # Targets of the same prefix declared in different lines will be merged after resolving.
 # Duplicate target names will only be resolved once.
 
-# COMP2120 - Computer Organisation
-COMP2120-
-	Notes
-	Cheatsheet
+# ENGG1340 - Computer Programming II
+ENGG1340-Cheatsheet

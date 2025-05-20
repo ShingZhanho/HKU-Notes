@@ -1,0 +1,363 @@
+\section{C++ Basics}
+
+\subsection*{\texttt{<cstdlib> (stdlib.h)} and \texttt{<ctime> (time.h)}}
+
+\begin{minted}[style=manni]{cpp}
+srand(std::time(nullptr)); // seed generator
+rand()                     // [0, RAND_MAX]
+rand() % (b - a + 1)       // [0, b - a]
+rand() % (b - a + 1) + a   // [a, b]
+\end{minted}
+\vspace*{-1.5\baselineskip}
+
+\subsection*{\texttt{<cmath> (math.h)}}
+
+\begin{minted}[style=manni]{cpp}
+double sqrt(double x);
+double pow(double x, double y); // x^y
+double fabs(double x);          // absolute value
+double ceil(double x);          // round up
+double floor(double x);         // round down
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{C Arrays}
+
+\begin{minted}[style=manni]{cpp}
+T arr[n];       // array of n elements
+T arr[] = {1, 2, 3}; // array of 3 elements
+T arr[3][2];    // arr of 3 arrays of 2 elements
+arr[0];         // access an element of an array
+/* == Take array as an argument == */
+ret_type func_name(T arr[], int size);
+ret_type func_name(T arr[][2], int size);
+/* == Linear Search == */
+int linSearch(T arr[], int size, T find) {
+    for (int i = 0; i < size; ++i)
+        if (arr[i] == find)
+            return i;
+} // avg O(n) (half), worst O(n) (all)
+// add int startPos = 0; to search from startPos
+/* == Selection Sort == */
+void selSortAsc(T arr[], int size) {
+    for (int i = 0; i < size - 1; ++i) {
+        int minIndex = i;
+        for (int j = i + 1; j < size; ++j) {
+            if (arr[j] < arr[minIndex])
+                minIndex = j;
+        }
+        if (minIndex == i) continue;
+        T temp = arr[i];
+        arr[i] = arr[minIndex];
+        arr[minIndex] = temp;
+    }
+}
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{\texttt{char} and \texttt{<cctype> (ctype.h)}}
+
+\begin{minted}[style=manni]{cpp}
+int isdigit(int c); // nonzero if is digit
+int isalpha(int c); // nonzero if is alphabet
+int isalnum(int c); // nonzero if is digit or alpha
+int islower(int c); // nonzero if is lower case
+int isupper(int c); // nonzero if is upper case
+int tolower(int c); // ret c as lower if is upper
+int toupper(int c); // ret c as upper if is lower
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{C++ Strings and \texttt{<string>}}
+
+\begin{minted}[style=manni]{cpp}
+std::string str = "HKU ENGG1340 CompSc";
+char c = str[5];                // 'N'
+str[10] = '3';          // "HKU ENGG1330 CompSc"
+str = str + " is fun";          // Ok
+str = "Hello" + " World";       // Error
+/* == Functions == */
+// read line from istream into string until delim
+std::getline(istream& in, string& s, char delim);
+string::length(); // length of string
+string::empty(); // true if empty
+string::substr(int pos, int len);
+// find first occurrence of str from pos, miss>npos
+string::find(string str, int pos = 0);
+// find last occurrence of str from pos, miss>npos
+string::rfind(string str, int pos = npos);
+// insert str before the character at pos, in place
+string::insert(int pos, string str);
+// erase len characters from pos, in place
+string::erase(int pos, int len);
+// replace len chars from pos with str, in place
+string::replace(int pos, int len, string str);
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{File I/O and \texttt{<fstream>}}
+
+\begin{minted}[style=manni]{cpp}
+std::ifstream fin("input.txt");
+std::ofstream fout("output.txt");
+fout.open("output.txt", std::ios::app); // append
+fout.open(path_str.c_str());  // only support C-strs
+fout.close();                 // close file
+bool success = !fin.fail();   // or in.is_open();
+fout << "Hi!" << std::endl;   // write to file
+fin >> str;         // read one word from file
+while (fin >> str);           // read until EOF
+\end{minted}
+
+\subsection*{\texttt{<sstream>}}
+
+\begin{minted}[style=manni]{cpp}
+std::istringstream iss("1 2 3");
+iss >> a >> b >> c; // read from string
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{Output Formatting by \texttt{<iostream>} and \texttt{<iomanip>}}
+
+Default floating-point: 6 sig. fig., or scientific if too large/small.
+\vspace*{-1.25\baselineskip}
+\begin{minted}[style=manni]{cpp}
+/* manipulators from <iostream> */
+std::showpoint; // always show point
+      // # of digits depends on std::setprecision
+std::noshowpoint; // unset std::showpoint
+std::fixed; // fixed point notation (3.14)
+std::scientific; // scientific notation (3.14e+00)
+std::cout.unsetf(std::ios_base::floatfield);
+          // unset std::fixed and std::scientific
+std::left;  // left align
+std::right; // right align (default with std::setw)
+/* manipulators from <iomanip> */
+std::setprecision(2);
+          // with std::fixed or std::scientific:
+          // 3.14159 -> 3.14 or 3.14e+00
+          // otherwise: 3.14159 -> 3.1
+    // no padding 0 without std::showpoint if
+    // not std::fixed or std::scientific
+std::setw(10); // set width to 10
+std::setfill('*'); // fill with * (char)
+
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{Pointers and Dynamic Memory}
+\begin{minted}[style=manni]{cpp}
+int val = 5;
+int* p = &val;      // p points to val
+std::cout << *p;    // output: 5
+std::cout << p;     // output: address of val
+std::cout << &p;    // output: address of p
+p = nullptr;        // p points to nothing
+std::cout << *p;    // SIGSEGV
+
+int* p = new int;   // allocate memory for int
+delete p;           // free memory
+int* p = new int[10]; // allocate memory for array
+delete [] p;        // free memory
+
+*p++;               // increments POINTER
+(*p)++;             // increments VALUE
+
+void swapByRef(int& a, int& b) {
+    int temp = a; a = b; b = temp;
+}
+void swapByPtr(int* a, int* b) {
+    int temp = *a; *a = *b; *b = temp;
+}
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{Linked List}
+
+\begin{minted}[style=manni]{cpp}
+struct Node { int data; Node* next; };
+Node* head = nullptr;       // empty list
+Node* n = new Node;         // create a new node
+n->data = 10; n->next = nullptr; // initialize
+head = n;                   // insert first node
+
+Node* current = head;
+while (current != nullptr) { // traverse the list
+    doSomething(); current = current->next;
+}
+
+void insertAtFront(Node*& head, Node* n) {
+    n->next = head; head = n;
+}
+
+void insertAtEnd(Node*& head, Node* n) {
+    Node* current = head;
+    if (current == nullptr) {
+        head = n; return;
+    }
+    while (current->next != nullptr)
+        current = current->next;
+    current->next = n; n -> next = nullptr;
+}
+
+void deleteWithVal(Node*& head, int val) {
+    Node* current = head, * prev = nullptr;
+    while (current != nullptr) {
+        if (current->data == val) {
+            if (prev == nullptr)
+                head = current->next;
+            else
+                prev->next = current->next;
+            delete current;
+            return;
+        }
+        prev = current; current = current->next;
+    }
+}
+
+void reverseList(Node*& head) {
+    Node *current = head, *prev = nullptr, *next;
+    while (current != nullptr) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+}
+
+void deleteList(Node*& head) {
+    Node* current = head, * next;
+    while (current != nullptr) {
+        next = current->next;
+        delete current;
+        current = next;
+    }
+}
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{\texttt{struct} in C++}
+\begin{minted}[style=manni]{cpp}
+struct Point {
+    int x, y, z; // member variables
+    Point(int x, int y, int z) // constructor
+        : x(x), y(y), z(z) { }
+    double distance(const Point& p) {
+        return sqrt(pow(x - p.x, 2) +
+                    pow(y - p.y, 2) +
+                    pow(z - p.z, 2));
+    } // member function
+    bool operator<(const Point& p) {
+        return x < p.x
+            || (x == p.x && y < p.y)
+            || (x == p.x && y == p.y && z < p.z);
+    } // operator overloading
+};
+
+Point p1(1, 2, 3), p2(4, 5, 6);
+std::cout << "P1.X = " << p1.x << std::endl;
+double dist = p1.distance(p2);
+\end{minted}
+
+\subsection*{STL Iterators}
+
+Iterator templates defined in \texttt{<iterator>}, but STL containers'
+iterators are defined in their own headers.
+
+\subsubsection*{Iterator Types and Supported Operations}
+
+\emph{Forward iterators} supports:\\
+\hfill assignment, increment, dereference, equality;\\
+\emph{Bidirectional iterators} supports extra:\\
+\hfill decrement;\\
+\emph{Random access iterators} supports extra:\\
+\hfill addition, subtraction, inequality,\\
+\hfill compound (it+=1), offset dereference (it[3])\\
+
+\subsection*{STL Containers}
+
+\subsubsection*{\texttt{<vector>}}
+
+\begin{minted}[style=manni]{cpp}
+std::vector<int> v;  // declaration
+/* --- Main Member Functions --- */
+v.push_back(1); // append to the end, O(1)
+v.pop_back();   // remove last element, O(1)
+v[i];           // access element at i, O(1)
+v.size();       // size of vector, O(1)
+/* --- Traverse with iterators --- */
+vector<T>::iterator it; // random access iterator
+for (it = v.begin(); it != v.end(); ++it) {
+    std::cout << *it << ", ";
+}
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsubsection*{\texttt{<list>}}
+
+\begin{minted}[style=manni]{cpp}
+std::list<int> l;  // declaration
+/* --- Main Member Functions --- */
+l.push_back(1);   // append to the end, O(1)
+l.push_front(2);  // append to the front, O(1)
+l.pop_back();     // remove last element, O(1)
+l.pop_front();    // remove first element, O(1)
+l.size();         // size of list, O(1)
+l.front();        // first element, O(1)
+l.back();         // last element, O(1)
+/* --- Traverse with iterators --- */
+list<T>::iterator it; // bidirectional iterator
+// same as vector
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsubsection*{\texttt{<map>}}
+
+\begin{minted}[style=manni]{cpp}
+std::map<int, int> m;              // declaration
+m = {{key1, val1}, {key2, val2}};  // initialise
+/* --- Main Member Functions --- */
+m[key];     // access value with key, O(log n)
+            // create if not exist
+m[key] = 1; // set value with key, O(log n)
+m.count(key); // 1 if key exist, 0 otherwise
+m.erase(key); // remove key, O(log n)
+m.size();   // size of map, O(1)
+/* --- Traverse with iterators --- */
+map<K, V>::iterator it; // bidirectional iterator
+for (it = m.begin(); it != m.end(); ++it) {
+    std::cout << it->first << ": ";
+    std::cout << it->second << ", ";
+}
+/* --- Use with Custom Structs S as key --- */
+// S must have operator< defined
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{STL Algorithms and \texttt{<algorithm>}}
+
+\begin{minted}[style=manni]{cpp}
+std::sort(RandomAccessIterator first,
+          RandomAccessIterator last);
+        // sort in range [first, last), in place
+        // O(n log n) on average
+std::sort(it, it + n); // sort n elements
+std::sort(v.begin(), v.end()); // sort vector
+    // note that the last element is not included
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{Recursion (Binary Search)}
+\begin{minted}[style=manni]{cpp}
+int binSearch(int arr[], int l, int r, int x) {
+    if (r >= 1) (
+        int mid = l + (r - l) / 2;
+        if (arr[mid] == x) return mid;
+        if (arr[mid] > x)
+            return binSearch(arr, l, mid - 1, x);
+        return binSearch(arr, mid + 1, r, x);
+    )
+    return -1; // not found
+}
+\end{minted}
+\vspace*{-1.25\baselineskip}

@@ -1,0 +1,52 @@
+\section{C Language}
+
+\subsection*{I/O and Formatting in C (\texttt{stdio.h})}
+
+\begin{minted}[style=manni]{c}
+int a; char line[100];
+scanf("%d", &a);        // uses format specifiers
+printf("a = %d\n", a);  // uses format specifiers
+fgets(line, sizeof(line), stdin); // reads a line
+                                  // NULL if fail
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\emph{Format Specifiers}:\\
+\qquad \emph{\%d} \hfill \textit{int}\\
+\qquad \emph{\%f}, \emph{\%lf} \hfill \textit{float, double}\\
+\qquad \emph{\%.nf} \hfill \textit{float, n decimal places}\\
+\qquad \emph{\%g} \hfill \textit{float, without trailing 0}\\
+\qquad \emph{\%c} \hfill \textit{char}\\
+\qquad \emph{\%(n)s} \hfill \textit{string (of n characters, printf() only)}\\
+
+\subsection*{String Functions (\texttt{string.h})}
+
+\begin{minted}[style=manni]{c}
+strcpy(char[] s1, const char[] s2); // copy s2 to s1
+strcat(char[] s1, const char[] s2); // s1 = s1 + s2
+strcmp(const char[] s1, const char[] s2);
+// -ve if s1 < s2; 0 if s1 = s2; +ve if s1 > s2
+strlen(const char[] s);             // length of s
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{Dynamic Memory Allocation (\texttt{stdlib.h})}
+\begin{minted}[style=manni]{c}
+/* --- Allocate memory --- */
+void* malloc(int size);     // allocate size bytes
+(T*) malloc(n * sizeof(T)); // = new T[n]
+/* --- Release memory --- */
+void free(void* ptr);       // = delete ptr
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\subsection*{\texttt{struct} and \texttt{typedef}}
+\begin{minted}[style=manni]{c}
+struct point {int x, y;};
+struct point p1;
+typedef struct point Point;
+Point p2; // Point is alias for struct point
+\end{minted}
+\vspace*{-1.25\baselineskip}
+
+\emph{**} C-structs cannot have member functions/constructors.\\

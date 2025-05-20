@@ -1,0 +1,15 @@
+\section{Compiling and Makefile}
+
+\emph{CXX\_COMPILER = g++}\hfill the compiler\\
+\emph{CXX\_FLAGS = -std=c++11 -pedantic-errors} \hfill flags\\
+\emph{-O0} \hfill no optimization\\
+\emph{-g} \hfill add debugging symbols\\
+\emph{-Wall} \hfill enable all warnings\\
+\emph{-c src.cpp} \hfill compile to an object file, not linked\\
+\emph{-o output\_file} \hfill set the output file name\\
+\emph{\$@} \hfill the name of the target\\
+\emph{\$<} \hfill the name of the first dependency\\
+\emph{\$\^{}} \hfill the dependencies list\\
+\emph{\$(OBJS)} \hfill access the Makefile variable OBJS\\
+\emph{.PHONY: clean} \hfill make clean always run\\
+\emph{\$(CXX\_COMPILER) \$(CXX\_FLAGS) \$(OBJS) -o main} \\\hfill compile and link the objects\\

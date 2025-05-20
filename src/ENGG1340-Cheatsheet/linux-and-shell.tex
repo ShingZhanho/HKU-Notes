@@ -1,0 +1,137 @@
+\section{Linux and Shell}
+
+\subsection*{Linux Commands}
+
+\textbf{\emph{ls [options] [file]} \hfill List directory contents}\\
+\quad -a \hfill \textit{Include hidden files}\\
+\quad -l \hfill \textit{Long listing format}\\
+\textit{Example output:}\\
+\quad \textbf{-rwxr--r-- 1 jacob sudoer 40 Jan 1 00:00 file.cpp}\\
+\qquad - \hfill Entry type (d: directory, -: file)\\
+\qquad rwxr--r-- \hfill Permissions (owner, group, others)\\
+\qquad 1 \hfill Number of hard links\\
+\qquad jacob \hfill Owner\\
+\qquad sudoer \hfill Group\\
+\qquad 4096 \hfill Size in bytes\\
+\qquad Jan 1 00:00 \hfill Last modified date\\
+\qquad file.cpp \hfill File name
+
+\textbf{\emph{chmod [u/g/o/a][+/-/=][r/w/x] file} \\\hfill Change permissions}
+
+\textbf{\emph{rm [options] file/dir} \hfill Remove file or directory}\\
+\quad -r \hfill \textit{Recursively remove}\\
+\quad -f \hfill \textit{Force remove}
+
+\textbf{\emph{rmdir dir} \hfill Remove empty directory}
+
+\textbf{\emph{cp [-r] src dest} \hfill Copy file or directory}\\
+\quad -r \hfill \textit{src=dir: copy dir and subtree;\\
+\hfill src=dir/: copy contents of dir}\\
+\quad src=file, dest=file \hfill \textit{Overwrite dest with src}\\
+\quad src=file, dest=dir \hfill \textit{Copy file into dir}
+
+\textbf{\emph{mv src dest} \hfill Move file or directory}\\
+\quad src=file, dest=file || src=dir, dest=dir \\
+\quad \hfill \textit{Renames src with dest}\\
+\quad src=file, dest=dir \hfill \textit{Moves src into dest}\\
+\quad src=dir, dest=empty\_dir \\
+\quad \hfill \textit{Moves src into dest recursive}\\
+
+\textbf{\emph{wc [-lwcm] file} \hfill Word count}\\
+\quad -l \hfill \textit{Count lines}\\
+\quad -w \hfill \textit{Count words}\\
+\quad -c \hfill \textit{Count bytes}\\
+\quad -m \hfill \textit{Count characters}\\
+\textit{Example output:}
+\quad \textbf{  1  2  3 file.txt}
+
+\textbf{\emph{sort [-nr|-k<n>|-t<char>] file/stdin} \\\hfill Sort lines of text}\\
+\quad -n \hfill \textit{Numeric sort}\\
+\quad -r \hfill \textit{Reverse sort}\\
+\quad -k<n> \hfill \textit{Sort by column n (1-indexed)}\\
+\quad -t<char> \hfill \textit{Use char (" " by default) as delimiter}
+
+\textbf{\emph{cut -d <char> [-f<n,m,...>] file/stdin} \\\hfill Get fields from lines}\\
+\quad -d <char> \hfill \textit{Use char as delimiter}\\
+\quad -f<n,m,...> \hfill \textit{Get fields n, m, ... (1-indexed)}
+
+\textbf{\emph{uniq file/stdin} \hfill Remove adjacent duplicate lines}
+
+\textbf{\emph{spell file/stdin} \hfill Get missspelt words, 1 per line}
+
+\textbf{\emph{diff fileA fileB} \hfill Compare files}\\
+\textit{Example output:}\\
+\quad \textbf{0a1}
+\hfill \textit{Add line 1 of B after line 0 of A}\\
+\quad \textbf{> contents to be added}\\
+\quad \textbf{2,3c2}
+\hfill \textit{Change lines 2-3 of A to line 2 of B}\\
+\quad \textbf{< contents of A to be deleted}\\
+\quad \textbf{< contents of A to be deleted}\\
+\quad \textbf{-{}-{}-} \hfill \textit{separator}\\
+\quad \textbf{> contents of B to be added}\\
+\quad \textbf{4d5}\\
+\hfill \textit{Delete line 4(A) and be in sync from line 5(B)}
+
+\textbf{\emph{find path [-name <name>] [-type f|d]} \\\hfill Find items under path}\\
+\quad -name <name> \hfill \textit{Find items with name}\\
+\quad -type f|d \hfill \textit{Find files (f) or dirs (d) only}
+
+\textbf{\emph{grep [-E <regexpr> | pattern] [-o] file/stdin} \\\hfill Search for pattern}\\
+\quad -E <regexpr> \hfill \textit{Match regular expression}\\
+\quad -o \hfill \textit{Only print matching part of line}\\
+\quad pattern \hfill \textit{Match pattern}
+
+\textbf{\emph{command < in\_file n> out\_file} \\\hfill Redirect input and output}\\
+\quad < in\_file \hfill \textit{in\_file to stdin}\\
+\quad n> out\_file \hfill \textit{stdout(1) or stderr(2) to out\_file}\\
+\quad n>{}> out\_file \hfill \textit{Append to out\_file}\\
+\quad n>/dev/null \hfill \textit{Discard stdout or stderr}\\
+\quad 2>\&1 \hfill \textit{Redirect stderr to stdout}
+
+\textbf{\emph{cmd1 | cmd2} \hfill Pipe stdout of cmd1 to stdin of cmd2}
+
+\textbf{\emph{cmd1 \&\& cmd2} \hfill Execute cmd2 iff cmd1 succeeds}
+
+\textbf{\emph{cmd1 || cmd2} \hfill Execute cmd2 iff cmd1 fails}
+
+\subsection*{Shell Script}
+
+\emph{\#!/bin/bash} \hfill Declares execution shell
+
+\subsubsection*{Variables}
+
+\emph{VAR\_NAME=value} \hfill \textit{No spaces around =}\\
+\emph{read VAR\_NAME} \hfill \textit{Read input into variable}\\
+\emph{\$VAR\_NAME} \hfill \textit{Access variable}\\
+\emph{eval="\$(cmd) \$var"} vs \emph{no\_eval=\sq \$(cmd) \$var\sq}
+
+\subsubsection*{String Operations}
+
+\emph{\$\{\#a\}} \hfill \textit{Length of a}\\
+\emph{\$\{a:pos:len\}} \hfill \textit{Substr from pos (0-indexed) for len}\\
+\emph{\$\{a/find/replace\}} \hfill \textit{Replace first occurence}\\
+\emph{\$\{a//find/replace\}} \hfill \textit{Replace all occurences}\\
+\emph{let "expr"} \hfill \textit{Treat values in expr as numbers}
+
+\subsubsection*{Command Line Arguments}
+
+\emph{\$\#} \hfill \textit{Number of arguments}\\
+\emph{\$1} \hfill \textit{Access argument (\$0 is script name)}\\
+\emph{\$\{10\}} \hfill \textit{Access 10th+ argument}\\
+
+\subsubsection*{Control Flow}
+
+\emph{if [ cond1 ]; then cmd1; elif [ cond2 ]; then cmd2; else cmd3; fi}\\
+\emph{[ "\$VAR" ]} \hfill \textit{True if \$VAR is not empty}\\
+\emph{[ "\$VAR" == "value" ]} \hfill \textit{\$VAR is equal to value}\\
+\emph{[ "\$VAR" != "value" ]} \hfill \textit{\$VAR is not equal to value}\\
+\emph{[ "\$VAR1" \bs> "\$VAR2" ]} \hfill \textit{\$VAR1 sorts after \$VAR2}\\
+\emph{[ "\$VAR1" \bs< "\$VAR2" ]} \hfill \textit{\$VAR1 sorts before \$VAR2}\\
+\emph{[ -e|f|d|s|r|w|x "\$VAR" ]}\\
+\quad -e \hfill \textit{File \$VAR exists}\\
+\quad -f|d \hfill \textit{File \$VAR is a regular file / dir}\\
+\quad -s \hfill \textit{File \$VAR is not empty}\\
+\quad -r|w|x \hfill \textit{File \$VAR is read/write/executable}\\
+\emph{[ \$VAR1 -eq|ne|lt|gt|le|ge \$VAR2 ]} \\ \hfill Numeric comparisons\\
+\emph{for i in \$list; do cmd; done} \\\hfill \textit{\$list is space-separated}
