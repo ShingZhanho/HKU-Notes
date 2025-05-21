@@ -104,9 +104,61 @@ jobs:
           initexmf --mkmaps
           miktex packages update
           echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
+
+      - name: Download MiKTeX packages cache identifier key
+        if: env.DYENV_ABORT_WORKFLOW == 'false'
+        run: |
+          export miktex_remote_cache_key=$(curl -s -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/miktex-cache-key.txt" \
+           -o ./src/${{ matrix.target}}/remote-miktex-cache-key.txt \
+           -w "%{http_code}")
+          if [ "${miktex_remote_cache_key}" != "200" ]; then
+            echo "Remote MikTeX cache key returned status ${miktex_remote_cache_key}. Reinstalling packages."
+            echo "DYENV_MIKTEX_CACHE_KEY=-1" >> "$GITHUB_ENV"
+          else
+            export miktex_cache_key=$(cat ./src/${{ matrix.target }}/remote-miktex-cache-key.txt)
+            echo "DYENV_REMOTE_MIKTEX_CACHE_KEY=${miktex_cache_key}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Calculate local MiKTeX cache key
+        if: env.DYENV_ABORT_WORKFLOW == 'false'
+        run: echo "DYENV_LOCAL_MIKTEX_CACHE_KEY=${{ hashFiles(env.DYENV_MIKTEX_PACKAGE_FILE) }}" >> "$GITHUB_ENV"
+
+      - name: Compare local and remote MikTeX cache key
+        if: env.DYENV_ABORT_WORKFLOW == 'false'
+        run: |
+          if [ "${{ env.DYENV_REMOTE_MIKTEX_CACHE_KEY }}" != "${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}" ]; then
+            echo "MikTeX cache key mismatch. Proceeding with package installation."
+            echo "DYENV_RESTORE_MIKTEX_FROM_CACHE=false" >> "$GITHUB_ENV"
+          else
+            echo "MikTeX cache key match. Trying to restore packages from cache."
+            echo "DYENV_RESTORE_MIKTEX_FROM_CACHE=true" >> "$GITHUB_ENV"
+          fi
+
+      - name: Restore MiKTeX packages from cache
+        id: restore-miktex-cache
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_RESTORE_MIKTEX_FROM_CACHE == 'true'
+        uses: actions/cache/restore@v4
+        with:
+          key: miktex-pkg-${{ runner.os }}-${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}
+          path: ~/.miktex
         
       # --- CONFIGURE TOOLSETS ---
         # toolset for minted
       - name: Install Python minted toolset
         if: env.DYENV_REQUIRE_PYTHON_MINTED_PKGS == 'true' && env.DYENV_ABORT_WORKFLOW == 'false'
         run: pip install -r ./build/python-requirement-lists/python-minted-pkgs.txt
+
+      # --- RUN PRE-BUILD COMMAND ---
+      - name: Run pre-build command
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_PREBUILD_COMMAND != ''
+        run: ${{ env.DYENV_PREBUILD_COMMAND }}
+
+      # --- BUILD TARGET ---
+      - name: Build LaTeX target
+        if: env.DYENV_ABORT_WORKFLOW == 'false'
+        run: ${{ env.DYENV_BUILD_COMMAND }}
+
+      # --- RUN POST-BUILD COMMAND ---
+      - name: Run post-build command
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_POSTBUILD_COMMAND != ''
+        run: ${{ env.DYENV_POSTBUILD_COMMAND }}
