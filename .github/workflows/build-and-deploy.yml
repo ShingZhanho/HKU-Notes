@@ -58,6 +58,8 @@ jobs:
             mv ./src/${{ matrix.target }}/remote-src-checksum.txt ./src/${{ matrix.target }}/src-checksum.txt
             curl -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/compiled-at.txt" \
               -o ./src/${{ matrix.target }}/compiled-at.txt
+            curl -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/miktex-cache-key.txt" \
+              -o ./src/${{ matrix.target }}/miktex-cache-key.txt
             curl -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/${{ matrix.target }}.pdf" \
               -o ./src/${{ matrix.target }}/${{ matrix.target }}.pdf
             echo "GH_OUT_CHECKSUM_CHANGED=false" >> "$GITHUB_ENV"
