@@ -1,0 +1,41 @@
+% !TEX program = latexmk
+% !TEX options = --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./COMP2120-Notes.tex
+
+\documentclass[10pt]{article}
+
+\input{preambles}
+
+\begin{document}
+
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\maketitle
+
+\ifbool{INCLUDE_DISCLAIMER}{
+    \input{disclaimer}
+}{}
+
+\tableofcontents
+\listoffigures
+
+\vfill
+
+\begin{remark}
+    For taking the final examination, an A4-sized double-sided cheatsheet
+    is also provided on the same GitHub repository.
+\end{remark}
+
+{
+\footnotesize
+This document is updated automatically on its GitHub distribution page.
+To ensure you have the latest information, please check the page regularly.
+The author bears no responsibility for any errors or omissions in this document.
+Use with discretion.
+}
+
+\input{main}
+
+\end{document}

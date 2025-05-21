@@ -1,0 +1,47 @@
+\section{Evolution of Computers}
+
+\subsection{Bench-marking Performance}
+
+\begin{definition}[Clock Speed]
+    The pulse frequency ($f$) by the clock, measured in cycles per
+    second, or Hertz (Hz). Also known as clock rate, clock speed.
+    A cycle is technically a synchronised pulse.
+\end{definition}
+
+Programs consist of instructions, and each instruction has several cycles.
+For example, a classic RISC\footnote{RISC: Reduced Instruction Set Computing} pipeline
+may have these 5 stages:
+\begin{itemize}
+    \item Fetch (IF)
+    \item Decode (ID)
+    \item Execution/Effective Address (EX)
+    \item Memory Access (MEM)
+    \item Writeback (WB)
+\end{itemize}
+
+\begin{definition}[Average Cycles Per Instruction (CPI)] \label{def:average-cpi}
+\begin{equation*}
+    \text{Average CPI} = \frac{\sum_i \text{CPI}_i\times I_i}{I_c}
+\end{equation*}
+where $I_i$ is the number of instructions of type $i$, and $I_c = \sum_i I_i$.
+\end{definition}
+
+\begin{definition}[Processor Time ($T$)]\label{def:processor-time}
+\begin{equation*}
+    T = \frac{I_c \times \text{CPI}}{f}
+\end{equation*}
+\end{definition}
+
+\begin{definition}[Million Instructions Per Second (MIPS)]\label{def:mips}
+\begin{equation*}
+    \text{MIPS} = \frac{f}{\text{CPI}\times 10^6}
+\end{equation*}
+\end{definition}
+
+Other useful metrics: Million Floating Point Operations Per Second (MFLOPS).
+
+\begin{remark}
+    MIPS and MFLOPS may not accurately reflect the performance of a computer.
+    A better approach is to measure the time required to do some real jobs.
+    Standard Performance Evaluation Corporation (SPEC) benchmarks are used for this.
+\end{remark}

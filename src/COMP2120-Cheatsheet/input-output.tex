@@ -1,0 +1,34 @@
+\section{Input \& Output}
+
+\emph{I/O Module}: interface between processor and memory via system bus or central
+switch; interface to peripheral devices through dedicated data links.\\
+\emph{Model Requirements}: \begin{enuminline}
+\item asynchronous timing
+\item command decoding (\eg\texttt{SEEK})
+\item data exchange
+\item status reporting (\eg ready, busy, etc.)
+\item address recognition
+\item data buffering (speed up transactions)
+\item error detection \& correction
+\end{enuminline}
+
+\subsection*{I/O Register Mapping}
+
+\emph{Memory-mapped}: registers mapped into main memory address space; accessed as if
+memory locations;\\
+\emph{I/O-mapped}: mapped into separate address space; accessed via special instructions.
+
+\subsection*{I/O Techniques}
+
+\emph{Programmed I/O}:
+Not using interrupts. CPU waits for I/O device to complete operation. CPU accesses device
+via Control and Status Registers (CSR). Wastes CPU time.\\
+\emph{Interrupt-driven I/O}:
+($\text{Memory} \leftrightarrow \text{CPU} \leftrightarrow \text{I/O}$) CPU executes
+other instructions after sending I/O command. I/O interrupts CPU when complete. CPU
+sends acknowledgment (\texttt{INTA}) to I/O.
+Interruptions handled \textbf{between} instruction cycles.\\
+\emph{Direct Memory Access (DMA)}:
+($\text{Memory} \leftrightarrow \text{I/O}$) Use Input-Output Processor (IOP). IOP
+steals cycles from CPU. CPU sees elongated cycle and wait until cycle is over.
+Interruptions handled \textbf{within} one instruction cycle.

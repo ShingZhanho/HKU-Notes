@@ -1,0 +1,98 @@
+\section{Digital Logic}
+
+\subsection*{Boolean Algebra}
+$A\bxor B = \bnot{A}B+A\bnot{B}$\\
+$\bnot{A\bxor B} = AB+\bnot{AB}$
+
+\subsubsection*{Algebra Laws}
+$A+0=A \quad A\band 1=A$ \hfill Identity Elements\\
+$A+1=1 \quad A\band 0=0$ \hfill Null Law\\
+$A+A=A \quad A\band A=A$ \hfill Idempotent Law\\
+$A+\bnot{A}=1 \quad A\band\bnot{A}=0$ \hfill Inverse\\
+$(A+B)+C=A+(B+C)$ \hfill Associative (1)\\
+$(A\band B)\band C = A\band(B\band C)$ \hfill (2)\\
+$A\band(B+C)=A\band B+A\band C$ \hfill Distributive (1)\\
+$\boldsymbol{A+(B\band C)=(A+B)\band(A+C)}$ \hfill (2)
+
+\subsubsection*{De Morgan's Theorem}
+$\bnot{A\band B\band\cdots\band N}=\bnot{A}+\bnot{B}+\cdots+\bnot{N}$\\
+$\bnot{A+B+\cdots+N}=\bnot{A}\band\bnot{B}\band\cdots\band\bnot{N}$
+
+\subsubsection*{Logic Gates}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.3\linewidth}
+        \centering
+        \begin{circuitikz}[scale=0.5, transform shape]
+            \draw (0,0) node[ieeestd and port]{};
+        \end{circuitikz}
+        \caption*{AND}
+    \end{subfigure}
+    \begin{subfigure}{0.3\linewidth}
+        \centering
+        \begin{circuitikz}[scale=0.5, transform shape]
+            \draw (0,0) node[ieeestd or port]{};
+        \end{circuitikz}
+        \caption*{OR}
+    \end{subfigure}
+    \begin{subfigure}{0.3\linewidth}
+        \centering
+        \begin{circuitikz}[scale=0.5, transform shape]
+            \draw (0,0) node[ieeestd not port]{};
+        \end{circuitikz}
+        \caption*{NOT}
+    \end{subfigure}
+    \hfil
+    \begin{subfigure}{0.3\linewidth}
+        \centering
+        \begin{circuitikz}[scale=0.5, transform shape]
+            \draw (0,0) node[ieeestd nand port]{};
+        \end{circuitikz}
+        \caption*{NAND}
+    \end{subfigure}
+    \hfil
+    \begin{subfigure}{0.3\linewidth}
+        \centering
+        \begin{circuitikz}[scale=0.5, transform shape]
+            \draw (0,0) node[ieeestd nor port]{};
+        \end{circuitikz}
+        \caption*{NOR}
+    \end{subfigure}
+    \hfil
+    \begin{subfigure}{0.3\linewidth}
+        \centering
+        \begin{circuitikz}[scale=0.5, transform shape]
+            \draw (0,0) node[ieeestd xor port]{};
+        \end{circuitikz}
+        \caption*{XOR}
+    \end{subfigure}
+\end{figure}
+
+\subsubsection*{Functional Complete Set}
+Any boolean function can be implemented by the set.\\
+$\{\text{AND, OR, NOT}\}$\quad
+$\{\text{NAND}\}$\quad
+$\{\text{NOR}\}$\quad
+$\{\text{AND, NOT}\}$\quad
+$\{\text{OR, NOT}\}$
+
+\subsubsection*{Implementing Functions}
+\emph{SOP}: \begin{enumerate*}[label=(\arabic*)]
+    \item write 1's as minterms (products of variables),
+    \item sum minterms.
+\end{enumerate*}\\
+\emph{POS}: \begin{enumerate*}[label=(\arabic*)]
+    \item write 1's as product terms of variables,
+    \item apply NOT to each term,
+    \item apply De Morgan's,
+    \item connect terms with AND.
+\end{enumerate*}\\
+\emph{Karnaugh Map}: \begin{enumerate*}[label=(\arabic*)]
+    \item write map, rows/columns differ by only 1 bit,
+    \item circle 1's as large, in powers of 2, rectangular, wrap if needed
+    \item each group is a product, sum groups.
+\end{enumerate*}
+
+\subsubsection*{Adders}
+\emph{Half Adder}: $S=A\bxor B$ \quad $C=A\band B$\\
+\emph{Full Adder}: $S=A\bxor B\bxor C_{\text{in}}$ \quad $C_{\text{out}}=A\band B+C_\text{in}\band(A\bxor B)$

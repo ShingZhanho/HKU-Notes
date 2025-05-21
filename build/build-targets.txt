@@ -26,3 +26,8 @@
 
 # ENGG1340 - Computer Programming II
 ENGG1340-Cheatsheet
+
+# COMP2120 - Computer Organisation
+COMP2120-
+	Notes
+	Cheatsheet

@@ -1,0 +1,45 @@
+\section{Instruction Execution Cycle}
+
+\begin{enumerate*}[label=(\arabic*)]
+    \item Instruction address calculation;
+    \item Instruction fetch;
+    \item Instruction decode;
+    \item Operand address calculation;
+    \item Operand fetch (one or more);
+    \item Data operation;
+    \item Operand address calculation;
+    \item Operand store;
+    \item Interrupt check.
+\end{enumerate*}
+
+\subsection*{Operation Format}
+\emph{One word}: \texttt{[opcode, src1, src2, dest] (register)}\\
+\emph{Two word}: \texttt{[opcode, src, address model, dest], [address (mem)]}
+
+\subsection*{Instruction Fetch}
+\begin{enumerate*}[label=(\arabic*)]
+    \item $\text{MAR} \leftarrow \text{PC}$;
+    \item $\text{PC} \leftarrow \text{PC} + 1$;
+    \item $\text{MDR} \leftarrow \text{Mem[MAR]}$;
+\end{enumerate*}
+PC increment is implied, will change if branch.
+
+\subsection*{Operand Fetch}
+\emph{Operands in registers}: $\text{ALU} \leftarrow \text{Reg}$\\
+\emph{Operands in memory}: \begin{enumerate*}[label=(\arabic*)]
+    \item $\text{MAR} \leftarrow \text{MBR}$;
+    \item $\text{MBR} \leftarrow \text{Mem[MAR]}$;
+\end{enumerate*}
+
+\subsection*{Interrupt Handling}
+\emph{Reasons}: \begin{enumerate*}[label=(\arabic*)]
+    \item Improve efficiency;
+    \item Prevent data loss (e.g. from network);
+    \item Other programs need to run (e.g. time-sharing).
+\end{enumerate*}\\
+\emph{Information saved}: \begin{enumerate*}[label=(\arabic*)]
+    \item PC;
+    \item Modified registers;
+    \item Flags;
+    \item Current instruction address.
+\end{enumerate*}

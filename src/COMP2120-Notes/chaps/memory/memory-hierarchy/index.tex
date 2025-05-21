@@ -1,0 +1,90 @@
+\subsection{Memory Hierarchy}
+
+Different types of memory exhibit different performance and impose different costs
+of production. To achieve a balance between performance and cost, a hierarchy of
+memory is introduced.
+
+\begin{enumerate}
+    \item \textbf{Inbound Memory}: The fastest memory in the hierarchy.
+    \begin{itemize}
+        \item \textbf{Registers}: inside the processor.
+        \item \textbf{On-chip Cache}: on the CPU chip.
+        \item \textbf{Cache Memory}: on the motherboard.
+        \item \textbf{Main Memory}: RAM, on the motherboard.
+    \end{itemize}
+    \item \textbf{Outbound Storage}: Secondary memory. e.g. hard disk, SSD, DVD, etc.
+    \item \textbf{Off-line Storage}: magnetic tapes, etc.
+\end{enumerate}
+
+Going from top to bottom, we observe the following trends:
+\begin{itemize}
+    \item \textbf{Capacity}: increases.
+    \item \textbf{Cost per bit}: decreases.
+    \item \textbf{Access time}: increases.
+    \item \textbf{Frequency of access}: decreases.
+\end{itemize}
+
+\subsubsection{Principle of Locality}
+
+\begin{definition}[Principle of Locality]
+    The Principle of Locality states that programs do not access all memory locations
+    uniformly. Some memory locations have higher tendency to be accessed than others.
+\end{definition}
+
+There are two types of locality:
+\begin{definition}[Temporal Locality]
+    If a memory location is accessed, it is likely to be accessed again soon.
+\end{definition}
+
+\begin{definition}[Spatial Locality]
+    If a memory location is accessed, it is likely that nearby memory locations
+    will be accessed soon.
+\end{definition}
+
+\begin{example}
+    Consider the following code:
+\begin{minted}[style=friendly]{cpp}
+    for (int i = 0; i < 100; i++) {
+        sum += arr[i];
+            // sum is accessed in every iteration -> temporal locality
+            // consecutive memory locations of arr[] are accessed -> spatial locality
+    }
+\end{minted}
+\end{example}
+
+\subsubsection{Memory Organisation}
+
+For multi-byte data, they are stored differently in memory on different architectures.
+\begin{itemize}
+    \item \textbf{Big Endian Mode}: Stored in memory from left to right. (e.g. IBM mainframes)
+    \item \textbf{Little Endian Mode}: Stored in memory from right to left. (e.g. Intel x86)
+\end{itemize}
+
+\begin{example}
+    For storing the 4-byte integer \texttt{0x12345678} in memory:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{rcccc}
+        Address                            & \texttt{101}                     & \texttt{102}                     & \texttt{103}                     & \texttt{104}                     \\ \cline{2-5} 
+        \multicolumn{1}{r|}{Big Endian}    & \multicolumn{1}{c|}{\texttt{12}} & \multicolumn{1}{c|}{\texttt{34}} & \multicolumn{1}{c|}{\texttt{56}} & \multicolumn{1}{c|}{\texttt{78}} \\ \cline{2-5} 
+        \multicolumn{1}{r|}{Little Endian} & \multicolumn{1}{c|}{\texttt{78}} & \multicolumn{1}{c|}{\texttt{56}} & \multicolumn{1}{c|}{\texttt{34}} & \multicolumn{1}{c|}{\texttt{12}} \\ \cline{2-5} 
+        \end{tabular}
+    \end{table}
+\end{example}
+
+\subsubsection{Unit of Transfer}
+
+CPU reads data not from main memory but from cache memory, as main memory is
+much slower. Between cache and main memory, data are transferred in blocks, which
+contain multiple bytes (e.g. 4 KBytes).
+
+\subsubsection{Access Methods}
+
+\begin{enumerate}
+    \item \textbf{Sequential Access}: Data is accessed from the beginning to the end.
+    \item \textbf{Random Access}: Data can be accessed in any order directly, by
+        providing the address. Has a constant latency.
+    \item \textbf{Associative Access}: Data can be accessed by providing the content
+        of the data, not the address. Used in cache memory and Content-Addressable
+        Memory (CAM).
+\end{enumerate}

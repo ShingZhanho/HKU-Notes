@@ -1,0 +1,117 @@
+\section{Instruction Sets}
+
+\emph{Arithmetic Operations}: treat operands as numbers; consider signs;
+(\eg arithmetic shift = multiplication/division by 2, sign bit preserved).\\
+\emph{Logical Operations}: treat operands as bit patterns; discard bits shifted out;
+replenish new bits with 0.\\
+\emph{Rotate Operations}: put bits shifted out back into the other end of the number;
+are logical operations.\\
+
+\subsection*{Instruction Operands}
+Op\# \hfill Symbolic \hfill Interpretation\\
+3 \hspace*{0.2\linewidth} \texttt{OP A, B, C} \hfill \texttt{A$\gets$B OP C}\\
+2 \hspace*{0.2\linewidth} \texttt{OP A, B} \hfill \texttt{A$\gets$A OP B}\\
+1 \hspace*{0.2\linewidth} \texttt{OP A} \hfill \texttt{AC$\gets$AC OP A}\\
+0 \hspace*{0.2\linewidth} \texttt{OP} \hfill \texttt{T$\gets$(T-1) OP T}\\
+
+\subsection*{Registers}
+\emph{General Purpose Registers}: can be used for whatever reason\\
+\emph{Dedicated Purpose Registers}: have a specific purpose (\eg PC, IR, SP, processor status word - PSW, flag)
+
+\subsection*{Data Types}
+
+\subsubsection*{Basic Data Types}
+Typical lengths: 8, 16, 32, 64 bits\\
+\emph{Numeric}: integer, floating point;\\
+\emph{Non-numeric}: character, binary data;
+
+\subsubsection*{MIPS Architecture}
+(family of RISC, not ARM nor x86)\\
+9 basic types: \begin{enuminline}
+    \item (un)/signed bytes;
+    \item (un)/signed half-words;
+    \item (un)/signed words;
+    \item double-words;
+    \item single-precision floating point (32 bits);
+    \item double-precision floating point (64 bits);
+\end{enuminline}
+
+\subsubsection*{ARM Architecture}
+Supported lengths: \begin{enuminline}
+    \item byte (8 bits);
+    \item half-word (16 bits);
+    \item word (32 bits);
+\end{enuminline}\\
+Only unsigned integers, nonnegative integers, and 2's comp integers.\\
+No floating point by hardware, must be emulated.
+
+\subsection*{Addressing Modes}
+\emph{Immediate} (\texttt{OP = A}): operand is value; \textbf{Pros}: no memory reference; \textbf{Cons}: small operand magnitude\\
+\emph{Direct} (\texttt{EA = A}): operand is address; \textbf{Pros}: fast \& increased magnitude; \textbf{Cons}: limited address space\\
+\emph{Indirect} (\texttt{EA = (A)}): operand is address of address; \textbf{Pros}: large address space; \textbf{Cons}: multiple memory references\\
+\emph{Register} (\texttt{EA = R}): operand points to register; \textbf{Pros}: fast; \textbf{Cons}: limited \# of registers (\eg 32 in MIPS)\\
+\emph{Register Indirect} (\texttt{EA = (R)}): operand points to register, register has address; \textbf{Pros \& Cons}: same as indirect\\
+\emph{Displacement} (\texttt{EA = A + (R)}): address is base address + offset; \textbf{Pros}: flexible; \textbf{Cons}: complex; Usage: local vars, arrays; Registers: PC, SP, base pointer register\\
+\emph{Stack} (\texttt{EA = Top of Stack}): implicit; \textbf{Pros}: no memory references; \textbf{Cons}: limited applicability; Usage: \texttt{PUSH} and \texttt{POP}; Register: SP
+
+\subsection*{Assembly Language}
+\emph{Syntax}\\
+\texttt{[LABEL:] OP\_NAME [OP\_1, OP\_2, ...] [\# COMMENT]}\\
+\emph{Assembler Directives}\\
+\texttt{.data} \hfill data segment\\
+\texttt{.text} \hfill program segment\\
+\texttt{.global NAME} \hfill introduce to other files\\
+\texttt{.reserve EXPR} \hfill reserve space with 0\\
+\texttt{.word VAL1[, ...]} \hfill write to memory\\
+
+\subsection*{OS Support}
+\emph{OS Services}: \begin{enuminline}
+    \item Program creation (compilers), execution (loading, managing resources),
+    \item I/O access (provide uniform interface, implementation hidden),
+    \item File system management,
+    \item System access (user/kernel mode),
+    \item Error detection \& response (BSOD),
+    \item Accounting (collect usage stats)
+\end{enuminline} \\
+\emph{System Calls}: special entry points to execute OS functions via kernel model
+(executed by OS on behalf of user program)\\
+\emph{Scheduling \& Time Sharing}: CPU time divided into time slices, each process gets a slice,
+when used up, process is suspended and another process is scheduled.
+OS maintains a priority queue, depends on waiting time, system load, CPU-bound etc.
+
+\subsection*{Processor Pipelining}
+Ideal throughput = $1 \text{ CPI}$.
+
+\subsubsection*{Pipeline Hazards}
+\emph{Resource}: multiple instructions need the same resource (PC, ALU, registers).
+\textbf{Solution}: add more resources\\
+\emph{Data}: instruction depends on result of previous instruction -- \begin{enuminline}
+    \item \textbf{RAW}: occurs if read happens before write when it should be RAW;
+    \item \textbf{WAR}: opposite of RAW, not occurs in pipeline but in parallel systems;
+    \item \textbf{WAW}: occurs if 2nd write happens before 1st, not in pipeline but in parallel systems.
+\end{enuminline}
+\textbf{Solutions}: \begin{enuminline}
+    \item \textbf{Stalling}: wait;
+    \item \textbf{Data forwarding}: use result of previous instruction;
+    \item \textbf{Rearrange instructions}: separate dependent instructions, not always possible;
+\end{enuminline}\\
+\emph{Control}: branch not resolved. \textbf{Unsolvable}. Mitigated by branch prediction.
+
+\subsubsection*{Branch Prediction}
+\emph{Static}: always predict taken/not taken.
+\textbf{Pros}: simple, 50\% accuracy, higher in \texttt{for} loops.
+\textbf{Cons}: possible high page faults.\\
+\emph{Dynamic}: Use history to help predict. \begin{enuminline}
+    \item \textbf{1-bit}: If wrong prediction, predict opposite; Problem: high misprediction rate at the end of loops;
+    \item \textbf{2-bit}: If two consecutive wrong predictions, predict opposite.
+\end{enuminline}
+
+\subsubsection*{RISC Architecture}
+\emph{Characteristics}: \begin{enuminline}
+    \item Load/store architecture: only load/store instructions access memory;
+    \item Fixed-length, simple, fixed-format instructions $\Rightarrow$ high clock rate, low clock cycle time;
+    \item Fewer addressing modes $\Rightarrow$ low CPI;
+    \item More instructions (reduction in CPI is more significant than increase in instruction count);
+    \item Extensive soft/hardware pipelining;
+    \item Relies on compiler optimisation.
+\end{enuminline}

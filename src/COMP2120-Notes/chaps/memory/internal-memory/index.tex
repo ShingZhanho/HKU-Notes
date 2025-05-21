@@ -1,0 +1,123 @@
+\subsection{Internal Memory}
+
+This section presents some common CMOS\footnote{Complementary Metal-Oxide-Semiconductor} memory
+technologies and their characteristics.
+
+\subsubsection{Read-Only Memory (ROM)}
+
+\begin{itemize}
+    \item Fabricated like integrated circuit chips.
+    \item Non-volatile memory, i.e., retains data even when power is turned off.
+    \item \textbf{Programmable ROM (PROM)}: Can be programmed once. Usually done by supplier
+        or customer after chip is manufactured.
+    \item Content cannot be changed.
+\end{itemize}
+
+\subsubsection{Read-Mostly Memory}
+
+\begin{itemize}
+    \item \textbf{Erasable Programmable ROM (EPROM)}: Can be erased and reprogrammed multiple times.
+        Erasing is done by exposing the chip to ultraviolet light for a specified time.
+    \item \textbf{Electrically Erasable PROM (EEPROM)}: Can be erased and reprogrammed in place.
+        Only the bytes addressed are changed. Erasing process is slow.
+\end{itemize}
+
+\subsubsection{Flash Memory}
+
+\begin{itemize}
+    \item Non-volatile memory.
+    \item Between EPROM and EEPROM.
+    \item Faster write than EEPROM.
+    \item Have limited number of write cycles.
+    \item Usage: USB drives, SSD, storage of BIOS (in recent years).
+\end{itemize}
+
+\subsubsection{Random Access Memory (RAM)}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Characteristic} & \textbf{Dynamic RAM}                          & \textbf{Static RAM}        \\ \hline
+    Storage Technology      & Use transistors to store electric charges.    & Use logic gates (latches). \\ \hline
+    Refreshing              & Required (every few ms due to leaking charge) & Not required               \\ \hline
+    Speed                   & Slower (delay due to capacitance)             & Faster                     \\ \hline
+    Usage                   & Main memory                                   & Cache memory               \\ \hline
+    Cost                    & Cheap                                         & Very expensive             \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Comparison of Memory Types}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \textbf{Memory Type} & \multicolumn{1}{c|}{\textbf{Category}} & \multicolumn{1}{c|}{\textbf{Erasure}}                               & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Write\\ Mechanism\end{tabular}}} & \multicolumn{1}{c|}{\textbf{Volatility}} \\ \hline
+    RAM                  & Read-write                             & \begin{tabular}[c]{@{}l@{}}Electrically,\\ byte-level\end{tabular}  & Electrically                                                                            & Volatile                                 \\ \hline
+    ROM                  & \multirow{2}{*}{Read-only}             & \multirow{2}{*}{Not possible}                                       & Masks                                                                                   & \multirow{5}{*}{Nonvolatile}             \\ \cline{1-1} \cline{4-4}
+    PROM                 &                                        &                                                                     & \multirow{4}{*}{Electrically}                                                           &                                          \\ \cline{1-3}
+    EPROM                & \multirow{3}{*}{Read-mostly}           & \begin{tabular}[c]{@{}l@{}}UV light,\\ chip-level\end{tabular}      &                                                                                         &                                          \\ \cline{1-1} \cline{3-3}
+    EEPROM               &                                        & \begin{tabular}[c]{@{}l@{}}Electrically,\\ byte-level\end{tabular}  &                                                                                         &                                          \\ \cline{1-1} \cline{3-3}
+    Flash                &                                        & \begin{tabular}[c]{@{}l@{}}Electrically,\\ block-level\end{tabular} &                                                                                         &                                          \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Bench-marking Memory Performance}
+
+Key metrics for memory performance include:
+\begin{itemize}
+    \item \textbf{Access Time}: Time taken to read/write data.
+    \item \textbf{Bandwidth/Transfer Rate}: Rate at which data can be read/written.
+    \item \textbf{Memory Cycle Time}: ($\text{Access Time} + \text{Transfer Time}$).
+\end{itemize}
+
+\begin{example}
+    A two-level memory system has an upper level with $0.01\mu \text{s}$ access time and
+    a lower level with $0.1\mu \text{s}$. The upper level has a hit rate of $95\%$. The
+    average time to access memory is:
+    \begin{equation*}
+        0.01 \times 0.95 + (0.01 + 0.1) \times 0.05 = 0.015\mu \text{s}
+    \end{equation*}
+\end{example}
+
+\subsubsection{Error Detection and Correction}
+
+Errors may arise from various sources such as spike in voltage (lightning), electromagnetic
+interference (cosmic ray), power supply problems, etc. Extra bits are required to detect errors.
+(Usually in secondary storage devices but not in main memory as it is volatile and less likely
+to have errors.)
+
+Common error detection and correction methods include:
+\begin{itemize}
+    \item \textbf{Parity Bit}: Extra bit added to data to make number of 1s even/odd.
+        (Cannot be used to correct errors when the location of the error is unknown.
+        Cannot detect 2$n$-bit errors.)
+        \begin{definition}[Even Parity Bit]\label{def:even-parity-bit}
+            Suppose there are a series of bits ($b_1b_2b_3\cdots b_{n-1}$), then the even
+            parity bit $b_n$ is given by:
+            \begin{equation*}
+                b_n = b_1 \oplus b_2 \oplus b_3 \oplus \cdots \oplus b_{n-1}
+            \end{equation*}
+        \end{definition}
+        \begin{theorem}[Error Correction by Parity Bits]
+            Parity Bits can be used to recover errors iff the number of errors is one
+            and the location of the error is known.
+            \begin{example} \label{ex:parity-bit-error-correction}
+\makeatletter
+                {\normalfont\sffamily\bfseries\topsep6\p@\@plus6\p@\relax [\ref*{ex:parity-bit-error-correction}]}
+\makeatother
+
+                Suppose we have a bit pattern $b_1b_2b_3p$, where $p$ is the parity bit.
+                By Definition \ref{def:even-parity-bit}, we have \[p = b_1 \oplus b_2 \oplus b_3\]
+                Given that $b_2$ is lost, we can recover $b_2$ by applying $\oplus b_2 \oplus p$ on
+                both sides of the equation, then we have:
+                \begin{align*}
+                    p\oplus b_2 \oplus p &= b_1 \oplus b_2 \oplus b_3 \oplus b_2 \oplus p \\
+                    b_2 &= \boxed{b_1 \oplus b_3 \oplus p}
+                \end{align*}
+            \end{example}       
+        \end{theorem}
+    \item \textbf{Hamming Code}
+    \item \textbf{Repetition Code}
+\end{itemize}

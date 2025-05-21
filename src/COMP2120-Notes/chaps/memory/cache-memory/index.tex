@@ -1,0 +1,286 @@
+\subsection{Cache Memory}
+
+Cache memory is transparent (hidden) to the software and is managed by the hardware.
+It stores copies of frequently accessed data to speed up subsequent access to that data.
+
+There can be one or more layers between the CPU and main memory.
+The transfer between the CPU and L1 cache is the fastest, and the speed decreases
+as the distance from the CPU increases.
+
+\subsubsection{Cache Memory Organisation}
+
+A word-addressable main memory with $n$-bit addresses has $2^n$ words. Divide the
+main memory into blocks of $K$ words each, then the memory has $M=\frac{2^n}{K}$ blocks.
+Suppose the cache has $m$ blocks, called \textbf{lines}. Generally, we have $m \ll M$.
+Each line has $K$ words, a tag, and several control bits. The length of the line,
+excluding the tag and the control bits is called the \textbf{line size} or
+\textbf{block length}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\linewidth]{chaps/memory/cache-memory/cache-mem-organisation.png}
+\caption{Cache Memory Organisation}
+\end{figure}
+
+\subsubsection{Cache Memory Read}
+
+The process of reading from the cache is roughly described as follows:
+\begin{enumerate}
+    \item Obtain the address of the word to be read from the CPU.
+    \item Check if the block containing the word is in the cache.
+    \begin{enumerate}
+        \item If the block is in the cache, read the word from the cache.
+        \item If the block is not in the cache, load the block from the main memory
+            into the cache, and \textbf{at the same time} deliver the word to the CPU.
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{Address Mapping}
+
+There are three ways to map the main memory to the cache:
+\begin{enumerate}
+\item \textbf{Direct Mapping}: 
+    Each block of main memory maps to exactly one line in the cache. The mapping is
+    given as 
+    \[i = j \bmod m\]
+    where $i$ is the cache line number, $j$ is the main memory
+    block number, and $m$ is the number of cache lines.
+    
+    \begin{example}
+        The cache logic treats the main memory address in three parts as follows:
+        \begin{equation*}
+            \underbrace{
+            \overbrace{0000\,0001}^{(s-r)\text{ bits (tag)}}\,
+            \overbrace{1111\,1111\,1111\,11}^{r\text{ bits (line number)}}}
+            _{\text{block number}}
+            \overbrace{00}^{w\text{ bits (\textcolor{red}{word})}}
+        \end{equation*}
+        The least significant $w$ bits identify the \textcolor{red}{word} within the block,
+        where the block size is $2^w$ \textcolor{red}{words}. The next $r$ bits identify the line
+        number within the cache memory, where the cache memory has $2^r$ lines.
+        The most significant $(s-r)$ bits are the tag bits, which are used to
+        distinguish between the different main memory blocks that map to the same line,
+        where the main memory has $2^s$ blocks.
+
+        \begin{remark}
+        If the main memory is byte-addressable, then the \textcolor{red}{word} bits should
+        be referred to as \textcolor{red}{byte} offsets, and they correspond to the number
+        of $2^w$ \textcolor{red}{bytes} in a block.
+        \end{remark}
+    \end{example}
+
+    To perform a read operation, the line number first identifies the line in the cache.
+    Then, the tag bits in the line are compared with the tag bits in the address.
+    If the tags match, the word is read from the cache according to the word bits in the
+    address. If the tags do not match, the block is read from the main memory into the
+    cache, and the word is read from the cache.
+
+    \begin{multicols}{2}
+        \textbf{Advantages}: \begin{itemize}
+            \item Only need to check one cache line, fast.
+            \item No selection is required, less use of logic gates, inexpensive.
+        \end{itemize}
+        \columnbreak
+        \textbf{Disadvantages}: \begin{itemize}
+            \item When two blocks map to the same line are accessed alternatively,
+                constant cache misses occur.
+            \item The cache is not fully utilised.
+        \end{itemize}
+    \end{multicols}
+
+\item \textbf{Fully Associative Mapping}:
+    Any block of main memory can be loaded into any line of the cache. The main memory
+    address is treated as two parts only -- the tag and the word bits. Again, for a main
+    memory address of $(s+w)$ bits, and a cache memory with block length of $2^w$ words,
+    the word bits are the least significant $w$ bits, and the tag bits are the remaining
+    $s$ bits.
+
+    To perform a read operation, the cache controller searches the entire cache for the
+    desired tag. If it is a miss, the block is read from the main memory into the cache.
+
+    \begin{multicols}{2}
+        \textbf{Advantages}: \begin{itemize}
+            \item More flexible use of cache than direct mapping.
+            \item Higher hit rate.
+        \end{itemize}
+        \columnbreak
+        \textbf{Disadvantages}: \begin{itemize}
+            \item Requires more complex logic and circuits for tag comparison, more expensive.
+            \item Must simultaneously search all cache lines, slower.
+        \end{itemize}
+    \end{multicols}
+
+\item \textbf{Set Associative Mapping}:
+    The cache consists of a number of sets, and each sets consists of a number of lines.
+    Their relationship is given by
+    \begin{align*}
+        m &= v \times k \\
+        i &= j \bmod v
+    \end{align*}
+    where $i$ is the set number, $j$ is the main memory block number, $m$ is the number
+    of lines in cache, $v$ is the number of sets, and $k$ is the number of lines in each set.
+    ($k$ is usually 2, the maximum is 8.) Also referred to as $k$-way set associative mapping.
+
+    Block $B_j$ in main memory maps to any of the lines in set $j$ in the cache. There are
+    two ways of implementing a set associative mapping, either as
+    \begin{enumerate}
+        \item $v$ associative-mapped caches 
+            (usually used for high associativity, i.e. larger $k$).
+            Each cache is called a \textbf{set}.
+        \item $k$ direct-mapped caches (for lower associativity).
+            Each cache is called a \textbf{way}.
+    \end{enumerate}
+
+    The cache control logic treats the $(s+w)$-bit main memory address in three parts:
+    tag, set, and word.
+    The $d$ bits of set identifies the set in cache, where $v = 2^d$.
+    The least significant $w$ bits identify the word.
+    The remaining $(s-d)$ bits are the tag bits.
+
+    With this method, the tag size is much smaller than in fully associative mapping,
+    and each tag is only compared with $k$ tags in a single set.
+
+    \begin{multicols}{2}
+        \textbf{Advantages}: \begin{itemize}
+            \item Fewer misses than direct mapping.
+        \end{itemize}
+        \columnbreak
+        \textbf{Disadvantages}: \begin{itemize}
+            \item Complex selection and comparison logic, slightly slower.
+        \end{itemize}
+    \end{multicols}
+
+\end{enumerate}
+
+\begin{example}
+    Suppose a computer has a byte-addressable main memory with addresses of 32 bits,
+    a 64 KB 2-way set associative cache memory, and the block size is 128 bytes. Find
+    the number of bits in the tag, set, and word fields of the main memory address.
+
+    \begin{solution}
+    Since the block size is 128 ($2^7$) bytes, then the word field is 7 bits.
+
+    Number of blocks in cache memory is $64 \times 2^{10} \div 2^7 = 512$ blocks.
+
+    Number of sets in cache memory is $512 \div 2 = 256 = 2^8$ sets. Therefore, the set
+    field is 8 bits.
+
+    The remaining bits are the tag field, which is $32 - 8 - 7 = 17$ bits.
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \textbf{Tag} & \textbf{Set} & \textbf{Word} \\ \hline
+            17 & 8 & 7 \\ \hline
+        \end{tabular}
+    \end{table}
+    \end{solution}
+\end{example}
+
+\subsubsection{Replacement Algorithms}
+\label{sec:replacement-algorithms}
+
+When all lines are occupied and a new block needs to be loaded into the cache, a line
+must be selected to be replaced. The different replacement algorithms are:
+\begin{enumerate}
+\item \textbf{Random Replacement} (RR): 
+    A random line is selected to be replaced. This is the simplest method, but it
+    does not guarantee the best performance. Not used in practice.
+
+\item \textbf{First-In-First-Out} (FIFO):
+    The line that has been in the cache the longest is replaced. It does not consider
+    the frequency of use of the block.
+
+\item \textbf{Least Recently Used} (LRU):
+    The line that has not been used for the longest time is replaced.
+
+\item \textbf{Least Frequently Used} (LFU):
+    The line that has the fewest references is replaced, often implemented with a counter.
+\end{enumerate}
+
+Note that replacement algorithms do not apply to direct-mapped caches, as there is only
+one possible line to replace.
+
+\subsubsection{Write Policies}
+
+To maintain consistency between the cache and main memory, the main memory must be updated
+whenever the cache line to be replaced has been modified. There are two write policies:
+\begin{enumerate}
+\item \textbf{Write-Through}:
+    The main memory is updated whenever the cache is updated. This ensures that the main
+    memory is always up-to-date, but it is slower as the CPU must wait for the main memory
+    to be updated.
+
+\item \textbf{Write-Back}:
+    The line is associated with a \textbf{dirty bit} that is set whenever the line is
+    modified. The main memory is only updated when the line is replaced and the dirty bit
+    is set. This method minimises the number of main memory writes and is faster.
+    The main drawback is that the main memory may be inconsistent.
+\end{enumerate}
+
+\subsubsection{Performance}
+
+\begin{definition}[Average Access Time]
+    The average access time of a cache memory is given by
+    \begin{align*}
+        \text{Average Access Time}
+        &= \text{Hit Rate} \times \text{Hit Time} + \text{Miss Rate} \times \text{Average Time When Miss} \\
+        &= \text{Hit Time} + \text{Miss Rate} \times \text{Miss Penalty}
+    \end{align*}
+\end{definition}
+
+\begin{example}
+    Assume the access time of main memory is 50 ns, the L1 cache has a miss rate and access
+    time of 10\% and 1 ns, respectively, the L2 cache has a miss rate and access time
+    of 5\% and 5 ns, respectively, and the L3 cache has a miss rate and access time of 2\%
+    and 10ns, respectively. Calculate the average access time of the memory system.
+
+    \begin{solution}
+        When there is no cache, access time $=50$ ns.
+
+        When there is only L1 cache, access time $=1+10\%\times 50=6$ ns.
+
+        When there are L1 and L2 caches, access time $=1+10\%\times(5+5\%\times 50)=1.75$ ns.
+
+        When there are L1 to L3 caches, access time $=1+10\%\times(5+5\%\times(10+2\%\times 50))=\boxed{1.555\text{ ns}}$.
+    \end{solution}
+\end{example}
+
+\begin{example}
+    Consider a hypothetical machine with 512 words of cache memory. They are in two-way
+    set associative organisation, with cache block size of 64 words, using LRU replacement.
+    Suppose the cache hit time is 8 ns, and the time to transfer the first word from main
+    memory to cache is 60 ns, while subsequent words require 10 ns each. 
+    \begin{enumerate}
+        \item What is the cache miss penalty?
+        \item If there is a read sequence of 28 blocks accessed that has 15 cache misses,
+            what is the cache hit rate?
+        \item What is the average memory access time?
+    \end{enumerate}
+
+    \begin{solution}
+    \begin{enumerate}
+        \item Cache miss penalty is the time to transfer one block from main memory to cache.
+            $60+63\times10=\boxed{690\text{ ns}}$
+        \item Cache hit rate $=1-\frac{15}{28\times32}=\boxed{98.33\%}$.
+        \item Average memory access time $=8+(1-0.9833)\times690=\boxed{19.52\text{ ns}}$.
+    \end{enumerate}
+    \end{solution}
+\end{example}
+
+\subsubsection{Unified Cache and Split Cache}
+
+\begin{enumerate}
+    \item \textbf{Split Cache}:
+        The cache is divided into instruction cache and data cache.
+        Size for each cache is fixed.
+        No pipeline hazard.
+        The main trend is to use split cache.
+        
+    \item \textbf{Unified Cache}:
+        The cache is used for both instructions and data.
+        Instructions and data are automatically balanced.
+        Has contention problem on parallel and pipeline execution that imposes
+        bottleneck on performance.
+\end{enumerate}
