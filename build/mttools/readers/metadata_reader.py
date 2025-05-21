@@ -23,7 +23,6 @@ class Reader:
         # Read the metadata file
         with open(self.metadata_file, 'r') as file:
             metadata_str = file.read()
-        print(f"Metadata file content: {metadata_str}")
         # use regex to find the metadata file version
         # format: "@metadata_file_version": "<ver>", ...
         # if not found, raise an error
@@ -31,7 +30,6 @@ class Reader:
         if not match:
             raise ValueError("Metadata file version not found.")
         version = match.group(1)
-        print(f"Metadata file version: {version}")
 
         # select the appropriate parser based on the version
         if version == "1":
