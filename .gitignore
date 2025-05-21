@@ -323,3 +323,6 @@ TSWLatexianTemp*
 
 # pyenv local scope python version specifier
 .python-version
+
+# Python runtime
+__pycache__/
