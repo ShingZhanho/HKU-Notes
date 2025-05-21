@@ -162,3 +162,29 @@ jobs:
       - name: Run post-build command
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_POSTBUILD_COMMAND != ''
         run: ${{ env.DYENV_POSTBUILD_COMMAND }}
+
+      # --- CLEAN UP ---
+      - name: Save MikTeX cache
+        if: env.DYENV_ABORT_WORKFLOW == 'false'
+        uses: actions/cache/save@v4
+        with:
+          key: miktex-pkg-${{ runner.os }}-${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}
+          path: ~/.miktex
+
+      - name: Generate files for deployment
+        if: env.DYENV_ABORT_WORKFLOW == 'false'
+        run: |
+          echo "${{ env.DYENV_LOCAL_SRC_CHECKSUM }}" > ./src/${{ matrix.target }}/src-checksum.txt
+          echo $(TZ='Asia/Hong_Kong' date +"%Y-%m-%d %H:%M:%S UTC+8 (Hong Kong)") > ./src/${{ matrix.target }}/compiled-at.txt
+          echo "${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}" > ./src/${{ matrix.target }}/miktex-cache-key.txt
+
+      - name: Upload artifacts
+        if: env.DYENV_ABORT_WORKFLOW == 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}
+          path: |
+            ./src/${{ matrix.target }}/${{ matrix.target }}.pdf
+            ./src/${{ matrix.target }}/src-checksum.txt
+            ./src/${{ matrix.target }}/compiled-at.txt
+            ./src/${{ matrix.target }}/miktex-cache-key.txt
