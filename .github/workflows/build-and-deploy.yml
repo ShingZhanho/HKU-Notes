@@ -26,11 +26,41 @@ jobs:
     strategy:
       matrix: 
         target: ${{ fromJson(needs.configure-matrix.outputs.set-matrix) }}
+    if: needs.target-checksum.outputs.GH_OUT_CHECKSUM_CHANGED
     steps:
+      # --- ENVIRONMENT SETUP ---
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Check local source checksum
+        run: echo "DYENV_LOCAL_SRC_CHECKSUM=${{ hashFiles(format('./src/{0}/', matrix.target)) }}" >> "$GITHUB_ENV"
+
+      - name: Check deployed (remote) source checksum
+        run: |
+          export remote_checksum_status=$(curl -s -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/src-checksum.txt" \
+           -o ./src/${{ matrix.target}}/remote-src-checksum.txt \
+           -w "%{http_code}")
+          if [ "${remote_checksum_status}" != "200" ]; then
+            echo "DYENV_REMOTE_SRC_CHECKSUM=-1" >> "$GITHUB_ENV"
+          else
+            export remote_checksum=$(cat ./src/${{ matrix.target}}/remote-src-checksum.txt)
+            echo "DYENV_REMOTE_SRC_CHECKSUM=${remote_checksum}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Compare local and remote checksum
+        run: |
+          if [ "${{ env.DYENV_LOCAL_SRC_CHECKSUM }}" != "${{ env.DYENV_REMOTE_SRC_CHECKSUM }}" ]; then
+            echo "Checksum mismatch. Proceeding with build."
+            echo "GH_OUT_CHECKSUM_CHANGED=true" >> "$GITHUB_ENV"
+            echo "DYENV_ABORT_WORKFLOW=false" >> "$GITHUB_ENV"
+          else
+            echo "Checksum match. Skipping build."
+            echo "GH_OUT_CHECKSUM_CHANGED=false" >> "$GITHUB_ENV"
+            echo "DYENV_ABORT_WORKFLOW=true" >> "$GITHUB_ENV"
+          fi
+
       - name: Set up Python
+        if: ${{ ! env.DYENV_ABORT_WORKFLOW }}
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -38,9 +68,10 @@ jobs:
           cache-dependency-path: ./build/python-requirement-lists/*.txt
 
       - name: Compute environment variables
+        if: ${{ ! env.DYENV_ABORT_WORKFLOW }}
         run: ./build/configure-env-vars.sh ${{ matrix.target }}
 
       # ---- CONFIGURE PYTHON PACKAGES ---
       - name: Install Python Minted toolset
+        if: env.DYENV_REQUIRE_PYTHON_MINTED_PKGS == 'true' && ! env.DYENV_ABORT_WORKFLOW
         run: pip install -r ./build/python-requirement-lists/python-minted-pkgs.txt
-        if: env.DYENV_REQUIRE_PYTHON_MINTED_PKGS == 'true'
