@@ -65,7 +65,7 @@ jobs:
           fi
 
       - name: Set up Python
-        if: ${{ ! env.DYENV_ABORT_WORKFLOW }}
+        if: ${{ env.DYENV_ABORT_WORKFLOW == 'false' }}
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -73,29 +73,30 @@ jobs:
           cache-dependency-path: ./build/python-requirement-lists/*.txt
 
       - name: Compute environment variables
-        if: ${{ ! env.DYENV_ABORT_WORKFLOW }}
+        if: ${{ env.DYENV_ABORT_WORKFLOW == 'false' }}
         run: ./build/configure-env-vars.sh ${{ matrix.target }}
 
       # --- INSTALL MIKTEX DISTRIBUTION ---
       - name: Get APT dependencies list
-        if: ${{ ! env.DYENV_ABORT_WORKFLOW }}
+        if: ${{ env.DYENV_ABORT_WORKFLOW == 'false' }}
         run: echo "DYENV_APT_DEPS_LIST=$(awk '{$1=$1}1' OFS=' ' RS='' build/apt-list.txt)" >> "$GITHUB_ENV"
 
       - name: Configure MiKTeX repository key for APT
-        if: ${{ ! env.DYENV_ABORT_WORKFLOW }}
+        if: ${{ env.DYENV_ABORT_WORKFLOW == 'false' }}
         run: |
           curl -fsSL https://miktex.org/download/key | sudo tee /usr/share/keyrings/miktex-keyring.asc > /dev/null
           echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.asc] https://miktex.org/download/ubuntu jammy universe" |\
             sudo tee /etc/apt/sources.list.d/miktex.list
+          sudo apt update
 
       - name: Install MiKTeX and dependencies
-        if: ${{ ! env.DYENV_ABORT_WORKFLOW }}
+        if: ${{ env.DYENV_ABORT_WORKFLOW == 'false' }}
         uses: awalsh128/cache-apt-pkgs-action@v1
         with:
           packages: ${{ env.DYENV_APT_DEPS_LIST }}
 
       - name: Configure MiKTeX
-        if: ${{ ! env.DYENV_ABORT_WORKFLOW }}
+        if: ${{ env.DYENV_ABORT_WORKFLOW == 'false' }}
         run: |
           miktexsetup finish
           initexmf --set-config-value [MPM]AutoInstall=1
@@ -108,5 +109,5 @@ jobs:
       # --- CONFIGURE TOOLSETS ---
         # toolset for minted
       - name: Install Python minted toolset
-        if: env.DYENV_REQUIRE_PYTHON_MINTED_PKGS == 'true' && ! env.DYENV_ABORT_WORKFLOW
+        if: env.DYENV_REQUIRE_PYTHON_MINTED_PKGS == 'true' && env.DYENV_ABORT_WORKFLOW == 'false'
         run: pip install -r ./build/python-requirement-lists/python-minted-pkgs.txt
