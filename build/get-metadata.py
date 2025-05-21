@@ -18,4 +18,14 @@ if __name__ == "__main__":
     # get the value
     value = getattr(metadata, key, "")
     value = "" if value is None else value
-    print(value)
+    
+    # format the value by type
+    if type(value) == type([]):
+        # an array
+        # print each element on a new line
+        for item in value:
+            print(item)
+    else:
+        # a string
+        # print the value
+        print(value)

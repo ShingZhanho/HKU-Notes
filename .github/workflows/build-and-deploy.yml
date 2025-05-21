@@ -27,5 +27,19 @@ jobs:
       matrix: 
         target: ${{ fromJson(needs.configure-matrix.outputs.set-matrix) }}
     steps:
-      - name: Placeholder
-        run: echo "This job builds the target ${{ matrix.target }}."
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Compute environment variables
+        run: ./build/configure-env-vars.sh ${{ matrix.target }}
+
+      # ---- CONFIGURE PYTHON PACKAGES ---
+      - name: Install Python Minted toolset
+        run: pip install -r ./build/python-requirement-lists/python-minted-pkgs.txt
+        if: env.DYENV_REQUIRE_PYTHON_MINTED_PKGS == 'true'
