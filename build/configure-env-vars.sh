@@ -31,13 +31,13 @@ else
 fi
 
 # Handle build target prebuild command
-export_var "DYENV_PREBUILD_COMMAND" $(get_metadata_value build__prebuild_command)
+export_var "DYENV_PREBUILD_COMMAND" "$(get_metadata_value build__prebuild_command)"
 
 # Handle build target build command
-export_var "DYENV_BUILD_COMMAND" $(get_metadata_value build__build_command)
+export_var "DYENV_BUILD_COMMAND" "$(get_metadata_value build__build_command)"
 
 # Handle build target postbuild command
-export_var "DYENV_POSTBUILD_COMMAND" $(get_metadata_value build__postbuild_command)
+export_var "DYENV_POSTBUILD_COMMAND" "$(get_metadata_value build__postbuild_command)"
 
 # Handle build target miktex package file
-export_var "DYENV_MIKTEX_PACKAGE_FILE" $(get_metadata_value build__miktex_package_file)
+export_var "DYENV_MIKTEX_PACKAGE_FILE" "$(get_metadata_value build__miktex_package_file)"
