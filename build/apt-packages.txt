@@ -1,0 +1,12 @@
+apt-transport-https=2.4.13
+ca-certificates=20240203~22.04.1
+curl=7.81.0-1ubuntu1.20
+dirmngr=2.2.27-3ubuntu2.3
+ghostscript=9.55.0~dfsg1-0ubuntu5.11
+gnupg=2.2.27-3ubuntu2.3
+gosu=1.14-1ubuntu0.1
+gpg=2.2.27-3ubuntu2.3
+make=4.3-4.1build1
+miktex=24.12-jammy1
+perl=5.34.0-3ubuntu1.4
+wget=1.21.2-2ubuntu1.1
