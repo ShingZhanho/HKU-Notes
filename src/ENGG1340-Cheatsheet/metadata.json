@@ -3,6 +3,7 @@
     "build": {
         "requires": [
             "python-minted-pkgs"
-        ]
+        ],
+        "build_command": "latexmk -shell-escape -pdf -f -interaction=nonstopmode -cd -outdir=. ./src/ENGG1340-Cheatsheet/ENGG1340-Cheatsheet.tex"
     }
 }
