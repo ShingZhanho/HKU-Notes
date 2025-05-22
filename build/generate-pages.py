@@ -89,7 +89,7 @@ def main():
                     metadata_reader = Reader(f"./src/{target}/metadata.json", target)
                     metadata = metadata_reader.parse()
                     description = metadata.static_site__description
-                    f.write(f"| ({target})[./details/{target}.md] | {description} | {compiled_at} | `{src_checksum}` |\n")
+                    f.write(f"| [{target}](./details/{target}.md) | {description} | {compiled_at} | `{src_checksum}` |\n")
                 f.write("\n\n")
             f.write("\n\n")
 
