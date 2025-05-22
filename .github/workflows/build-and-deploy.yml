@@ -1,4 +1,8 @@
 name: Build LaTeX PDFs and Deploy to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 on:
   push:
     branches:
