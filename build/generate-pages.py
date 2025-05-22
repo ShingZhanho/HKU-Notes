@@ -87,9 +87,10 @@ def main():
                     metadata = metadata_reader.parse()
                     description = metadata.static_site__description
                     f.write(f"| {target} | {description} | {compiled_at} | ")
-                    f.write(f"[:material-information-outline:](./details/{target}.md \"Details\") ")
+                    f.write(f"[:material-information-outline:](./details/{target}.md \"Details\")")
+                    f.write("{.md-button .md-button--primary} ")
                     f.write(f"[:material-download:](https://shingzhanho.github.io/HKU-Notes/files/{target}/{target}.pdf \"Download\")")
-                    f.write('{:download} |\n')
+                    f.write('{:download .md-button} |\n')
                 f.write("\n\n")
             f.write("\n\n")
 
