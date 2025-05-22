@@ -56,7 +56,7 @@ def main():
             f.write(f"??? \"Digital Digest\"\n\n")
             f.write(f"\tSource file hash:`{src_checksum}`\n\n")
             f.write(f"\tCompiled at:`{compiled_at}`\n")
-            f.write(f"[Download :material-download:](./files/{target}/{target}.pdf)")
+            f.write(f"[Download :material-download:](https://shingzhanho.github.io/HKU-Notes/files/{target}/{target}.pdf)")
             f.write("{.md-button .md-button--primary}\n")
             f.write(f"[View source :material-github:](https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{target})")
             f.write("{.md-button}\n")
@@ -77,7 +77,7 @@ def main():
             for course_code in alpha_groups[alpha]:
                 f.write(f"### {course_code}\n\n")
                 f.write("| Material Name | Description | Compiled At | Actions |\n")
-                f.write("| --- | --- | --- | --- |\n")
+                f.write("| --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
                     compiled_at = ""
                     with open(f"./gh-out/files/{target}/compiled-at.txt", "r") as f2:
@@ -88,7 +88,7 @@ def main():
                     description = metadata.static_site__description
                     f.write(f"| {target} | {description} | {compiled_at} | ")
                     f.write(f"[:material-information-outline:](./details/{target}.md \"Details\") ")
-                    f.write(f"[:material-download:](./files/{target}/{target}.pdf \"Download\")")
+                    f.write(f"[:material-download:](https://shingzhanho.github.io/HKU-Notes/files/{target}/{target}.pdf \"Download\")")
                     f.write('{:download} |\n')
                 f.write("\n\n")
             f.write("\n\n")
