@@ -185,7 +185,6 @@ jobs:
           echo "${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}" > ./src/${{ matrix.target }}/miktex-cache-key.txt
 
       - name: Upload artifacts
-        if: env.DYENV_ABORT_WORKFLOW == 'false'
         uses: actions/upload-artifact@v4
         with:
           name: compiled-artifact-${{ matrix.target }}
@@ -234,7 +233,7 @@ jobs:
 
       # --- GENERATE STATIC PAGES ---
       - name: Output target list
-        run: echo "DYENV_TARGETS_LIST=\"$(ls -d ./gh-out/files/)\"" >> $GITHUB_ENV
+        run: echo DYENV_TARGETS_LIST=\"$(ls ./gh-out/files)\" >> $GITHUB_ENV
 
       - name: Generate static pages
         run: python3 ./build/generate-pages.py ${{ env.DYENV_TARGETS_LIST }}
