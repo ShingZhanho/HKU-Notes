@@ -24,6 +24,9 @@
 # Targets of the same prefix declared in different lines will be merged after resolving.
 # Duplicate target names will only be resolved once.
 
+# ENGG1300 - Fundamental Mechanics
+ENGG1300-Practical-Work-Report
+
 # ENGG1340 - Computer Programming II
 ENGG1340-Cheatsheet
 
