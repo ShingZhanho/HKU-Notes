@@ -1,4 +1,4 @@
-# HKU Notes by Jacob Shing
+# Home
 
 Welcome to the repository! This is a collection of notes, examination cheatsheets, and other resources
 for courses provided by the University of Hong Kong (mainly for the Bachelor of Engineering in Computer Science programme).

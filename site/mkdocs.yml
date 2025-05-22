@@ -31,6 +31,8 @@ theme:
     - content.tooltips
     - navigation.instant
     - navigation.instant.progress
+    - navigation.path
+    - navigation.tabs
     - navigation.top
 repo_url: https://github.com/ShingZhanho/HKU-Notes
 repo_name: ShingZhanho/HKU-Notes
