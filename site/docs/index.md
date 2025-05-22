@@ -1,0 +1,43 @@
+# HKU Notes by Jacob Shing
+
+Welcome to the repository! This is a collection of notes, examination cheatsheets, and other resources
+for courses provided by the University of Hong Kong (mainly for the Bachelor of Engineering in Computer Science programme).
+
+## Downloads
+
+Head to the course catalogue page to browse all the available course materials.
+
+[Downloads Page :material-download:](downloads/index.md){ .md-button .md-button--primary }
+
+## Important Information
+
+!!! info "Disclaimer"
+
+    This repository is not affiliated with the University of Hong Kong.
+    The materials provided here are for educational purposes only.
+    The author does not guarantee the accuracy or completeness of the materials.
+    Use with discretion.
+    These materials may contain intellectual property from the University of Hong Kong,
+    the authors of the textbooks, etc.
+    The author makes his best effort to provide proper attribution to the original authors
+    and does not claim ownership or originality of these said information.
+
+!!! info "Copyright and Licensing"
+
+    Unless otherwise stated, all **compiled materials** (the PDFs that you can download from this website)
+    are licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) license.
+    You are free to share and adapt the materials for non-commercial purposes.
+    Selling or distributing the materials for profit is strictly prohibited.
+
+    For the **source code** (the `.tex` files and other source files that you can obtain from the GitHub repository),
+    you are free to use and modify the source code, and sell the compiled materials from those **modified** source code with
+    attribution to the original author and the original source.
+
+
+## Contributions
+
+You are most welcome to contribute to existing materials or create new materials.
+Please have a look at the compilation codes in the GitHub repository to see how the materials
+are automatically compiled using GitHub Actions.
+
+Feel free to open an issue or a pull request if you have any suggestions or improvements.
