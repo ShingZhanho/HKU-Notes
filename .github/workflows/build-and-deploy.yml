@@ -222,6 +222,7 @@ jobs:
 
       - name: Fix directory names
         run: for dir in compiled-artifact-*; do [ -d "$dir" ] && mv "$dir" "${dir#compiled-artifact-}"; done
+        working-directory: ./gh-out/files
         # removes the prefix "compiled-artifact-" from the directory names
 
       - name: Configure pages
