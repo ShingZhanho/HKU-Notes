@@ -8,6 +8,6 @@
     },
     "static_site": {
         "description": "An A4 double-sided cheatsheet for the ENGG1340 final exam.",
-        "custom_md_file": "./src/ENGG1340-Cheatsheet/custom.md"
+        "custom_md_file": "custom.md"
     }
 }

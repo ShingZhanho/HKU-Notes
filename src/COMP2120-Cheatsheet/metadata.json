@@ -2,6 +2,6 @@
     "@metadata_file_version": "1",
     "static_site": {
         "description": "An A4 double-sided cheatsheet for the COMP2120 final exam.",
-        "custom_md_file": "./src/COMP2120-Cheatsheet/custom.md"
+        "custom_md_file": "custom.md"
     }
 }

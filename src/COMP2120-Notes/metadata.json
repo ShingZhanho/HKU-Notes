@@ -8,6 +8,6 @@
     },
     "static_site": {
         "description": "Revision notes for COMP2120.",
-        "custom_md_file": "./src/COMP2120-Notes/custom.md"
+        "custom_md_file": "custom.md"
     }
 }
