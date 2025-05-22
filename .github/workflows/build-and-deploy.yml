@@ -205,6 +205,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # --- SETUP MKDOCS-MATERIAL ---
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+          cache-dependency-path: ./build/python-requirement-lists/*.txt
+
+      # --- DOWNLOAD COMPILED ARTIFACTS ---
+      - name: Install mkdocs-material
+        run: pip install -r ./build/python-requirement-lists/mkdocs-material-pkgs.txt
+
       - name: Prepare deployment directories
         run: |
           mkdir -p ./gh-out/files
@@ -219,6 +231,19 @@ jobs:
         run: for dir in compiled-artifact-*; do [ -d "$dir" ] && mv "$dir" "${dir#compiled-artifact-}"; done; ls -l
         working-directory: ./gh-out/files
         # removes the prefix "compiled-artifact-" from the directory names
+
+      # --- GENERATE STATIC PAGES ---
+      - name: Output target list
+        run: DYENV_TARGETS_LIST="$(ls -d ./gh-out/files/)"" >> $GITHUB_ENV
+
+      - name: Generate static pages
+        run: python3 ./build/generate-pages.py ${{ env.DYENV_TARGETS_LIST }}
+
+      - name: Copy downloadable files to site
+        run: mkdir ./site/files && cp -r ./gh-out/files/* ./site/files && rm -rf ./gh-out
+
+      - name: Build static site
+        run: mkdocs build -d gh-out
       
       - name: Upload static files as artifact
         uses: actions/upload-pages-artifact@v3

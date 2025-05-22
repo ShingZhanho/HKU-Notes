@@ -17,3 +17,7 @@ class Metadata:
         self.build__build_command = f"latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./src/{self.name}/{self.root_file}"
         self.build__postbuild_command = None
         self.build__miktex_package_file = f"./src/{self.name}/packages.tex"
+
+        # "static_site" keys
+        self.static_site__description = None
+        self.static_site__custom_md_file = None

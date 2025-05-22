@@ -21,4 +21,8 @@ class MetadataV1Parser(MetadataParserBase):
         self.parsed_obj.build__postbuild_command = self.json_obj.get("build", {}).get("postbuild_command", None)
         self.parsed_obj.build__miktex_package_file = self.json_obj.get("build", {}).get("miktex_package_file", self.parsed_obj.build__miktex_package_file)
 
+        # "static_site" keys
+        self.parsed_obj.static_site__description = self.json_obj.get("static_site", {}).get("description", "-")
+        self.parsed_obj.static_site__custom_md_file = self.json_obj.get("static_site", {}).get("custom_md_file", "")
+
         return self.parsed_obj
