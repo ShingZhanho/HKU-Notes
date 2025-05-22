@@ -76,21 +76,20 @@ def main():
             f.write(f"## {alpha}\n\n")
             for course_code in alpha_groups[alpha]:
                 f.write(f"### {course_code}\n\n")
-                f.write("| Material Name | Description | Compiled At | Actions |\n")
+                f.write("| Material Name | Description | Compiled At | Source Hash |\n")
                 f.write("| --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
                     compiled_at = ""
+                    src_checksum = ""
                     with open(f"./gh-out/files/{target}/compiled-at.txt", "r") as f2:
-                        compiled_at = f2.read().strip()
+                        compiled_at = f2.read().strip().replace("UTC+8 (Hong Kong)", "")
+                    with open(f"./gh-out/files/{target}/src-checksum.txt", "r") as f2:
+                        src_checksum = f2.read().strip()[0:7]
                     description = ""
                     metadata_reader = Reader(f"./src/{target}/metadata.json", target)
                     metadata = metadata_reader.parse()
                     description = metadata.static_site__description
-                    f.write(f"| {target} | {description} | {compiled_at} | ")
-                    f.write(f"[:material-information-outline:](./details/{target}.md \"Details\")")
-                    f.write("{.md-button .md-button--primary} ")
-                    f.write(f"[:material-download:](https://shingzhanho.github.io/HKU-Notes/files/{target}/{target}.pdf \"Download\")")
-                    f.write('{:download .md-button} |\n')
+                    f.write(f"| ({target})[./details/{target}.md] | {description} | {compiled_at} | `{src_checksum}` |\n")
                 f.write("\n\n")
             f.write("\n\n")
 
