@@ -52,11 +52,14 @@ def main():
         with open(f"./site/docs/downloads/details/{target}.md", "w") as f:
             print(f"Generating details page for {target}")
             f.write(f"# {target}\n\n")
-            f.write(f"{metadata.static_site__description}\n\n")
+            f.write(f"File description: {metadata.static_site__description}\n\n")
             f.write(f"??? \"Digital Digest\"\n\n")
             f.write(f"\tSource file hash:`{src_checksum}`\n\n")
             f.write(f"\tCompiled at:`{compiled_at}`\n")
-            f.write(f"[Download :material-download:](https://shingzhanho.github.io/HKU-Notes/files/{target}/{target}.pdf)\n")
+            f.write(f"[Download :material-download:](./files/{target}/{target}.pdf)")
+            f.write("{.md-button .md-button--primary}\n")
+            f.write(f"[View source :material-github:](https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{target})")
+            f.write("{.md-button}\n")
             f.write(f"\n\n")
             f.write(custom_md_content)
 
@@ -85,7 +88,7 @@ def main():
                     description = metadata.static_site__description
                     f.write(f"| {target} | {description} | {compiled_at} | ")
                     f.write(f"[:material-information-outline:](./details/{target}.md \"Details\") ")
-                    f.write(f"[:material-download:](/files/{target}/{target}.pdf \"Download\")")
+                    f.write(f"[:material-download:](./files/{target}/{target}.pdf \"Download\")")
                     f.write('{:download} |\n')
                 f.write("\n\n")
             f.write("\n\n")
