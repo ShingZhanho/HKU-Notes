@@ -1,4 +1,4 @@
-from .mttools import *
+from mttools import *
 import sys
 import re
 import os
