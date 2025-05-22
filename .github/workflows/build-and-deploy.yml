@@ -242,7 +242,8 @@ jobs:
         run: mkdir ./site/files && cp -r ./gh-out/files/* ./site/files && rm -rf ./gh-out
 
       - name: Build static site
-        run: mkdocs build -d gh-out
+        run: mkdocs build -d ../gh-out
+        working-directory: ./site
       
       - name: Upload static files as artifact
         uses: actions/upload-pages-artifact@v3
