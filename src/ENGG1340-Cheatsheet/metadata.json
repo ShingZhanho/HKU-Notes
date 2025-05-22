@@ -7,6 +7,7 @@
         "build_command": "latexmk -shell-escape -pdf -f -interaction=nonstopmode -cd -outdir=. ./src/ENGG1340-Cheatsheet/ENGG1340-Cheatsheet.tex"
     },
     "static_site": {
-        "description": "An A4 double-sided cheatsheet for the ENGG1340 final exam."
+        "description": "An A4 double-sided cheatsheet for the ENGG1340 final exam.",
+        "custom_md_file": "./src/ENGG1340-Cheatsheet/custom.md"
     }
 }

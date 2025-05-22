@@ -7,6 +7,7 @@
         "build_command": "latexmk -shell-escape -pdf -f -interaction=nonstopmode -cd -outdir=. ./src/COMP2120-Notes/COMP2120-Notes.tex"
     },
     "static_site": {
-        "description": "Revision notes for COMP2120."
+        "description": "Revision notes for COMP2120.",
+        "custom_md_file": "./src/COMP2120-Notes/custom.md"
     }
 }
