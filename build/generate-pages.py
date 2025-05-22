@@ -52,8 +52,9 @@ def main():
         with open(f"./site/docs/downloads/details/{target}.md", "w") as f:
             print(f"Generating details page for {target}")
             f.write(f"# {target}\n\n")
+            f.write(f"{metadata.static_site__description}\n\n")
             f.write(f"??? \"Digital Digest\"\n\n")
-            f.write(f"\tSource file hash:`{src_checksum}`\n")
+            f.write(f"\tSource file hash:`{src_checksum}`\n\n")
             f.write(f"\tCompiled at:`{compiled_at}`\n")
             f.write(f"[Download :material-download:](https://shingzhanho.github.io/HKU-Notes/files/{target}/{target}.pdf)\n")
             f.write(f"\n\n")
@@ -66,6 +67,8 @@ def main():
         f.write("All materials are sorted by course code. Use the navigation panel to jump to the course you want.\n\n")
         for alpha in alpha_groups:
             if len(alpha_groups[alpha]) == 0:
+                continue
+            if alpha == "#" and len(alpha_groups[alpha]["Miscellaneous"]) == 0:
                 continue
             f.write(f"## {alpha}\n\n")
             for course_code in alpha_groups[alpha]:
@@ -84,6 +87,8 @@ def main():
                     f.write(f"[:material-information-outline:](./details/{target}.md \"Details\") ")
                     f.write(f"[:material-download:](/files/{target}/{target}.pdf \"Download\")")
                     f.write('{:download} |\n')
+                f.write("\n\n")
+            f.write("\n\n")
 
 if __name__ == "__main__":
     main()

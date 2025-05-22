@@ -239,7 +239,7 @@ jobs:
         run: python3 ./build/generate-pages.py ${{ env.DYENV_TARGETS_LIST }}
 
       - name: Copy downloadable files to site
-        run: mkdir ./site/files && cp -r ./gh-out/files/* ./site/files && rm -rf ./gh-out
+        run: mkdir ./site/docs/files && cp -r ./gh-out/files/* ./site/docs/files && rm -rf ./gh-out
 
       - name: Build static site
         run: mkdocs build -d ../gh-out
