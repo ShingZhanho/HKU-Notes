@@ -46,3 +46,7 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.snippets
   - pymdownx.superfences
+extra:
+  analytics:
+    provider: google
+    property: G-DCVVW9HRJ5
