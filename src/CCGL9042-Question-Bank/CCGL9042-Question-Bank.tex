@@ -1,6 +1,23 @@
-\documentclass{article}
+\documentclass[answers]{exam}
 \input{packages.tex}
 
-\begin{document}
+\CorrectChoiceEmphasis{\color{Green4}}
+\pagestyle{foot}
+\cfoot{Page \thepage\ of \numpages}
+% \renewenvironment{solution}{%
+%     \begin{EnvFullwidth}\begin{TheSolution}
+% }{%
+%     \end{TheSolution}\end{EnvFullwidth}
+% }
+\shadedsolutions
 
+\begin{document}
+\begin{center}
+    {\Large \bfseries CCGL9042 THE EVOLUTION OF CIVILISATION}\par
+    {\Large \bfseries Question Bank}
+\end{center}
+
+\begin{questions}
+    \input{quiz-1.tex}
+\end{questions}
 \end{document}
