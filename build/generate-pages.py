@@ -77,7 +77,7 @@ def main():
             for course_code in alpha_groups[alpha]:
                 f.write(f"### {course_code}\n\n")
                 f.write("| Material Name | Description | Compiled At | Source Hash |\n")
-                f.write("| --- | --- | --- | :-: |\n")
+                f.write("| --- | --- | --- | --- |\n")
                 for target in alpha_groups[alpha][course_code]:
                     compiled_at = ""
                     src_checksum = ""
