@@ -4,12 +4,9 @@
 \CorrectChoiceEmphasis{\color{Green4}}
 \pagestyle{foot}
 \cfoot{Page \thepage\ of \numpages}
-% \renewenvironment{solution}{%
-%     \begin{EnvFullwidth}\begin{TheSolution}
-% }{%
-%     \end{TheSolution}\end{EnvFullwidth}
-% }
 \shadedsolutions
+\renewcommand{\thequestion}{\Roman{question}}
+\renewcommand{\thepartno}{\arabic{partno}}
 
 \begin{document}
 \begin{center}
@@ -19,5 +16,6 @@
 
 \begin{questions}
     \input{quiz-1.tex}
+    \include{quiz-2}
 \end{questions}
 \end{document}
