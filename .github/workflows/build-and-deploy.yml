@@ -244,7 +244,12 @@ jobs:
       - name: Build static site
         run: mkdocs build -d ../gh-out
         working-directory: ./site
+
+      # --- CONFIGURE GOOGLE SEO VERIFICATION ---
+      - name: Copy Google SEO verification file
+        run: cp ./build/google481bf8abff9a1de7.html ./gh-out
       
+      # --- DEPLOY TO GITHUB PAGES ---
       - name: Upload static files as artifact
         uses: actions/upload-pages-artifact@v3
         with:
