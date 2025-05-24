@@ -1,6 +1,7 @@
 {
     "@metadata_file_version": "1",
     "static_site": {
-        "description": "The question bank for CCGL9042 in-class quizzes."
+        "description": "The question bank for CCGL9042 in-class quizzes.",
+        "custom_md_file": "custom.md"
     }
 }
