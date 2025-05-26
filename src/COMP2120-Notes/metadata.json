@@ -8,6 +8,7 @@
     },
     "static_site": {
         "description": "Revision notes for COMP2120.",
-        "custom_md_file": "custom.md"
+        "custom_md_file": "custom.md",
+        "document_status": "sre"
     }
 }
