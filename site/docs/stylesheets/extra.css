@@ -1,0 +1,22 @@
+.status-badge {
+    font-size: 0.9em;
+}
+
+.status-badge__icon {
+    padding: 4px;
+    padding-right: 0;
+    background: var(--md-accent-fg-color--transparent);
+    border-start-start-radius: 2px;
+    border-end-start-radius: 2px;
+}
+
+.status-badge__text {
+    padding: 4px 6px;
+    border-start-end-radius: 2px;
+    border-end-end-radius: 2px;
+    box-shadow: 0 0 0 1px inset var(--md-accent-fg-color--transparent);
+}
+
+.md-tooltip2__inner{
+    font-size:.65rem !important;
+}
