@@ -1,3 +1,7 @@
+---
+hide:
+    - navigation
+---
 # Home
 
 Welcome to the repository! This is a collection of notes, examination cheatsheets, and other resources
