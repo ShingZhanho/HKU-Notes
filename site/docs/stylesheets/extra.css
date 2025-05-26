@@ -4,7 +4,6 @@
 
 .status-badge__icon {
     padding: 4px;
-    padding-right: 0;
     background: var(--md-accent-fg-color--transparent);
     border-start-start-radius: 2px;
     border-end-start-radius: 2px;
