@@ -53,7 +53,7 @@ def main():
             print(f"Generating details page for {target}")
             f.write(f"# {target}\n\n")
             f.write(f"File description: {metadata.static_site__description}\n\n")
-            f.write(f"Document status: {generate_badge(metadata.static_site__document_status)}\n\n")
+            f.write(f"Document status: {generate_badge(metadata.static_site__document_status, True)}\n\n")
             f.write(f"??? \"Digital Digest\"\n\n")
             f.write(f"\tSource file hash:`{src_checksum}`\n\n")
             f.write(f"\tCompiled at:`{compiled_at}`\n")
@@ -88,7 +88,7 @@ def main():
                     metadata = metadata_reader.parse()
                     description = metadata.static_site__description
                     document_status = metadata.static_site__document_status
-                    status_badge = generate_badge(document_status)
+                    status_badge = generate_badge(document_status, False)
                     f.write(f"| [{target}](./details/{target}.md) | {description} | {compiled_at} | {status_badge} |\n")
                 f.write("\n\n")
             f.write("\n\n")
