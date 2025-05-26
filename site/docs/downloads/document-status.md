@@ -43,7 +43,7 @@ You should not use it for any purposes.
         :material-archive-clock:
     </span>
     <span class="status-badge__text">
-        [LTS](#lont-term-support "This is a long-term support document. Click for more details.")
+        [LTS](#long-term-support "This is a long-term support document. Click for more details.")
     </span>
 </span>
 

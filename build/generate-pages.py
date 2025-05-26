@@ -118,7 +118,7 @@ def generate_badge(status: str, is_detail_page: bool) -> str:
     status_desc = status_descs.get(status, "An error happened during the website generation process.")
 
     static_hrefs = {
-        "sre": "status-release",
+        "sre": "stable-release",
         "wip": "work-in-progress",
         "lts": "long-term-support",
         "abd": "abandoned",
@@ -126,7 +126,7 @@ def generate_badge(status: str, is_detail_page: bool) -> str:
         "unk": "unknown-status",
     }
     static_href = static_hrefs.get(status, "error")
-    static_href = "../document-status.md#" + static_href if is_detail_page else "../document-status.md#" + static_href
+    static_href = "../document-status.md#" + static_href if is_detail_page else "document-status.md#" + static_href
 
     return """<span class=\"status-badge\">
     <span class=\"status-badge__icon\">:{% status-icon %}:</span>
