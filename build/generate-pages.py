@@ -88,8 +88,8 @@ def main():
                     metadata = metadata_reader.parse()
                     description = metadata.static_site__description
                     document_status = metadata.static_site__document_status
-                    status_badge = generate_badge(document_status)
-                    f.write(f"| [{target}](./details/{target}.md) | {description} | {compiled_at} | `{status_badge}` |\n")
+                    status_badge_text = generate_badge_text(document_status)
+                    f.write(f"| [{target}](./details/{target}.md) | {description} | {compiled_at} | `{status_badge_text}` |\n")
                 f.write("\n\n")
             f.write("\n\n")
 
@@ -128,9 +128,45 @@ def generate_badge(status: str) -> str:
     static_href = static_hrefs.get(status, "error")
 
     return """<span class=\"status-badge\">
-    <span class=\"status-badge__icon\">{% status-icon %}</span>
-    <span class=\"status-badge__text\">[{% status-name %}](./document-status.md#{% status-href %} \"{% status-desc %}\")</span>
+    <span class=\"status-badge__icon\">:{% status-icon %}:</span>
+    <span class=\"status-badge__text\">[{% status-name %}](downloads/document-status.md#{% status-href %} \"{% status-desc %}\")</span>
     </span>""".replace("{% status-icon %}", status_icon).replace("{% status-name %}", status.upper()).replace("{% status-href %}", static_href).replace("{% status-desc %}", status_desc).replace("\n", "")
+
+def generate_badge_text(status: str) -> str:
+    """
+    Generate a badge text for the given status.
+    """
+    status_icons = {
+        "sre": "material-check-circle",
+        "wip": "material-sign-caution",
+        "lts": "material-archive-clock",
+        "abd": "material-pencil-off",
+        "obs": "material-clock-alert",
+        "unk": "material-help",
+    }
+    status_icon = status_icons.get(status, "material-alert-octagon")
+
+    status_descs = {
+        "sre": "This is a stable release of the document.",
+        "wip": "This document is still under editing and is incomplete.",
+        "lts": "This is a long-term support document.",
+        "abd": "This document is no longer being updated and is incomplete.",
+        "obs": "This document is now deprecated.",
+        "unk": "The status of this document is unknown.",
+    }
+    status_desc = status_descs.get(status, "An error happened during the website generation process.")
+
+    static_hrefs = {
+        "sre": "status-release",
+        "wip": "work-in-progress",
+        "lts": "long-term-support",
+        "abd": "abandoned",
+        "obs": "obsolete",
+        "unk": "unknown",
+    }
+    static_href = static_hrefs.get(status, "error")
+
+    return f"[:{status_icon}: {status.upper()}](downloads/document-status.md#{static_href} \"{status_desc}\")"
 
 if __name__ == "__main__":
     main()
