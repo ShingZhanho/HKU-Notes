@@ -21,3 +21,4 @@ class Metadata:
         # "static_site" keys
         self.static_site__description = None
         self.static_site__custom_md_file = None
+        self.static_site__document_status = None

@@ -76,22 +76,60 @@ def main():
             f.write(f"## {alpha}\n\n")
             for course_code in alpha_groups[alpha]:
                 f.write(f"### {course_code}\n\n")
-                f.write("| Material Name | Description | Compiled At | Source Hash |\n")
-                f.write("| --- | --- | --- | --- |\n")
+                f.write("| Material Name | Description | Compiled At | Status |\n")
+                f.write("| --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
                     compiled_at = ""
-                    src_checksum = ""
                     with open(f"./gh-out/files/{target}/compiled-at.txt", "r") as f2:
                         compiled_at = f2.read().strip().replace("UTC+8 (Hong Kong)", "")
-                    with open(f"./gh-out/files/{target}/src-checksum.txt", "r") as f2:
-                        src_checksum = f2.read().strip()[0:7]
                     description = ""
                     metadata_reader = Reader(f"./src/{target}/metadata.json", target)
                     metadata = metadata_reader.parse()
                     description = metadata.static_site__description
-                    f.write(f"| [{target}](./details/{target}.md) | {description} | {compiled_at} | `{src_checksum}` |\n")
+                    document_status = metadata.static_site__document_status
+                    status_badge = generate_badge(document_status)
+                    f.write(f"| [{target}](./details/{target}.md) | {description} | {compiled_at} | `{status_badge}` |\n")
                 f.write("\n\n")
             f.write("\n\n")
+
+def generate_badge(status: str) -> str:
+    """
+    Generate a badge for the given status.
+    """
+    status_icons = {
+        "sre": "material-check-circle",
+        "wip": "material-sign-caution",
+        "lts": "material-archive-clock",
+        "abd": "material-pencil-off",
+        "obs": "material-clock-alert",
+        "unk": "material-help",
+    }
+    status_icon = status_icons.get(status, "material-alert-octagon")
+
+    status_descs = {
+        "sre": "This is a stable release of the document.",
+        "wip": "This document is still under editing and is incomplete.",
+        "lts": "This is a long-term support document.",
+        "abd": "This document is no longer being updated and is incomplete.",
+        "obs": "This document is now deprecated.",
+        "unk": "The status of this document is unknown.",
+    }
+    status_desc = status_descs.get(status, "An error happened during the website generation process.")
+
+    static_hrefs = {
+        "sre": "status-release",
+        "wip": "work-in-progress",
+        "lts": "long-term-support",
+        "abd": "abandoned",
+        "obs": "obsolete",
+        "unk": "unknown",
+    }
+    static_href = static_hrefs.get(status, "error")
+
+    return """<span class=\"status-badge\">
+    <span class=\"status-badge__icon\">{% status-icon %}</span>
+    <span class=\"status-badge__text\">[{% status-name %}](./document-status.md#{% status-href %} \"{% status-desc %}\")</span>
+    </span>""".replace("{% status-icon %}", status_icon).replace("{% status-name %}", status.upper()).replace("{% status-href %}", static_href).replace("{% status-desc %}", status_desc).replace("\n", "")
 
 if __name__ == "__main__":
     main()
