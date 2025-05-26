@@ -93,7 +93,7 @@ def main():
                 f.write("\n\n")
             f.write("\n\n")
 
-def generate_badge(status: str) -> str:
+def generate_badge(status: str, is_detail_page: bool) -> str:
     """
     Generate a badge for the given status.
     """
@@ -126,10 +126,11 @@ def generate_badge(status: str) -> str:
         "unk": "unknown-status",
     }
     static_href = static_hrefs.get(status, "error")
+    static_href = "../document-status.md#" + static_href if is_detail_page else "../document-status.md#" + static_href
 
     return """<span class=\"status-badge\">
     <span class=\"status-badge__icon\">:{% status-icon %}:</span>
-    <span class=\"status-badge__text\">[{% status-name %}](/downloads/document-status/#{% status-href %} \"{% status-desc %}\")</span>
+    <span class=\"status-badge__text\">[{% status-name %}]({% status-href %} \"{% status-desc %} Click for more details.\")</span>
     </span>""".replace("{% status-icon %}", status_icon).replace("{% status-name %}", status.upper()).replace("{% status-href %}", static_href).replace("{% status-desc %}", status_desc).replace("\n", "")
 
 if __name__ == "__main__":
