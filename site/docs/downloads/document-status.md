@@ -27,7 +27,7 @@ but it will not receive any major updates or content changes.
         :material-sign-caution:
     </span>
     <span class="status-badge__text">
-        [WIP](# "This document is still under editing and is incomplete. Click for more details.")
+        [WIP](#work-in-progress "This document is still under editing and is incomplete. Click for more details.")
     </span>
 </span>
 
@@ -43,7 +43,7 @@ You should not use it for any purposes.
         :material-archive-clock:
     </span>
     <span class="status-badge__text">
-        [LTS](# "This is a long-term support document. Click for more details.")
+        [LTS](#lont-term-support "This is a long-term support document. Click for more details.")
     </span>
 </span>
 
@@ -57,7 +57,7 @@ It is no longer actively maintained by the author.
         :material-pencil-off:
     </span>
     <span class="status-badge__text">
-        [ABD](# "This document is no longer being updated and is incomplete. Click for more details.")
+        [ABD](#abandoned "This document is no longer being updated and is incomplete. Click for more details.")
     </span>
 </span>
 
@@ -72,7 +72,7 @@ It may be removed from the website in the future.
         :material-clock-alert:
     </span>
     <span class="status-badge__text">
-        [OBS](# "This document is now deprecated. Click for more details.")
+        [OBS](#obsolete "This document is now deprecated. Click for more details.")
     </span>
 </span>
 
@@ -86,7 +86,7 @@ to the latest course syllabus. You may still use it for reference with discrepen
         :material-help:
     </span>
     <span class="status-badge__text">
-        [UNK](# "The status of this document is unknown. Click for more details.")
+        [UNK](#unknown-status "The status of this document is unknown. Click for more details.")
     </span>
 </span>
 
@@ -101,7 +101,7 @@ You may also report the status of the document to the website maintainer.
         :material-alert-octagon:
     </span>
     <span class="status-badge__text">
-        [ERR](# "An error happened during the website generation process. Click for more details.")
+        [ERR](#error "An error happened during the website generation process. Click for more details.")
     </span>
 </span>
 
