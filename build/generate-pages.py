@@ -129,7 +129,7 @@ def generate_badge(status: str) -> str:
 
     return """<span class=\"status-badge\">
     <span class=\"status-badge__icon\">:{% status-icon %}:</span>
-    <span class=\"status-badge__text\">[{% status-name %}](/downloads/document-status.md#{% status-href %} \"{% status-desc %}\")</span>
+    <span class=\"status-badge__text\">[{% status-name %}](/downloads/document-status/#{% status-href %} \"{% status-desc %}\")</span>
     </span>""".replace("{% status-icon %}", status_icon).replace("{% status-name %}", status.upper()).replace("{% status-href %}", static_href).replace("{% status-desc %}", status_desc).replace("\n", "")
 
 if __name__ == "__main__":
