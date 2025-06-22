@@ -1,5 +1,6 @@
 .status-badge {
     font-size: 0.9em;
+    display: inlie-table;
 }
 
 .status-badge__icon {
