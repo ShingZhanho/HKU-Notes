@@ -1,6 +1,7 @@
 This set of revision notes summarises the key concepts for the course COMP2120 Computer Organisation.
 
 It rearranges the content of the course into seven main topics:
+
 1. Evolution of Computers
 2. Digital Logic
 3. Number Representation

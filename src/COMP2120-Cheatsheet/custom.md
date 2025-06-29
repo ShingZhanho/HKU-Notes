@@ -21,6 +21,7 @@ not limited to the figures in the [COMP2120-Notes](./COMP2120-Notes.md) and thos
 are too large to be automatically typeset by LaTeX. Therefore, you may consider drawing them on the printed cheatsheet.
 
 Suggested figures to include:
+
 1. Floating-point number arithmetic operations flowcharts.
 2. The flowchart of paging operations (of virtual memory).
 3. Diagrams about Direct Memory Access (DMA) (please refer to the course slides) **(This was tested in the 2025 May examination.)**.
