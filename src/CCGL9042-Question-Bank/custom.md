@@ -1,3 +1,6 @@
+This is a set of questions compiled from the past 4 years of in-class quizzes
+of the course CCGL9042 The Evolution of Civilisation. 
+
 !!! note "Potential issues with Quiz 10 and 11"
     In the past, the quizzes 10 and 11 were held as one single quiz. Therefore, in the
     past question bank, those questions were not separated. In recent years, the quizzes
