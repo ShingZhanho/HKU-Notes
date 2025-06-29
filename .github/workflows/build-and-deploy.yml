@@ -248,10 +248,6 @@ jobs:
       # --- CONFIGURE GOOGLE SEO VERIFICATION ---
       - name: Copy Google SEO verification file
         run: cp ./build/google481bf8abff9a1de7.html ./gh-out
-
-      # --- CONFIGURE YANDEX SEO VERIFICATION ---
-      - name: Copy Yandex SEO verification file
-        run: cp ./build/yandex_535cd9be117ce9df.html ./gh-out
       
       # --- DEPLOY TO GITHUB PAGES ---
       - name: Upload static files as artifact
