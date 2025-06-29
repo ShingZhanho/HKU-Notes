@@ -39,5 +39,8 @@ export_var "DYENV_BUILD_COMMAND" "$(get_metadata_value build__build_command)"
 # Handle build target postbuild command
 export_var "DYENV_POSTBUILD_COMMAND" "$(get_metadata_value build__postbuild_command)"
 
+# Handle build target output file
+export_var "DYENV_OUTPUT_FILE" "$(get_metadata_value output_file)"
+
 # Handle build target miktex package file
 export_var "DYENV_MIKTEX_PACKAGE_FILE" "$(get_metadata_value build__miktex_package_file)"

@@ -189,7 +189,7 @@ jobs:
         with:
           name: compiled-artifact-${{ matrix.target }}
           path: |
-            ./src/${{ matrix.target }}/${{ matrix.target }}.pdf
+            ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}
             ./src/${{ matrix.target }}/src-checksum.txt
             ./src/${{ matrix.target }}/compiled-at.txt
             ./src/${{ matrix.target }}/miktex-cache-key.txt
