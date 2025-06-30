@@ -57,18 +57,38 @@ def main():
         output_file = metadata.output_file
         with open(f"./site/docs/downloads/details/{target}.md", "w") as f:
             print(f"Generating details page for {target}")
+            ## Front matter in YAML
             f.write(f"---\nhide:\n  - navigation\ndescription: \"[{target}] {metadata.static_site__description}\"\n---\n")
+
+            ## Header
             f.write(f"# {target}\n\n")
+
+            ## Content
             f.write(f"**File description:** {metadata.static_site__description}\n\n")
             f.write(f"**Document status:** {generate_badge(metadata.static_site__document_status, True)}\n\n")
             f.write(f"??? \"Digital Digest\"\n\n")
             f.write(f"\t**Source file hash:** `{src_checksum}`\n\n")
             f.write(f"\t**Compiled at:** `{compiled_at}`\n")
-            f.write(f"[Download :material-download:](https://shingzhanho.github.io/HKU-Notes/files/{target}/{output_file})")
-            f.write("{.md-button .md-button--primary}\n")
-            f.write(f"[View source :material-github:](https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{target})")
-            f.write("{.md-button}\n")
+
+            ## Primary button
+            if not metadata.static_site__primary_button__disabled:
+                f.write(f"[{metadata.static_site__primary_button__text}")
+                if metadata.static_site__primary_button__icon is not None and metadata.static_site__primary_button__icon != "":
+                    f.write(f" :{metadata.static_site__primary_button__icon}:")
+                f.write(f"]({metadata.static_site__primary_button__href})")
+                f.write("{.md-button .md-button--primary}\n")
+
+            ## Secondary button
+            if not metadata.static_site__secondary_button__disabled:
+                f.write(f"[{metadata.static_site__secondary_button__text}")
+                if metadata.static_site__secondary_button__icon is not None and metadata.static_site__secondary_button__icon != "":
+                    f.write(f" :{metadata.static_site__secondary_button__icon}:")
+                f.write(f"]({metadata.static_site__secondary_button__href})")
+                f.write("{.md-button}\n")
+
             f.write(f"\n\n")
+
+            ## Custom page content
             f.write(custom_md_content)
 
     # generate course catalogue page

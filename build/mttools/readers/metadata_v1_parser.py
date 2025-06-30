@@ -27,4 +27,16 @@ class MetadataV1Parser(MetadataParserBase):
         self.parsed_obj.static_site__document_status = self.json_obj.get("static_site", {}).get("document_status", None)
         self.parsed_obj.static_site__alias_to = self.json_obj.get("static_site", {}).get("alias_to", None)
 
+        # "static_site" > "primary_button" keys
+        self.parsed_obj.static_site__primary_button__disabled = self.json_obj.get("static_site", {}).get("primary_button", {}).get("disabled", False)
+        self.parsed_obj.static_site__primary_button__text = self.json_obj.get("static_site", {}).get("primary_button", {}).get("text", "Download")
+        self.parsed_obj.static_site__primary_button__icon = self.json_obj.get("static_site", {}).get("primary_button", {}).get("icon", "material-download")
+        self.parsed_obj.static_site__primary_button__href = self.json_obj.get("static_site", {}).get("primary_button", {}).get("href", self.parsed_obj.static_site__primary_button__href)
+
+        # "static_site" > "secondary_button" keys
+        self.parsed_obj.static_site__secondary_button__disabled = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("disabled", False)
+        self.parsed_obj.static_site__secondary_button__text = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("text", "View source")
+        self.parsed_obj.static_site__secondary_button__icon = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("icon", "material-github")
+        self.parsed_obj.static_site__secondary_button__href = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("href", self.parsed_obj.static_site__secondary_button__href)
+
         return self.parsed_obj

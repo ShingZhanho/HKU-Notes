@@ -24,6 +24,18 @@ class Metadata:
         self.static_site__document_status = None
         self.static_site__alias_to = None
 
+        # "static_site" > "primary_button" keys
+        self.static_site__primary_button__disabled = False
+        self.static_site__primary_button__text = "Download"
+        self.static_site__primary_button__icon = "material-download"
+        self.static_site__primary_button__href = f"https://shingzhanho.github.io/HKU-Notes/files/{self.name}/{self.output_file}"
+
+        # "static_site" > "secondary_button" keys
+        self.static_site__secondary_button__disabled = False
+        self.static_site__secondary_button__text = "View source"
+        self.static_site__secondary_button__icon = "material-github"
+        self.static_site__secondary_button__href = f"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{self.name}"
+
     # computed keys
     # These keys are computed based on static keys.
     def computed__is_alias(self):
