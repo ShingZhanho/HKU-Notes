@@ -57,7 +57,7 @@ def main():
         output_file = metadata.output_file
         with open(f"./site/docs/downloads/details/{target}.md", "w") as f:
             print(f"Generating details page for {target}")
-            f.write("---\nhide:\n  - navigation\n---\n")
+            f.write(f"---\nhide:\n  - navigation\ndescription: [{target}] {metadata.static_site__description}---\n")
             f.write(f"# {target}\n\n")
             f.write(f"**File description:** {metadata.static_site__description}\n\n")
             f.write(f"**Document status:** {generate_badge(metadata.static_site__document_status, True)}\n\n")
@@ -74,7 +74,9 @@ def main():
     # generate course catalogue page
     with open("./site/docs/downloads/index.md", "w") as f:
         print("Generating course catalogue page")
-        f.write("---\nhide:\n  - navigation\n---\n")
+        f.write("---\nhide:\n  - navigation\n")
+        f.write("description: A collection of course materials/notes/cheatsheets for courses offered by the University of Hong Kong (HKU)")
+        f.write("(Mainly courses of Bachelor of Engineering in Computer Science, BEng(CompSc), with some common core courses and FREN courses.)\n---\n")
         f.write(f"# Course Catalogue\n\n")
         f.write("All materials are sorted by course code. Use the navigation panel to jump to the course you want.\n\n")
         for alpha in alpha_groups:

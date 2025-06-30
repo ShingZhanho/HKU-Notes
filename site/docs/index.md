@@ -1,6 +1,8 @@
 ---
 hide:
     - navigation
+description: |
+    A collection of course notes, examination cheatsheets, and other resources for courses provided by the University of Hong Kong (mainly for the Bachelor of Engineering in Computer Science "BEng(CompSc)" programme).
 ---
 # Home
 
