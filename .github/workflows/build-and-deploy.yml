@@ -79,7 +79,6 @@ jobs:
           cache-dependency-path: ./build/python-requirement-lists/*.txt
 
       - name: Compute environment variables
-        if: ${{ env.DYENV_ABORT_WORKFLOW == 'false' }}
         run: ./build/configure-env-vars.sh ${{ matrix.target }}
 
       # --- INSTALL MIKTEX DISTRIBUTION ---
