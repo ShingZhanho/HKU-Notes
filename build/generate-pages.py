@@ -86,7 +86,7 @@ def main():
             for course_code in alpha_groups[alpha]:
                 course_name = get_course_name(course_code)
                 f.write(f"### {course_code}")
-                f.write(f" - {course_name.title()}\n\n" if course_name else "\n\n")
+                f.write(f" - {course_name}\n\n" if course_name else "\n\n")
                 f.write("| Material Name | Description | Compiled At | Status |\n")
                 f.write("| --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
@@ -163,7 +163,11 @@ def get_course_name(course_code: str) -> str:
     row = cursor.fetchone()
     conn.close()
     if row:
-        return row[0]
+        result = row[0]
+        # for each word, cap the first letter and lower the rest,
+        # except for words that are all uppercase (e.g. "HKU")
+        result = ' '.join(word.capitalize() if not word.isupper() else word for word in result.split())
+        return result
     return None
 
 if __name__ == "__main__":
