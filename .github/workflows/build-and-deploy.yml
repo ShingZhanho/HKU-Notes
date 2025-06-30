@@ -198,6 +198,7 @@ jobs:
             ./src/${{ matrix.target }}/src-checksum.txt
             ./src/${{ matrix.target }}/compiled-at.txt
             ./src/${{ matrix.target }}/miktex-cache-key.txt
+          retention-days: 1
 
   deploy-pages:
     runs-on: ubuntu-latest
@@ -242,6 +243,13 @@ jobs:
 
       - name: Generate static pages
         run: python3 ./build/generate-pages.py ${{ env.DYENV_TARGETS_LIST }}
+
+      - name: Upload generated Markdown sources
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-md
+          path: ./site
+          retention-days: 1
 
       - name: Copy downloadable files to site
         run: mkdir ./site/docs/files && cp -r ./gh-out/files/* ./site/docs/files && rm -rf ./gh-out
