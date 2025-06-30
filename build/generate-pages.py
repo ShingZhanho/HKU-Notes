@@ -57,7 +57,7 @@ def main():
         output_file = metadata.output_file
         with open(f"./site/docs/downloads/details/{target}.md", "w") as f:
             print(f"Generating details page for {target}")
-            f.write(f"---\nhide:\n  - navigation\ndescription: [{target}] {metadata.static_site__description}\n---\n")
+            f.write(f"---\nhide:\n  - navigation\ndescription: \"[{target}] {metadata.static_site__description}\"\n---\n")
             f.write(f"# {target}\n\n")
             f.write(f"**File description:** {metadata.static_site__description}\n\n")
             f.write(f"**Document status:** {generate_badge(metadata.static_site__document_status, True)}\n\n")
