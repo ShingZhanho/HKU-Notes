@@ -86,7 +86,7 @@ def main():
             for course_code in alpha_groups[alpha]:
                 course_name = get_course_name(course_code)
                 f.write(f"### {course_code}")
-                f.write(f" - {course_name}\n\n" if course_name else "\n\n")
+                f.write(f" - {course_name.title()}\n\n" if course_name else "\n\n")
                 f.write("| Material Name | Description | Compiled At | Status |\n")
                 f.write("| --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
