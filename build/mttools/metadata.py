@@ -22,3 +22,9 @@ class Metadata:
         self.static_site__description = None
         self.static_site__custom_md_file = None
         self.static_site__document_status = None
+        self.static_site__alias_to = None
+
+    # computed keys
+    # These keys are computed based on static keys.
+    def computed__is_alias(self):
+        return self.static_site__alias_to is not None

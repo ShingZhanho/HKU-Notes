@@ -36,14 +36,18 @@ def main():
     # generate details pages
     os.mkdir("./site/docs/downloads/details")
     for target in targets_list:
+        metadata_reader = Reader(f"./src/{target}/metadata.json", target)
+        metadata = metadata_reader.parse()
+
+        if is_alias_target := metadata.computed__is_alias():
+            continue  # no details page for alias targets
+
         src_checksum = ""
         compiled_at = ""
         with open(f"./gh-out/files/{target}/src-checksum.txt", "r") as f:
             src_checksum = f.read().strip()
         with open(f"./gh-out/files/{target}/compiled-at.txt", "r") as f:
             compiled_at = f.read().strip()
-        metadata_reader = Reader(f"./src/{target}/metadata.json", target)
-        metadata = metadata_reader.parse()
         custom_md_file = metadata.static_site__custom_md_file
         custom_md_content = ""
         if custom_md_file != "":
@@ -83,16 +87,26 @@ def main():
                 f.write("| Material Name | Description | Compiled At | Status |\n")
                 f.write("| --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
+                    metadata_reader = Reader(f"./src/{target}/metadata.json", target)
+                    metadata = metadata_reader.parse()
+
+                    if is_alias_target := metadata.computed__is_alias():
+                        metadata_reader = Reader(f"./src/{metadata.static_site__alias_to}/metadata.json", metadata.static_site__alias_to)
+                        metadata = metadata_reader.parse()
+                        alias_from = target
+                        target = metadata.name
+
                     compiled_at = ""
                     with open(f"./gh-out/files/{target}/compiled-at.txt", "r") as f2:
                         compiled_at = f2.read().strip().replace("UTC+8 (Hong Kong)", "")
                     description = ""
-                    metadata_reader = Reader(f"./src/{target}/metadata.json", target)
-                    metadata = metadata_reader.parse()
-                    description = metadata.static_site__description
+                    if is_alias_target:
+                        description = f"_(An alias of {target}.)_"
+                    else:
+                        description = metadata.static_site__description
                     document_status = metadata.static_site__document_status
                     status_badge = generate_badge(document_status, False)
-                    f.write(f"| [{target}](./details/{target}.md) | {description} | {compiled_at} | {status_badge} |\n")
+                    f.write(f"| [{target if not is_alias_target else alias_from}](./details/{target}.md) | {description} | {compiled_at} | {status_badge} |\n")
                 f.write("\n\n")
             f.write("\n\n")
 

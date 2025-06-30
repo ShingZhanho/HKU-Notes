@@ -3,6 +3,7 @@
 #   1. The metadata.json file to read
 #   2. The key to extract and print
 
+import inspect
 import mttools
 import sys
 
@@ -17,7 +18,11 @@ if __name__ == "__main__":
 
     # get the value
     value = getattr(metadata, key, "")
-    value = "" if value is None else value
+    # check if getattr returned a bound method
+    if inspect.ismethod(value):
+        value = value()
+    else:
+        value = "" if value is None else value
     
     # format the value by type
     if type(value) == type([]):
@@ -25,6 +30,10 @@ if __name__ == "__main__":
         # print each element on a new line
         for item in value:
             print(item)
+    elif type(value) == bool:
+        # a boolean
+        # print lowercase "true" or "false" for matching GitHub Actions
+        print("true" if value else "false")
     else:
         # a string
         # print the value
