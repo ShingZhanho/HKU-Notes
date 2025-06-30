@@ -58,7 +58,7 @@ def main():
         with open(f"./site/docs/downloads/details/{target}.md", "w") as f:
             print(f"Generating details page for {target}")
             ## Front matter in YAML
-            f.write(f"---\nhide:\n  - navigation\ndescription: \"[{target}] {metadata.static_site__description}\"\n---\n")
+            f.write(f"---\nhide:\n  - navigation\ndescription: Download {target} for free - {metadata.static_site__description}\n---\n")
 
             ## Header
             f.write(f"# {target}\n\n")
@@ -95,8 +95,9 @@ def main():
     with open("./site/docs/downloads/index.md", "w") as f:
         print("Generating course catalogue page")
         f.write("---\nhide:\n  - navigation\n")
-        f.write("description: A collection of course materials/notes/cheatsheets for courses offered by the University of Hong Kong (HKU)")
-        f.write("(Mainly courses of Bachelor of Engineering in Computer Science, BEng(CompSc), with some common core courses and FREN courses.)\n---\n")
+        f.write("description: Download free and open source HKU computer science course notes/cheatsheets/materials. ")
+        f.write("Discover tips and tricks for your studies at the University of Hong Kong.")
+        f.write("\n---\n")
         f.write(f"# Course Catalogue\n\n")
         f.write("All materials are sorted by course code. Use the navigation panel to jump to the course you want.\n\n")
         for alpha in alpha_groups:
