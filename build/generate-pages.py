@@ -104,7 +104,7 @@ def main():
                         compiled_at = f2.read().strip().replace("UTC+8 (Hong Kong)", "")
                     description = ""
                     if is_alias_target:
-                        description = f"_(An alias of {target}.)_"
+                        description = f"_(An alias of [{target}](./details/{target}.md).)_"
                     else:
                         description = metadata.static_site__description
                     document_status = metadata.static_site__document_status
