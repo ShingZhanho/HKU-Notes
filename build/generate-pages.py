@@ -1,4 +1,5 @@
 from mttools import *
+import sqlite3
 import sys
 import re
 import os
@@ -83,7 +84,9 @@ def main():
                 continue
             f.write(f"## {alpha}\n\n")
             for course_code in alpha_groups[alpha]:
-                f.write(f"### {course_code}\n\n")
+                course_name = get_course_name(course_code)
+                f.write(f"### {course_code}")
+                f.write(f" - {course_name}\n\n" if course_name else "\n\n")
                 f.write("| Material Name | Description | Compiled At | Status |\n")
                 f.write("| --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
@@ -149,6 +152,19 @@ def generate_badge(status: str, is_detail_page: bool) -> str:
     <span class=\"status-badge__icon\">:{% status-icon %}:</span>
     <span class=\"status-badge__text\">[{% status-name %}]({% status-href %} \"{% status-desc %} Click for more details.\")</span>
     </span>""".replace("{% status-icon %}", status_icon).replace("{% status-name %}", status.upper()).replace("{% status-href %}", static_href).replace("{% status-desc %}", status_desc).replace("\n", "")
+
+def get_course_name(course_code: str) -> str:
+    """
+    Get the course name from the course code.
+    """
+    conn = sqlite3.connect("./build/course-codes.sqlite")
+    cursor = conn.cursor()
+    cursor.execute("SELECT course_name FROM courses WHERE course_code = ?", (course_code,))
+    row = cursor.fetchone()
+    conn.close()
+    if row:
+        return row[0]
+    return None
 
 if __name__ == "__main__":
     main()
