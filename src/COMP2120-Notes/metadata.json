@@ -4,7 +4,7 @@
         "requires": [
             "python-minted-pkgs"
         ],
-        "build_command": "latexmk -shell-escape -pdf -f -interaction=nonstopmode -cd -outdir=. ./src/COMP2120-Notes/COMP2120-Notes.tex"
+        "build_command": "latexmk -shell-escape -pdf -f -interaction=nonstopmode -cd -outdir=. ./COMP2120-Notes.tex"
     },
     "static_site": {
         "description": "Revision notes for COMP2120.",
