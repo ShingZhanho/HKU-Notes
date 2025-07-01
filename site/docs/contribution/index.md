@@ -60,3 +60,19 @@ and generate the output files.
 ### 5. Generate the Website and Deploy
 
 The pipeline will then generate the website using the output files and metadata, and deploy it to GitHub Pages.
+
+## Steps for Creating New Materials
+
+Now that you have a basic understanding of how the pipeline works, here are the steps to create new materials:
+
+1. **Define a New Build Target**: Add a new entry in the `/build/build-targets.txt` file for your new material.
+   - Use the syntax defined in the [syntax reference for `build-targets.txt`](./syntax-reference/build-targets.txt.md).
+2. **Create the Source Directory**: Create a new directory under `/src/[NEW_BUILD_TARGET]` for your new material.
+    The directory name must match the build target name you defined in the previous step.
+3. **Create `metadata.json`**: Create a `metadata.json` file in the new source directory.
+   - Use the syntax defined in the [syntax reference for `metadata.json`](./syntax-reference/metadata.json.md).
+4. **Add Source Files**: Add the source files for your new material in the new source directory.
+    Most importantly, if you are adding a LaTeX document, you MUST separate all the `\usepackage` commands into a separate file
+    called `packages.tex` in the source directory.
+5. **Commit and Push**: Ensure your sources compile successfully on your local machine, then push to the remote and
+    create a pull request.
