@@ -1,0 +1,62 @@
+---
+description: "Learn how to contribute to the HKU Notes project, including guidelines for using the automated compilation pipeline, contributing new materials, and more."
+---
+
+# Contribution Guide
+
+Thank you for being interested in contributing to the HKU Notes project! This article will walk you through the
+process of how all the materials are compiled from source and deployed on GitHub Pages. Understanding this process
+is crucial for contributing new materials or improving existing ones.
+
+## Automated Compilation Pipeline
+
+All the source codes for generating the notes are stored in the `/src` directory. Whenever there is a push to the `master`
+branch, GitHub Actions will be triggered (defined in the
+[`build-and-deploy.yml`](https://github.com/ShingZhanho/HKU-Notes/blob/master/.github/workflows/build-and-deploy.yml) file).
+Here's what happens in the pipeline:
+
+### 1. Resolve Build Targets
+
+??? question inline end "What is a build target?"
+
+    Generally, a build target is a PDF document that will be generated from the source code.
+    For example, the file `COMP2120-Notes.pdf` is the product of the build target `COMP2120-Notes`.
+
+The pipeline needs to know what are the targets to build. All build targets are defined in the file `/build/build-targets.txt`,
+and are resolved by the script `/build/resolve-targets.py`.
+
+`build-targets.txt` uses its own unique but simple syntax and provides shortcuts for defining targets in a tree-like structure.
+You should read the [syntax reference for `build-targets.txt`](./syntax-reference/build-targets.txt.md) before editing it.
+
+### 2. Resolve Target Metadata
+
+Each build target **MUST** have a `metadata.json` file in its source directory, i.e., `/src/[BUILD_TARGET]/metadata.json`.
+This file contains information about how the target should be built, how it should be displayed and presented on the website,
+and other information for changing the build behaviour.
+
+Most importantly, it specifies the commands to run before, for, and after building the target. The pipeline is mainly designed
+to build PDF documents from LaTeX source code, but with the customisable commands, you can also use this pipeline to include
+other types of files.
+
+You should refer to the [syntax reference for `metadata.json`](./syntax-reference/metadata.json.md) for the details about
+what information can you include in the file.
+
+### 3. Source Code Checksum
+
+!!! note inline end "Overriding Checksum Behaviour"
+
+    If the head commit message contains `@force-rebuild`, the build target will always be rebuilt regardless of the checksum.
+
+To avoid unnecessary rebuilds, the GitHub Action will obtain the checksum of all the files under the `/src/[BUILD_TARGET]` directory.
+This value is compared with the previous build's checksum (can be accessed from
+`https://shingzhanho.github.io/HKU-Notes/files/[BUILD_TARGET]/src-checksum.txt`). If the checksum is the same, the build will be skipped
+and the previous output will be reused.
+
+### 4. Build the Target
+
+After setting up the environment according to instructions in `metadata.json`, the pipeline will run the commands specified in the file,
+and generate the output files.
+
+### 5. Generate the Website and Deploy
+
+The pipeline will then generate the website using the output files and metadata, and deploy it to GitHub Pages.

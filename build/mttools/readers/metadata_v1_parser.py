@@ -24,7 +24,7 @@ class MetadataV1Parser(MetadataParserBase):
         # "static_site" keys
         self.parsed_obj.static_site__description = self.json_obj.get("static_site", {}).get("description", "-")
         self.parsed_obj.static_site__custom_md_file = self.json_obj.get("static_site", {}).get("custom_md_file", "")
-        self.parsed_obj.static_site__document_status = self.json_obj.get("static_site", {}).get("document_status", None)
+        self.parsed_obj.static_site__document_status = self.json_obj.get("static_site", {}).get("document_status", "unk")
         self.parsed_obj.static_site__alias_to = self.json_obj.get("static_site", {}).get("alias_to", None)
 
         # "static_site" > "primary_button" keys

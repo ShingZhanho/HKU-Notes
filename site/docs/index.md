@@ -54,4 +54,7 @@ You are most welcome to contribute to existing materials or create new materials
 Please have a look at the compilation codes in the GitHub repository to see how the materials
 are automatically compiled using GitHub Actions.
 
+You may also want to check out the [contribution guide](./contribution/index.md) for more information on how to
+use the automated compilation pipeline.
+
 Feel free to open an issue or a pull request if you have any suggestions or improvements.
