@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       set-matrix: ${{ steps.parse-build-targets.outputs.set-matrix }}
+    if: ${{ !contains(github.event.head_commit.message, '@nobuild') }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -157,16 +158,19 @@ jobs:
       - name: Run pre-build command
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_PREBUILD_COMMAND != '' && env.DYENV_IS_ALIAS == 'false'
         run: ${{ env.DYENV_PREBUILD_COMMAND }}
+        working-directory: ./src/${{ matrix.target }}
 
       # --- BUILD TARGET ---
       - name: Build LaTeX target
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
         run: ${{ env.DYENV_BUILD_COMMAND }}
+        working-directory: ./src/${{ matrix.target }}
 
       # --- RUN POST-BUILD COMMAND ---
       - name: Run post-build command
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_POSTBUILD_COMMAND != '' && env.DYENV_IS_ALIAS == 'false'
         run: ${{ env.DYENV_POSTBUILD_COMMAND }}
+        working-directory: ./src/${{ matrix.target }}
 
       # --- CLEAN UP ---
       - name: Save MikTeX cache
