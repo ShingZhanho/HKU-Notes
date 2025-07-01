@@ -211,7 +211,7 @@ jobs:
           retention-days: 1
 
   deploy-pages:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04 # Jammy
     needs: build-target
     environment:
       name: github-pages
