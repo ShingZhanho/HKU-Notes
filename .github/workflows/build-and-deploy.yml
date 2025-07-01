@@ -36,10 +36,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+          cache-dependency-path: ./build/python-requirement-lists/*.txt
+
       - name: Check local source checksum
+        if: env.DYENV_IS_ALIAS == 'false'
         run: echo "DYENV_LOCAL_SRC_CHECKSUM=${{ hashFiles(format('./src/{0}/', matrix.target)) }}" >> "$GITHUB_ENV"
 
       - name: Check deployed (remote) source checksum
+        if: env.DYENV_IS_ALIAS == 'false'
         run: |
           export remote_checksum_status=$(curl -s -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/src-checksum.txt" \
            -o ./src/${{ matrix.target}}/remote-src-checksum.txt \
@@ -53,6 +62,7 @@ jobs:
           fi
 
       - name: Compare local and remote checksum
+        if: env.DYENV_IS_ALIAS == 'false'
         run: |
           if [ "${{ env.DYENV_LOCAL_SRC_CHECKSUM }}" != "${{ env.DYENV_REMOTE_SRC_CHECKSUM }}" ]; then
             echo "Checksum mismatch. Proceeding with build."
@@ -65,19 +75,11 @@ jobs:
               -o ./src/${{ matrix.target }}/compiled-at.txt
             curl -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/miktex-cache-key.txt" \
               -o ./src/${{ matrix.target }}/miktex-cache-key.txt
-            curl -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/${{ matrix.target }}.pdf" \
-              -o ./src/${{ matrix.target }}/${{ matrix.target }}.pdf
+            curl -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}" \
+              -o ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}
             echo "GH_OUT_CHECKSUM_CHANGED=false" >> "$GITHUB_ENV"
             echo "DYENV_ABORT_WORKFLOW=true" >> "$GITHUB_ENV"
           fi
-
-      - name: Set up Python
-        if: env.DYENV_ABORT_WORKFLOW == 'false'
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-          cache: 'pip'
-          cache-dependency-path: ./build/python-requirement-lists/*.txt
 
       - name: Compute environment variables
         run: ./build/configure-env-vars.sh ${{ matrix.target }}
