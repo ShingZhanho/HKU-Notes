@@ -76,3 +76,22 @@ Now that you have a basic understanding of how the pipeline works, here are the 
     called `packages.tex` in the source directory.
 5. **Commit and Push**: Ensure your sources compile successfully on your local machine, then push to the remote and
     create a pull request.
+
+## Contributing to Existing Materials
+
+If you spot an issue or want to improve existing materials, you can simply fork the repository and modify the source files.
+When you finish, create a pull request with your changes.
+
+## Contributing to the Compilation Pipeline
+
+You may also contribute to the compilation pipeline itself. The pipeline is implemented with YAML (GitHub Actions), Bash Scripts, and Python Scripts.
+You can find those scripts in the `/build` directory. It is recommended to test the pipeline in your forked repository, which would require you to
+set up GitHub Actions in your fork and change all the URLs in the scripts to point to your forked repository.
+
+!!! warning "Deploying to GitHub Pages"
+
+    If you are testing the pipeline in your forked repository, we kindly request that you remove the deployment step in the
+    `build-and-deploy.yml` file and **NOT** deploy to GitHub Pages, as this will create duplicated content on the web
+    and cause confusion for users.
+
+    **Please also note that failure to follow this guideline may result in copyright infringement.**
