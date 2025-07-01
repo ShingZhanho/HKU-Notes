@@ -43,6 +43,9 @@ jobs:
           cache: 'pip'
           cache-dependency-path: ./build/python-requirement-lists/*.txt
 
+      - name: Compute environment variables
+        run: ./build/configure-env-vars.sh ${{ matrix.target }}
+
       - name: Check local source checksum
         if: env.DYENV_IS_ALIAS == 'false'
         run: echo "DYENV_LOCAL_SRC_CHECKSUM=${{ hashFiles(format('./src/{0}/', matrix.target)) }}" >> "$GITHUB_ENV"
@@ -78,9 +81,6 @@ jobs:
               -o ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}
             echo "DYENV_ABORT_WORKFLOW=true" >> "$GITHUB_ENV"
           fi
-
-      - name: Compute environment variables
-        run: ./build/configure-env-vars.sh ${{ matrix.target }}
 
       - name: Check for @force-rebuild
         run: |
