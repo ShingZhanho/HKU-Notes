@@ -47,4 +47,4 @@ export_var "DYENV_MIKTEX_PACKAGE_FILE" "$(get_metadata_value build__miktex_packa
 
 # Handle build target alias properties
 export_var "DYENV_IS_ALIAS" "$(get_metadata_value computed__is_alias)"
-export_var "DYENV_ALIAS_TO" "$(get_metadata_value computed__alias_to)"
+export_var "DYENV_ALIAS_TO" "$(get_metadata_value static_site__alias_to)"

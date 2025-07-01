@@ -194,7 +194,7 @@ jobs:
           echo "${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}" > ./src/${{ matrix.target }}/miktex-cache-key.txt
 
       - name: Generate files for deployment (alias targets)
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'true'
+        if: env.DYENV_IS_ALIAS == 'true'
         run: |
             echo "${{ env.DYENV_REMOTE_SRC_CHECKSUM }}" > ./src/${{ matrix.target }}/src-checksum.txt
         # The compiled-at.txt and miktex-cache-key.txt files are not generated for alias targets
