@@ -66,7 +66,6 @@ jobs:
         run: |
           if [ "${{ env.DYENV_LOCAL_SRC_CHECKSUM }}" != "${{ env.DYENV_REMOTE_SRC_CHECKSUM }}" ]; then
             echo "Checksum mismatch. Proceeding with build."
-            echo "GH_OUT_CHECKSUM_CHANGED=true" >> "$GITHUB_ENV"
             echo "DYENV_ABORT_WORKFLOW=false" >> "$GITHUB_ENV"
           else
             echo "Checksum match. Skipping build. Downloading compiled file from remote."
@@ -77,12 +76,17 @@ jobs:
               -o ./src/${{ matrix.target }}/miktex-cache-key.txt
             curl -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}" \
               -o ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}
-            echo "GH_OUT_CHECKSUM_CHANGED=false" >> "$GITHUB_ENV"
             echo "DYENV_ABORT_WORKFLOW=true" >> "$GITHUB_ENV"
           fi
 
       - name: Compute environment variables
         run: ./build/configure-env-vars.sh ${{ matrix.target }}
+
+      - name: Check for @force-rebuild
+        run: |
+          if [[ "${{ contains(github.event.head_commit.message, '@force-rebuild') }}" == "true" ]]; then
+            echo "DYENV_ABORT_WORKFLOW=false" >> "$GITHUB_ENV"
+          fi
 
       # --- INSTALL MIKTEX DISTRIBUTION ---
       - name: Get APT dependencies list
