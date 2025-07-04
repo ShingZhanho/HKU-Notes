@@ -20,3 +20,30 @@
 .md-tooltip2__inner{
     font-size:.65rem !important;
 }
+
+.author-card-container {
+    display: inline-flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.author-card.md-button {
+    display: flex;
+    border-radius: .2rem;
+    padding: 0.5rem;
+}
+
+.author-card__avatar {
+    display: inline-block;
+    width: 2.1rem;
+    background: white;
+    border-radius: 50%;
+}
+
+.author-card__name {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.5rem;
+}
