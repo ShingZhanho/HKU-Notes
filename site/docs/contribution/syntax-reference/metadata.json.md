@@ -182,7 +182,7 @@ where `[BUILD_TARGET]` is the name of the build target, and `[OUTPUT_FILE]` is t
 
 - **Description**: A list of authors for the target. Each author must be a string, whose value is defined in `/site/docs/statics/authors/authors.json`.
 - **Type**: `array` of `string`
-- **Default**: `["@unknown"]` (an array containing a single string `@unknown`, which is a placeholder for unknown authors)
+- **Default**: `["jacob_shing"]` (an array containing a single string `jacob_shing`, which is a placeholder for unknown authors)
 - **Accepted Values**: Any string that is a valid key in the `/site/docs/statics/authors/authors.json` file.
 
 !!! note "Main Author and Coauthors"
