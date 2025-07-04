@@ -104,19 +104,22 @@ def main():
             if unknown_author_count == 1:
                 sorted_authors.append((authors_manager.get_author_display_name("@unknown"), "@unknown"))
 
+            if main_author_count == 0 and unknown_author_count == 0:
+                sorted_authors[0][1] = f"!{sorted_authors[0][1]}"  # make the first author a main author
+
             for author in sorted_authors:
                 author_display_name, author_id = author
                 author_href = authors_manager.get_author_href(author_id)
                 author_avatar = authors_manager.get_author_avatar(author_id)
 
-                f.write(f"<div class=\"author-card md-button")
+                f.write(f"<a class=\"author-card md-button")
                 if author_id.startswith("!"):
                     f.write(" md-button--primary")
                 f.write("\" title=\"You will be redirected to the author's defined URL, which may be outside of this website.\"")
                 f.write(f" href=\"{author_href}\">\n")
                 f.write(f"<img class=\"author-card__avatar\" src=\"{author_avatar}\" alt=\"{author_display_name}'s avatar\" />\n")
                 f.write(f"<span class=\"author-card__name\">{author_display_name}</span>\n")
-                f.write("</div>\n")
+                f.write("</a>\n")
             f.write("</div>\n\n")
 
             ## Primary button
@@ -133,15 +136,15 @@ def main():
                 if metadata.static_site__secondary_button__icon is not None and metadata.static_site__secondary_button__icon != "":
                     f.write(f" :{metadata.static_site__secondary_button__icon}:")
                 f.write(f"]({metadata.static_site__secondary_button__href})")
+                f.write("{.md-button}\n")
+
+            f.write(f"\n\n")
 
             ## PDF preview if file is a PDF
             if metadata.output_file.endswith(".pdf"):
                 f.write("<iframe src=\"https://docs.google.com/gview?url=")
                 f.write(f"https://shingzhanho.github.io/HKU-Notes/files/{target}/{output_file}")
                 f.write(f"&embedded=true\" style=\"width: 100%; height: 600px;\" frameborder=\"0\"></iframe>\n\n")
-                f.write("{.md-button}\n")
-
-            f.write(f"\n\n")
 
             ## Custom page content
             f.write(custom_md_content)
