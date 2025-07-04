@@ -4,5 +4,8 @@
         "description": "The final report for the ENGG1300 Practical Work.",
         "custom_md_file": "custom.md",
         "document_status": "unk"
-    }
+    },
+    "authors": [
+        "!jacob_shing", "@unknown"
+    ]
 }
