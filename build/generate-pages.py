@@ -117,7 +117,7 @@ def main():
                 f.write(f"### {course_code}")
                 f.write(f" - {course_name}\n\n" if course_name else "\n\n")
                 f.write("| Material Name | Description | Compiled At | Author(s) | Status |\n")
-                f.write("| --- | --- | --- | :-: |\n")
+                f.write("| --- | --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
                     metadata_reader = Reader(f"./src/{target}/metadata.json", target)
                     metadata = metadata_reader.parse()
