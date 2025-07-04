@@ -69,6 +69,55 @@ def main():
             f.write(f"**File description:** {metadata.static_site__description}\n\n")
             f.write(f"**Document status:** {generate_badge(metadata.static_site__document_status, True)}\n\n")
             f.write(f"**Compiled at:** {compiled_at}\n\n")
+            
+            ## Authors
+            f.write("<div class=\"author-card-container\">\n")
+            f.write("<span><strong>Author(s):</strong></span>\n")
+            authors = metadata.authors
+            if len(authors) == 0:
+                raise ValueError(f"{target} has no authors specified in metadata.json. The default value is overwritten incorrectly.")
+            # check main author number
+            main_author_count = len([a for a in authors if a.startswith("!")])
+            if main_author_count > 1:
+                raise ValueError(f"{target} has more than one main author specified in metadata.json.")
+            
+            authors_manager = Authors()
+            authors = list(set([a if authors_manager.author_exists(a) else "@unknown" for a in authors]))
+            if "@unknown" in authors:
+                # move "@unknown" to the end
+                authors.remove("@unknown")
+                authors.append("@unknown")
+            unknown_author_count = authors.count("@unknown")
+            if main_author_count == 1:
+                # move the main author to the front
+                main_author = [a for a in authors if a.startswith("!")][0]
+                authors.remove(main_author)
+                authors.insert(0, main_author)
+            authors_names_id = [(authors_manager.get_author_display_name(a), a) for a in authors]  # [(author_display_name, author_id)]
+            sorted_authors = []
+            if main_author_count == 1:
+                sorted_authors.append(authors_names_id[0][0])
+                authors_names = authors_names[1:]
+            if unknown_author_count == 1:
+                authors_names = authors_names[:-1]  # remove the last author, which is "@unknown"
+            sorted_authors.extend(sorted(authors_names, key=lambda x: x[0]))
+            if unknown_author_count == 1:
+                sorted_authors.append(authors_manager.get_author_display_name("@unknown"))
+
+            for author in sorted_authors:
+                author_display_name, author_id = author
+                author_href = authors_manager.get_author_href(author_id)
+                author_avatar = authors_manager.get_author_avatar(author_id)
+
+                f.write(f"<div class=\"author-card md-button")
+                if author_id.startswith("!"):
+                    f.write(" md-button--primary")
+                f.write("\" title=\"You will be redirected to the author's defined URL, which may be outside of this website.\"")
+                f.write(f" href=\"{author_href}\">\n")
+                f.write(f"<img class=\"author-card__avatar\" src=\"{author_avatar}\" alt=\"{author_display_name}'s avatar\" />\n")
+                f.write(f"<span class=\"author-card__name\">{author_display_name}</span>\n")
+                f.write("</div>\n")
+            f.write("</div>\n\n")
 
             ## Primary button
             if not metadata.static_site__primary_button__disabled:
