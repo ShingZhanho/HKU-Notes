@@ -105,7 +105,7 @@ def main():
                 sorted_authors.append((authors_manager.get_author_display_name("@unknown"), "@unknown"))
 
             if main_author_count == 0 and unknown_author_count == 0:
-                sorted_authors[0][1] = f"!{sorted_authors[0][1]}"  # make the first author a main author
+                sorted_authors[0] = (sorted_authors[0][0], f"!{sorted_authors[0][1]}")  # make the first author a main author
 
             for author in sorted_authors:
                 author_display_name, author_id = author
