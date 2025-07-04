@@ -38,7 +38,7 @@ class Authors:
                 return href
         return self.get_author_href('@unknown')
     
-    def process_author_id(id):
-        if id.starswith('!'):
+    def process_author_id(id: str):
+        if id.startswith('!'):
             return id[1:]
         return id
