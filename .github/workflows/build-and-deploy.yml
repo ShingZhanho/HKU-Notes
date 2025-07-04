@@ -133,7 +133,7 @@ jobs:
 
       - name: Calculate local MiKTeX cache key
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
-        run: echo "DYENV_LOCAL_MIKTEX_CACHE_KEY=${{ hashFiles(env.DYENV_MIKTEX_PACKAGE_FILE) }}" >> "$GITHUB_ENV"
+        run: echo "DYENV_LOCAL_MIKTEX_CACHE_KEY=${{ hashFiles(format('./src/{0}/{1}', matrix.target ,env.DYENV_MIKTEX_PACKAGE_FILE)) }}" >> "$GITHUB_ENV"
 
       - name: Compare local and remote MikTeX cache key
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'

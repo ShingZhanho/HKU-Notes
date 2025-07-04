@@ -91,7 +91,7 @@ This command is executed in the source directory of the build target, i.e., `/sr
 - **Description**: Specifies the `.tex` file that contains all the `\usepackage` commands for the target.
 This file is used to generate a hash for retrieving the cached LaTeX packages for saving build time.
 - **Type**: `string`
-- **Default**: `./src/[BUILD_TARGET]/packages.tex` where `[BUILD_TARGET]` is the name of the build target.
+- **Default**: `packages.tex`
 
 !!! note "Creating a `packages.tex` File"
 
