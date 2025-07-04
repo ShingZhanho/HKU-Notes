@@ -2,6 +2,7 @@ from mttools import *
 import sqlite3
 import sys
 import re
+import shutil
 import os
 
 def main():
@@ -135,6 +136,13 @@ def main():
                     f.write(f"| [{target if not is_alias_target else alias_from}](./details/{target}.md) | {description} | {compiled_at} | {status_badge} |\n")
                 f.write("\n\n")
             f.write("\n\n")
+
+    # copy static files in .COPY directory
+    for target in targets_list:
+        if os.path.exists(f"./src/{target}/.COPY"):
+            print(f"Copying static files for {target}")
+            os.makedirs(f"./site/docs/downloads/{target}", exist_ok=True)
+            shutil.copytree(f"./src/{target}/.COPY", f"./site/docs/downloads/{target}", dirs_exist_ok=True, copy_function=shutil.copy2, symlinks=False)
 
 def generate_badge(status: str, is_detail_page: bool) -> str:
     """
