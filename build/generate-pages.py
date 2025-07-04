@@ -164,7 +164,7 @@ def main():
                         main_author = [a for a in authors if a.startswith("!")][0]
                         authors.remove(main_author)
                         authors.insert(0, main_author)
-                    authors_names = [authors_manager.get_author_name(a) for a in authors]
+                    authors_names = [authors_manager.get_author_display_name(a) for a in authors]
                     sorted_authors = []
                     if main_author_count == 1:
                         sorted_authors.append(authors_names[0])
@@ -173,7 +173,7 @@ def main():
                         authors_names = authors_names[:-1]  # remove the last author, which is "@unknown"
                     sorted_authors.extend(sorted(authors_names))
                     if unknown_author_count == 1:
-                        sorted_authors.append(authors_manager.get_author_name("@unknown"))
+                        sorted_authors.append(authors_manager.get_author_display_name("@unknown"))
 
                     if len(sorted_authors) == 1:
                         authors_str = sorted_authors[0]
