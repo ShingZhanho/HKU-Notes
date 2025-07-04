@@ -116,7 +116,7 @@ def main():
                 course_name = get_course_name(course_code)
                 f.write(f"### {course_code}")
                 f.write(f" - {course_name}\n\n" if course_name else "\n\n")
-                f.write("| Material Name | Description | Compiled At | Author(s) |Status |\n")
+                f.write("| Material Name | Description | Compiled At | Author(s) | Status |\n")
                 f.write("| --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
                     metadata_reader = Reader(f"./src/{target}/metadata.json", target)
@@ -131,7 +131,7 @@ def main():
                     ## Compiled At 
                     compiled_at = ""
                     with open(f"./gh-out/files/{target}/compiled-at.txt", "r") as f2:
-                        compiled_at = f2.read().strip().replace("UTC+8 (Hong Kong)", "")
+                        compiled_at = f2.read().strip().replace(" UTC+8 (Hong Kong)", "")
 
                     ## Description
                     description = ""
