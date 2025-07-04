@@ -7,9 +7,11 @@ class Authors:
             self.json_object = json.load(file)
         
     def author_exists(self, id):
+        id = self.__process_author_id(id)
         return self.get_author(id) is not None
     
     def get_author(self, id):
+        id = self.__process_author_id(id)
         return self.json_object.get(id, None)
     
     def get_author_display_name(self, id):
@@ -35,3 +37,8 @@ class Authors:
             if href is not None:
                 return href
         return self.get_author_href('@unknown')
+    
+    def __process_author_id(id):
+        if id.starswith('!'):
+            return id[1:]
+        return id
