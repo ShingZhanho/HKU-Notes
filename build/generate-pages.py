@@ -67,7 +67,14 @@ def main():
             ## Content
             f.write(f"**File description:** {metadata.static_site__description}\n\n")
             f.write(f"**Document status:** {generate_badge(metadata.static_site__document_status, True)}\n\n")
-            f.write(f"**Compiled at:** {compiled_at}\n")
+            f.write(f"**Compiled at:** {compiled_at}\n\n")
+
+            ## PDF preview if file is a PDF
+            if metadata.output_file.endswith(".pdf"):
+                f.write(f"??? abstract \"Preview of the Document\"\n")
+                f.write("\t<iframe src=\"https://docs.google.com/gview?url=")
+                f.write(f"https://shingzhanho.github.io/HKU-Notes/files/{target}/{output_file}")
+                f.write(f"&embedded=true\" style=\"width: 100%; height: 600px;\" frameborder=\"0\"></iframe>\n\n")
 
             ## Primary button
             if not metadata.static_site__primary_button__disabled:
