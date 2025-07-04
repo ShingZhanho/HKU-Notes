@@ -177,3 +177,23 @@ or empty string for no icon.
 - **Type**: `string`
 - **Default**: `"https://shingzhanho.github.io/HKU-Notes/files/[BUILD_TARGET]/[OUTPUT_FILE]"` for primary, `"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/[BUILD_TARGET]"` for secondary,
 where `[BUILD_TARGET]` is the name of the build target, and `[OUTPUT_FILE]` is the value of `build.output_file`.
+
+### `authors`
+
+- **Description**: A list of authors for the target. Each author must be a string, whose value is defined in `/site/docs/statics/authors/authors.json`.
+- **Type**: `array` of `string`
+- **Default**: `["@unknown"]` (an array containing a single string `@unknown`, which is a placeholder for unknown authors)
+- **Accepted Values**: Any string that is a valid key in the `/site/docs/statics/authors/authors.json` file.
+
+!!! note "Main Author and Coauthors"
+
+    Add an exclamation mark (`!`) before the author string to indicate that this is the main author of the target.
+    At most one author can be the main author. Having more than one main author will cause the build pipeline to fail.
+    The unknown author `@unknown` cannot be the main author.
+
+    If no main author is specified, the first author in the alphabetical order will be treated as the main author.
+
+    All other authors are sorted in alphabetical order according to their `display_name` in the definition.
+
+Also refer to the [syntax reference for `authors.json`](./syntax-reference/authors.json.md) for the details about
+how to define authors in the `authors.json` file.

@@ -36,6 +36,9 @@ class Metadata:
         self.static_site__secondary_button__icon = "material-github"
         self.static_site__secondary_button__href = f"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{self.name}"
 
+        # "authors" keys
+        self.authors = []
+
     # computed keys
     # These keys are computed based on static keys.
     def computed__is_alias(self):

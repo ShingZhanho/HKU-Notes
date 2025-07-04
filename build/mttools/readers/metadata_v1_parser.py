@@ -39,4 +39,7 @@ class MetadataV1Parser(MetadataParserBase):
         self.parsed_obj.static_site__secondary_button__icon = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("icon", "material-github")
         self.parsed_obj.static_site__secondary_button__href = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("href", self.parsed_obj.static_site__secondary_button__href)
 
+        # "authors" keys
+        self.parsed_obj.authors = self.json_obj.get("authors", [])
+
         return self.parsed_obj

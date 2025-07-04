@@ -95,3 +95,11 @@ set up GitHub Actions in your fork and change all the URLs in the scripts to poi
     and cause confusion for users.
 
     **Please also note that failure to follow this guideline may result in copyright infringement.**
+
+## Attributing Your Contributions
+
+If you are contributing to this project, we would like to attribute your contributions.
+To do so, please refer to the [syntax reference for `authors.json`](./syntax-reference/authors.json.md) to add your information,
+and then refer to the [`authors` field in `metadata.json`](./syntax-reference/metadata.json.md#authors) to add your name to the build target.
+
+Of course, whether you want to remain anonymous or not is entirely up to you.
