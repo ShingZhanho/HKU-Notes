@@ -96,13 +96,13 @@ def main():
             authors_names_id = [(authors_manager.get_author_display_name(a), a) for a in authors]  # [(author_display_name, author_id)]
             sorted_authors = []
             if main_author_count == 1:
-                sorted_authors.append(authors_names_id[0][0])
+                sorted_authors.append(authors_names_id[0])
                 authors_names_id = authors_names_id[1:]
             if unknown_author_count == 1:
                 authors_names_id = authors_names_id[:-1]  # remove the last author, which is "@unknown"
             sorted_authors.extend(sorted(authors_names_id, key=lambda x: x[0]))
             if unknown_author_count == 1:
-                sorted_authors.append(authors_manager.get_author_display_name("@unknown"))
+                sorted_authors.append((authors_manager.get_author_display_name("@unknown"), "@unknown"))
 
             for author in sorted_authors:
                 author_display_name, author_id = author
