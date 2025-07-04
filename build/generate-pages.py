@@ -1,4 +1,5 @@
 from mttools import *
+from get_authors import Authors
 import sqlite3
 import sys
 import re
@@ -115,7 +116,7 @@ def main():
                 course_name = get_course_name(course_code)
                 f.write(f"### {course_code}")
                 f.write(f" - {course_name}\n\n" if course_name else "\n\n")
-                f.write("| Material Name | Description | Compiled At | Status |\n")
+                f.write("| Material Name | Description | Compiled At | Author(s) |Status |\n")
                 f.write("| --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
                     metadata_reader = Reader(f"./src/{target}/metadata.json", target)
@@ -127,17 +128,59 @@ def main():
                         alias_from = target
                         target = metadata.name
 
+                    ## Compiled At 
                     compiled_at = ""
                     with open(f"./gh-out/files/{target}/compiled-at.txt", "r") as f2:
                         compiled_at = f2.read().strip().replace("UTC+8 (Hong Kong)", "")
+
+                    ## Description
                     description = ""
                     if is_alias_target:
                         description = f"_(An alias of [{target}](./details/{target}.md).)_"
                     else:
                         description = metadata.static_site__description
+
+                    ## Document Status
                     document_status = metadata.static_site__document_status
                     status_badge = generate_badge(document_status, False)
-                    f.write(f"| [{target if not is_alias_target else alias_from}](./details/{target}.md) | {description} | {compiled_at} | {status_badge} |\n")
+
+                    ## Author(s)
+                    authors = metadata.authors
+                    if len(authors) == 0:
+                        raise ValueError(f"{target} has no authors specified in metadata.json. The default value is overwritten incorrectly.")
+                    # check main author number
+                    main_author_count = len([a for a in authors if a.startswith("!")])
+                    if main_author_count > 1:
+                        raise ValueError(f"{target} has more than one main author specified in metadata.json.")
+                    authors_manager = Authors()
+                    authors = list(set([a if authors_manager.author_exists(a) else "@unknown" for a in authors]))
+                    if "@unknown" in authors:
+                        # move "@unknown" to the end
+                        authors.remove("@unknown")
+                        authors.append("@unknown")
+                    unknown_author_count = authors.count("@unknown")
+                    if main_author_count == 1:
+                        # move the main author to the front
+                        main_author = [a for a in authors if a.startswith("!")][0]
+                        authors.remove(main_author)
+                        authors.insert(0, main_author)
+                    authors_names = [authors_manager.get_author_name(a) for a in authors]
+                    sorted_authors = []
+                    if main_author_count == 1:
+                        sorted_authors.append(authors_names[0])
+                        authors_names = authors_names[1:]
+                    if unknown_author_count == 1:
+                        authors_names = authors_names[:-1]  # remove the last author, which is "@unknown"
+                    sorted_authors.extend(sorted(authors_names))
+                    if unknown_author_count == 1:
+                        sorted_authors.append(authors_manager.get_author_name("@unknown"))
+
+                    if len(sorted_authors) == 1:
+                        authors_str = sorted_authors[0]
+                    else:
+                        authors_str = sorted_authors[0] + " et al."
+
+                    f.write(f"| [{target if not is_alias_target else alias_from}](./details/{target}.md) | {description} | {compiled_at} | {authors_str} | {status_badge} |\n")
                 f.write("\n\n")
             f.write("\n\n")
 
