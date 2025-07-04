@@ -67,9 +67,7 @@ def main():
             ## Content
             f.write(f"**File description:** {metadata.static_site__description}\n\n")
             f.write(f"**Document status:** {generate_badge(metadata.static_site__document_status, True)}\n\n")
-            f.write(f"??? \"Digital Digest\"\n\n")
-            f.write(f"\t**Source file hash:** `{src_checksum}`\n\n")
-            f.write(f"\t**Compiled at:** `{compiled_at}`\n")
+            f.write(f"**Compiled at:** {compiled_at}\n")
 
             ## Primary button
             if not metadata.static_site__primary_button__disabled:
