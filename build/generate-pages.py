@@ -97,10 +97,10 @@ def main():
             sorted_authors = []
             if main_author_count == 1:
                 sorted_authors.append(authors_names_id[0][0])
-                authors_names = authors_names[1:]
+                authors_names_id = authors_names_id[1:]
             if unknown_author_count == 1:
-                authors_names = authors_names[:-1]  # remove the last author, which is "@unknown"
-            sorted_authors.extend(sorted(authors_names, key=lambda x: x[0]))
+                authors_names_id = authors_names_id[:-1]  # remove the last author, which is "@unknown"
+            sorted_authors.extend(sorted(authors_names_id, key=lambda x: x[0]))
             if unknown_author_count == 1:
                 sorted_authors.append(authors_manager.get_author_display_name("@unknown"))
 
