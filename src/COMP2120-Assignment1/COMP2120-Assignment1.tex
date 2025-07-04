@@ -1,0 +1,474 @@
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preamble.tex}
+
+\begin{document}
+
+\begin{center}
+    \textbf
+    {\Large{COMP2120 Computer Organisation} \\
+    \large{24/25 Semester 2} \\
+    \large{Assignment 1}}
+\end{center}
+
+\begin{questions}
+
+    \question Write down the logical expression $P=f(A, B, C)$ corresponding to the following truth table
+    (simplification of logical expression is not required):
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c||c|}
+            \hline
+            $A$ & $B$ & $C$ & $P$ \\
+            \hline
+            0 & 0 & 0 & 1 \\
+            0 & 0 & 1 & 0 \\
+            0 & 1 & 0 & 0 \\
+            0 & 1 & 1 & 1 \\
+            1 & 0 & 0 & 0 \\
+            1 & 0 & 1 & 1 \\
+            1 & 1 & 0 & 1 \\
+            1 & 1 & 1 & 1 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \begin{solution}
+        Since there are less rows with $P=0$ than rows with $P=1$, it is easier to work by Product-of-Sums.
+        First, identify the rows with $P=0$, which are $(0, 0, 1)$, $(0, 1, 0)$ and $(1, 0, 0)$.
+        For each of the rows, construct a product of all the variables, such that the term equals 1,
+        then apply NOT to the term to invert it to 0.
+        This gives:
+        \begin{align*}
+            (0, 0, 1) &\implies \overline{\overline{A} \cdot \overline{B} \cdot C} \\
+            (0, 1, 0) &\implies \overline{\overline{A} \cdot B \cdot \overline{C}} \\
+            (1, 0, 0) &\implies \overline{A \cdot \overline{B} \cdot \overline{C}}
+        \end{align*}
+
+        Simplify each term by applying De Morgan's Theorem, then combine them with AND,
+        we have:
+        \[
+            \boxed{P = \left(A+B+\overline{C}\right)\cdot\left(A+\overline{B}+C\right)\cdot\left(\overline{A}+B+C\right)}
+        \]
+    \end{solution}
+
+    \question Consider a 16-bit 2's complement representation.
+
+    \begin{parts}
+        
+        \part What is the largest (most positive) number and the smallest (most negative) value in this representation scheme?
+
+        \begin{solution}
+            Recall that in 2's complement representation, the most significant bit (MSB) is the sign bit.
+            The largest number is when the MSB is 0 and all other bits are 1's, i.e., $0111\,1111\,1111\,1111_2 = \boxed{32\,767_{10}}$.
+
+            Similarly, the smallest number is when the MSB is 1 and all other bits are 0's, i.e., $1000\,0000\,0000\,0000_2 = \boxed{-32\,768_{10}}$.
+        \end{solution}
+
+        \part Write down the bit pattern representing 18, -18, 25, and -25, respectively.
+
+        \begin{solution}
+            The bit patterns are:
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{|c|c|}
+                    \hline
+                    Decimal & Bit Pattern \\
+                    \hline
+                    18 & $\texttt{0000\,0000\,0001\,0010}_2$ \\
+                    -18 & $\texttt{1111\,1111\,1110\,1110}_2$ \\
+                    25 & $\texttt{0000\,0000\,0001\,1001}_2$ \\
+                    -25 & $\texttt{1111\,1111\,1110\,0111}_2$ \\
+                    \hline
+                \end{tabular}
+            \end{table}
+        \end{solution}
+
+        \part What are the values of the above bit patterns if they are treated as unsigned integers?
+
+        \begin{solution}
+            When treated as unsigned integers, the values are:
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{|c|c|}
+                    \hline
+                    Bit Pattern & \texttt{uint} Value \\
+                    \hline
+                    $\texttt{0000\,0000\,0001\,0010}_2$ & 18 \\
+                    $\texttt{1111\,1111\,1110\,1110}_2$ & 65\,518 \\
+                    $\texttt{0000\,0000\,0001\,1001}_2$ & 25 \\
+                    $\texttt{1111\,1111\,1110\,0111}_2$ & 65\,511 \\
+                    \hline
+                \end{tabular}
+            \end{table}
+        \end{solution}
+
+        \part Add the bit patterns together for the following:
+
+        \begin{multicols}{4}
+            \begin{subparts} 
+                \subpart $18 + 25$
+                \subpart $18 + (-25)$
+                \subpart $(-18) + 25$
+                \subpart $(-18) + (-25)$
+            \end{subparts}
+        \end{multicols}
+
+        \begin{solution}
+            The bit patterns required are:
+            \begin{multicols}{2}\begin{enumerate}[label=(\arabic*)]
+                \item $18+25=43$
+                \begin{equation*}\begin{aligned}[t]\begin{arithmetic}[t]
+                    \texttt{0000\,0000\,0001\,0010} & ($+18$) \\
+                +   \texttt{0000\,0000\,0001\,1001} & ($+25$) \\
+                    \texttt{0000\,0000\,0010\,1011} & ($+43$) \\
+                \end{arithmetic}\end{aligned}\end{equation*}
+
+                \item $18+(-25)=-7$
+                \begin{equation*}\begin{aligned}[t]\begin{arithmetic}[t]
+                    \texttt{0000\,0000\,0001\,0010} & ($+18$) \\
+                +   \texttt{1111\,1111\,1110\,0111} & ($-25$) \\
+                    \texttt{1111\,1111\,1111\,1001} & ($-7$) \\
+                \end{arithmetic}\end{aligned}\end{equation*}
+
+                \item $(-18)+25=7$
+                \begin{equation*}\begin{aligned}[t]\begin{arithmetic}[t]
+                    \texttt{1111\,1111\,1110\,1110} & ($-18$) \\
+                +   \texttt{0000\,0000\,0001\,1001} & ($+25$) \\
+                    \texttt{\cancel{1}\,0000\,0000\,0000\,0111} & ($+7$) \\
+                \end{arithmetic}\end{aligned}\end{equation*}
+
+                \item $(-18)+(-25)=-43$
+                \begin{equation*}\begin{aligned}[t]\begin{arithmetic}[t]
+                    \texttt{1111\,1111\,1110\,1110} & ($-18$) \\
+                +   \texttt{1111\,1111\,1110\,0111} & ($-25$) \\
+                    \texttt{\cancel{1}\,1111\,1111\,1101\,0101} & ($-43$) \\
+                \end{arithmetic}\end{aligned}\end{equation*}
+            \end{enumerate}\end{multicols}
+        \end{solution}
+
+    \end{parts}
+
+    \question Prove that the multiplication of an $n$-bit binary number $A$ and an $m$-bit binary number $B$
+    gives a product $A\times B$ of no more than $(n+m)$ bits.
+
+    \begin{solution}
+        Note that $A\in[0, 2^n-1]$ and $B\in[0, 2^m-1]$, $m, n\geq 1$, and $m+n \geq 2$.
+
+        The maximum value of $A\times B$ is given by:
+        \begin{align*}
+            \max(A\times B) &= \max(A) \times \max(B) \\
+            &= (2^n-1) \times (2^m-1) \\
+            &= 2^n \times 2^m - 2^n - 2^m + 1 \\
+            &= 2^{n+m} - 2^{n} - 2^{m} + 1
+        \end{align*}
+        Note that to represent the term $2^{n+m}$, we need at least $(n+m+1)$ bits, and
+        the maximum value representable by $(n+m)$ bits is $2^{n+m}-1$.
+        Therefore, we need to show that:
+        \begin{equation} \label{eq:q3-proposition}
+            \forall m,n\in[1,+\infty)\cap\mathbb{Z}, \quad2^{n+m} - 2^{n} - 2^{m} + 1 < 2^{n+m}
+        \end{equation}
+
+        Assume that $m$ is constant, when $n=1$, we have:
+        \begin{align*}
+            \text{L.H.S.} &= 2^{1+m} - 2^{1} - 2^{m} + 1 \\
+            &= 2^{m+1} - 2 - 2^{m} + 1 \\
+            &= 2^{m+1} - 2^{m} - 1 \\
+            &= 2^{m} (2 - 1) - 1 \\
+            &= 2^{m} - 1
+        \end{align*}
+        and $\text{R.H.S.} = 2^{m+1}$, so $\text{L.H.S.} < \text{R.H.S.}$ clearly holds.
+        Therefore, the proposition holds for $n=1$.
+
+        Now, assume that the proposition holds for $n=k$ where $k\in[1,+\infty)\cap\mathbb{Z}$, i.e.,
+        \begin{equation} \label{eq:q3-induction-hypothesis}
+            \forall k\in[1,+\infty)\cap\mathbb{Z}, \quad 2^{k+m} - 2^{k} - 2^{m} + 1 < 2^{k+m}
+        \end{equation}
+        We need to show that the proposition holds for $n=k+1$, i.e.,
+        \begin{align*}
+            \text{L.H.S.} &= 2^{k+1+m} - 2^{k+1} - 2^{m} + 1 \\
+            &= 2^{k+m} \cdot 2 - 2^{k} \cdot 2 - 2^{m} + 1 \\
+            &= 2^{k+m} - 2^{m} - 2^{k} + 1 + 2^{k+m} - 2^{k}
+        \end{align*}
+        and
+        \begin{align*}
+            \text{R.H.S.} &= 2^{k+1+m} \\
+            &= 2^{k+m} \cdot 2 \\
+            &= 2^{k+m} + 2^{k+m}
+        \end{align*}
+        Subtract $2^{k+m}$ from both sides, we have:
+        \[
+            \text{L.H.S.} = \underbrace{2^{k+m} - 2^{m} - 2^{k} + 1}_{\text{Induction Hypothesis (Eq. \ref{eq:q3-induction-hypothesis})}} - 2^{k} \qquad \text{and} \qquad
+            \text{R.H.S.} = 2^{k+m}
+        \]
+        Observe that by the induction hypothesis, we have $2^{k+m} - 2^{m} - 2^{k} + 1 < 2^{k+m}$,
+        and since $2^{k} > 0$, we have:
+        \[
+            \text{L.H.S.} < 2^{k+m} - 2^{k} < 2^{k+m}
+        \]
+        Therefore, the proposition holds for $n=k+1$.
+
+        By the principle of mathematical induction, the proposition holds for all $n\in[1,+\infty)\cap\mathbb{Z}$.
+
+        Now, proposition \ref{eq:q3-induction-hypothesis} is partially proven for all $n$ and constant $m$.
+        Observe that the proposition is symmetric in $m$ and $n$, i.e., $m$ and $n$ are dummy variables.
+        Therefore, it is trivial to show that the proposition holds for all $m\in[1,+\infty)\cap\mathbb{Z}$ and constant $n$.
+        Hence, we have shown that the proposition holds for all $m,n\in[1,+\infty)\cap\mathbb{Z}$.
+
+        Now, we can conclude that the $A\times B = 2^{n+m} - 2^{n} - 2^{m} + 1 < 2^{n+m}$, which means
+        that the product $A\times B$ can be represented by no more than $(n+m)$ bits.
+        
+        \hfill \textbf{Q.E.D.}
+    \end{solution}
+
+    \question Verify the validity of the multiplication of integers (2's complement) procedure in the lecture notes.
+    (Give the prove)
+
+    \begin{solution}
+        It may be helpful to recall that for any $n$-bit 2's complement number $\left(a_{n-1}a_{n-2}\dots a_2a_1a_0\right)_2$,
+        where $a\in[0, 1]$, the value of the number is given by
+        \begin{equation*}
+            A=-2^{n-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i
+        \end{equation*}
+
+        Also, recall that the multiplication procedure in the lecture notes involves sign-extension and negation
+        of the multiplicand and multiplier, it would be helpful to first prove that these two operations are valid.
+
+        \textbf{Proof} of sign-extension:
+
+        Suppose $A$ is sign-extended to $A'$ of $m$ bits, where $m>n$. Then, $A'$ can be expressed as:
+        \[
+            A' = \underbrace{\left(a_{n-1}a_{n-1}\dots a_{n-1}a_{n-2}\dots a_2a_1a_0\right)_2}_{m\text{ bits}}
+        \]
+        and its value is given by:
+        \[
+            A' = -2^{m-1}a_{n-1} + \sum_{i=0}^{m-2} 2^i a_j \text{, where }
+            j = \begin{cases}
+                i & \text{if } i \in [0, n-2] \\
+                n-1 & \text{if } i \geq n-1
+            \end{cases}
+        \]
+        By splitting the summation, we have:
+        \begin{align*}
+            A' &= -2^{m-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i + \sum_{i=n-1}^{m-2} 2^i a_{n-1} \\
+            &= -2^{m-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i + a_{n-1} \cdot \sum_{i=n-1}^{m-2} 2^i \\
+            &= -2^{m-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i + a_{n-1} \cdot \left(\frac{2^{n-1}\left(2^{m-2-(n-1)+1}-1\right)}{2-1}\right) \\
+            % &= -2^{m-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i + a_{n-1} \cdot 2^{n-1} \cdot \left(2^{m-n}-1\right) \\
+            &= -2^{m-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i + a_{n-1} \cdot \left(2^{m-1} - 2^{n-1}\right) \\
+            &= \cancel{-2^{m-1}a_{n-1}} + \sum_{i=0}^{n-2} 2^i a_i + \cancel{2^{m-1} a_{n-1}} - 2^{n-1} a_{n-1} \\
+            &= -2^{n-1} a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i \\ &= A
+        \end{align*}
+        We can conclude that the value of $A'$ is the same as the value of $A$,
+        therefore, sign-extension is valid.
+
+        \hfill \textbf{Q.E.D.}
+
+        \textbf{Proof} of negation:
+        Recall that the negation of a number $A$ is given by taking its 2's complement,
+        i.e. apply bitwise NOT to the number, then add 1 to the result.
+
+        Consider a number $B$ of $n$ bits, which is given by
+        $\left(\overline{a_{n-1}}\,\overline{a_{n-2}} \dots \overline{a_2}\,\overline{a_1}\,\overline{a_0}\right)_2 + 1$.
+        Then, the value of $B$ is given by:
+        \[
+            B = -2^{n-1}\overline{a_{n-1}} + \sum_{i=0}^{n-2} 2^i \overline{a_i} + 1
+        \]
+        Also recall that for any bit $a_i$, we have $\overline{a_i} = 1 - a_i$.
+
+        Now, consider $A+B$, we have:
+        \begin{align*}
+            A+B &= -2^{n-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i -2^{n-1}\overline{a_{n-1}} + \sum_{i=0}^{n-2} 2^i \overline{a_i} + 1 \\
+            &= -2^{n-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i -2^{n-1}(1-a_{n-1}) + \sum_{i=0}^{n-2} 2^i (1-a_i) + 1 \\
+            &= -2^{n-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i -2^{n-1} + 2^{n-1} a_{n-1} + \sum_{i=0}^{n-2} 2^i - \sum_{i=0}^{n-2} 2^i a_i + 1 \\
+            &= \cancel{-2^{n-1}a_{n-1}} + \cancel{\sum_{i=0}^{n-2} 2^i a_i} - 2^{n-1} + \cancel{2^{n-1} a_{n-1}} + \sum_{i=0}^{n-2} 2^i - \cancel{\sum_{i=0}^{n-2} 2^i a_i} + 1 \\
+            &= -2^{n-1} + \frac{2^0\cdot\left(2^{n-2-0+1}-1\right)}{2-1} + 1 \\
+            &= -2^{n-1} + 2^{n-1} - 1 + 1 \\
+            A+B &= 0 \\
+            \text{Therefore, } B &= -A
+        \end{align*}
+
+        We can conclude that the negation of a number $A$ is indeed valid,
+        since it gives the negative of the number, i.e., $-A$.
+
+        \hfill \textbf{Q.E.D.}
+
+        Now, we can verify the multiplication procedure in the lecture notes.
+
+        \textbf{Proof} of multiplication procedure:
+
+        First, sign-extension is performed on the multiplicand and multiplier to ensure that they are both of the same bit length,
+        which is proven to be valid above.
+
+        Now consider the multiplication of two $n$-bit 2's complement numbers $A$ and $B$,
+        where $A$ is the multiplicand and $B$ is the multiplier. We have:
+        \[
+            A\times B = \left(-2^{n-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i\right) \times \left(-2^{n-1}b_{n-1} + \sum_{j=0}^{n-2} 2^j b_j\right)
+        \]
+
+        \textbf{Case 1:} $A, B \geq 0$ (i.e., $a_{n-1} = b_{n-1} = 0$), our desired expression of the product is:
+        \begin{equation}
+            A\times B = \left(\sum_{i=0}^{n-2} 2^i a_i\right) \times \left(\sum_{j=0}^{n-2} 2^j b_j\right)
+        \end{equation}
+        Consider the procedure given by the lecture notes, $\forall b_j \in B = 1$, $A$ is shifted to the left by $j$ bits,
+        which is equivalent to $A \times 2^j$, and then added to the product. Therefore,
+        \begin{align*}
+            A\times B &= \left(\sum_{i=0}^{n-2}2^ia_i\right)\times 2^0 \times b_0 + \left(\sum_{i=0}^{n-2}2^ia_i\right)\times 2^1 \times b_1 + \cdots + \left(\sum_{i=0}^{n-2}2^ia_i\right)\times 2^{n-1} \times b_{n-1} \\
+            &= \sum_{i=0}^{n-2} 2^i a_i \cdot \left(2^0 b_0 + 2^1 b_1 + \cdots + 2^{n-1} b_{n-1}\right) \\
+            &= \sum_{i=0}^{n-2} 2^i a_i \cdot \left(\sum_{j=0}^{n-2} 2^j b_j + 2^{n-1}b_{n-1}\right) \\
+            &= A \times B \qquad \text{(since } b_{n-1} = 0\text{)}
+        \end{align*}
+        Therefore, the multiplication procedure holds for two non-negative numbers.
+
+        \textbf{Case 2:} $A \geq 0, B < 0$ (i.e., $a_{n-1} = 0, b_{n-1} = 1$), our desired expression of the product is:
+        \begin{equation}
+            A\times B = \left(\sum_{i=0}^{n-2} 2^i a_i\right) \times \left(-2^{n-1} + \sum_{j=0}^{n-2} 2^j b_j\right)
+        \end{equation}
+        The procedure states: \begin{enumerate}
+            \item For each $j \in [0, n-2]$ where $b_j = 1$, shift $A$ to the left by $j$ bits, which is equivalent to $A \times 2^j$.
+            \item Sum all terms given by step 1, which gives $\sum_{j=0}^{n-2} A \times 2^j \times b_j$.
+            \item For the MSB of $B$, if $b_{n-1} = 1$, then negate $A$ and shift it to the left by $(n-1)$ bits, which is equivalent to $-A \times 2^{n-1} \times b_{n-1}$.
+            \item Add the results of step 2 and step 3 together, which gives:
+            \begin{align*}
+                A\times B &= \sum_{j=0}^{n-2} A \times 2^j \times b_j - A \times 2^{n-1} \times b_{n-1} \\
+                &= A \times \left(-2^{n-1}b_{n-1} + \sum_{j=0}^{n-2}2_jb_j\right) \\
+                &= \left(\sum_{i=0}^{n-2} 2^i a_i\right) \times \left(-2^{n-1} + \sum_{j=0}^{n-2} 2^j b_j\right)
+            \end{align*}
+        \end{enumerate}
+        This matches our desired expression of the product, therefore,
+        the multiplication procedure holds for $A \geq 0, B < 0$.
+
+        \textbf{Case 3:} $A < 0, B \geq 0$ (i.e., $a_{n-1} = 1, b_{n-1} = 0$). By considering the commutativity of multiplication,
+        and the fact that $A$ and $B$ are dummy variables, it is trivial to show that the multiplication procedure holds for this case as well.
+
+        \textbf{Case 4:} $A < 0, B < 0$ (i.e., $a_{n-1} = 1, b_{n-1} = 1$), our desired expression of the product is:
+        \begin{equation}
+            A\times B = \left(-2^{n-1} + \sum_{i=0}^{n-2} 2^i a_i\right) \times \left(-2^{n-1} + \sum_{j=0}^{n-2} 2^j b_j\right)
+        \end{equation}
+
+        The multiplication procedure for this case is identical to that of Case 2.
+        Notice how $A$ was not expressed in its full form (i.e. $-2^{n-1}a_{n-1} + \sum_{i=0}^{n-2} 2^i a_i$)
+        in the proof of Case 2. This implies that the calculation procedure is independent of the sign of $A$,
+        and therefore, the multiplication procedure holds for this case as well.
+
+        By now, we have shown that the multiplication procedure in the lecture notes holds for all cases of $A$ and $B$,
+        therefore, the multiplication procedure is valid.
+
+        \hfill \textbf{Q.E.D.}
+    \end{solution}
+
+    \question Any floating-point representation used in a computer can represent only certain real numbers exactly; all
+    others must be approximated. If $A'$ is the stored value approximating the real value $A$, then the relative
+    error, $r$, is expressed as
+    \begin{equation*}
+        r = \frac{A - A'}{A}
+    \end{equation*}
+    Represent the decimal quantity $+0.4$ in the following floating-point format: base $= 2$; exponent: biased, $4$
+    bits; significand, $7$ bits. What is the relative error?
+
+    \begin{solution}
+        First, convert $0.4$ to binary and normalise it:
+        \begin{align*}
+            0.4_{10} &= 0.0110011001100\dots_2 \\
+            &= 1.\underbrace{1001100}_{\text{significand}}1100\dots_2 \times 2^{-2}
+        \end{align*}
+        Then, find the biased exponent:
+        \begin{equation*}
+            \text{Biased exponent} = -2 + (2^3 - 1) = 5_10 = 0101_2
+        \end{equation*}
+        Therefore, the floating-point representation of $0.4$ is:
+        \[
+            A' = \underbrace{0}_{\text{sign}} \underbrace{0101}_\text{exponent} \underbrace{1001100}_\text{significand}
+        \]
+        Now, we find the stored value of $A'$:
+        \begin{align*}
+            A' &= (1 + 2^{-1} + 2^{-4} + 2^{-5}) \times 2^{-2} \\
+            &= 2^{-2} + 2^{-3} + 2^{-6} + 2^{-7} \\
+            &= 0.3984375_{10}
+        \end{align*}
+        Now, we can calculate the relative error:
+        \begin{align*}
+            r &= \frac{A - A'}{A} \\
+            &= \frac{0.4-0.3984375}{0.4} \\
+            &= \frac{0.0015625}{0.4} \\
+            &= \boxed{0.00391} \text{(corr. to 3 sig. figs.)}
+        \end{align*}
+    \end{solution}
+
+    \question Consider a $40$-bit floating point representation with a sign bit $S$, an exponent $E$ (biased, $11$ bits), and a
+    significand $f$ ($28$ bits). The value is
+    \[
+        V = (-1)^S \cdot 1.f \cdot 2^{E - 1023}
+    \]
+    Here, $E=11\dots111_2$ and $f=00\dots000_2$ do not have special meanings.
+
+    \begin{parts}
+        \part Write down the largest positive number that can be represented.
+
+        \begin{solution}
+            \begin{align*}
+                \text{Largest value} &= \left(1+\sum_{i=-28}^{-1} 2^i\right) \cdot 2^{2^{11}-1-1023} \\
+                &= \left(1+2^{-28}\cdot(2^{28}-1)\right) \cdot 2^{1024} \\
+                &= (1+1-2^{-28}) \cdot 2^{1024} \\
+                &= \boxed{2^{1025} - 2^{996}}
+            \end{align*}
+        \end{solution}
+
+        \part Write down the smallest positive number that can be represented.
+
+        \begin{solution}
+            \begin{align*}
+                \text{Smallest value} &= 1 \cdot 2^{-1023} \\
+                &= \boxed{2^{-1023}}
+            \end{align*}
+        \end{solution}
+
+        \part Write down the bit pattern representing the value $15.3125$.
+
+        \begin{solution}
+            First, convert $15.3125$ to binary:
+            \begin{align*}
+                15.3125_{10} &= 1111.0101_2 \\
+                &= 1.1110101_2 \times 2^3
+            \end{align*}
+            Now, find the biased exponent:
+            \begin{align*}
+                \text{Biased exponent} &= 3 + (2^{11-1} - 1) \\
+                &= 3 + 1023 = 1026_{10} = 1000\,0000\,010_2
+            \end{align*}
+            Combining the sign bit, exponent, and significand, we have:
+            \[
+                \text{Bit pattern} = \underbrace{0}_{\text{sign}} \underbrace{1000\,0000\,010}_{\text{exponent}} \underbrace{1110\,1010\,0000\,0000\,0000\,0000\,0000}_{\text{significand}}
+                = \boxed{\texttt{0x402EA00000}}
+            \]
+        \end{solution}
+
+        \part Write down the value represented by the bit pattern \texttt{0xC06F800000}.
+
+        \begin{solution}
+            Convert the hexadecimal to binary:
+            \begin{align*}
+                \texttt{0xC06F800000} &= \texttt{1100\,0000\,0110\,1111\,1000\,0000\,0000\,0000\,0000\,0000} \\
+                &= \underbrace{1}_{\text{sign}} \underbrace{1000\,000\,110}_{\text{exponent}} \underbrace{1111\,1000\,0000\,0000\,0000\,0000\,0000}_{\text{significand}}
+            \end{align*}
+            Now, calculate the value:
+            \begin{align*}
+                V &= (-1)^1 \cdot 1.1111000_2 \cdot 2^{1030-1023} \\
+                &= -1.11111000_2 \cdot 2^7 \\
+                &= -11111100_2 \\
+                &= \boxed{-252_{10}}
+            \end{align*}
+        \end{solution}
+
+        \part If we assign 16 bits and 23 bits for exponent $E$ and significand $f$ , respectively. What is the largest
+        positive number that can be represented ? Discuss what is the relation between range and precision in
+        floating point number representation?
+
+        \begin{solution}
+            \textit{Omitted.}
+        \end{solution}
+    \end{parts}
+    
+\end{questions}
+
+\end{document}
