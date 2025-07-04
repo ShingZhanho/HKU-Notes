@@ -195,5 +195,5 @@ where `[BUILD_TARGET]` is the name of the build target, and `[OUTPUT_FILE]` is t
 
     All other authors are sorted in alphabetical order according to their `display_name` in the definition.
 
-Also refer to the [syntax reference for `authors.json`](./syntax-reference/authors.json.md) for the details about
+Also refer to the [syntax reference for `authors.json`](./authors.json.md) for the details about
 how to define authors in the `authors.json` file.
