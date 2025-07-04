@@ -93,30 +93,6 @@ jobs:
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
         run: echo "DYENV_APT_DEPS_LIST=$(awk '{$1=$1}1' OFS=' ' RS='' ./build/apt-packages.txt)" >> "$GITHUB_ENV"
 
-      - name: Configure MiKTeX repository key for APT
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
-        run: |
-          curl -fsSL https://miktex.org/download/key | gpg --dearmor | sudo tee /usr/share/keyrings/miktex-keyring.gpg > /dev/null
-          echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.gpg] https://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
-          sudo apt-get update
-
-      - name: Install MiKTeX and dependencies
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
-        uses: awalsh128/cache-apt-pkgs-action@v1
-        with:
-          packages: ${{ env.DYENV_APT_DEPS_LIST }}
-
-      - name: Configure MiKTeX
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
-        run: |
-          miktexsetup finish
-          initexmf --set-config-value [MPM]AutoInstall=1
-          initexmf --enable-installer
-          initexmf --update-fndb
-          initexmf --mkmaps
-          miktex packages update
-          echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
-
       - name: Download MiKTeX packages cache identifier key
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
         run: |
@@ -153,6 +129,30 @@ jobs:
         with:
           key: miktex-pkg-${{ runner.os }}-${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}
           path: ~/.miktex
+
+      - name: Configure MiKTeX repository key for APT
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+        run: |
+          curl -fsSL https://miktex.org/download/key | gpg --dearmor | sudo tee /usr/share/keyrings/miktex-keyring.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.gpg] https://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
+          sudo apt-get update
+
+      - name: Install MiKTeX and dependencies
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: ${{ env.DYENV_APT_DEPS_LIST }}
+
+      - name: Configure MiKTeX
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+        run: |
+          miktexsetup finish
+          initexmf --set-config-value [MPM]AutoInstall=1
+          initexmf --enable-installer
+          initexmf --update-fndb
+          initexmf --mkmaps
+          miktex packages update
+          echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
         
       # --- CONFIGURE TOOLSETS ---
         # toolset for minted
