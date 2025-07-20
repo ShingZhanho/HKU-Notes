@@ -7,5 +7,9 @@
 % parenthesis is not included for using this command for multiple authors
 \newcommand{\apaciteaspar}[1]{\citeauthor{#1}, \citeyear{#1}}
 
+\newcommand{\apasecciteassub}[3]{#1 (#2), as cited in \citeauthor{#3} (\citeyear{#3})}
+
+\newcommand{\apasecciteaspar}[3]{#1, #2, as cited in \citeauthor{#3}, \citeyear{#3}}
+
 % !!! Manually run the following command to update the word count !!!
 % texcount ./contents.tex | grep "Words in text:" | awk '{print $4}' > ./wordcount.txt

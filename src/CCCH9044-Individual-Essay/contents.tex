@@ -48,8 +48,33 @@ awareness.
 
 Contrary to the common generic definition of AI as ``the simple theory of human intelligence being
 exhibited by machines'' (\apaciteaspar{Helm2020-AI-Orthopedics}, p. 69), this essay will refer to AI simply
-as a set of tools utilising Machine Learning (ML), Convolutional Neural Networks (CNNs), and Large
-Language Models (LLMs) dedicated to the analysis and processing of images and texts for the purpose of
+as a set of tools utilising Machine Learning (ML), Convolutional Neural Networks (CNNs), Large
+Language Models (LLMs), and Natural Language Processing (NLP) technologies
+dedicated to the analysis and processing of images and texts for the purpose of
 preserving cultural heritage.
+
+\section{Literature Review}
+
+Current AI applications in the study and preservation of Dunhuang Grottoes can be roughly categorised into
+image-related techniques and text-related techniques.
+
+\subsection{Computer Vision and Image Processing}
+
+Algorithms specialised in computer vision and image processing, such as CNNs, Revolutional Neural Networks
+(RNNs), and Generative Adversarial Networks (GANs), and hybrids of these algorithms are most prominently
+used in the handling the murals of the Dunhuang Grottoes (\apaciteaspar{Fu2025-AI-Intangible-Cultural-Heritage};
+\apaciteaspar{Yu2022-AI-Dunhuang}).
+
+For the restoration of damaged murals, conventional patch-based methods
+(\apasecciteaspar{Ballester et al.}{2001}{Yu2022-AI-Dunhuang}; \apasecciteaspar{Bertalmio}{2000}{Yu2022-AI-Dunhuang})
+allowed automatic inpainting of small and simple damaged areas. Their inability to handle larger and more complex
+missing areas have been overcome by modern use of CNNs (\apasecciteaspar{Pathak et al.}{2016}{Yu2022-AI-Dunhuang},
+\apasecciteaspar{Yang et al.}{2017}{Yu2022-AI-Dunhuang}).
+In recent years, \apasecciteassub{Song et al.}{2018}{Yu2022-AI-Dunhuang} proposed a more modern approach,
+allowing the restoration and inpainting be context-aware, i.e. the algorithm would reconstruct the missing parts
+by considering the surrounding context, rather than simply predicting pixels mathematically.
+Recent studies carried out by \apaciteassub{Chen2024-Mural-Inpainting} proposed a hybrid approach of joint
+learning, further improving the errors produced by the AI models by allowing the models to learn from the global
+context of the murals, rather than just the local context.
 
 \printbibliography
