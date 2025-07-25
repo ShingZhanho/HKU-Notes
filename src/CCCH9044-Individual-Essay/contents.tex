@@ -59,6 +59,7 @@ Current AI applications in the study and preservation of Dunhuang Grottoes can b
 image-related techniques and text-related techniques.
 
 \subsection{Computer Vision and Image Processing}
+\label{sec:computer-vision-image-processing}
 
 Algorithms specialised in computer vision and image processing, such as CNNs, Revolutional Neural Networks
 (RNNs), and Generative Adversarial Networks (GANs), and hybrids of these algorithms are most prominently
@@ -84,7 +85,7 @@ For creating arts in the visual style of the Dunhuang murals through AI, special
 the ``style transfer'' algorithms are used (\apaciteaspar{Sun2023-Dunhuang-Patterns};
 \apaciteaspar{Yu2022-AI-Dunhuang}). While \apaciteassub{Yu2022-AI-Dunhuang} mentioned certain limitations of the
 algorithms built on the CNNs, such as lack of flexibility and optimisation, an experiment carried out by 
-\apaciteaspar{Sun2023-Dunhuang-Patterns}, as shown in Figure \ref{fig:style-transfer-showcase}
+\apaciteaspar{Sun2023-Dunhuang-Patterns}, as shown in \cref{fig:style-transfer-showcase}
 displayed satisfactory results in transferring
 the visual styles of the Dunhuang murals from different dynasties onto modern images.
 Apart from application on Dunhuang murals,
@@ -175,6 +176,71 @@ sample and verify the results. While human intervention is still required, the e
 enhanced. Therefore, it is reasonable to conclude that the use of computer vision and deep learning technologies
 has high potential in accelerating the research of the Dunhuang artefacts, thereby benefiting the preservation
 work.
+
+\subsection{Image Inpainting Assisting Restoration of Artefacts}
+
+Endeavours have been made by several parties to restore the damaged murals and manuscripts in the Dunhuang
+Grottoes. Historically, the restoration of the murals was done by hand, whose biggest risk is the potential
+of secondary damage to the original artefacts (\apaciteaspar{Lian2025-Adversarial-Diffusion-Network}).
+
+As discussed in \cref{sec:computer-vision-image-processing}, the performance of AI models and frameworks in
+image inpainting is closely related to the complexity of the image to be restored. Easier cases, such as
+small, repetitive decorative patterns (caisson paintings, for example) can be restored with high accuracy,
+while more complex cases, such as the portraits of the Buddhas and Bodhisattvas, tend to be more challenging.
+This variation of restoration accuracy is a result from the models' inability in extracting valid semantic
+information from the murals (\apaciteaspar{Lian2025-Adversarial-Diffusion-Network}), therefore not being able
+to preserve the artistic features of the murals. The experiments by \apaciteassub{Yu2022-AI-Dunhuang} have
+also demonstrated this limitation.
+
+In the latest developments, however, researchers have been able to overcome this issue through the use of
+adversarial diffusion networks (\apaciteaspar{Lian2025-Adversarial-Diffusion-Network}) and hybrid approaches
+(\apaciteaspar{Chen2024-Mural-Inpainting}). The improvements and outcomes of these methods are significantly
+better than the traditional methods, as shown in \cref{fig:hybrid-image-inpainting} and
+\cref{fig:adversarial-diffusion-inpainting}.
+
+\begin{figure}
+    \caption{Results of the hybrid image inpainting algorithms on simulated damaged murals of complex patterns}
+    \label{fig:hybrid-image-inpainting}
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{figs/hybrid-method-inpainting.png}
+    \end{center}
+
+    \small\textit{Note.} Results of the hybrid image inpainting method showed satisfactory results in restoring
+    complex patterns, such as the facial features of the Bodhisattva, when compared to the traditional method.
+    \apacitefigfrom{Chen2024-Mural-Inpainting}
+\end{figure}
+
+\begin{figure}
+    \caption{Results of the adversarial diffusion network on simulated damaged murals of complex patterns}
+    \label{fig:adversarial-diffusion-inpainting}
+
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{figs/adn-inpainting.png}
+    \end{center}
+
+    \small\textit{Note.} Results of the ADN model proposed by \apaciteassub{Lian2025-Adversarial-Diffusion-Network}
+    displayed advanced capabilities in restoring complex murals.
+    \apacitefigfrom{Lian2025-Adversarial-Diffusion-Network}
+\end{figure}
+
+Apart from the murals, important milestones have also been achieved in the restoration of the manuscripts from
+the Library Cave. The DHA has been working in collaboration with technology companies to leverage generative
+artificial intelligence (GenAI) to restore and generate the missing parts of excavated manuscripts
+(\apaciteaspar{Li2024-Dunhuang-Manuscripts-AIGC}). While the technical details of the algorithms are not
+disclosed, it is not difficult to imagine that the approach has made use of image and text processing technologies
+built on deep learning and NLP, and also the use of large datasets of calligraphy for the purpose of identifying
+variants of the same Chinese characters. \apaciteassub{Li2024-Dunhuang-Manuscripts-AIGC} has remarked that
+the generated contents are of promising quality and reliability. Whereas this application is still in an immature
+state, it is reasonable to expect that AI technologies will gain more attention in this area.
+
+The discussions made above focused on restoration of two-dimensional artefacts, namely the murals and manuscripts.
+For three-dimensional artefacts, such as sculptures, while the use of GenAI is still in its infancy and remains
+at a theoretical stage, further research on proposed methods such as that of
+\apaciteassub{Ge2019-Creative-AI-Sculptural-Objects} may allow GenAI to be used for restoring damaged, if not
+lost, sculptures in the Dunhuang Grottoes in the future.
+
+\subsection{Raising Public Awareness and Interest Through Artistic Style Transfer}
 
 \section{Concerns Raised Against AI Technologies in Buddhist Heritage Preservation}
 
