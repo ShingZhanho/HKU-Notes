@@ -17,6 +17,7 @@
     associative organisation, with a cache block size of 128 words, using LRU replacement algorithm.
     Suppose the cache hit time is 10 ns, the time to transfer the first word from main memory to cache
     is 60 ns, while subsequent words require 12 ns/word.
+    \label{question-2way-set-cache}
 
     Consider the following read pattern (in blocks of 128 words, and block ID starts from 0),
     and assume each block has 48 references:
@@ -37,6 +38,32 @@
         considered a miss), and the cache hit rate.
 
         \part Calculate the average memory access time.
+
+    \end{parts}
+
+    \question Repeat Question \ref{question-2way-set-cache} for a direct-mapped cache organisation
+    with the cache hit time being 9 ns. All other parameters remain the same.
+
+    \question Consider a Hard Disk with an average seek time of 12 ms and rotation speed of
+    7200 rpm, and an average number of 500 sectors per track. Assume negligible
+    transfer time.
+
+    \begin{parts}
+
+        \part What is the average rotation latency?
+
+        \part What is the average time to rotate for 1 sector?
+
+        \part Consider the access of 5 sectors. Caculate the time required (ignoring tranfer
+        time, but including rotation time for reading a sector) if
+
+        \begin{subparts}
+
+            \subpart The sectors are consecutive in the same track.
+
+            \subpart The sectors are scattered in various places in the HDD.
+
+        \end{subparts}
 
     \end{parts}
     
