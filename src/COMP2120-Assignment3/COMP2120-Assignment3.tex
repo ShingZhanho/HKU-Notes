@@ -1,0 +1,45 @@
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preamble.tex}
+
+\begin{document}
+
+\begin{center}
+    \textbf
+    {\Large{COMP2120 Computer Organisation} \\
+    \large{24/25 Semester 2} \\
+    \large{Assignment 3}}
+\end{center}
+
+\begin{questions}
+
+    \question Consider a hypothetical machine with 1K words of cache memory. They are in a two-way set
+    associative organisation, with a cache block size of 128 words, using LRU replacement algorithm.
+    Suppose the cache hit time is 10 ns, the time to transfer the first word from main memory to cache
+    is 60 ns, while subsequent words require 12 ns/word.
+
+    Consider the following read pattern (in blocks of 128 words, and block ID starts from 0),
+    and assume each block has 48 references:
+
+    \begin{verbatim}
+        1 2 3 5 6 2 3 4 9 10 11 6 3 6 1 7 8 4 5 9 11 1 2 4 5 12 13 14 15 13 14
+    \end{verbatim}
+
+    \begin{parts}
+
+        \part What is the cache miss penalty (i.e., time to transfer one block of data from
+        main memory to cache memory)?
+
+        \part Write down the content of the cache memory (for all the blocks) at the end of
+        the memory references, assuming that the cache is empty at the beginning.
+
+        \part Write down the number of cache misses (the first reading of a block is also
+        considered a miss), and the cache hit rate.
+
+        \part Calculate the average memory access time.
+
+    \end{parts}
+    
+\end{questions}
+
+\end{document}
