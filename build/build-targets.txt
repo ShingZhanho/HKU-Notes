@@ -39,6 +39,7 @@ COMP2120-
 	Cheatsheet
 	Assignment
 		1
+		3
 
 # CCGL9042 - Evolution of Civilisation
 CCGL9042-Question-Bank

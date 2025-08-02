@@ -3,7 +3,7 @@
     "static_site": {
         "description": "The final report for the ENGG1300 Practical Work.",
         "custom_md_file": "custom.md",
-        "document_status": "unk"
+        "document_status": "fin"
     },
     "authors": [
         "!jacob_shing", "@unknown"

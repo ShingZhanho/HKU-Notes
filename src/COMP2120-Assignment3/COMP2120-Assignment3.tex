@@ -1,0 +1,165 @@
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preamble.tex}
+
+\begin{document}
+
+\begin{center}
+    \textbf
+    {\Large{COMP2120 Computer Organisation} \\
+    \large{24/25 Semester 2} \\
+    \large{Assignment 3}}
+\end{center}
+
+\begin{questions}
+
+    \question Consider a hypothetical machine with 1K words of cache memory. They are in a two-way set
+    associative organisation, with a cache block size of 128 words, using LRU replacement algorithm.
+    Suppose the cache hit time is 10 ns, the time to transfer the first word from main memory to cache
+    is 60 ns, while subsequent words require 12 ns/word.
+    \label{question-2way-set-cache}
+
+    Consider the following read pattern (in blocks of 128 words, and block ID starts from 0),
+    and assume each block has 48 references:
+
+    \begin{verbatim}
+        1 2 3 5 6 2 3 4 9 10 11 6 3 6 1 7 8 4 5 9 11 1 2 4 5 12 13 14 15 13 14
+    \end{verbatim}
+
+    \begin{parts}
+
+        \part What is the cache miss penalty (i.e., time to transfer one block of data from
+        main memory to cache memory)?
+
+        \begin{solution}
+            \begin{align*}
+                \text{Cache miss penalty} 
+                & = 60 + 12 \times 127 \\
+                & = \boxed{1584 \text{ ns}}
+            \end{align*}
+        \end{solution}
+
+        \part Write down the content of the cache memory (for all the blocks) at the end of
+        the memory references, assuming that the cache is empty at the beginning.
+
+        \begin{solution}
+            Content of the cache memory at the end of the memory references:
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{|c|c|c|c|}
+                    \hline
+                    \textbf{Set 0} & \textbf{Set 1} & \textbf{Set 2} & \textbf{Set 3} \\
+                    \hline
+                    \texttt{4} & \texttt{13} & \texttt{14} & \texttt{11} \\
+                    \hline
+                    \texttt{12} & \texttt{5} & \texttt{2} & \texttt{15} \\
+                    \hline
+                \end{tabular}
+            \end{table}
+        \end{solution}
+
+        \part Write down the number of cache misses (the first reading of a block is also
+        considered a miss), and the cache hit rate.
+
+        \begin{solution}
+            Number of cache misses: $\boxed{23}$
+    
+            Number of blocks accessed = 31
+
+            Number of memory access = $31 \times 48 = 1488$
+
+            Hit rate = $1 - \dfrac{23}{1488} = \boxed{98.45\%}$
+        \end{solution}
+
+        \part Calculate the average memory access time.
+
+        \begin{solution}
+            Average memory access time = $10 + (1-0.9845) \times 1584 = \boxed{34.55 \text{ ns}}$
+        \end{solution}
+
+    \end{parts}
+
+    \question Repeat Question \ref{question-2way-set-cache} for a direct-mapped cache organisation
+    with the cache hit time being 9 ns. All other parameters remain the same.
+
+    \begin{solution}
+        \begin{parts}
+
+            \part Since the time to transfer the first block and subsequent blocks is the same,
+            the cache miss penalty is the same, $\boxed{1584 \text{ ns}}$.
+
+            \part Content of the cache memory at the end of the memory references:
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{|c|c|c|c|c|c|c|c|}
+                    \hline
+                    \textbf{Line 0} & \textbf{Line 1} & \textbf{Line 2} & \textbf{Line 3} & \textbf{Line 4} & \textbf{Line 5} & \textbf{Line 6} & \textbf{Line 7} \\
+                    \hline
+                    \texttt{8} & \texttt{1} & \texttt{2} & \texttt{11} & \texttt{12} & \texttt{13} & \texttt{14} & \texttt{15} \\
+                    \hline
+                \end{tabular}
+            \end{table}
+
+            \part Number of cache misses: $\boxed{21}$
+    
+            Number of blocks accessed = 31
+        
+            Number of memory access = $31 \times 48 = 1488$
+        
+            Hit rate = $1 - \dfrac{21}{1488} = \boxed{98.59\%}$
+
+            \part Average memory access time = $9 + (1-0.9859) \times 1584 = \boxed{31.35 \text{ ns}}$
+
+        \end{parts}
+    \end{solution}
+
+    \question Consider a Hard Disk with an average seek time of 12 ms and rotation speed of
+    7200 rpm, and an average number of 500 sectors per track. Assume negligible
+    transfer time.
+
+    \begin{parts}
+
+        \part What is the average rotation latency?
+
+        \begin{solution}
+            Average rotation latency is given by:
+            \begin{equation*}
+                \frac{1\text{ min}}{7200\text{ rotations}} \times \frac{1}{2}\text{ rotation} \times 60\frac{\text{ seconds}}{\text{ minute}} \times 1000 \frac{\text{ ms}}{\text{ second}} = \boxed{4.17 \text{ ms}}
+            \end{equation*}
+        \end{solution}
+
+        \part What is the average time to rotate for 1 sector?
+
+        \begin{solution}
+            Average time to rotate for one sector is given by:
+            \begin{equation*}
+                \frac{1\text{ min}}{7200\text{ rotations}} \times 60\frac{\text{ seconds}}{\text{ minute}} \times 1000 \frac{\text{ ms}}{\text{ second}} \times \frac{1\text{ rotation}}{500\text{ sectors}} = \boxed{0.0167 \text{ ms per sector}}
+            \end{equation*}
+        \end{solution}
+
+        \part Consider the access of 5 sectors. Caculate the time required (ignoring tranfer
+        time, but including rotation time for reading a sector) if
+
+        \begin{subparts}
+
+            \subpart The sectors are consecutive in the same track.
+
+            \begin{solution}
+                Time required to access 5 consecutive sectors = 
+                $4.17+12+0.0167 \times 5 = \boxed{16.25 \text{ ms}}$
+            \end{solution}
+
+            \subpart The sectors are scattered in various places in the HDD.
+
+            \begin{solution}
+                Time required to access 5 scattered sectors =
+                $5 \times (4.17+12 + 0.0167) = \boxed{80.93 \text{ ms}}$
+            \end{solution}
+
+        \end{subparts}
+
+    \end{parts}
+    
+\end{questions}
+
+\end{document}

@@ -168,7 +168,7 @@ A disabled button will not be displayed on the static site.
 - **Description**: The icon to be displayed on the primary/secondary button.
 - **Type**: `string`
 - **Default**: `"material-download"` for primary button, and `"material-github"` for secondary button.
-- **Accepted Values**: Any valid icon name specified in the [Material for MkDocs documentation](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/),
+- **Accepted Values**: Any valid icon name specified in the [Material for MkDocs documentation](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis.html),
 or empty string for no icon.
 
 ### `static_site.{primary_button, secondary_button}.href`
@@ -182,7 +182,7 @@ where `[BUILD_TARGET]` is the name of the build target, and `[OUTPUT_FILE]` is t
 
 - **Description**: A list of authors for the target. Each author must be a string, whose value is defined in `/site/docs/statics/authors/authors.json`.
 - **Type**: `array` of `string`
-- **Default**: `["jacob_shing"]` (an array containing a single string `jacob_shing`, which is a placeholder for unknown authors)
+- **Default**: `["jacob_shing"]` (an array containing a single string `jacob_shing`)
 - **Accepted Values**: Any string that is a valid key in the `/site/docs/statics/authors/authors.json` file.
 
 !!! note "Main Author and Coauthors"

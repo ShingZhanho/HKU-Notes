@@ -3,7 +3,6 @@ hide:
     - navigation
 description: |
     Download free notes, cheatsheets, and other useful resources for the University of Hong Kong (HKU) Computer Science courses.
-title: HKU-Notes - Free and Open Source Lecture Resources for HKU Students
 ---
 # Home
 
