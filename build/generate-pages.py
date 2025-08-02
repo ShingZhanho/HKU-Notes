@@ -253,6 +253,7 @@ def generate_badge(status: str, is_detail_page: bool) -> str:
         "lts": "material-archive-clock",
         "abd": "material-pencil-off",
         "obs": "material-clock-alert",
+        "fin": "material-calendar-end",
         "unk": "material-help",
     }
     status_icon = status_icons.get(status, "material-alert-octagon")
@@ -263,6 +264,7 @@ def generate_badge(status: str, is_detail_page: bool) -> str:
         "lts": "This is a long-term support document.",
         "abd": "This document is no longer being updated and is incomplete.",
         "obs": "This document is now deprecated.",
+        "fin": "This document is at its final state.",
         "unk": "The status of this document is unknown.",
     }
     status_desc = status_descs.get(status, "An error happened during the website generation process.")
@@ -273,6 +275,7 @@ def generate_badge(status: str, is_detail_page: bool) -> str:
         "lts": "long-term-support",
         "abd": "abandoned",
         "obs": "obsolete",
+        "fin": "final",
         "unk": "unknown-status",
     }
     static_href = static_hrefs.get(status, "error")

@@ -168,7 +168,7 @@ A disabled button will not be displayed on the static site.
 - **Description**: The icon to be displayed on the primary/secondary button.
 - **Type**: `string`
 - **Default**: `"material-download"` for primary button, and `"material-github"` for secondary button.
-- **Accepted Values**: Any valid icon name specified in the [Material for MkDocs documentation](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/),
+- **Accepted Values**: Any valid icon name specified in the [Material for MkDocs documentation](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis.html),
 or empty string for no icon.
 
 ### `static_site.{primary_button, secondary_button}.href`

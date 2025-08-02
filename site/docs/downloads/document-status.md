@@ -69,6 +69,21 @@ An abandoned document is originally a work in progress document. Due to various 
 being written or updated, and it is incomplete.
 It may be removed from the website in the future.
 
+## Final State
+
+<span class="status-badge">
+    <span class="status-badge__icon">
+        :material-calendar-end:
+    </span>
+    <span class="status-badge__text">
+        [FIN](#final-state "This document is at its final state. Click for more details.")
+    </span>
+</span>
+
+A final state document is a document uploaded as is, with classified information redacted.
+The document is normally uploaded for reference purposes (e.g. an essay or a report submitted as coursework).
+Final state documents will not receive any updates or changes.
+
 ## Obsolete
 
 <span class="status-badge">
