@@ -275,7 +275,7 @@ def generate_badge(status: str, is_detail_page: bool) -> str:
         "lts": "long-term-support",
         "abd": "abandoned",
         "obs": "obsolete",
-        "fin": "final",
+        "fin": "final-state",
         "unk": "unknown-status",
     }
     static_href = static_hrefs.get(status, "error")
