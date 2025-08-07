@@ -1,3 +1,9 @@
+!!! info "Course Code Update (applicable to students admitted 2025/26 and thereafter)"
+
+    The course ENGG1340 Computer Programming II has been discontinued and is migrated to COMP2113 Programming Technologies.
+    As of today (7 August 2025), the course syllabus has not changed and this cheatsheet is still applicable to those who
+    are taking COMP2113.
+
 This is a cheatsheet that the author used for the final examination of ENGG1340 Computer Programming II (or aliased
 COMP2113 Programming Technologies for non-BEng students) at the University of Hong Kong.
 
