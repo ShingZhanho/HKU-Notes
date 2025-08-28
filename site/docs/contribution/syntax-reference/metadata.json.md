@@ -155,10 +155,12 @@ This is useful when a course has more than one course code.
 - **Description**: Where the PDF viewer (if available) should be displayed on the details page.
 - **Type**: `string`
 - **Accepted Values**: Any of the following:
-  - `"at_head"`: Display the PDF viewer directly after the authors and the two buttons (at the head of the custom markdown page).
-  - `"at_footer"`: Display the PDF viewer after the end of the custom markdown page.
-  - `"at_tag"`: Insert the PDF viewer at the `<!-- % PDF_VIEWER % -->` tag in the custom markdown page.
-  - `"hidden"`: Do not display the PDF viewer at all.
+
+    - `"at_head"`: Display the PDF viewer directly after the authors and the two buttons (at the head of the custom markdown page).
+    - `"at_footer"`: Display the PDF viewer after the end of the custom markdown page.
+    - `"at_tag"`: Insert the PDF viewer at the `<!-- % PDF_VIEWER % -->` tag in the custom markdown page.
+    - `"hidden"`: Do not display the PDF viewer at all.
+    
 - **Default**: `"at_head"`
 
 !!! note "PDF Viewer Placement"
