@@ -43,3 +43,6 @@ COMP2120-
 
 # CCGL9042 - Evolution of Civilisation
 CCGL9042-Question-Bank
+
+# CCCH9044 - Dunhuang and the Silk Road
+CCCH9044-Individual-Essay

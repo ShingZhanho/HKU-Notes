@@ -1,0 +1,24 @@
+\addbibresource{references.bib}
+
+% \apaciteassub = Cite as Subject (of a sentence) ==> "Author (Year)"
+\newcommand{\apaciteassub}[1]{\citeauthor{#1} (\citeyear{#1})}
+
+% \apaciteinpar = Cite in Parenthesis ==> "Author, Year"
+% parenthesis is not included for using this command for multiple authors
+\newcommand{\apaciteaspar}[1]{\citeauthor{#1}, \citeyear{#1}}
+
+\newcommand{\apasecciteassub}[3]{#1 (#2), as cited in \citeauthor{#3} (\citeyear{#3})}
+
+\newcommand{\apasecciteaspar}[3]{#1, #2, as cited in \citeauthor{#3}, \citeyear{#3}}
+
+\newcommand{\apacitefigfrom}[1]{Adapted from \citetitle{#1}, by \citeauthor{#1}, \citeyear{#1},
+\textit{\citefield{#1}{journaltitle}}, \textit{\citefield{#1}{volume}}(\citefield{#1}{number}), \citefield{#1}{pages}.} 
+
+% !!! Manually run the following command to update the word count !!!
+% texcount ./contents.tex | grep "Words in text:" | awk '{print $4}' > ./wordcount.txt
+
+\DeclareCaptionLabelSeparator*{spaced}{\\[2ex]}
+
+\captionsetup[figure]{labelsep=spaced}
+
+%TC:macro \footnote [text]
