@@ -5,6 +5,7 @@
     },
     "static_site": {
         "description": "The 3000-word individual essay for the course CCCH9044.",
-        "document_status": "unk"
+        "document_status": "fin",
+        "custom_md_file": "custom.md"
     }
 }
