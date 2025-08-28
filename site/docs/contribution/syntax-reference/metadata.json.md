@@ -150,6 +150,25 @@ This is useful when a course has more than one course code.
     to `ENGG1340-Cheatsheet`. You must first add and successfully deploy the target
     `ENGG1340-Cheatsheet` before you can add the alias target `COMP2113-Cheatsheet`.
 
+### `static_site.pdf_viewer`
+
+- **Description**: Where the PDF viewer (if available) should be displayed on the details page.
+- **Type**: `string`
+- **Accepted Values**: Any of the following:
+  - `"at_head"`: Display the PDF viewer directly after the authors and the two buttons (at the head of the custom markdown page).
+  - `"at_footer"`: Display the PDF viewer after the end of the custom markdown page.
+  - `"at_tag"`: Insert the PDF viewer at the `<!-- % PDF_VIEWER % -->` tag in the custom markdown page.
+  - `"hidden"`: Do not display the PDF viewer at all.
+- **Default**: `"at_head"`
+
+!!! note "PDF Viewer Placement"
+
+    **General Reminder**: The PDF viewer will be displayed if and only if the output file is a PDF.
+    When the output file is not a PDF file, setting this key will have no effect.
+
+    **When using the `at_tag` option**: The custom markdown file must contain exactly one `<!-- % PDF_VIEWER % -->` tag (case-sensitive).
+    Missing tag or duplicated tags will cause the build pipeline to fail.
+
 ### `static_site.{primary_button, secondary_button}.disabled`
 
 - **Description**: Whether the primary/secondary button is disabled or not.

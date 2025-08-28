@@ -23,6 +23,7 @@ class Metadata:
         self.static_site__custom_md_file = None
         self.static_site__document_status = None
         self.static_site__alias_to = None
+        self.static_site__pdf_viewer = "at_head"
 
         # "static_site" > "primary_button" keys
         self.static_site__primary_button__disabled = False

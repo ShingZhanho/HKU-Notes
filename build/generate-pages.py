@@ -141,13 +141,31 @@ def main():
             f.write(f"\n\n")
 
             ## PDF preview if file is a PDF
-            if metadata.output_file.endswith(".pdf"):
-                f.write("<iframe src=\"https://docs.google.com/gview?url=")
-                f.write(f"https://shingzhanho.github.io/HKU-Notes/files/{target}/{output_file}")
-                f.write(f"&embedded=true\" style=\"width: 100%; height: 600px;\" frameborder=\"0\"></iframe>\n\n")
+            pdf_viewer_string = None
+            if metadata.output_file.endswith(".pdf") and metadata.static_site__pdf_viewer != "hidden":
+                pdf_viewer_string = f"<iframe src=\"https://docs.google.com/gview?url=https://shingzhanho.github.io/HKU-Notes/files/{target}/{output_file}"
+                pdf_viewer_string += "&embedded=true\" style=\"width: 100%; height: 600px;\" frameborder=\"0\"></iframe>\n\n"
+
+            ## Write PDF viewer to head
+            if metadata.static_site__pdf_viewer == "at_head" and pdf_viewer_string is not None:
+                f.write(pdf_viewer_string)
+
+            ## Find PDF viewer tag in custom md
+            if metadata.static_site__pdf_viewer == "at_tag" and pdf_viewer_string is not None:
+                tag_occ = custom_md_content.count("<!-- % PDF VIEWER % -->")
+
+                if tag_occ == 0:
+                    raise ValueError(f"{target} has pdf_viewer set to 'at_tag' but no '<!-- % PDF VIEWER % -->' tag found in the custom markdown.")
+                elif tag_occ > 1:
+                    raise ValueError(f"{target} has multiple '<!-- % PDF VIEWER % -->' tags found in the custom markdown.")
+
+                custom_md_content = custom_md_content.replace("<!-- % PDF VIEWER % -->", pdf_viewer_string)
 
             ## Custom page content
             f.write(custom_md_content)
+
+            if metadata.static_site__pdf_viewer == "at_footer" and pdf_viewer_string is not None:
+                f.write(pdf_viewer_string)
 
     # generate course catalogue page
     with open("./site/docs/downloads/index.md", "w") as f:
