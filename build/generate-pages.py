@@ -147,11 +147,11 @@ def main():
                 pdf_viewer_string += "&embedded=true\" style=\"width: 100%; height: 600px;\" frameborder=\"0\"></iframe>\n\n"
 
             ## Write PDF viewer to head
-            if metadata.static_site__pdf_viewer == "at_head" and pdf_viewer_string is not None:
+            if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_head":
                 f.write(pdf_viewer_string)
 
             ## Find PDF viewer tag in custom md
-            if metadata.static_site__pdf_viewer == "at_tag" and pdf_viewer_string is not None:
+            if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_tag":
                 tag_occ = custom_md_content.count("<!-- % PDF VIEWER % -->")
 
                 if tag_occ == 0:
@@ -164,7 +164,7 @@ def main():
             ## Custom page content
             f.write(custom_md_content)
 
-            if metadata.static_site__pdf_viewer == "at_footer" and pdf_viewer_string is not None:
+            if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_footer":
                 f.write(pdf_viewer_string)
 
     # generate course catalogue page
