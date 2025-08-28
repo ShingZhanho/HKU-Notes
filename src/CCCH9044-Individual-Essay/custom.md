@@ -1,3 +1,6 @@
+_(The PDF preview for this document has been disabled to improve loading speed as the document is large.
+Please download the document to view it.)_
+
 This is the individual essay submitted for the course CCCH9044. Its source is uploaded here
 as-is without any modifications/corrections. The author has received an overall grade of A+
 in the course, of which 35% was attributed to this essay.
