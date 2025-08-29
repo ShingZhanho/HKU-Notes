@@ -7,7 +7,11 @@ import shutil
 import os
 
 # Giscus comment snippet
-GISCUS_SNIPPET = """<!-- Giscus comment snippet -->
+GISCUS_SNIPPET = """
+
+## Comments
+
+<!-- Giscus comment snippet -->
 <script src="https://giscus.app/client.js"
         data-repo="ShingZhanho/HKU-Notes"
         data-repo-id="R_kgDOOeJZ4w"
