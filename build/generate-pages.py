@@ -278,6 +278,7 @@ def main():
                     f.write(f"| [{target if not is_alias_target else alias_from}](./details/{target}.md) | {description} | {compiled_at} | {authors_str} | {status_badge} |\n")
                 f.write("\n\n")
             f.write("\n\n")
+        f.write(GISCUS_SNIPPET)
 
     # copy static files in .COPY directory
     for target in targets_list:
