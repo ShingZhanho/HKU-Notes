@@ -6,6 +6,24 @@ import re
 import shutil
 import os
 
+# Giscus comment snippet
+GISCUS_SNIPPET = """<!-- Giscus comment snippet -->
+<script src="https://giscus.app/client.js"
+        data-repo="ShingZhanho/HKU-Notes"
+        data-repo-id="R_kgDOOeJZ4w"
+        data-category="General"
+        data-category-id="DIC_kwDOOeJZ484CqbZr"
+        data-mapping="title"
+        data-strict="1"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>"""
+
 def main():
     targets_list = sys.argv[1].split(" ")
     alpha_groups = dict() # "alphabet" -> {"course_code": ["targets"]}
@@ -166,6 +184,9 @@ def main():
 
             if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_footer":
                 f.write(pdf_viewer_string)
+
+            ## Giscus Comment Integration
+            f.write(GISCUS_SNIPPET)
 
     # generate course catalogue page
     with open("./site/docs/downloads/index.md", "w") as f:
