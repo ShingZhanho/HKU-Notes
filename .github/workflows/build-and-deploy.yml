@@ -270,8 +270,12 @@ jobs:
 
       # --- CONFIGURE GOOGLE SEO VERIFICATION ---
       - name: Copy Google SEO verification file
-        run: cp ./build/google481bf8abff9a1de7.html ./gh-out
-      
+        run: cp ./build/seo/google481bf8abff9a1de7.html ./gh-out
+
+      # --- CONFIGURE INDEXNOW KEY ---
+      - name: Copy IndexNow key file
+        run: cp ./build/seo/indexnowkey33fe8f8f945.txt ./gh-out
+
       # --- DEPLOY TO GITHUB PAGES ---
       - name: Upload static files as artifact
         uses: actions/upload-pages-artifact@v3
