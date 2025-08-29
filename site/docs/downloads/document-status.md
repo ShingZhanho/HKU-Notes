@@ -4,9 +4,9 @@ hide:
 ---
 # Document Status
 
-The website displays a ststus badge for each document, indicating its current state.
+The website displays a status badge for each document, indicating its current state.
 You may use these badges to help you decide whether this document is suitable for your use.
-The statuses that may be displayes are:
+The statuses that may be displayed are:
 
 ## Stable Release
 
