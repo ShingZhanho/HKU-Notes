@@ -152,14 +152,14 @@ def main():
 
             ## Find PDF viewer tag in custom md
             if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_tag":
-                tag_occ = custom_md_content.count("<!-- % PDF VIEWER % -->")
+                tag_occ = custom_md_content.count("<!-- % PDF_VIEWER % -->")
 
                 if tag_occ == 0:
-                    raise ValueError(f"{target} has pdf_viewer set to 'at_tag' but no '<!-- % PDF VIEWER % -->' tag found in the custom markdown.")
+                    raise ValueError(f"{target} has pdf_viewer set to 'at_tag' but no '<!-- % PDF_VIEWER % -->' tag found in the custom markdown.")
                 elif tag_occ > 1:
-                    raise ValueError(f"{target} has multiple '<!-- % PDF VIEWER % -->' tags found in the custom markdown.")
+                    raise ValueError(f"{target} has multiple '<!-- % PDF_VIEWER % -->' tags found in the custom markdown.")
 
-                custom_md_content = custom_md_content.replace("<!-- % PDF VIEWER % -->", pdf_viewer_string)
+                custom_md_content = custom_md_content.replace("<!-- % PDF_VIEWER % -->", pdf_viewer_string)
 
             ## Custom page content
             f.write(custom_md_content)
