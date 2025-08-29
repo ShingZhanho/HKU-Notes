@@ -6,27 +6,6 @@ import re
 import shutil
 import os
 
-# Giscus comment snippet
-GISCUS_SNIPPET = """
-
-## Comments
-
-<!-- Giscus comment snippet -->
-<script src="https://giscus.app/client.js"
-        data-repo="ShingZhanho/HKU-Notes"
-        data-repo-id="R_kgDOOeJZ4w"
-        data-category="General"
-        data-category-id="DIC_kwDOOeJZ484CqbZr"
-        data-mapping="title"
-        data-strict="1"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>"""
 
 def main():
     targets_list = sys.argv[1].split(" ")
@@ -82,7 +61,7 @@ def main():
         with open(f"./site/docs/downloads/details/{target}.md", "w") as f:
             print(f"Generating details page for {target}")
             ## Front matter in YAML
-            f.write(f"---\nhide:\n  - navigation\ndescription: Download {target} for free - {metadata.static_site__description}\n---\n")
+            f.write(f"---\nhide:\n  - navigation\ndescription: Download {target} for free - {metadata.static_site__description}\ncomments: true\n---\n")
 
             ## Header
             f.write(f"# {target}\n\n")
@@ -189,15 +168,13 @@ def main():
             if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_footer":
                 f.write(pdf_viewer_string)
 
-            ## Giscus Comment Integration
-            f.write(GISCUS_SNIPPET)
-
     # generate course catalogue page
     with open("./site/docs/downloads/index.md", "w") as f:
         print("Generating course catalogue page")
         f.write("---\nhide:\n  - navigation\n")
         f.write("description: Download free and open source HKU computer science course notes/cheatsheets/materials. ")
-        f.write("Discover tips and tricks for your studies at the University of Hong Kong.")
+        f.write("Discover tips and tricks for your studies at the University of Hong Kong.\n")
+        f.write("comments: true")
         f.write("\n---\n")
         f.write(f"# Course Catalogue\n\n")
         f.write("All materials are sorted by course code. Use the navigation panel to jump to the course you want.\n\n")
@@ -278,7 +255,6 @@ def main():
                     f.write(f"| [{target if not is_alias_target else alias_from}](./details/{target}.md) | {description} | {compiled_at} | {authors_str} | {status_badge} |\n")
                 f.write("\n\n")
             f.write("\n\n")
-        f.write(GISCUS_SNIPPET)
 
     # copy static files in .COPY directory
     for target in targets_list:
