@@ -2,6 +2,7 @@ site_name: HKU-Notes
 site_url: https://shingzhanho.github.io/HKU-Notes/
 theme:
   name: material
+  custom_dir: overrides
   language: en
   palette:
     - media: "(prefers-color-scheme)"
