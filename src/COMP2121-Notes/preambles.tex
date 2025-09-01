@@ -2,7 +2,7 @@
 
 \setlist{topsep=2pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
 
-\ctikzset{logic ports=ieee}
+% \ctikzset{logic ports=ieee}
 
 \newcommand{\remind}[1]{\textcolor{red}{\textbf{#1}}} %To remind me of unfinished work to fix later
 \newcommand{\hide}[1]{} %To hide large blocks of code without using % symbols
@@ -221,46 +221,5 @@
 \date{1 Sept 2025}
 
 \setcounter{tocdepth}{2}
-
-% for long multiplications
-\makeatletter
-    \providecommand\text\mbox
-    \newenvironment{arithmetic}[1][]{\begin{tabular}[#1]{Al}}{\end{tabular}}
-    \newcolumntype{A}{>{\bgroup\def~{\phantom{0}}$\@testOptor}r<{\@gobble\\$\egroup}}
-    \def\@testOptor\ignorespaces#1#2\\{%
-    \ifx#1\times
-        \@OperatorRow{#1}{#2}\@tempa%
-    \else\ifx#1+
-        \@OperatorRow+{#2}\@tempa%
-    \else\ifx#1\discretionary% detects the soft hyphen, \-
-        \@ShortSubtractRow{#2}\@tempa%
-    \else\ifx#1-
-        \@OperatorRow-{#2}\@tempa%
-    \else
-        \@NormalRow{#1#2}\@tempa%
-    \fi\fi\fi\fi
-    \@tempa}
-    \def\@OperatorRow#1#2#3{%
-    \@IfEndRow#2\@gobble\\{%
-        \def#3{\underline{{}#1 #2}\\}%
-    }{%
-        \def#3{\underline{{}#1 #2{}}}%
-    }}
-
-\def\@NormalRow#1#2{%
-    \@IfEndRow#1\@gobble\\{%
-        \def#2{#1\\}%
-    }{%
-        \def#2{#1{}}%
-    }}
-
-\def\@IfEndRow#1\@gobble#2\\#3#4{%
-    \ifx#2\@gobble
-        #4%
-    \else
-        #3%
-    \fi}
-
-\makeatother
 
 \renewcommand{\emph}[1]{\textbf{\large #1}}
