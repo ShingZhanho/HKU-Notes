@@ -1,5 +1,5 @@
 {
-    "@metadata_file_version": "v1",
+    "@metadata_file_version": "1",
     "build": {
         "output_file": "FILE",
         "build_command": ";",
