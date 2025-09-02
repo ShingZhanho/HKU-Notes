@@ -1,0 +1,20 @@
+{
+    "@metadata_file_version": "v1",
+    "build": {
+        "output_file": "FILE",
+        "build_command": ";",
+        "miktex_package_file": "FILE"
+    },
+    "static_site": {
+        "description": "The GitHub repository of the group project.",
+        "custom_md_file": "index.md",
+        "primary_button": {
+            "text": "View on GitHub",
+            "icon": "material-github",
+            "href": "https://github.com/ShingZhanho/ENGG1330-Project-24Fall"
+        }
+    },
+    "authors": [
+        "!jacob_shing", "jialin_liu", "kyaw_w_thant", "jun_hao_wu"
+    ]
+}
