@@ -1,0 +1,10 @@
+{
+    "@metadata_file_version": "v1",
+    "static_site": {
+        "description": "Brief summary for MATH1853.",
+        "document_status": "wip",
+        "primary_button": {
+            "disabled": true
+        }
+    }
+}
