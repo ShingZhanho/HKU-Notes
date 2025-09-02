@@ -36,7 +36,9 @@ ENGG1340-
 	Project
 
 # COMP2113 - Programming Technologies (an alias for ENGG1340)
-COMP2113-Cheatsheet
+COMP2113-
+	Cheatsheet
+	Project
 
 # COMP2120 - Computer Organisation
 COMP2120-

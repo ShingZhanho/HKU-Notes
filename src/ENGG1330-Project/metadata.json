@@ -12,6 +12,9 @@
             "text": "View on GitHub",
             "icon": "material-github",
             "href": "https://github.com/ShingZhanho/ENGG1330-Project-24Fall"
+        },
+        "secondary_button": {
+            "disabled": true
         }
     },
     "authors": [
