@@ -37,22 +37,16 @@ The group project has received a grade of 19.3 out of 20.
 ### How to switch and build from the `v1.0.0` tag
 
 1. Clone the repository if you haven't already:
-
    ```bash
    git clone https://github.com/ShingZhanho/ENGG1340-Project-25Spring.git
    ```
-
 2. Change directory to the cloned repository:
-
    ```bash
    cd ENGG1340-Project-25Spring
    ```
-
 3. Switch to the `v1.0.0` tag:
-
    ```bash
    git checkout v1.0.0
    ```
-
 4. Build the project (please follow the instructions in the `README.md` file).
 Ensure you are reading the `README.md` file in the `v1.0.0` tag for the correct build instructions.
