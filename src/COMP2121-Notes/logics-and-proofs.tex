@@ -1,5 +1,7 @@
 \section{Logic \& Proofs}
 
+\subsection{Propositional Logic}
+
 \begin{definition}[Proposition]
     A statement that can be \textbf{unambiguously} determined to be either true of false.
 \end{definition}
@@ -42,8 +44,6 @@
     \end{itemize}
 \end{definition}
 
-\subsection{Computing Truth Values}
-
 The truth value of a proposition $P$ is denoted by $\lTV{P}$. For composite propositions,
 we often need to simplify the expression.
 
@@ -73,8 +73,8 @@ we often need to simplify the expression.
         &= (xy \lXor x \lXor 1) \lAnd (yx \lXor y \lXor 1) \qquad\text{(Rule \#6)} \\
         &= (xy \lXor x \lXor 1)(xy \lXor y \lXor 1) \qquad\text{(Rule \#2)} \\
         &= x^2y^2 \lXor xy^2 \lXor xy \lXor x^2y \lXor xy \lXor x \lXor xy \lXor y \lXor 1 \\
-        &= xy \lXor xy \lXor xy \lXor xy \lXor xy \lXor x \lXor xy \lXor y \lXor 1 \\
-        &= \boxed{x \lXor y \lXor 1} \qquad\text{(}\forall b\in\{0, 1\}:(b^2 = b)\text{)}
+        &= xy \lXor xy \lXor xy \lXor xy \lXor xy \lXor x \lXor xy \lXor y \lXor 1 \qquad\text{(}\forall b\in\{0, 1\}:(b^2 = b)\text{)}\\
+        &= \boxed{x \lXor y \lXor 1}
     \end{align*}
     Note that this expression is equivalent to $P \lIff Q$ (by Rule \#5).
 \end{example}
@@ -119,3 +119,68 @@ we often need to simplify the expression.
         \end{enumerate}
     \end{enumerate}
 \end{theorem}
+
+\subsection{Predicate Logic}
+
+\begin{definition}[Universe of Discourse]
+    For a variable $x$, the set of values under consideration is called the \textbf{Universe of Discourse},
+    or the \textbf{Domain}.
+\end{definition}
+
+\begin{definition}[Predicate]
+    A predicate $P(x)$ is a statement that depends on a variable $x$ so that $P(x)$ is a proposition
+    for every $x$ in the universe of discourse.
+\end{definition}
+
+\begin{definition}[The Universal Quantifier and The Existential Quantifier]
+    The notation $\boldsymbol{\forall x P(x)}$
+    denotes ``$P(x)$ holds \textbf{for every $\boldsymbol{x}$} in the universe of discourse''.
+    Consider its logical equivalence:--
+    $$
+    \forall x P(x) \equiv P(x_0) \lAnd P(x_1) \lAnd P(x_2) \lAnd \cdots \lAnd P(x_n)
+    $$
+    where $\{x_0, x_1, x_2, \cdots, x_n\}$ is the universe of discourse.
+
+    Similarly, the notation $\boldsymbol{\exists x P(x)}$ denotes ``$P(x)$ holds for \textbf{at least one $\boldsymbol{x}$}
+    in the universe of discourse'', and has the logical equivalence of:--
+    $$
+    \exists x P(x) \equiv P(x_0) \lOr P(x_1) \lOr P(x_2) \lOr \cdots \lOr P(x_n)
+    $$.
+\end{definition}
+
+\begin{theorem}[Examples and Counterexamples]
+    To guarantee that the proposition $\forall x P(x)$ is false, it is enough to find one
+    \textbf{counterexample} $x_0$ such that $P(x_0)$ is false.
+    To guarantee that the proposition $\exists x P(x)$ is true, it is enough to find one
+    \textbf{example} $x_0$ such that $P(x_0)$ is true.
+\end{theorem}
+
+\begin{theorem}[Negations of $\forall$ and $\exists$ Predicates]
+    Predicates involving $\forall$ and $\exists$ can be negated as:
+    \begin{multicols}{2}
+        \begin{enumerate}
+            \item $\neg(\forall xP(x)) \equiv \exists x \neg P(x)$
+            \item $\neg(\exists xP(x)) \equiv \forall x \neg P(x)$
+        \end{enumerate}
+    \end{multicols}
+\end{theorem}
+
+\begin{remark}
+    Quantifiers cannot be exchanged:
+    $$
+    \forall y [\exists x : P(x,y)] \nequiv \exists x [\forall y : P(x, y)]
+    $$
+    Let $P(x,y)$ be ``$x$ opens $y$'', $x\in\{\text{all keys in the world}\}$, and
+    $y\in\{\text{all doors in the world}\}$. The left hand side means ``for every door, there exists
+    at least one key that opens the door'' while the right hand side means ``there exists
+    at least one key that opens every door.''
+\end{remark}
+
+\begin{remark}
+    Quantifiers are only distributive with respect to certain operators:
+    \begin{align*}
+        \forall x [P(x) \lAnd Q(x)] &\equiv [\forall x P(x)] \lAnd [\forall y Q(y)] \\
+        \exists x [P(x) \lOr Q(x)] &\equiv [\exists x P(x)] \lOr [\exists y Q(y)]
+    \end{align*}
+    Other combinations do not work.
+\end{remark}
