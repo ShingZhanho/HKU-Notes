@@ -3,3 +3,68 @@
 \begin{definition}[Proposition]
     A statement that can be \textbf{unambiguously} determined to be either true of false.
 \end{definition}
+
+\begin{definition}[Logical Operators]
+    The commonly used logical operators are:
+    \begin{itemize}
+        \item \textbf{Negation}: $\lNot P$
+        \item \textbf{Conjunction} (AND): $P \lAnd Q$
+        \item \textbf{Disjunction} (OR): $P \lOr Q$
+        \item \textbf{Exclusive OR} (XOR): $P \lXor Q$
+        \item \textbf{Implication/Conditional} (if ..., then ...): $P \lImp Q$
+        \item \textbf{Biconditional} (if and only if): $P \lIff Q$
+    \end{itemize}
+    where $P$ and $Q$ are propositions.
+\end{definition}
+
+\begin{remark}
+    The truth tables for the conditional and biconditional operators are as follows:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{cccc}
+            $P$ & $Q$ & $\boldsymbol{P \lImp Q}$ & $\boldsymbol{P \lIff Q}$ \\ \hline
+            F   & F   & T                     & T                     \\
+            F   & T   & T                     & F                     \\
+            T   & F   & F                     & F                     \\
+            T   & T   & T                     & T                     \\
+        \end{tabular}
+    \end{table}
+
+    Note that the ``implication'' operator is distinct from the ``implication'' used in natural
+    language. $P \lImp Q$ does not contain cause-and-effect information.
+\end{remark}
+
+\begin{definition}[Sufficiency and Necessity]
+    When $P \lImp Q$ is true, we say that:
+    \begin{itemize}
+        \item $P$ is a \textbf{sufficient} condition for $Q$.
+        \item $Q$ is a \textbf{necessary} condition for $P$.
+    \end{itemize}
+\end{definition}
+
+\subsection{Computing Truth Values}
+
+The truth value of a proposition $P$ is denoted by $\lTV{P}$. For composite propositions,
+we often need to simplify the expression.
+
+\subsubsection{Boolean Algebra}
+
+\begin{definition}[Algebraic Rules for Boolean Algebra]
+    Consider two propositions $P$ and $Q$, and denote true by $1$ and false by $0$, we have:
+    \begin{itemize}
+        \item $\lTV{\lNot P} = \lTV{P} \lXor 1$
+        \item $\lTV{P \lAnd Q} = \lTV{P}\lTV{Q}$
+        \item $\lTV{P \lXor Q} = \lTV{P} \lXor \lTV{Q}$
+        \item $\lTV{P \lOr Q} = \lTV{P} \lXor \lTV{Q} \lXor \lTV{P}\lTV{Q}$
+        \item $\lTV{P \lIff Q} = \lTV{P} \lXor \lTV{Q} \lXor 1$
+        \item $\lTV{P \lImp Q} = \lTV{P}\lTV{Q} \lXor \lTV{P} \lXor 1$
+    \end{itemize}
+\end{definition}
+
+\subsubsection{Logical Equivalence}
+
+\begin{definition}[Tautology and Contradiction]
+    A \textbf{tautology} is a proposition that is always true, denoted by $T$.
+    A \textbf{contradiction} is a proposition that is always false, denoted by $F$.
+\end{definition}
+
