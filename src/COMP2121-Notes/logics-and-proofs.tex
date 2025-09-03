@@ -51,15 +51,33 @@ we often need to simplify the expression.
 
 \begin{definition}[Algebraic Rules for Boolean Algebra]
     Consider two propositions $P$ and $Q$, and denote true by $1$ and false by $0$, we have:
-    \begin{itemize}
-        \item $\lTV{\lNot P} = \lTV{P} \lXor 1$
-        \item $\lTV{P \lAnd Q} = \lTV{P}\lTV{Q}$
-        \item $\lTV{P \lXor Q} = \lTV{P} \lXor \lTV{Q}$
-        \item $\lTV{P \lOr Q} = \lTV{P} \lXor \lTV{Q} \lXor \lTV{P}\lTV{Q}$
-        \item $\lTV{P \lIff Q} = \lTV{P} \lXor \lTV{Q} \lXor 1$
-        \item $\lTV{P \lImp Q} = \lTV{P}\lTV{Q} \lXor \lTV{P} \lXor 1$
-    \end{itemize}
+    \begin{multicols}{2}
+        \begin{enumerate}
+            \item $\lTV{\lNot P} = \lTV{P} \lXor 1$
+            \item $\lTV{P \lAnd Q} = \lTV{P}\lTV{Q}$
+            \item $\lTV{P \lXor Q} = \lTV{P} \lXor \lTV{Q}$
+            \item $\lTV{P \lOr Q} = \lTV{P} \lXor \lTV{Q} \lXor \lTV{P}\lTV{Q}$
+            \item $\lTV{P \lIff Q} = \lTV{P} \lXor \lTV{Q} \lXor 1$
+            \item $\lTV{P \lImp Q} = \lTV{P}\lTV{Q} \lXor \lTV{P} \lXor 1$
+        \end{enumerate}
+    \end{multicols}
 \end{definition}
+
+\begin{example}
+    \textbf{Question}: Compute the truth values of $(P \lImp Q) \lAnd (Q \lImp P)$ as a function of
+    $\lTV{P}$ and $\lTV{Q}$.
+
+    \textbf{Solution}: Denote $x=\lTV{P}$ and $y=\lTV{Q}$, we have:
+    \begin{align*}
+        &\phantom{\mathrel{=}} \lTV{(P \lImp Q) \lAnd (Q \lImp P)} \\
+        &= (xy \lXor x \lXor 1) \lAnd (yx \lXor y \lXor 1) \qquad\text{(Rule \#6)} \\
+        &= (xy \lXor x \lXor 1)(xy \lXor y \lXor 1) \qquad\text{(Rule \#2)} \\
+        &= x^2y^2 \lXor xy^2 \lXor xy \lXor x^2y \lXor xy \lXor x \lXor xy \lXor y \lXor 1 \\
+        &= xy \lXor xy \lXor xy \lXor xy \lXor xy \lXor x \lXor xy \lXor y \lXor 1 \\
+        &= \boxed{x \lXor y \lXor 1} \qquad\text{(}\forall b\in\{0, 1\}:(b^2 = b)\text{)}
+    \end{align*}
+    Note that this expression is equivalent to $P \lIff Q$ (by Rule \#5).
+\end{example}
 
 \subsubsection{Logical Equivalence}
 
@@ -68,3 +86,36 @@ we often need to simplify the expression.
     A \textbf{contradiction} is a proposition that is always false, denoted by $F$.
 \end{definition}
 
+\begin{definition}[Logical Equivalence]
+    Two propositions $P$ and $Q$ are said to be logically equivalent if $P \lIff Q$ is a tautology,
+    denoted as $P \equiv Q$ or $P \Leftrightarrow Q$.
+\end{definition}
+
+\begin{theorem}[Important Laws of Logical Equivalence]
+    These are some important laws for simplifying composite logics:
+    \begin{enumerate}
+        \item \textbf{Double Negation Law}: $\neg(\neg P) \equiv Q$
+        \item \textbf{Identity Laws}: $P \lAnd T \equiv P$ and $P \lOr F \equiv P$
+        \item \textbf{Domination Laws}: $P \lOr T \equiv T$ and $P \lAnd F \equiv F$
+        \item \textbf{Idempotent Laws}: $P \lAnd P \equiv P$ and $P \lOr P \equiv P$
+        \item \textbf{Negation Laws}: $P \lAnd \neg P \equiv F$ and $P \lOr \neg P \equiv T$
+        \item \textbf{Biconditional Law}: $(P \lIff Q) \equiv (P \lImp Q) \lAnd (Q \lImp P)$
+        \item \textbf{Implication Law}: $(P \lImp Q) \equiv (\neg P \lOr Q)$
+        \item \textbf{Contraposition Law}: $(P \lImp Q) \equiv (\neg Q \lImp \neg P)$
+        \item \textbf{De Morgan's Laws}:
+        \begin{enumerate}
+            \item $\neg(P \lAnd Q \lAnd R \lAnd \cdots) \equiv \neg P \lOr \neg Q \lOr \neg R \lOr \cdots$
+            \item $\neg(P \lOr Q \lOr R \lOr \cdots) \equiv \neg P \lAnd \neg Q \lAnd \neg R \lAnd \cdots$
+        \end{enumerate}
+        \item \textbf{Distributivity Laws}:
+        \begin{enumerate}
+            \item $P \lOr (Q \lAnd R) \equiv (P \lOr Q) \lAnd (P \lOr R)$
+            \item $P \lAnd (Q \lOr R) \equiv (P \lAnd Q) \lOr (P \lAnd R)$
+        \end{enumerate}
+        \item \textbf{Absorption Laws}:
+        \begin{enumerate}
+            \item $P \lOr (P \lAnd Q) \equiv P$
+            \item $P \lAnd (P \lOr Q) \equiv P$
+        \end{enumerate}
+    \end{enumerate}
+\end{theorem}
