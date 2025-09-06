@@ -1,0 +1,186 @@
+\section{Logic \& Proofs}
+
+\subsection{Propositional Logic}
+
+\begin{definition}[Proposition]
+    A statement that can be \textbf{unambiguously} determined to be either true of false.
+\end{definition}
+
+\begin{definition}[Logical Operators]
+    The commonly used logical operators are:
+    \begin{itemize}
+        \item \textbf{Negation}: $\lNot P$
+        \item \textbf{Conjunction} (AND): $P \lAnd Q$
+        \item \textbf{Disjunction} (OR): $P \lOr Q$
+        \item \textbf{Exclusive OR} (XOR): $P \lXor Q$
+        \item \textbf{Implication/Conditional} (if ..., then ...): $P \lImp Q$
+        \item \textbf{Biconditional} (if and only if): $P \lIff Q$
+    \end{itemize}
+    where $P$ and $Q$ are propositions.
+\end{definition}
+
+\begin{remark}
+    The truth tables for the conditional and biconditional operators are as follows:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{cccc}
+            $P$ & $Q$ & $\boldsymbol{P \lImp Q}$ & $\boldsymbol{P \lIff Q}$ \\ \hline
+            F   & F   & T                     & T                     \\
+            F   & T   & T                     & F                     \\
+            T   & F   & F                     & F                     \\
+            T   & T   & T                     & T                     \\
+        \end{tabular}
+    \end{table}
+
+    Note that the ``implication'' operator is distinct from the ``implication'' used in natural
+    language. $P \lImp Q$ does not contain cause-and-effect information.
+\end{remark}
+
+\begin{definition}[Sufficiency and Necessity]
+    When $P \lImp Q$ is true, we say that:
+    \begin{itemize}
+        \item $P$ is a \textbf{sufficient} condition for $Q$.
+        \item $Q$ is a \textbf{necessary} condition for $P$.
+    \end{itemize}
+\end{definition}
+
+The truth value of a proposition $P$ is denoted by $\lTV{P}$. For composite propositions,
+we often need to simplify the expression.
+
+\subsubsection{Boolean Algebra}
+
+\begin{definition}[Algebraic Rules for Boolean Algebra]
+    Consider two propositions $P$ and $Q$, and denote true by $1$ and false by $0$, we have:
+    \begin{multicols}{2}
+        \begin{enumerate}
+            \item $\lTV{\lNot P} = \lTV{P} \lXor 1$
+            \item $\lTV{P \lAnd Q} = \lTV{P}\lTV{Q}$
+            \item $\lTV{P \lXor Q} = \lTV{P} \lXor \lTV{Q}$
+            \item $\lTV{P \lOr Q} = \lTV{P} \lXor \lTV{Q} \lXor \lTV{P}\lTV{Q}$
+            \item $\lTV{P \lIff Q} = \lTV{P} \lXor \lTV{Q} \lXor 1$
+            \item $\lTV{P \lImp Q} = \lTV{P}\lTV{Q} \lXor \lTV{P} \lXor 1$
+        \end{enumerate}
+    \end{multicols}
+\end{definition}
+
+\begin{example}
+    \textbf{Question}: Compute the truth values of $(P \lImp Q) \lAnd (Q \lImp P)$ as a function of
+    $\lTV{P}$ and $\lTV{Q}$.
+
+    \textbf{Solution}: Denote $x=\lTV{P}$ and $y=\lTV{Q}$, we have:
+    \begin{align*}
+        &\phantom{\mathrel{=}} \lTV{(P \lImp Q) \lAnd (Q \lImp P)} \\
+        &= (xy \lXor x \lXor 1) \lAnd (yx \lXor y \lXor 1) \qquad\text{(Rule \#6)} \\
+        &= (xy \lXor x \lXor 1)(xy \lXor y \lXor 1) \qquad\text{(Rule \#2)} \\
+        &= x^2y^2 \lXor xy^2 \lXor xy \lXor x^2y \lXor xy \lXor x \lXor xy \lXor y \lXor 1 \\
+        &= xy \lXor xy \lXor xy \lXor xy \lXor xy \lXor x \lXor xy \lXor y \lXor 1 \qquad\text{(}\forall b\in\{0, 1\}:(b^2 = b)\text{)}\\
+        &= \boxed{x \lXor y \lXor 1}
+    \end{align*}
+    Note that this expression is equivalent to $P \lIff Q$ (by Rule \#5).
+\end{example}
+
+\subsubsection{Logical Equivalence}
+
+\begin{definition}[Tautology and Contradiction]
+    A \textbf{tautology} is a proposition that is always true, denoted by $T$.
+    A \textbf{contradiction} is a proposition that is always false, denoted by $F$.
+\end{definition}
+
+\begin{definition}[Logical Equivalence]
+    Two propositions $P$ and $Q$ are said to be logically equivalent if $P \lIff Q$ is a tautology,
+    denoted as $P \equiv Q$ or $P \Leftrightarrow Q$.
+\end{definition}
+
+\begin{theorem}[Important Laws of Logical Equivalence]
+    These are some important laws for simplifying composite logics:
+    \begin{enumerate}
+        \item \textbf{Double Negation Law}: $\neg(\neg P) \equiv Q$
+        \item \textbf{Identity Laws}: $P \lAnd T \equiv P$ and $P \lOr F \equiv P$
+        \item \textbf{Domination Laws}: $P \lOr T \equiv T$ and $P \lAnd F \equiv F$
+        \item \textbf{Idempotent Laws}: $P \lAnd P \equiv P$ and $P \lOr P \equiv P$
+        \item \textbf{Negation Laws}: $P \lAnd \neg P \equiv F$ and $P \lOr \neg P \equiv T$
+        \item \textbf{Biconditional Law}: $(P \lIff Q) \equiv (P \lImp Q) \lAnd (Q \lImp P)$
+        \item \textbf{Implication Law}: $(P \lImp Q) \equiv (\neg P \lOr Q)$
+        \item \textbf{Contraposition Law}: $(P \lImp Q) \equiv (\neg Q \lImp \neg P)$
+        \item \textbf{De Morgan's Laws}:
+        \begin{enumerate}
+            \item $\neg(P \lAnd Q \lAnd R \lAnd \cdots) \equiv \neg P \lOr \neg Q \lOr \neg R \lOr \cdots$
+            \item $\neg(P \lOr Q \lOr R \lOr \cdots) \equiv \neg P \lAnd \neg Q \lAnd \neg R \lAnd \cdots$
+        \end{enumerate}
+        \item \textbf{Distributivity Laws}:
+        \begin{enumerate}
+            \item $P \lOr (Q \lAnd R) \equiv (P \lOr Q) \lAnd (P \lOr R)$
+            \item $P \lAnd (Q \lOr R) \equiv (P \lAnd Q) \lOr (P \lAnd R)$
+        \end{enumerate}
+        \item \textbf{Absorption Laws}:
+        \begin{enumerate}
+            \item $P \lOr (P \lAnd Q) \equiv P$
+            \item $P \lAnd (P \lOr Q) \equiv P$
+        \end{enumerate}
+    \end{enumerate}
+\end{theorem}
+
+\subsection{Predicate Logic}
+
+\begin{definition}[Universe of Discourse]
+    For a variable $x$, the set of values under consideration is called the \textbf{Universe of Discourse},
+    or the \textbf{Domain}.
+\end{definition}
+
+\begin{definition}[Predicate]
+    A predicate $P(x)$ is a statement that depends on a variable $x$ so that $P(x)$ is a proposition
+    for every $x$ in the universe of discourse.
+\end{definition}
+
+\begin{definition}[The Universal Quantifier and The Existential Quantifier]
+    The notation $\boldsymbol{\forall x P(x)}$
+    denotes ``$P(x)$ holds \textbf{for every $\boldsymbol{x}$} in the universe of discourse''.
+    Consider its logical equivalence:--
+    $$
+    \forall x P(x) \equiv P(x_0) \lAnd P(x_1) \lAnd P(x_2) \lAnd \cdots \lAnd P(x_n)
+    $$
+    where $\{x_0, x_1, x_2, \cdots, x_n\}$ is the universe of discourse.
+
+    Similarly, the notation $\boldsymbol{\exists x P(x)}$ denotes ``$P(x)$ holds for \textbf{at least one $\boldsymbol{x}$}
+    in the universe of discourse'', and has the logical equivalence of:--
+    $$
+    \exists x P(x) \equiv P(x_0) \lOr P(x_1) \lOr P(x_2) \lOr \cdots \lOr P(x_n)
+    $$.
+\end{definition}
+
+\begin{theorem}[Examples and Counterexamples]
+    To guarantee that the proposition $\forall x P(x)$ is false, it is enough to find one
+    \textbf{counterexample} $x_0$ such that $P(x_0)$ is false.
+    To guarantee that the proposition $\exists x P(x)$ is true, it is enough to find one
+    \textbf{example} $x_0$ such that $P(x_0)$ is true.
+\end{theorem}
+
+\begin{theorem}[Negations of $\forall$ and $\exists$ Predicates]
+    Predicates involving $\forall$ and $\exists$ can be negated as:
+    \begin{multicols}{2}
+        \begin{enumerate}
+            \item $\neg(\forall xP(x)) \equiv \exists x \neg P(x)$
+            \item $\neg(\exists xP(x)) \equiv \forall x \neg P(x)$
+        \end{enumerate}
+    \end{multicols}
+\end{theorem}
+
+\begin{remark}
+    Quantifiers cannot be exchanged:
+    $$
+    \forall y [\exists x : P(x,y)] \nequiv \exists x [\forall y : P(x, y)]
+    $$
+    Let $P(x,y)$ be ``$x$ opens $y$'', $x\in\{\text{all keys in the world}\}$, and
+    $y\in\{\text{all doors in the world}\}$. The left hand side means ``for every door, there exists
+    at least one key that opens the door'' while the right hand side means ``there exists
+    at least one key that opens every door.''
+\end{remark}
+
+\begin{remark}
+    Quantifiers are only distributive with respect to certain operators:
+    \begin{align*}
+        \forall x [P(x) \lAnd Q(x)] &\equiv [\forall x P(x)] \lAnd [\forall y Q(y)] \\
+        \exists x [P(x) \lOr Q(x)] &\equiv [\exists x P(x)] \lOr [\exists y Q(y)]
+    \end{align*}
+    Other combinations do not work.
+\end{remark}
