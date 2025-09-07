@@ -144,7 +144,7 @@ def main():
             ## PDF preview if file is a PDF
             pdf_viewer_string = None
             if metadata.output_file.endswith(".pdf") and metadata.static_site__pdf_viewer != "hidden":
-                pdf_viewer_string = f"<iframe src=\"https://docs.google.com/gview?url=https://shingzhanho.github.io/HKU-Notes/files/{target}/{output_file}"
+                pdf_viewer_string = f"\n\n<iframe src=\"https://docs.google.com/gview?url=https://shingzhanho.github.io/HKU-Notes/files/{target}/{output_file}"
                 pdf_viewer_string += "&embedded=true\" style=\"width: 100%; height: 600px;\" frameborder=\"0\"></iframe>\n\n"
 
             ## Write PDF viewer to head
