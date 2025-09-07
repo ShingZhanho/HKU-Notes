@@ -15,7 +15,15 @@ export_var() {
 # get metadata key value with python script
 get_metadata_value() {
     local key=$1
-    python3 ./build/get-metadata.py "${METADATA_FILE}" "${key}"
+    local output
+    output=$(python3 ./build/get-metadata.py "${METADATA_FILE}" "${key}")
+    local status=$?
+    if [ $status -eq 0 ]; then
+        echo "$output"
+    else
+        echo "Error: Failed to get metadata value for key '${key}'." >&2
+        exit 1
+    fi
 }
 
 BUILD_TARGET_NAME=$1
