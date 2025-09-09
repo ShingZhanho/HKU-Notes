@@ -120,6 +120,28 @@ we often need to simplify the expression.
     \end{enumerate}
 \end{theorem}
 
+\begin{remark}
+    Other important logical equivalences involving Biconditional and Exclusive Or
+    \begin{multicols}{2}
+        \begin{enumerate}
+            \item \textbf{Biconditional}:
+            \begin{enumerate}
+                \item $P \liff Q \equiv \neg P \liff \neg Q$
+                \item $P \liff Q \equiv (P \land Q) \lor (\neg P \land \neg Q)$
+                \item $\neg (P \liff Q) \equiv P \liff \neg Q$
+            \end{enumerate}
+            \columnbreak
+            \item \textbf{Exclusive Or}:
+            \begin{enumerate}
+                \item $P \oplus Q \equiv (P \lor Q) \land \neg (P \land Q)$
+                \item $P \liff Q \equiv \neg P \oplus Q \equiv P \oplus \neg Q$
+                \item $P \lor Q \equiv (P \land Q) \lxor (P \oplus Q)$
+                \item $P \lxor \boldsymbol{T} \equiv \neg P$ and $P \lxor \boldsymbol{F} \equiv P$
+            \end{enumerate}
+        \end{enumerate}
+    \end{multicols}
+\end{remark}
+
 \subsection{Predicate Logic}
 
 \begin{definition}[Universe of Discourse]
