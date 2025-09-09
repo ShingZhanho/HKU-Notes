@@ -1,0 +1,66 @@
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preamble.tex}
+
+\begin{document}
+
+\begin{center}
+    \textbf
+    {\Large{COMP2121 Discrete Mathematics} \\
+    \large{25/26 Semester 1} \\
+    \large{Assignment 1}}\\
+    SHING, Zhan Ho Jacob \qquad 3036228892
+\end{center}
+
+\textit{
+    To distinguish, tautologies are represented as a bold T ($\ltrue$),
+    and contradictions a bold F ($\lfalse$).
+}
+
+\begin{questions}
+    
+    \question English Statements and Logic
+
+    \begin{parts}
+
+        \part $(C \land \neg M) \limp \neg S$
+        \begin{solution}
+            The statement translates to ``If Lady Furina has clues and does not have motive,
+            then she does not solve the case.''
+        \end{solution}
+
+        \part Rewrite sentence:
+        \begin{solution}
+            The required logical expression is $(S \land C) \limp T$.
+        \end{solution}
+
+        \part Verify if an argument is valid:
+        \begin{solution}
+            If we rewrite the argument in logical expressions, we have:
+            \begin{enumerate}
+                \item $S \limp C$ \label{q1c:stm1}
+                \item $\neg C \limp \neg T$ \label{q1c:stm2}
+                \item Therefore, from propositions \ref{q1c:stm1} and \ref{q1c:stm2}, $S \limp T$ \label{q1c:stm3}
+            \end{enumerate}
+            For the argument to be valid, we require the conclusion (Proposition \ref{q1c:stm3})
+            is never false while all the premises (Propositions \ref{q1c:stm1} and \ref{q1c:stm2}) are true.
+            It can be verified by trying to find a counterexample, i.e., combinations of $S$, $C$, and $T$
+            such that the conclusion is $\lfalse$ while all its premises are $\ltrue$.
+
+            For the conclusion to be $\lfalse$, the only possible case is when $S$ is $\ltrue$ and
+            $T$ is $\lfalse$.
+
+            For Proposition \ref{q1c:stm1} to be $\ltrue$ when $S$ is $\ltrue$, $C$ can only be
+            $\ltrue$.
+            
+            When $C$ is $\ltrue$ and $T$ is $\lfalse$, Proposition \ref{q1c:stm2} is $\ltrue$.
+
+            Therefore, when $S$ is $\ltrue$, $C$ is $\ltrue$, and $T$ is $\lfalse$, all premises
+            are $\ltrue$ but the conclusion is $\lfalse$, i.e., the argument is \textbf{invalid}.
+        \end{solution}
+
+    \end{parts}
+
+\end{questions}
+
+\end{document}

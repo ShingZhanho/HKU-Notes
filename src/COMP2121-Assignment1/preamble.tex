@@ -1,0 +1,55 @@
+% for long multiplications
+\makeatletter
+    \providecommand\text\mbox
+    \newenvironment{arithmetic}[1][]{\begin{tabular}[#1]{Al}}{\end{tabular}}
+    \newcolumntype{A}{>{\bgroup\def~{\phantom{0}}$\@testOptor}r<{\@gobble\\$\egroup}}
+    \def\@testOptor\ignorespaces#1#2\\{%
+    \ifx#1\times
+        \@OperatorRow{#1}{#2}\@tempa%
+    \else\ifx#1+
+        \@OperatorRow+{#2}\@tempa%
+    \else\ifx#1\discretionary% detects the soft hyphen, \-
+        \@ShortSubtractRow{#2}\@tempa%
+    \else\ifx#1-
+        \@OperatorRow-{#2}\@tempa%
+    \else
+        \@NormalRow{#1#2}\@tempa%
+    \fi\fi\fi\fi
+    \@tempa}
+    \def\@OperatorRow#1#2#3{%
+    \@IfEndRow#2\@gobble\\{%
+        \def#3{\underline{{}#1 #2}\\}%
+    }{%
+        \def#3{\underline{{}#1 #2{}}}%
+    }}
+
+\def\@NormalRow#1#2{%
+    \@IfEndRow#1\@gobble\\{%
+        \def#2{#1\\}%
+    }{%
+        \def#2{#1{}}%
+    }}
+
+\def\@IfEndRow#1\@gobble#2\\#3#4{%
+    \ifx#2\@gobble
+        #4%
+    \else
+        #3%
+    \fi}
+
+\makeatother
+
+\pagestyle{foot}
+\cfoot{Page \thepage\ of \numpages}
+\bracketedpoints
+\renewcommand{\solutiontitle}{\noindent\textbf{Answers:}\par\noindent}
+
+% Logic symbols
+\newcommand{\lxor}{\oplus}
+\newcommand{\limp}{\rightarrow}
+\newcommand{\liff}{\leftrightarrow}
+\newcommand{\ltrue}{\bm{T}}
+\newcommand{\lfalse}{\bm{F}}
+
+\renewcommand{\thesubpart}{(\arabic{subpart})}
+\renewcommand{\subpartlabel}{\thesubpart}
