@@ -206,3 +206,45 @@ we often need to simplify the expression.
     \end{align*}
     Other combinations do not work.
 \end{remark}
+
+\subsection{Proofs}
+
+\begin{definition}[Valid Argument]
+    An argument is said to be valid if it is impossible for the conclusion to be $\lfalse$
+    when all its premises are $\ltrue$.
+\end{definition}
+
+\begin{definition}[Logical Implication]
+    $P$ is said to be logically implying $Q$ if $P \limp Q$ is a tautology, denoted
+    as $P \limply Q$.
+\end{definition}
+
+\begin{theorem}[Rules of Inference in Propositional Logic] \quad\par
+    \begin{center}
+        \begin{tabular}{ll}
+            \textbf{Name} & \textbf{Logical Implication} \\
+            \hline
+            \textit{Modus ponens} & $((P \limp Q) \land P) \limply Q$ \\
+            \textit{Modus tollens} & $((P \limp Q) \land \neg Q) \limply \neg P$ \\
+            Hypothetical syllogism & $((P \limp Q) \land (Q \limp R)) \limply (P \limp R)$ \\
+            Disjunctive syllogism & $((P \lor Q) \land \neg P) \limply Q$ \\
+            Addition & $P \limply (P \lor Q)$ \\
+            Simplification & $(P \land Q) \limply P$ \\
+            Resolution & $((P \lor Q) \land (\neg P \lor R) \limply (Q \lor R))$
+        \end{tabular}
+    \end{center}
+\end{theorem}
+
+\begin{theorem}[Rules of Inference in Predicate Logic] \quad\par
+    \begin{center}
+        \begin{tabular}{ll}
+            \textbf{Name} & \textbf{Logical Implication} \\
+            \hline
+            Universal instantiation & $(\forall x P(x)) \limply P(c)$ for any arbitrary $c$ \\
+            Universal generalization & $P(c) \limply (\forall x P(x))$ for any arbitrary $c$ \\
+            Existential instantiation & $(\exists x P(x)) \limply P(c)$ for some $c$ \\
+            Existential generalization & $P(c) \limply (\exists x P(x))$ for some $c$ \\
+        \end{tabular}
+    \end{center}
+    
+\end{theorem}
