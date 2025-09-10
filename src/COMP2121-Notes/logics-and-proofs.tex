@@ -219,6 +219,11 @@ we often need to simplify the expression.
     as $P \limply Q$.
 \end{definition}
 
+\begin{definition}[Open Problems]
+    When the proof of a statement remains unknown, the statement is called an \textbf{open problem}.
+    Once a proof is found, the problem no longer remains open.
+\end{definition}
+
 \begin{theorem}[Rules of Inference in Propositional Logic] \quad\par
     \begin{center}
         \begin{tabular}{ll}
@@ -246,5 +251,96 @@ we often need to simplify the expression.
             Existential generalization & $P(c) \limply (\exists x P(x))$ for some $c$ \\
         \end{tabular}
     \end{center}
-    
 \end{theorem}
+
+\begin{theorem}[Combining Rules of Inference] \quad\par
+    \begin{center}
+        \begin{tabular}{ll}
+            \textbf{Name} & \textbf{Logical Implication} \\
+            \hline
+            Universal \textit{modus ponens} & $((\forall x (P(x) \limp Q(x))) \land P(a)) \limply Q(a)$ for a particular $a$ \\
+            Universal \textit{modus tollens} & $((\forall x (P(x) \limp Q(x))) \land \neg Q(a)) \limply \neg P(a)$ for a particular $a$
+        \end{tabular}
+    \end{center}
+\end{theorem}
+
+Several methods for proving statements are introduced below.
+
+\subsubsection{Direct Proof}
+
+A \textbf{direct proof} of a statement $P \limp Q$ starts with the assumption that $P$
+is true, and uses a sequence of logical implications to arrive at the conclusion that $Q$
+is true.
+
+\begin{example} \quad\par
+    \textbf{Thesis}: If $n$ is an odd integer, then $n^2$ is an odd integer.
+
+    \begin{proof}
+        Assume $n$ to be an odd integer, then, by definition, for some integer $k$,
+        $n=2k+1$.
+
+        Then, we have $n^2 = (2k+1)^2 = 2(2k^2 + 1) + 1$.
+        Since $k$ is an integer, $2k^2 + 1$ is an integer.
+
+        By definition of an odd number, $n^2=2(2k^2 + 1) + 1$ is an odd integer.
+    \end{proof}
+\end{example}
+
+\subsubsection{Proof by Contraposition}
+
+Recall the Contraposition Law: $P \limp Q \equiv \neg Q \limp \neg P$. To prove $P \limp Q$
+by contraposition, we first assume that the conclusion, namely $Q$, is false, and then
+show that the premise $P$ must also be false.
+
+\begin{example} \quad\par
+    \textbf{Thesis}: For every integer $n$, $n$ is even if $n^2$ is even.
+
+    \begin{proof}
+        Denote $P:$ ``$n^2$ is even'' and $Q:$ ``$n$ is even''. The thesis is equivalent
+        to $P \limp Q$. To prove by contraposition, we prove $\neg Q \limp \neg P$, i.e.,
+        ``If $n$ is odd, then $n^2$ is odd''.
+
+        Note that this is exactly the same as the previous example, which has already
+        been proven true.
+
+        Therefore, when $Q$ is false (i.e., $n$ is odd), $P$ must also be false (i.e.,
+        $n^2$ is odd), and this shows that $P \limply Q$.
+    \end{proof}
+\end{example}
+
+\subsubsection{Proof by Contradiction}
+
+Suppose we would like to prove $P$ is true, and we can find a contradiction $\lfalse$,
+such that $\neg P \limply \lfalse$. Because $\neg P \limp \lfalse$ is true, but the
+consequence is $\lfalse$, for the conditional to be true, the premise $\neg P$ must
+be false, i.e., $P$ must be true.
+
+\begin{example} \quad\par
+    \textbf{Thesis}: $\exists x \in \R (x^2 + 1 = 0)$ is false.
+
+    \begin{proof}
+        We start by assuming the negation of the thesis, namely
+        $\exists x \in \R (x^2 + 1 = 0)$ is true.
+
+        Consider the fact that $\forall x_0 \in \R (x_0^2 \ge 0)$, which also implies
+        $x_0^2 + 1 \ge 1$.
+
+        Combined with the assumption, we have $x_0^2 + 1 = 0 \ge 1$, which is a contradition.
+
+        Therefore, the negation of the thesis is false, and the thesis must be true.
+    \end{proof}
+\end{example}
+
+\subsubsection{Proof by Cases}
+
+Consider the logical equivalence:
+$$
+(P_1 \lor P_2 \lor \cdots \lor P_n) \limp Q \equiv (P_1 \limp Q) \land (P_2 \limp Q) \land \cdots \land (P_n \limp Q)
+$$
+To prove $P \limp Q$, where $P \equiv P_1 \lor P_2 \lor \cdots \lor P_n$, we can prove
+$P_i \limp Q$ for each $i=1, 2, \ldots, n$.
+
+\subsubsection{Equivalence Proof}
+
+To prove $P \equiv Q$, we can prove both the sufficiency $P \limp Q$ and the necessity
+$Q \limp P$.

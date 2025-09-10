@@ -174,7 +174,7 @@
 \newtheoremstyle{mystyle}{}{}{}{}{\sffamily\bfseries}{.}{ }{}
 \newtheoremstyle{cstyle}{}{}{}{}{\sffamily\bfseries}{.}{ }{\thmnote{#3}}
 \makeatletter
-\renewenvironment{proof}[1][\proofname] {\par\pushQED{\qed}{\normalfont\sffamily\bfseries\topsep6\p@\@plus6\p@\relax #1\@addpunct{.} }}{\popQED\endtrivlist\@endpefalse}
+\renewenvironment{proof}[1][\proofname] {\par\pushQED{\textbf{\hfill Q.E.D.}}{\normalfont\sffamily\bfseries\topsep6\p@\@plus6\p@\relax #1\@addpunct{.}\par }}{\par\popQED\endtrivlist\@endpefalse}
 \makeatother
 \theoremstyle{mystyle}{\newtheorem{definition}{Definition}[section]}
 \theoremstyle{mystyle}{\newtheorem{proposition}[definition]{Proposition}}
