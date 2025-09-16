@@ -272,6 +272,70 @@
 
     \end{parts}
 
+    \question Proofs
+
+    \begin{parts}
+        
+        \part Determine the validity of a proof.
+        \begin{solution}
+            Step 1: Valid. This is implication law ($P \limp Q \equiv \neg P \lor Q$).
+
+            Step 2: Valid. Renaming the variable $x$ to $y$ does not change the meaning of
+            the statement. This is also the distribution law of $\forall$ over $\land$ --
+            $\forall x P(x) \land \forall y Q(y) \equiv \forall x (P(x) \land Q(x))$.
+
+            Step 3: Valid. This step combines application of several laws:
+            \begin{align*}
+                &\equiv \forall x[(P(x)\land\neg Q(x)) \lor (Q(x)\land\neg Q(x))] \qquad\text{(Distribution law)}\\
+                &\equiv \forall x[(P(x)\land\neg Q(x)) \lor \lfalse] \qquad\text{(Contradiction law)}\\
+                &\equiv \forall x[P(x)\land\neg Q(x)] \qquad\text{(Identity law)}
+            \end{align*}
+
+            Step 4: Valid. This is the simplification (i.e., $P\land Q \limp P$).
+
+            Step 5: Valid. First, since $\forall x P(x)$ is true, then $P(c)$ must be true
+            for any $c$ in the universe of dicourse. Then, since there exists at least one
+            $x$, $c$ in this case, such that $P(x)$ is true, then $\exists x P(x)$ is true.
+        \end{solution}
+
+        \part Proof by Induction.
+        \begin{psol}
+            Denote $P(n) : \ds{\sum_{k=1}^n \cos(kx) = \frac{1}{2}\left(\frac{\sin\left[\left(n+\frac{1}{2}\right)x\right]}{\sin\left(\frac{1}{2}x\right)}-1\right)}$.
+
+            \textbf{Base Case:} $n=1$.
+            \begin{equation*}
+                \text{L.H.S.} = \sum_{k=1}^1 \cos(kx) = \cos(x)
+            \end{equation*}
+            \begin{align*}
+                \text{R.H.S.} &= \frac{1}{2}\left(\frac{\sin\frac{3}{2}x}{\sin\frac{1}{2}x}-1\right)\\
+                &= \frac{1}{2} \left(\frac{\sin\frac{3}{2}x-\sin\frac{1}{2}x}{\sin\frac{1}{2}x}\right)\\
+                &= \frac{1}{2} \left(\frac{2\cos x\sin\frac{1}{2}x}{\sin\frac{1}{2}x}\right)\\
+                &= \cos x \\
+                &= \text{L.H.S.}
+            \end{align*}
+            Therefore, $P(1)$ holds.
+
+            \textbf{Inductive Step:} Assume that $P(n)$ holds for $n\geq 1$. We show that $P(n+1)$ also holds.
+            \begin{align*}
+                \text{L.H.S.} &= \sum_{k=1}^{n+1} \cos(kx) \\
+                &= \sum_{k=1}^n \cos(kx) + \cos\left((n+1)x\right) \\
+                &= P(n) + \cos\left((n+1)x\right) \\
+                &= \frac{1}{2}\left(\frac{\sin\left[\left(n+\frac{1}{2}\right)x\right]}{\sin\frac{1}{2}x}-1\right) + \cos\left((n+1)x\right) \\
+                &= \frac{1}{2}\left(\frac{\sin\left[\left(n+\frac{1}{2}\right)x\right]-\sin\frac{1}{2}x}{\sin\frac{1}{2}x}\right) + \cos\left((n+1)x\right) \\
+                &= \frac{1}{2}\left(\frac{2\cos\left[\frac{n+1}{2}x\right]\sin\left[\frac{n}{2}x\right]}{\sin\frac{1}{2}x}\right) + \cos\left((n+1)x\right) \\
+                &= \frac{\cos\left[\frac{n+1}{2}x\right]\sin\left[\frac{n}{2}x\right] + \cos\left((n+1)x\right)\sin\frac{1}{2}x}{\sin\frac{1}{2}x} \\
+                &= \frac{\sin\left[\frac{2n+1}{2}x\right]-\sin\frac{1}{2}x+\sin\left[\frac{2n+3}{2}x\right]-\sin\left[\frac{2n+1}{2}x\right]}{2\sin\frac{1}{2}x} \\
+                &= \frac{1}{2}\left(\frac{\sin\left[\frac{2n+3}{2}x\right]}{\sin\frac{1}{2}x}-1\right) \\
+                &= \frac{1}{2}\left(\frac{\sin\left[\left(\left(n+1\right)+\frac{1}{2}\right)x\right]}{\sin\frac{1}{2}x}-1\right) \\
+                &= \text{R.H.S.}
+            \end{align*}
+            Therefore, $P(n) \Rightarrow P(n+1)$.
+
+            By the principle of mathematical induction, $P(n)$ holds for all $n\geq 1$.
+        \end{psol}
+
+    \end{parts}
+
 \end{questions}
 
 \end{document}
