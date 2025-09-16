@@ -195,6 +195,31 @@
         \end{solution}
     \end{parts}
 
+    \question Quantifiers and Predicates
+
+    \begin{parts}
+        
+        \part Rewrite expression
+        $\neg(\exists y\neg(\forall x(P(x)\land Q(y))))\limp\exists z R(z)$.
+        \begin{solution}
+            \begin{align*}
+                \neg(\exists y\neg(\forall x(P(x)\land Q(y))))\limp\exists z R(z)
+                &\equiv \neg(\exists y\neg(\forall xP(x)\land\forall xQ(y)))\limp\exists zR(z) \\
+                &\equiv \neg(\exists y(\neg\forall xP(x)\lor\neg Q(y)))\limp\exists zR(z) \\
+                &\equiv \neg(\exists y(\exists x\neg P(x) \lor\neg Q(y)))\limp\exists zR(z) \\
+                &\equiv \forall y\neg(\exists x\neg P(x)\lor\neg Q(y))\limp\exists zR(z) \\
+                &\equiv \forall y(\neg\exists x\neg P(x)\land\neg(\neg Q(y)))\limp\exists zR(z) \\
+                &\equiv \forall y(\forall x\neg(\neg P(x))\land Q(y))\limp\exists zR(z) \\
+                &\equiv \forall y(\forall xP(x) \land Q(y)) \limp\exists zR(z) \\
+                &\equiv \forall y\forall xP(x)\land\forall yQ(y)\limp\exists zR(z)\\
+                &\equiv (\forall xP(x))\land(\forall yQ(y)) \limp\exists zR(z) \\
+                &\equiv \neg(\forall xP(x))\land(\forall yQ(y)) \lor \exists zR(z)\\
+                &\equiv \neg\forall xP(x) \lor \neg\forall yQ(y) \lor \exists zR(z)\\
+                &\equiv \exists x\neg P(x) \lor \exists y\neg Q(y) \lor \exists zR(z)
+            \end{align*}
+        \end{solution}
+    \end{parts}
+
 \end{questions}
 
 \end{document}
