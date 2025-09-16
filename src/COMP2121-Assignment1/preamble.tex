@@ -57,3 +57,13 @@
 % commands for question 4b
 \newcommand{\tnot}[1]{\texttt{NOT}\left(#1\right)}
 \newcommand{\topr}[3]{\texttt{#1}\left(#2, #3\right)}
+
+% psol (proof-solution) environment
+\newenvironment{psol}{
+    \renewcommand{\solutiontitle}{\noindent\textbf{Proof:}\par\noindent}
+    \begin{solution}
+}{
+    \par\hfill\textbf{Q.E.D.}
+    \end{solution}
+    \renewcommand{\solutiontitle}{\noindent\textbf{Answers:}\par\noindent}
+}

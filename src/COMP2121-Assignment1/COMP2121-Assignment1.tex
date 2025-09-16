@@ -132,7 +132,7 @@
                 which means $\texttt{OR}(A, B)=\texttt{NAND}(\texttt{NOT}(A), \texttt{NOT}(B))$.
                 
                 Further expand the $\texttt{NOT}$ operators as implemented before, we have:
-                $\boxed{\texttt{OR}(A, B)=\texttt{NAND}\left[\texttt{NAND}(A, A), \texttt{NAND}(B,B)\right]}$
+                $\boxed{\texttt{OR}(A, B)=\texttt{NAND}\left[\texttt{NAND}(A, A), \texttt{NAND}(B,B)\right]}$.
 
                 \item \textbf{\texttt{AND} operator}
                 
@@ -218,6 +218,58 @@
                 &\equiv \exists x\neg P(x) \lor \exists y\neg Q(y) \lor \exists zR(z)
             \end{align*}
         \end{solution}
+
+        \part Prove that $\forall xP(x)\land\exists xQ(x) \equiv \forall x \exists y (P(x)\land Q(y))$.
+        \begin{psol}
+            Rename the variable on the left-hand side, we have:
+            $$\forall xP(x)\land\exists yQ(y) \equiv \forall x\exists y(P(x)\land Q(y))$$
+            To prove equivalence, we prove both the sufficiency and necessity.
+            \begin{enumerate}
+                \item \textbf{Sufficiency:} $\forall xP(x)\land\exists yQ(y) \Rightarrow \forall x\exists y(P(x)\land Q(y))$
+                
+                Assume that the L.H.S. is true, then for all $x$, $P(x)$ must hold.
+                Also, there must exist at least one $y$, say $y_0$, such that $Q(y_0)$ holds.
+                Therefore, for all $x$, we can always find a $y$, which is $y_0$, such that
+                $P(x)\land Q(y)$ holds. We have displayed that the R.H.S. must be true if
+                the L.H.S. is true.
+
+                \item \textbf{Necessity:} $\forall xP(x)\land\exists yQ(y) \Leftarrow \forall x\exists y(P(x)\land Q(y))$
+                
+                Assume that the R.H.S. (i.e., $\forall x\exists y(P(x)\land Q(y))$) is true,
+                then for all $x$, we can always find a $y$, say $y_0$, such that $P(x)\land Q(y_0)$
+                holds. Therefore, for all $x$, $P(x)$ must hold, and there must exist at least one $y$,
+                which is $y_0$, such that $Q(y_0)$ holds. We have displayed that the L.H.S. must be true if
+                the R.H.S. is true.
+            \end{enumerate}
+            Since both the sufficiency and necessity have been proved, we conclude that
+            $\forall xP(x)\land\exists xQ(x) \liff \forall x \exists y (P(x)\land Q(y))$
+            is a tautology, i.e., the two statements are logically equivalent.
+        \end{psol}
+
+        \part Justify whether $\exists x \forall y P(x, y) \limp \forall y \exists x P(x, y)$
+        is always a tautology for any predicate $P(x, y)$.
+        \begin{solution}
+            We propose that the given proposition is not always a tautology, and we attempt
+            to find an example, such that the proposition is a contradiction.
+
+            $\exists x \forall y P(x,y) \limp \forall y \exists x P(x,y)$ is a contradiction
+            iff $\exists x \forall y P(x,y)$ is $\ltrue$ and $\forall y \exists x P(x,y)$ is
+            $\lfalse$.
+
+            If the antecedent is true, then, for at least one $x$, say $x_0$, $P(x_0, y)$
+            holds for all $y$.
+
+            If the consequent is false, then, for at least one $y$, say $y_0$, there does not
+            exist any $x$ such that $P(x, y_0)$ holds.
+
+            However, if $P(x_0, y)$ holds for all $y$, then $P(x_0, y_0)$ must also hold.
+            Therefore, such $y_0$ does not exist, and the consequent can never be false if
+            the antecedent is true.
+
+            Therefore, we cannot find a counterexample such that the antecedent is true
+            while the consequent is false. Hence, the given proposition is always a tautology.
+        \end{solution}
+
     \end{parts}
 
 \end{questions}
