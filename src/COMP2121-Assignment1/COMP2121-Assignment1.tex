@@ -87,6 +87,114 @@
         is a truth
     \end{solution}
 
+    \question Logical Operators
+
+    \begin{parts}
+        
+        \part Number of possible 2-to-1 logical operators for inputs $A, B\in\{0,1\}$
+        and output $C\in \{0,1\}$.
+        \begin{solution}
+            Note that for two inputs $A$ and $B$, there are four possible combinations,
+            i.e., $(A, B) \in \{(0,0), (0, 1), (1, 0), (1, 1)\}$. A logical operator
+            is a function $f$ that maps the combinations of inputs to an output, i.e.,
+            $f: \{0, 1\}^2 \to \{0, 1\}$. Consider the truth table of $f$:
+            \begin{center}
+                \begin{tabular}{ccc}
+                    $\bm{A}$ & $\bm{B}$ & $\bm{C = f(A, B)}$ \\
+                    \hline
+                    0 & 0 & $f(0, 0)$ \\
+                    0 & 1 & $f(0, 1)$ \\
+                    1 & 0 & $f(1, 0)$ \\
+                    1 & 1 & $f(1, 1)$ 
+                \end{tabular}
+            \end{center}
+            Two logical operators $f$ and $g$ are said to be the same if and only if
+            for all combinations of inputs, $f(A, B) = g(A, B)$. Therefore, the problem
+            reduces to counting the number of different ways to fill the truth table,
+            which is given by $2^4 = 16$.
+
+            Therefore, there are \fbox{\textbf{16}} possible 2-to-1 logical operators.
+        \end{solution}
+
+        \part Implement \texttt{NOT}, \texttt{AND}, \texttt{OR}, \texttt{XOR}, and
+        \texttt{IMPLIES} using only the logical operator \texttt{NAND}. 
+        \begin{solution}
+            \begin{itemize}
+                \item \textbf{\texttt{NOT} operator}
+                
+                Note that $\texttt{NAND}(A, A) \equiv \neg (A \land A) \equiv \neg A \lor \neg A \equiv \neg A$.
+                
+                Therefore, the \texttt{NOT} operator is implemented as $\boxed{\texttt{NOT}(A) = \texttt{NAND}(A, A)}$.
+
+                \item \textbf{\texttt{OR} operator}
+                
+                Note that $\neg(\neg A \land \neg B) \equiv A \lor B$,
+                which means $\texttt{OR}(A, B)=\texttt{NAND}(\texttt{NOT}(A), \texttt{NOT}(B))$.
+                
+                Further expand the $\texttt{NOT}$ operators as implemented before, we have:
+                $\boxed{\texttt{OR}(A, B)=\texttt{NAND}\left[\texttt{NAND}(A, A), \texttt{NAND}(B,B)\right]}$
+
+                \item \textbf{\texttt{AND} operator}
+                
+                Note that if we apply \texttt{NAND} on the result of $\texttt{NAND}(A, B)$, we have:
+                $$\neg\left[\neg\left(A\land B\right)\land\neg\left(A\land B\right)\right]
+                \equiv \left(A\land B\right)\lor\left(A \land B\right)
+                \equiv A \land \left(B \lor B\right)
+                \equiv A \land B$$
+
+                Therefore, the \texttt{AND} operator is implemented as
+                \fbox{$\topr{AND}{A}{B}=\topr{NAND}{\topr{NAND}{A}{B}}{\topr{NAND}{A}{B}}$}.
+
+                \item \textbf{\texttt{XOR} operator}
+                
+                Recall that $A\lxor B
+                \equiv (A\lor B)\land\neg(A\land B)$. From this expression, we continue to derive:
+                \begin{align*}
+                    (A\lor B)\land\neg(A\land B)
+                    &\equiv (A\land\neg(A\land B))\lor(B\land\neg(A\land B)) \qquad\text{(Distributive Law)}\\
+                    &\equiv \neg[\neg(A\land\neg(A\land B))\land\neg(B\land\neg(A\land B))] \qquad\text{(De Morgan's Law)}\\
+                    &\equiv \topr{NAND}{
+                        \topr{NAND}{A}{\topr{NAND}{A}{B}}
+                    }{
+                        \topr{NAND}{B}{\topr{NAND}{A}{B}}
+                    }
+                \end{align*}
+
+                Therefore, \texttt{XOR} is implemented as \fbox{$\topr{XOR}{A}{B}
+                =\topr{NAND}{
+                        \topr{NAND}{A}{\topr{NAND}{A}{B}}
+                    }{
+                        \topr{NAND}{B}{\topr{NAND}{A}{B}}
+                    }$}.
+
+                \item \textbf{\texttt{IMPLIES} operator}
+                
+                By logical equivalence, we have $A \limp B \equiv \neg A \lor B$.
+
+                Expand the expression, we have:
+                \begin{align*}
+                    \neg A\lor B
+                    &\equiv \topr{OR}{\tnot{A}}{B} \\
+                    &\equiv \topr{OR}{\topr{NAND}{A}{A}}{B} \\
+                    &\equiv \topr{NAND}{
+                        \topr{NAND}{\topr{NAND}{A}{A}}{\topr{NAND}{A}{A}}
+                    }{
+                        \topr{NAND}{B}{B}
+                    }
+                \end{align*}
+
+                Therefore, \texttt{IMPLIES} is as \fbox{$
+                \topr{IMPLIES}{A}{B} = 
+                \topr{NAND}{
+                        \topr{NAND}{\topr{NAND}{A}{A}}{\topr{NAND}{A}{A}}
+                    }{
+                        \topr{NAND}{B}{B}
+                    }
+                $}.
+            \end{itemize}
+        \end{solution}
+    \end{parts}
+
 \end{questions}
 
 \end{document}
