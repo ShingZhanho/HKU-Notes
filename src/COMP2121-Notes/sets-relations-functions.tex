@@ -1,1 +1,48 @@
 \section{Sets, Relations, \& Functions}
+
+\subsection{Sets}
+
+\begin{definition}[Set]
+    A \textbf{set} is a collection of \textbf{unordered}, \textbf{distinct} objects,
+    considered as an object in its own right.
+    The objects are called the \textbf{elements} or \textbf{members} of the set.
+
+    Two sets $A$ and $B$ are said to be equal if and only if all elements of $A$ are
+    elements of $B$ and all elements of $B$ are elements of $A$.
+    This is denoted by $A = B$.
+\end{definition}
+
+\begin{definition}[Belonging to a Set]
+    An object $x$ within $A$ is said to \textbf{belong} to a set $A$, denoted
+    by $x \in A$. If $x$ does not belong to $A$, we write $x \notin A$.
+\end{definition}
+
+\begin{definition}[Cardinality]
+    The \textbf{cardinality} of a set $A$, denoted by $|A|$, is the number of
+    elements in $A$.
+\end{definition}
+
+\begin{definition}[Empty Set]
+    The \textbf{empty set}, denoted by $\mtset$, is the set with no elements.
+    Its cardinality is $0$, i.e. $\card{\mtset} = 0$.
+\end{definition}
+
+\begin{remark}
+    Sets can be defined in two ways:
+    \begin{enumerate}
+        \item \textbf{Roster form}: Explicitly list all elements of the set.
+        (e.g. $A = \{1, 2, 3\}$)
+        \item \textbf{Set-builder form}: Describe the properties of the elements
+        of the set.\\
+        (e.g. $A = \{x \mid x \text{ is a positive integer less than } 4\}
+        = \{1, 2, 3\}$)
+    \end{enumerate}
+\end{remark}
+
+\begin{definition}[Power Set]
+    A power set of a set $A$, denoted by $\pwset{A}$, is the set of all subsets of $A$,
+    i.e. all the possible combinations of elements in $A$.
+
+    Note that $\mtset \in \pwset{A}$ and $A \in \pwset{A}$ are tautologies.
+    We also have $\card{\pwset{A}} = 2^{\card{A}}$, provided that $A$ is finite.
+\end{definition}
