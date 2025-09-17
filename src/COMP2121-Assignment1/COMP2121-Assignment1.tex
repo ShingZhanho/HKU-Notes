@@ -336,6 +336,68 @@
 
     \end{parts}
 
+    \question Basics on Sets
+
+    \begin{parts}
+        
+        \part Cardinality.
+        \begin{solution}
+            \begin{enumerate}[label=(\roman*)]
+                \item $\card{A} = \boxed{4}$
+                \item $\card{\pwset{B}} = 2^{\card{B}} = 2^4 = \boxed{16}$,
+                provided that the set $B$ has two integers, one empty set, and one proposition.
+                \item Note that $C = [0, 10]$. Therefore, $\card{C} = \boxed{11}$.
+                \item Assuming that capital and small letters are the same, then
+                $\card{D} = 26-7 =\boxed{19}$.
+            \end{enumerate}
+        \end{solution}
+
+        \part Set Operations.
+        \begin{solution}
+            \begin{enumerate}[label=(\roman*)]
+                \item $A \cap B = \set{2, \mtset} \Rightarrow \card{A\cap B} = \boxed{2}$.
+                \item Consider:\begin{align*}
+                    B \cup (C\cap\mtset) - A 
+                    &= B\cup\mtset - A \\
+                    &= B-A \\
+                    &= \set{1, 2, \mtset, |x|=2} - \set{\set{0, 1}, 2, 3, \mtset} \\
+                    &= \set{1, |x|=2} \\
+                    &\Rightarrow \card{B \cup (C\cap\mtset) - A} = \boxed{2}
+                \end{align*}
+                \item Consider:\begin{align*}
+                    (A\cap B)\times(B\cap C)
+                    &= \set{2, \mtset} \times \set{1, 2} \\
+                    &= \set{(2, 1), (2, 2), (\mtset, 1), (\mtset, 2)} \\
+                    &\Rightarrow \card{(A\cap B)\times(B\cap C)} = \boxed{4}
+                \end{align*}
+            \end{enumerate}
+        \end{solution}
+
+    \end{parts}
+
+    \question Venn Diagrams
+
+    \begin{parts}
+        
+        \part Set in Figure 2.
+        \begin{solution}
+            The set represented in Figure 2 is $(A\cup B)\cap C$.
+        \end{solution}
+
+        \part Draw Venn diagram for $(A\cup B) - (\overline{A\cap C})$.
+        \begin{solution}
+            \begin{center}
+                \begin{venndiagram3sets}[
+                    labelNotABC=$U$,
+                    shade=blue!30
+                    ]
+                    \fillOnlyA \fillOnlyB \fillACapBNotC \fillBCapCNotA
+                \end{venndiagram3sets}
+            \end{center}
+        \end{solution}
+
+    \end{parts}
+
 \end{questions}
 
 \end{document}
