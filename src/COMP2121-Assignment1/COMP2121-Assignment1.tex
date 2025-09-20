@@ -71,20 +71,40 @@
         i.e., the answers from C are lies. For the first question that C was asked,
         he said he would answer ``Ja'', but since he is a knave, that means C would
         actually answer ``Da'' upon being asked. If he answers ``Da (No)'' to the question
-        whether A is a knave, he would be lying, and it would mean that A is indeed a
-        knave, which is contraditory to our initial assumption. Therefore, this case
-        is not true.
+        whether C is the knave, then C denies it, which is a lie, confirming that C is
+        indeed the knave. Now, we ask C ``If A is the spy, would you say Ja?'', and
+        C answers ``Da'', which means he would actually answer ``Ja'', lieing that A is
+        the spy. This is consistent since A is not the spy.
+        
+        Therefore, we have found a consistent solution: \textbf{when ``Ja'' means ``Yes''
+        and ``Da'' means ``No'', A is a knight, B is a spy, and C is a knave}.
 
-        Now, we assume A to be the knave, then when he says he would answer ``Ja'' to
-        the question whether B is the spy, he is lying and he would actually answer ``Da''.
-        And if so he does, ``B is the spy'' would in fact be the truth, so B is in fact
-        the spy. Then C would have to be a knight. Since he always tells the truth, then
-        when asked if C were a knave, he would answer ``Ja'', which is the truth. This is
-        impossible as C could only be a knight. Therefore, this case is not true.
+        % Now, we assume A to be the knave, then when he says he would answer ``Ja'' to
+        % the question whether B is the spy, he is lying and he would actually answer ``Da''.
+        % And if so he does, ``B is the spy'' would in fact be the truth, so B is in fact
+        % the spy. Then C would have to be a knight. Since he always tells the truth, then
+        % when asked if C were a knave, he would answer ``Ja'', which is the truth. This is
+        % impossible as C could only be a knight. Therefore, this case is not true.
 
-        Now, we assume A to be the spy, then he can either tells a truth or lie. Assume
-        that A answering ``Ja'' to ``If I asked you if B is the spy, would you say Ja?''
-        is a truth
+        % Now, we assume A to be the spy, then he can either tell a truth or lie. Assume
+        % that A answering ``Ja'' to ``If I asked you if B is the spy, would you say Ja?''
+        % is a truth, then upon being asked, A indeeds answer ``Ja''. Now, we have two
+        % possibilities: either A did not lie when we asked him if B is the spy, that is,
+        % B is indeed the spy, which will lead to a contradiction as A and B will both be
+        % spies; or A lied when we asked him if B is the spy, that is, B is not the spy.
+        % Now we look at C, who can either be a knight or a knave. If C is a knight,
+        % then when asked if C is a knave, whether he would answer ``Ja'', he would answer
+        % ``Ja'', which affirms that C is indeed the knave, which contradicts our assumption.
+        % Then, C must be a knave. This checks as if we ask C if C is a knave, whether he
+        % would answer ``Ja'', he answered ``Ja'', which means he would actually answer ``Da'',
+        % denying that he is a knave, which is a lie. Now we ask C ``If A is the spy, would
+        % you say Ja?'', and C answers ``Da'', which means he would actually answer ``Ja'',
+        % affirming that A is the spy, which is a lie. This is inconsistent with our assumption
+        % that A is the spy. Therefore, this case is not true.
+
+        % Therefore, our initial assumption that ``Ja'' means ``Yes'' and ``Da'' means ``No''
+        % will not lead to any consistent solution. Now, we assume that ``Ja'' means ``No''
+        % and ``Da'' means ``Yes''.
     \end{solution}
 
     \question Logical Operators
