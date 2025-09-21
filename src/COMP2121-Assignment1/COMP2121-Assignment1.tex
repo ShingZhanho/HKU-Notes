@@ -64,47 +64,193 @@
     \question A Logic Puzzle
 
     \begin{solution}
-        First, assume that ``Ja'' means ``Yes'' and ``Da'' means ``No''.
+        Denote $Q_1:$ ``If I asked you (A) if B is the spy, would you say Ja?'',
+        and $Q^A_1$ as the actual question ``Is B the spy?''. Define similarly for
+        $Q_2:$ ``If I asked you if you (C) were the knave, would you say Ja?'',
+        $Q^A_2:$ ``Are you (C) the knave?'',
+        $Q_3:$ ``If I asked you (C) if A is the spy, would you say Ja?'',
+        and $Q^A_3:$ ``Is A the spy?''.
 
-        Assume that A is a knight, then based on his answer, which is the truth, B is
-        a spy. Then, C must be the knave since there is exactly one person of one type,
-        i.e., the answers from C are lies. For the first question that C was asked,
-        he said he would answer ``Ja'', but since he is a knave, that means C would
-        actually answer ``Da'' upon being asked. If he answers ``Da (No)'' to the question
-        whether C is the knave, then C denies it, which is a lie, confirming that C is
-        indeed the knave. Now, we ask C ``If A is the spy, would you say Ja?'', and
-        C answers ``Da'', which means he would actually answer ``Ja'', lieing that A is
-        the spy. This is consistent since A is not the spy.
-        
-        Therefore, we have found a consistent solution: \textbf{when ``Ja'' means ``Yes''
-        and ``Da'' means ``No'', A is a knight, B is a spy, and C is a knave}.
+        We solve the puzzle by the following tree of assumptions:
+        \begin{itemize}
+            \item \textbf{Assume ``Ja'' means ``Yes'' and ``Da'' means ``No''.}
+            \begin{itemize}
+                \item \textbf{Assume A is a knight.}
+                
+                When we ask $Q_1$ to A, A answers ``Yes''.
+                Since A is a knight, he tells the truth, so when we further ask $Q^A_1$ to A,
+                A would also answer ``Yes'', which means B is indeed the spy.
+                
+                Then, C must be the knave.
+                
+                Since C always lies, when we ask $Q_2$ to C,
+                C answers ``Yes'', which is a lie, so when we further ask $Q^A_2$ to C,
+                C would actually answer ``No'', which is also a lie, i.e., C is indeed
+                the knave.
+                
+                Now, we ask $Q_3$ to C, and C answers ``No'', which is a lie,
+                so when we further ask $Q^A_3$ to C, C would actually answer ``Yes'', which
+                is also a lie, i.e., A is not the spy.
+                
+                \fbox{\textbf{This is a valid solution.}}
+                We will further examine other combinations.
 
-        % Now, we assume A to be the knave, then when he says he would answer ``Ja'' to
-        % the question whether B is the spy, he is lying and he would actually answer ``Da''.
-        % And if so he does, ``B is the spy'' would in fact be the truth, so B is in fact
-        % the spy. Then C would have to be a knight. Since he always tells the truth, then
-        % when asked if C were a knave, he would answer ``Ja'', which is the truth. This is
-        % impossible as C could only be a knight. Therefore, this case is not true.
+                \item \textbf{Assume A is a knave.}
+                
+                When we ask $Q_1$ to A, A answers ``Yes''. Since A is a knave, he lies,
+                so when we further ask $Q^A_1$ to A, A would actually answer ``No'',
+                which is also a lie, i.e., B is indeed the spy.
+                
+                Then, C must be a knight.
 
-        % Now, we assume A to be the spy, then he can either tell a truth or lie. Assume
-        % that A answering ``Ja'' to ``If I asked you if B is the spy, would you say Ja?''
-        % is a truth, then upon being asked, A indeeds answer ``Ja''. Now, we have two
-        % possibilities: either A did not lie when we asked him if B is the spy, that is,
-        % B is indeed the spy, which will lead to a contradiction as A and B will both be
-        % spies; or A lied when we asked him if B is the spy, that is, B is not the spy.
-        % Now we look at C, who can either be a knight or a knave. If C is a knight,
-        % then when asked if C is a knave, whether he would answer ``Ja'', he would answer
-        % ``Ja'', which affirms that C is indeed the knave, which contradicts our assumption.
-        % Then, C must be a knave. This checks as if we ask C if C is a knave, whether he
-        % would answer ``Ja'', he answered ``Ja'', which means he would actually answer ``Da'',
-        % denying that he is a knave, which is a lie. Now we ask C ``If A is the spy, would
-        % you say Ja?'', and C answers ``Da'', which means he would actually answer ``Ja'',
-        % affirming that A is the spy, which is a lie. This is inconsistent with our assumption
-        % that A is the spy. Therefore, this case is not true.
+                Since C always tells the truth, when we ask $Q_2$ to C, C answers ``Yes'',
+                so when we further ask $Q^A_2$ to C, C would also answer ``Yes'', i.e., C
+                is the knave. This contradicts our assumption that C is a knight.
 
-        % Therefore, our initial assumption that ``Ja'' means ``Yes'' and ``Da'' means ``No''
-        % will not lead to any consistent solution. Now, we assume that ``Ja'' means ``No''
-        % and ``Da'' means ``Yes''.
+                \item \textbf{Assume A is a spy.}
+                
+                Since A is a spy, when we ask $Q_1$ to A, A can either tell a truth or lie.
+
+                \begin{itemize}
+                    \item \textbf{Assume A answering ``Yes'' to $\bm{Q_1}$ is a truth.}
+                    
+                    When we further ask $Q^A_1$ to A, A indeed answers ``Yes''. Note that
+                    this can also have two possibilities: either A answering ``Yes'' to
+                    $Q^A_1$ is a truth, or A answering ``Yes'' to $Q^A_1$ is a lie.
+
+                    \begin{itemize}
+                        \item \textbf{Assume A answering ``Yes'' to $\bm{Q^A_1}$ is a truth.}
+                        
+                        Then, B is indeed the spy, which contradicts our assumption that
+                        A is the spy.
+
+                        \item \textbf{Assume A answering ``Yes'' to $\bm{Q^A_1}$ is a lie.}
+                        
+                        Then, B is not the spy.
+
+                        \begin{enumerate}
+                            \item \textbf{Assume C is a knight.}
+                            
+                            Since C always tells the truth, when we ask $Q_2$ to C, C answers
+                            ``Yes'', so when we further ask $Q^A_2$ to C, C would also
+                            answer ``Yes'', i.e., C is the knave. This contradicts our
+                            assumption that C is a knight.
+
+                            \item \textbf{Assume C is a knave.}
+                            
+                            Since C always lies, when we ask $Q_2$ to C, C answers ``Yes'',
+                            which is a lie, so when we further ask $Q^A_2$ to C, C would
+                            actually answer ``No'', which is also a lie, i.e., C is indeed
+                            the knave.
+
+                            Then, we ask $Q_3$ to C, and C answers ``No'', which is a lie,
+                            so when we further ask $Q^A_3$ to C, C would actually answer
+                            ``Yes'', which is also a lie, i.e., A is not the spy. This,
+                            again, contradicts our assumption that A is the spy.
+                        \end{enumerate}
+                    \end{itemize}
+                    
+                    \item \textbf{Assume A answering ``Yes'' to $\bm{Q_1}$ is a lie.}
+                    
+                    When we further ask $Q^A_1$ to A, A would actually answer ``No''.
+                    Again, this can have two possibilities.
+
+                    \begin{itemize}
+                        \item \textbf{Assume A answering ``No'' to $\bm{Q^A_1}$ is a truth.}
+                        
+                        Then, B is not the spy.
+
+                        \begin{enumerate}
+                            \item \textbf{Assume C is a knight.}
+                            
+                            When we ask $Q_2$ to C, C answers ``Yes'', so when we further
+                            ask $Q^A_2$ to C, C would indeed answer ``Yes'', i.e., C is the
+                            knave. This contradicts our assumption that C is a knight.
+
+                            \item \textbf{Assume C is a knave.}
+                            
+                            When we ask $Q_2$ to C, C answers ``Yes'', which is a lie,
+                            so when we further ask $Q^A_2$ to C, C would actually answer
+                            ``No'', which is also a lie, i.e., C is indeed the knave.
+
+                            Then, we ask $Q_3$ to C, and C answers ``No'', which is a lie,
+                            so when we further ask $Q^A_3$ to C, C would actually answer
+                            ``Yes'', which is also a lie, i.e., A is not the spy. This,
+                            again, contradicts our assumption that A is the spy.
+                        \end{enumerate}
+
+                        \item \textbf{Assume A answering ``No'' to $\bm{Q^A_1}$ is a lie.}
+                        
+                        Then, B is indeed the spy. This cannot hold as A is the spy.
+                    \end{itemize}
+                \end{itemize}
+            \end{itemize}
+
+            \item \textbf{Assume ``Ja'' means ``No'' and ``Da'' means ``Yes''.}
+            
+            \begin{itemize}
+                \item \textbf{Assume A is a knight.}
+                
+                When we ask $Q_1$ to A, A answers ``No'', so when we further ask $Q^A_1$ to
+                A, A would say ``Yes'', i.e., B is the spy.
+                
+                Then, C must be the knave.
+
+                When we ask $Q_2$ to C, C answers ``No'', which is a lie, i.e., C would 
+                indeed answer ``Yes'' to $Q^A_2$, which is also a lie, i.e., C is not the
+                knave. This contradicts our assumption that C is the knave.
+
+                \item \textbf{Assume A is a knave.}
+                
+                When we ask $Q_1$ to A, A answers ``No'', which is a lie, so when we further
+                ask $Q^A_1$ to A, A would actually answer ``Yes'', which is also a lie, i.e.,
+                B is not the spy.
+
+                Then, since B is not the spy, and A is already a knave, B must be the knight,
+                and C must be the spy.
+
+                When we ask $Q_2$ to C, C answers ``No'', which can be either a truth or a lie.
+
+                \begin{itemize}
+                    \item \textbf{Assume C answering ``No'' to $\bm{Q_2}$ is a truth.}
+                    
+                    Then, when we ask $Q^A_2$ to C, C would answer ``Yes'', which can also be
+                    either a truth or a lie, i.e., C is the knave or C is not the knave.
+
+                    When C answering ``Yes'' to $Q^A_2$ is a lie, then C is not the knave,
+                    which checks as we deduced that C is the spy.
+
+                    Next, we ask $Q_3$ to C, and C answers ``Yes'', which can be either a truth
+                    or a lie.
+
+                    When C answering ``Yes'' to $Q_3$ is a truth, then when we further ask $Q^A_3$
+                    to C, C would answer ``No'', i.e., A can either be the spy (when C is lying)
+                    or A is not the spy (when C is telling the truth).
+
+                    When C was indeed telling the truth when answering ``No'' to $Q^A_3$, then A
+                    is not the spy, which checks as A is a knave.
+
+                    We have shown that it is possible that when ``Ja'' means ``No'' and ``Da''
+                    means ``Yes'', A is a knave, B is a knight, and C is a spy.
+                    \fbox{\textbf{This is another valid solution.}}
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+
+        At this point, we have shown that there are at least two valid solutions:
+        \begin{center}
+            \begin{tabular}{cc|ccc}
+                \textbf{``Ja'' means} & \textbf{``Da'' means} & \textbf{A} & \textbf{B} & \textbf{C} \\
+                \hline
+                Yes & No & Knight & Spy & Knave \\
+                No & Yes & Knave & Knight & Spy
+            \end{tabular}
+        \end{center}
+        It is not useful to continue discussing other cases, as, without extra information,
+        it is impossible to determine with certainty the roles of A, B, and C.
+
+        Final answer: \fbox{\textbf{There does not exist a unique solution that can determine the
+        roles of A, B, and C with certainty.}}
     \end{solution}
 
     \question Logical Operators
