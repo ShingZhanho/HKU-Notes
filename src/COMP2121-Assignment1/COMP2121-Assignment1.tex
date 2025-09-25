@@ -31,7 +31,7 @@
 
         \part Rewrite sentence:
         \begin{solution}
-            The required logical expression is $(S \land C) \limp T$.
+            The required logical expression is $T \limp (S\land C)$.
         \end{solution}
 
         \part Verify if an argument is valid:
@@ -341,21 +341,13 @@
                 \begin{align*}
                     \neg A\lor B
                     &\equiv \topr{OR}{\tnot{A}}{B} \\
-                    &\equiv \topr{OR}{\topr{NAND}{A}{A}}{B} \\
-                    &\equiv \topr{NAND}{
-                        \topr{NAND}{\topr{NAND}{A}{A}}{\topr{NAND}{A}{A}}
-                    }{
-                        \topr{NAND}{B}{B}
-                    }
+                    &\equiv \topr{NAND}{A}{\tnot{B}} \\
+                    &\equiv \topr{NAND}{A}{\topr{NAND}{B}{B}}
                 \end{align*}
 
                 Therefore, \texttt{IMPLIES} is as \fbox{$
                 \topr{IMPLIES}{A}{B} = 
-                \topr{NAND}{
-                        \topr{NAND}{\topr{NAND}{A}{A}}{\topr{NAND}{A}{A}}
-                    }{
-                        \topr{NAND}{B}{B}
-                    }
+                \topr{NAND}{A}{\topr{NAND}{B}{B}}
                 $}.
             \end{itemize}
         \end{solution}
@@ -366,22 +358,16 @@
     \begin{parts}
         
         \part Rewrite expression
-        $\neg(\exists y\neg(\forall x(P(x)\land Q(y))))\limp\exists z R(z)$.
+        $\neg(\exists y\neg(\forall x(P(x)\land Q(y)))\limp\exists z R(z))$.
         \begin{solution}
             \begin{align*}
-                \neg(\exists y\neg(\forall x(P(x)\land Q(y))))\limp\exists z R(z)
-                &\equiv \neg(\exists y\neg(\forall xP(x)\land\forall xQ(y)))\limp\exists zR(z) \\
-                &\equiv \neg(\exists y(\neg\forall xP(x)\lor\neg Q(y)))\limp\exists zR(z) \\
-                &\equiv \neg(\exists y(\exists x\neg P(x) \lor\neg Q(y)))\limp\exists zR(z) \\
-                &\equiv \forall y\neg(\exists x\neg P(x)\lor\neg Q(y))\limp\exists zR(z) \\
-                &\equiv \forall y(\neg\exists x\neg P(x)\land\neg(\neg Q(y)))\limp\exists zR(z) \\
-                &\equiv \forall y(\forall x\neg(\neg P(x))\land Q(y))\limp\exists zR(z) \\
-                &\equiv \forall y(\forall xP(x) \land Q(y)) \limp\exists zR(z) \\
-                &\equiv \forall y\forall xP(x)\land\forall yQ(y)\limp\exists zR(z)\\
-                &\equiv (\forall xP(x))\land(\forall yQ(y)) \limp\exists zR(z) \\
-                &\equiv \neg(\forall xP(x))\land(\forall yQ(y)) \lor \exists zR(z)\\
-                &\equiv \neg\forall xP(x) \lor \neg\forall yQ(y) \lor \exists zR(z)\\
-                &\equiv \exists x\neg P(x) \lor \exists y\neg Q(y) \lor \exists zR(z)
+                \neg[\exists y\neg\{\forall x[P(x)\land Q(y)]\}\limp\exists zR(z)]
+                &\equiv \neg[\exists y{\exists x[\neg P(x)\lor\neg Q(y)]}\limp\exists zR(z)]\\
+                &\equiv \neg[\neg\{\exists x\exists y[\neg P(x)\lor\neg Q(y)]\}\lor\exists zR(z)]\\
+                &\equiv \neg[\forall x\forall y[P(x)\land Q(y)]\lor\exists zR(z)]\\
+                &\equiv \neg[(\forall xP(x)\land\forall yQ(y))\lor\exists zR(z)]\\
+                &\equiv \neg(\forall xP(x)\land\forall yQ(y))\land\forall z\neg R(z)\\
+                &\equiv \boxed{[\exists x\neg P(x)\lor\exists y\neg Q(y)]\land\forall z\neg R(z)}
             \end{align*}
         \end{solution}
 
