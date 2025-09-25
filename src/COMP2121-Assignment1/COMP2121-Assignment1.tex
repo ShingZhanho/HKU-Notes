@@ -448,6 +448,8 @@
             Step 5: Valid. First, since $\forall x P(x)$ is true, then $P(c)$ must be true
             for any $c$ in the universe of dicourse. Then, since there exists at least one
             $x$, $c$ in this case, such that $P(x)$ is true, then $\exists x P(x)$ is true.
+
+            Therefore, the proof is sound and valid.
         \end{solution}
 
         \part Proof by Induction.
@@ -485,6 +487,79 @@
 
             By the principle of mathematical induction, $P(n)$ holds for all $n\geq 1$.
         \end{psol}
+
+        \part Wining Strategy
+        \begin{solution}
+            We may consider different cases at the end of the game. When 2 cards remain, and it
+            is my turn to take cards, I can take 1, and the opponent is left with 1 card,
+            therefore losing the game. Similarly, when 3 cards remain, I can take 2 and leave
+            1. This winning position goes on until there are 7 remaining cards, where, no
+            matter how many cards I take, he will be in the winning position as the case
+            reduces to 1 to 6 remaining cards. Therefore, when the party who is left with 7
+            cards to draw must lose the game. When there are 8 cards remaining, I can take 1
+            card to reduce it to 7 and force my opponent on the losing position. Similarly,
+            when there are 9 remaining, I take 2, ..., until there are 12 remaining for me and
+            I take 5 to make it 7. Again, if I am left with 13 cards, no matter how many I take,
+            it will reduce to 8 to 12 remaining cards, and my opponent can always make sure that
+            I am left with 7 cards, thus losing.
+
+            From the above discussion, we can observe that if we can ensure the opponent is
+            left with $6n+1$ cards to take where $n\in\Z^+$, we can always win. Therefore, we
+            can come up with this strategy:
+
+            \textbf{Strategy:} I first take 4 cards, so that the opponent is left with 
+            $191-4=187=6\times31+1$ cards. Suppose the opponent then take $p\in[1,5]$ cards
+            in each round, I take $(6 - p)$ cards, and repeat until the game ends.
+
+            Now we formally prove this strategy.
+
+            \begin{psol}
+                Denote $P(n):$ ``When there are $(6n+1)$ cards remaining, the player who make
+                a step from this state by taking $p$ cards must lose if the opponent
+                takes $(6-p)$ cards.'' We prove $\forall n\geq1:P(n)$.
+
+                \textbf{Base case:} $P(1)$ (i.e. 7 remaining cards).
+                In the table below, the columns $P$ record number of cards taken by the player
+                making a move from the state of $(6n+1)$ cards, columns $O$ record the opponent.
+                The numbers in the brackets denote the cards remaining.
+                \begin{center}
+                    \begin{tabular}{|c||c|c|c||c|}
+                        \hline
+                                                        & \textbf{P}    & \textbf{O}    & \textbf{P}    & \textbf{Result of P} \\
+                        \hline
+                        $\bm{P(1):}$ \textbf{Case 1}    & 1 (6)         & 5 (1)         & 1 (0)         & \textbf{Lose} \\
+                        $\bm{P(1):}$ \textbf{Case 2}    & 2 (5)         & 4 (1)         & 1 (0)         & \textbf{Lose} \\
+                        $\bm{P(1):}$ \textbf{Case 3}    & 3 (4)         & 3 (1)         & 1 (0)         & \textbf{Lose} \\
+                        $\bm{P(1):}$ \textbf{Case 4}    & 4 (3)         & 2 (1)         & 1 (0)         & \textbf{Lose} \\
+                        $\bm{P(1):}$ \textbf{Case 5}    & 5 (2)         & 1 (1)         & 1 (0)         & \textbf{Lose} \\
+                        \hline
+                    \end{tabular}
+                \end{center}
+                Therefore, regardless how many cards the player takes, he will always lose if the
+                opponent is playing optimally.
+
+                Therefore, $P(1)$ holds.
+
+                \textbf{Inductive Step}: Assume that for some $k\geq1$, $P(k)$ holds. Consider
+                $P(k+1)$, that is, we have $[6(k+1)+1]$ cards remaining. When compared with
+                $P(k)$, we have $[6(k+1)+1]-(6k+1)=6k+7-6k-1=6$ more cards.
+
+                Observe that in each round, the player takes $p$ cards, and the opponent takes
+                $(6-p)$ cards, removing a totla of $p+(6-p)=6$ cards. Then, after one round from
+                $P(k+1)$, the number of remaining cards reduces by 6, reducing the case back to
+                $P(k)$, which is assumed to hold.
+
+                Therefore, we have $P(k)\Rightarrow P(k+1)$.
+
+                By the principle of mathematical induction, $P(n)$ holds for all $n\geq1$.
+
+                Now, integrate this $P(n)$ with our strategy. We first take away 4 cards, leaving
+                187 remaining cards, which corresponds to the $P(31)$ case. Since we have shown
+                $\forall n\geq 1 P(n)$, then $P(31)$ must hold. And notice that after we take the
+                initial 4 cards, it is the opponent who starts to make a move from this state,
+                therefore, the opponent must lose, i.e., I must win.
+            \end{psol}
+        \end{solution}
 
     \end{parts}
 
