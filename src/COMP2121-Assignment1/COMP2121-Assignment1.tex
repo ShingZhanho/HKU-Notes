@@ -568,7 +568,46 @@
         \part Determine whether $\forall\text{ sets }A,B,C,D:(A\cap B)\times(C\cap D)
         =(A\times C)\cap(B\times D)$.
         \begin{solution}
+            To show that the two sets are equal, we show that whenever an element
+            is in the L.H.S. set, it must also be in the R.H.S. set, and vice versa.
+            
+            Recall that $x\in (A\cap B) \equiv (x\in A) \land (x\in B)$
+            and $(x, y) \in (A\times B) \equiv (x\in A) \land (y\in B)$.
+            Therefore, for L.H.S., we have:
+            \begin{align*}
+                (x,y)\in(A\cap B)\times(C\cap D)
+                &\equiv (x\in A\cap B)\land(y\in C\cap D) \\
+                &\equiv (x\in A\land x\in B) \land (y \in C \land y \in D) \\
+                &\equiv x\in A \land y \in C \land x \in B \land y \in D \qquad\text{(Associative Law)}\\
+                &\equiv (x\in A \land y \in C) \land (x \in B \land y \in D) \\
+                &\equiv (x,y)\in(A\times C) \land (x,y)\in(B\times D) \qquad\text{(Definition of Cartesian Product)}\\
+                &\equiv (x,y)\in(A\times C)\cap(B\times D)
+            \end{align*}
+            Therefore, whenever we have $(x,y)\in(A\cap B)\times(C\cap D)$, we must also have
+            $(x,y)\in(A\times C)\cap(B\times D)$, i.e., the two sets are equal, and the given
+            proposition holds for all sets $A, B, C, D$.
         \end{solution}
+
+        \part Prove $\forall\text{ arbitrary sets }A,B,C: (A\cup B)-C = (A-C)\cup(B-C)$.
+        \begin{psol}
+            To proof the equality of two sets, we show that whenever an element
+            is in the L.H.S. set, it must also be in the R.H.S. set, and vice versa.
+
+            Recall the definitions that
+            $x\in(A\cup B) \equiv (x\in A) \lor (x\in B)$ and
+            $x\in(A-B) \equiv (x\in A) \land \neg(x\in B)$. Then, for L.H.S., we have
+            \begin{align*}
+                x\in\left[(A\cup B)-C\right]
+                &\equiv x\in(A\cup B)\land \neg(x\in C) \\
+                &\equiv (x\in A \lor x\in B) \land (x\notin C)\\
+                &\equiv (x\in A \land x\notin C) \lor (x\in B \land x\notin C)\\
+                &\equiv [x\in(A-C)] \lor [x\in(B-C)]\\
+                &\equiv x\in[(A-C)\cup (B-C)]
+            \end{align*}
+            Hence, we have shown that the sets on L.H.S. and R.H.S. are equal. Since $A,B,$
+            and $C$ are chosen to be arbitrary, therefore the proposition also holds for any
+            arbitrary sets.
+        \end{psol}
 
     \end{parts}
 
