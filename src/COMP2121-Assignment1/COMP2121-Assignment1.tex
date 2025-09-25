@@ -611,6 +611,74 @@
 
     \end{parts}
 
+    \question Relations
+
+    \begin{parts}
+        
+        \part For the relation $R_1=\{(x, y)\in\Z\times\Z\mid x+2y\text{ is an even number}\}$,
+        prove or disprove that $R_1$ is
+
+        \begin{subparts}
+
+            \subpart reflexive
+            \begin{psol}
+                To verify reflexivity, we need to check whether $xR_1x$, i.e., whether
+                $x+2x=3x$ is an even number. Note that any arbitrary even number can be
+                expressed in the form of $2n$ for some $n\in\Z$.
+
+                \textbf{Case 1:} when $x$ is an even number, i.e., $x=2n$.
+                Then, we have $3x=3(2n)=6n=2(3n)$, which is an even number. Therefore,
+                $xR_1x$ holds when $x$ is an even number.
+
+                \textbf{Case 2:} when $x$ is an odd number, i.e., $x=2n+1$.
+                Then, we have $3x=3(2n+1)=6n+3=2(3n+1)+1$, which is an odd number.
+                Therefore, $x{R_1}x$ does not hold when $x$ is an odd number.
+
+                Having exhausted all the cases and shown that $\exists x:(x,x)\notin R_1$,
+                we conclude that \fbox{$R_1$ is not reflexive}.
+            \end{psol}
+
+            \subpart symmetric
+            \begin{psol}
+                To verify symmetry, we need to check whether $yR_1x$ whenever $yR_1x$ for all
+                $x,y\in\Z$.
+
+                Let $x$ be an arbitrary even number, i.e., $x=2n$ for some $n\in\Z$,
+                and $y$ be an arbitrary odd number, i.e., $y=2m+1$ for some $m\in\Z$.
+                
+                Then, for $xR_1y$, we have $x+2y=2n+2(2m+1)=2(n+2m+1)$, which is an even number,
+                so $xR_1y$ holds.
+
+                However, for $yR_1x$, we have $y+2x=(2m+1)+2(2n)=2(m+2n)+1$, which is an odd number,
+                so $yR_1x$ does not hold.
+
+                Having found a counterexample such that $(x,y)\in R_1$ but $(y, x)\in R_1$,
+                we conclude that \fbox{$R_1$ is not symmetric}.
+            \end{psol}
+
+            \subpart transitive
+            \begin{psol}
+                To verify transitivity, we need to check whether $xR_1z$ whenever
+                $xR_1y$ and $yR_1z$ for all $x,y,z\in\Z$.
+                
+                We can show this by contradiction. Assume that $xR_1y$ and $yR_1z$ hold,
+                but $xR_1z$ does not hold.
+                It implies that $x+2z$ is an odd number. Note that since $2z$ must be even,
+                then $x$ must be an odd number. For $xR_1y$ to hold, $x+2y$ must be even,
+                and when $x$ is odd, $2y$ must also be odd, which is impossible as $2y$ must
+                be even for any integer $y$.
+
+                Therefore, our assumption is wrong, and we have shown that whenever $xR_1y$
+                and $yR_1z$ hold, $xR_1z$ must also hold. Hence, we conclude that
+                \fbox{$R_1$ is transitive}.
+            \end{psol}
+
+        \end{subparts}
+
+        
+
+    \end{parts}
+
 \end{questions}
 
 \end{document}
