@@ -291,3 +291,97 @@ i.e. $R \subseteq A \times A$.
     in some month, and any two equivalence classes are disjoint, since no one can be born in two different months.
     Thus, these equivalence classes form a partition of $A$.
 \end{example}
+
+\subsection{Functions}
+
+\subsubsection{Definition \& Terminology}
+
+\begin{definition}[Function]
+    A \textbf{function} is a special type of relation from a set $A$ to a set $B$
+    with the property that for every $a \in A$, there is exactly one $b \in B$
+    such that $a$ is related to $b$.
+    
+    Explicitly, a relation $R$ from $A$ to $B$ is a function if it satisfies:
+    \begin{enumerate}
+        \item $\forall a\in A, \exists b\in B : a\rel b$
+        \item $\forall a\in A, \forall b_1, b_2 \in B : (a\rel b_1) \land (a\rel b_2) \limp (b_1 = b_2)$
+    \end{enumerate}
+
+    \textbf{Notation}: For a relation $R$ that is a function, we write $y=f(x)$.
+
+    \textbf{Complete Notation of a Function}: To completely define a function, we write it in
+    the form:
+    \[
+        f: A\to B \quad f(x) = (\text{the rule to get } y \text{ from } x)
+    \]
+\end{definition}
+
+\begin{definition}[Domain, Codomain, Preimage \& Image]
+    For a function $y=f(x)$, or $R: A \to B$, we have:
+    \begin{enumerate}
+        \item The set $A$ is called the \textbf{domain} of $f$;
+        \item The elements $x \in A$ are called the \textbf{preimages};
+        \item The set $B$ is called the \textbf{codomain} of $f$;
+        \item The elements $y \in B$ are called the \textbf{images};
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[Range]
+    The \textbf{range} of a function $f:A\to B$ is the set of all elements in $B$ that
+    are images of elements in $A$, i.e.
+    \[
+        f(A) := \set{y\in B \mid \exists x\in A (y=f(x))}
+    \]
+
+    Note that we have the property $f(A) \subseteq B$, i.e. the range of $f$ is not necessarily
+    the same as the codomain of $f$.
+\end{definition}
+
+\subsubsection{Types of Functions}
+
+\begin{definition}[Injective Function]
+    A function $f:A\to B$ is said to be \textbf{injective} (one-to-one) if
+    \[
+        \forall x_1, x_2 \in A [(x_1  \neq x_2) \limp (f(x_1) \neq f(x_2))]
+    \]
+\end{definition}
+
+\begin{example}
+    $f:\R\to\R\quad f(x) = x^2$ is not injective, since $f(1) = f(-1) = 1$,
+    while $f:\R^+\to\R\quad f(x) = x^2$ is injective.
+\end{example}
+
+\begin{definition}[Surjective Function]
+    A function $f:A\to B$ is said to be \textbf{surjective} (onto) if
+    \[
+        \forall y \in B, \exists x \in A : f(x) = y
+    \]
+
+    Consequently, we have $f(A) = B$ for any surjective $f:A\to B$.
+\end{definition}
+
+\begin{definition}[Bijective Function]
+    A function $f:A\to B$ is said to be \textbf{bijective} if it is both injective and surjective.
+    In other words, for every $y \in B$, there exists a unique $x \in A$ such that $f(x) = y$.
+\end{definition}
+
+\subsubsection{Operations on Functions}
+
+\begin{definition}[Composition of Functions]
+    Given two functions $f:A\to B$ and $g:B\to C$, we can define $g\circ f:A\to C$ by
+    \[
+        (g\circ f)(x) := g(f(x))
+    \]
+\end{definition}
+
+\begin{definition}[Inverse of a Function]
+    Let $f:A\to B$ be a bijective function. Then there exists a function $g:B\to A$ such that
+    \[
+        \forall x \in A \quad (g\circ f)(x) = x
+    \]
+    and
+    \[
+        \forall y \in B \quad (f\circ g)(y) = y
+    \]
+    This function $g$ is called the \textbf{inverse} of $f$, denoted by $f^{-1}$.
+\end{definition}
