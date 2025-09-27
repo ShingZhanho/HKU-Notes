@@ -144,12 +144,12 @@ def main():
             ## PDF preview if file is a PDF
             pdf_viewer_string = None
             if metadata.output_file.endswith(".pdf") and metadata.static_site__pdf_viewer != "hidden":
-                pdf_viewer_string = f"\n\n<iframe src=\"https://docs.google.com/gview?url=https://shingzhanho.github.io/HKU-Notes/files/{target}/{output_file}"
+                pdf_viewer_string = f"<iframe src=\"https://docs.google.com/gview?url=https://shingzhanho.github.io/HKU-Notes/files/{target}/{output_file}"
                 pdf_viewer_string += "&embedded=true\" style=\"width: 100%; height: 600px;\" frameborder=\"0\"></iframe>\n\n"
 
             ## Write PDF viewer to head
             if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_head":
-                f.write(pdf_viewer_string)
+                f.write(f"\n\n{pdf_viewer_string}\n\n")
 
             ## Find PDF viewer tag in custom md
             if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_tag":
@@ -160,13 +160,13 @@ def main():
                 elif tag_occ > 1:
                     raise ValueError(f"{target} has multiple '<!-- % PDF_VIEWER % -->' tags found in the custom markdown.")
 
-                custom_md_content = custom_md_content.replace("<!-- % PDF_VIEWER % -->", pdf_viewer_string)
+                custom_md_content = custom_md_content.replace("<!-- % PDF_VIEWER % -->", f"{pdf_viewer_string}\n\n")
 
             ## Custom page content
             f.write(custom_md_content)
 
             if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_footer":
-                f.write(pdf_viewer_string)
+                f.write(f"\n\n{pdf_viewer_string}\n\n")
 
     # generate course catalogue page
     with open("./site/docs/downloads/index.md", "w") as f:
