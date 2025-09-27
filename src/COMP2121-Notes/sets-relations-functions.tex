@@ -385,3 +385,24 @@ i.e. $R \subseteq A \times A$.
     \]
     This function $g$ is called the \textbf{inverse} of $f$, denoted by $f^{-1}$.
 \end{definition}
+
+\subsubsection{Real-valued Functions}
+
+\begin{definition}[Real-valued Function]
+    A function $f:A\to B$ is said to be a \textbf{real-valued function} if $B \subseteq \R$.
+\end{definition}
+
+\begin{theorem}
+    Let $A,B\subseteq\R$, we say $f:A\to B$ to be:
+    \begin{enumerate}
+        \item \textbf{strictly increasing} if $\forall x_1, x_2 \in A [(x_1 < x_2) \limp (f(x_1) < f(x_2))]$;
+        \item \textbf{strictly decreasing} if $\forall x_1, x_2 \in A [(x_1 < x_2) \limp (f(x_1) > f(x_2))]$;
+        \item \textbf{non-increasing} if $\forall x_1, x_2 \in A [(x_1 < x_2) \limp (f(x_1) \geq f(x_2))]$;
+        \item \textbf{non-decreasing} if $\forall x_1, x_2 \in A [(x_1 < x_2) \limp (f(x_1) \leq f(x_2))]$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{remark}
+    Note that ``not non-decreasing'' does not imply ``decreasing''.
+    For example, $f:\R\to\R\quad f(x) = x^2$ is not non-decreasing, but it is not decreasing either.
+\end{remark}
