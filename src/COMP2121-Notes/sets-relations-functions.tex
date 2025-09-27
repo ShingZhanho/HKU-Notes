@@ -136,3 +136,100 @@
     Note that $A\times B\neq B\times A$ for non-empty sets $A$ and $B$.
     Generally, we have $A\times \mtset = \mtset\times A = \mtset$.
 \end{remark}
+
+\subsubsection{Set Theory \& Logic}
+
+Sets are in one-to-one correspondence with predicates.
+
+\begin{theorem}[Sets and Predicates]
+    Let $U$ be the set of all possible values of $x$, then this universal set is equivalent
+    to the universe of discourse for predicate logics.
+
+    For every set $A \subseteq U$, we can define a predicate that depends on $A$:
+    \[
+        P_A(x) : (x \in A)
+    \]
+
+    Similarly, for every predicate $P(x)$, we can define a truth set $A$:
+    \[
+        A := \set{x \in U \mid P(x)}
+    \]
+\end{theorem}
+
+\subsection{Relations}
+
+\subsubsection{Definition \& Properties of Relations}
+
+\begin{definition}[Relation]
+    A \textbf{relation} from a set $A$ to a set $B$ is a subset of $A \times B$, denoted by
+    $R \subseteq A\times B$.
+
+    When element $a$ is in relation with element $b$ by $R$, we write $aRb$, i.e.,
+    \[
+        a\rel b \equiv (a, b) \in R
+    \]
+    Otherwise, we write $a \notrel b$.
+\end{definition}
+
+There are several special types of relations when we discuss relations on a set $A$ itself,
+i.e. $R \subseteq A \times A$.
+
+\begin{definition}[Reflexive Relation]
+    A \textbf{reflexive relation} is defined to be:
+    \[
+        \forall x\in A (x\rel x)
+    \]
+\end{definition}
+\begin{example}
+    Let $A$ be the set of all people and define $x\rel y: \text{``}x$ has a biological father $y$''.
+    Since everyone must be born from a biological father (regardless of whether they know who
+    he is, or whether the father is still alive), we have $\forall x\in A (x\rel x)$.
+    Thus, this relation is reflexive.
+\end{example}
+
+\begin{definition}[Symmetric Relation]
+    A \textbf{symmetric relation} is defined to be:
+    \[
+        \forall x, y \in A (x\rel y \limp y\rel x)
+    \]    
+\end{definition}
+
+\begin{example}
+    Continue to let $A$ be the set of all people and redefine $x\rel y:$ ``$x$ is married to $y$''.
+    Since if $x$ is married to $y$, then $y$ must be married to $x$, we have
+    $\forall x, y \in A (x\rel y \limp y\rel x)$.
+    Thus, this relation is symmetric.
+    \begin{remark}
+        It does not matter if $\exists x_0, y_0\in A$ who are single and not married to anyone,
+        since when $(x_0, y_0) \notin R$, the implication $(x_0\rel y_0) \limp (y_0\rel x_0)$ is 
+        still true.
+    \end{remark}
+\end{example}
+
+\begin{definition}[Transitive Relation]
+    A \textbf{transitive relation} is defined to be:
+    \[
+        \forall x, y, z \in A [(x\rel y) \land (y\rel z) \limp (x\rel z)]
+    \]
+\end{definition}
+
+\begin{example}
+    Let $A$ be the set of all people in Hong Kong, and define $x\rel y:$ ``$x$ studies in the
+    same university as $y$''.
+    Since if $x$ studies in the same university as $y$, and $y$ studies in the same university
+    as $z$, then $x$ must study in the same university as $z$, we have
+    $\forall x, y, z \in A [(x\rel y) \land (y\rel z) \limp (x\rel z)]$.
+    Thus, this relation is transitive.
+
+    \begin{remark}
+        It does not matter if $\exists x,y_0,z\in A$, where $y_0$ studies in a different
+        university from $x$ and $z$, since when $(x\rel y_0) \land (y_0\rel z)$ is false,
+        the implication $[(x\rel y_0) \land (y_0\rel z)] \limp (x\rel z)$ is still true.
+    \end{remark}
+\end{example}
+
+\begin{definition}[Equivalence Relation]
+    An \textbf{equivalence relation} is a relation that is reflexive, symmetric, and transitive.
+\end{definition}
+
+\subsubsection{Equivalence Classes \& Partitions}

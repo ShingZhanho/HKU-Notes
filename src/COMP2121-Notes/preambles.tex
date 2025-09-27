@@ -180,6 +180,10 @@
 \newcommand{\card}[1]{|#1|} % Cardinality of a set
 \newcommand{\scomp}[1]{\overline{#1}} % Set complement
 
+% Symbols for relations
+\newcommand{\rel}[1][R]{\mathrel #1} % Related (defaults to R if no argument is provided)
+\newcommand{\notrel}[1][R]{\centernot #1} % Not related (defaults to R if no argument is provided)
+
 \newtheoremstyle{mystyle}{}{}{}{}{\sffamily\bfseries}{.}{ }{}
 \newtheoremstyle{cstyle}{}{}{}{}{\sffamily\bfseries}{.}{ }{\thmnote{#3}}
 \makeatletter
@@ -247,7 +251,7 @@
 \author{Jacob Shing}
 \date{1 Sept 2025}
 
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{3}
 
 \renewcommand{\textbf}[1]{{\sffamily\bfseries #1}}
 \renewcommand{\emph}[1]{\textbf{\large #1}}
