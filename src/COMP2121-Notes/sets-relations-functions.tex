@@ -406,3 +406,60 @@ i.e. $R \subseteq A \times A$.
     Note that ``not non-decreasing'' does not imply ``decreasing''.
     For example, $f:\R\to\R\quad f(x) = x^2$ is not non-decreasing, but it is not decreasing either.
 \end{remark}
+
+\subsubsection{Growth of Functions}
+
+\begin{definition}[Big-$\bigO$ Notation]
+    Let $g:\N\to\R^+$ be a function. The set $\bigO(g)$ is defined as
+    \[
+        \bigO(g) := \set{f:\N\to\R^+ \mid \exists c>0, \exists n_0\in\N, \forall n\geq n_0 (f(n) \leq c g(n))}
+    \]
+    That is, a set of functions, that for some scalar $c$ and some threshold $n_0$,
+    $f(n)$ is eventually upper-bounded by $c g(n)$.
+
+    $\bigO(g)$ contains all the functions that grow slower than $g$, and for $f\in\bigO(g)$,
+    we say that $g$ is the \textbf{asymptotic upper bound} of $f$.
+\end{definition}
+
+\begin{remark}
+    Often, we write $f(n) = \bigO(g(n))$ instead of $f \in \bigO(g)$ and 
+    $f_1(n) = f_2(n) + \bigO(g(n))$ instead of $f_1(n) = f_2(n) + h(n)$ for some $h \in \bigO(g)$.
+\end{remark}
+
+\begin{definition}[Big-$\bigOmg$ Notation]
+    Let $g:\N\to\R^+$ be a function. The set $\bigOmg(g)$ is defined as
+    \[
+        \bigOmg(g) := \set{f:\N\to\R^+ \mid \exists c>0, \exists n_0\in\N, \forall n\geq n_0 (f(n) \geq c g(n))}
+    \]
+    That is, a set of functions, that for some scalar $c$ and some threshold $n_0$,
+    $f(n)$ is eventually lower-bounded by $c g(n)$.
+
+    $\bigOmg(g)$ contains all the functions that grow at least as fast as $g$, and for $f\in\bigOmg(g)$,
+    we say that $g$ is the \textbf{asymptotic lower bound} of $f$.
+\end{definition}
+
+\begin{theorem}[Duality of Big-$\bigO$ and Big-$\bigOmg$]
+    For any functions $f:\N\to\R^+$ and $g:\N\to\R^+$, we have
+    \[
+        f \in \bigO(g) \liff g \in \bigOmg(f)
+    \]
+\end{theorem}
+
+\begin{definition}[Big-$\bigTh$ Notation]
+    Let $f,g:\N\to\R^+$ be two functions. We have:
+    \[
+        f\in\bigTh(g) \equiv f\in\bigO(g) \land f\in\bigOmg(g)
+    \]
+    Or, using the previous form of definition,
+    \[
+        \bigTh(g) := \set{f:\N\to\R^+ \mid \exists c_1, c_2 > 0, \exists n_0\in\N, \forall n\geq n_0 (c_1 g(n) \leq f(n) \leq c_2 g(n))}
+    \]
+
+    We say that $g$ is the \textbf{asymptotic tight bound} of $f$.
+
+    \textbf{Symmetric Property}: $f\in\bigTh(g) \liff g\in\bigTh(f)$.
+\end{definition}
+
+\begin{remark}
+    The relation $f\rel g: f\in\bigTh(g)$ is an equivalence relation.
+\end{remark}
