@@ -152,6 +152,7 @@
 \DeclareMathOperator{\Re}{\text{Re}}
 \DeclareMathOperator{\Im}{\text{Im}}
 \DeclareMathOperator{\diag}{\text{diag}}
+\newcommand{\imag}{\mathrm{i}}
 
 % Symbols for logic
 \newcommand{\lNot}{\neg}
@@ -177,6 +178,7 @@
 \newcommand{\mtset}{\emptyset} % Empty set
 \newcommand{\pwset}[1]{\mathcal{P}(#1)} % Power set
 \newcommand{\card}[1]{|#1|} % Cardinality of a set
+\newcommand{\scomp}[1]{\overline{#1}} % Set complement
 
 \newtheoremstyle{mystyle}{}{}{}{}{\sffamily\bfseries}{.}{ }{}
 \newtheoremstyle{cstyle}{}{}{}{}{\sffamily\bfseries}{.}{ }{\thmnote{#3}}
@@ -247,4 +249,5 @@
 
 \setcounter{tocdepth}{2}
 
+\renewcommand{\textbf}[1]{{\sffamily\bfseries #1}}
 \renewcommand{\emph}[1]{\textbf{\large #1}}

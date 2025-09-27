@@ -1,15 +1,18 @@
 \section{Sets, Relations, \& Functions}
 
+\begin{remark}
+    The logical expressions given in this section are very important for proofs in assignments
+    and exams.
+\end{remark}
+
 \subsection{Sets}
+
+\subsubsection{Basics on Sets}
 
 \begin{definition}[Set]
     A \textbf{set} is a collection of \textbf{unordered}, \textbf{distinct} objects,
     considered as an object in its own right.
     The objects are called the \textbf{elements} or \textbf{members} of the set.
-
-    Two sets $A$ and $B$ are said to be equal if and only if all elements of $A$ are
-    elements of $B$ and all elements of $B$ are elements of $A$.
-    This is denoted by $A = B$.
 \end{definition}
 
 \begin{definition}[Belonging to a Set]
@@ -46,3 +49,90 @@
     Note that $\mtset \in \pwset{A}$ and $A \in \pwset{A}$ are tautologies.
     We also have $\card{\pwset{A}} = 2^{\card{A}}$, provided that $A$ is finite.
 \end{definition}
+
+\begin{remark}
+    Common sets:
+    \begin{enumerate*}[label=(\arabic*)]
+        \item Natural numbers: $\N = \set{0, 1, 2, \ldots}$ \textit{in the field of Computer Science,
+        $0\in\N$, while in some other fields, $0\notin\N$};
+        \item Integers: $\Z$, Positive integers: $\Z^+$;
+        \item Rational numbers: $\Q = \set{\frac{a}{b} \mid a, b \in \Z, b \neq 0}$;
+        \item Real numbers: $\R$;
+        \item Complex numbers: $\C = \set{a + b\imag \mid a, b \in \R, \imag^2 = -1}$.
+    \end{enumerate*}
+\end{remark}
+
+\subsubsection{Relationships of Sets}
+
+\begin{definition}[Subset]
+    A set $A$ is a \textbf{subset} of a set $B$, denoted by $A \subseteq B$,
+    if every element of $A$ is also an element of $B$, or, by logical expression,
+    \[
+        A\subseteq B \equiv \forall x (x \in A \limp x \in B)
+    \]
+
+    Conversely, if $\exists x (x \in A \land x \notin B)$, then $A$ is not a subset of $B$,
+    denoted by $A \nsubseteq B$.
+\end{definition}
+
+\begin{definition}[Proper Subset]
+    A set $A$ is a \textbf{proper subset} of a set $B$, denoted by $A \subset B$,
+    if $A \subseteq B$ and $A \neq B$, or, by logical expression,
+    \[
+        A \subset B \equiv [\forall x (x \in A \limp x \in B)] \land [\exists y (y \in B \land \neg(y \in A))]
+    \]
+\end{definition}
+
+\begin{definition}[Equality of Sets]
+    Two sets $A$ and $B$ are \textbf{equal}, denoted by $A = B$, if for every element $x$ in $A$,
+    $x$ is also in $B$, and vice versa, or, by logical expression
+    \[
+        A=B \equiv \forall x (x \in A \liff x \in B)
+    \]
+\end{definition}
+
+\subsubsection{Set Operations}
+
+\begin{definition}[Intersection $\cap$]
+    The \textbf{intersection} of two sets $A$ and $B$, denoted by $A \cap B$,
+    is the set of elements that are in both $A$ and $B$, or, by logical expression,
+    \[
+        x\in A\cap B \equiv (x \in A) \land (x \in B)
+    \]
+\end{definition}
+
+\begin{definition}[Union $\cup$]
+    The \textbf{union} of two sets $A$ and $B$, denoted by $A \cup B$,
+    is the set of elements that are in either $A$ or $B$ (or in both), or, by logical expression,
+    \[
+        x\in A\cup B \equiv (x \in A) \lor (x \in B)
+    \]
+\end{definition}
+
+\begin{definition}[Difference $-$]
+    The \textbf{difference} of two sets $A$ and $B$, denoted by $A - B$,
+    is the set of elements that are in $A$ but not in $B$, or, by logical expression,
+    \[
+        x \in A - B \equiv (x \in A) \land (x \notin B)
+    \]
+\end{definition}
+
+\begin{definition}[Complement $\scomp{S}$]
+    The \textbf{complement} of a set $A$ in the universal set $U$, denoted by $\scomp{A}$,
+    is the set of elements that are not in $A$, or, by logical expression,
+    \[
+        x \in \scomp{A} \equiv x \notin A
+    \]
+    
+    Note that we have $\scomp{A} = U - A$.
+\end{definition}
+
+\begin{definition}[Cartesian Product $\times$]
+    The \textbf{Cartesian product} of two sets $A$ and $B$, denoted by $A \times B$,
+    is the set of all \textbf{ordered pairs} $(a, b)$ where $a \in A$ and $b \in B$.
+\end{definition}
+
+\begin{remark}
+    Note that $A\times B\neq B\times A$ for non-empty sets $A$ and $B$.
+    Generally, we have $A\times \mtset = \mtset\times A = \mtset$.
+\end{remark}
