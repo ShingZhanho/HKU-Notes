@@ -1,0 +1,209 @@
+%%%%%%%%%%%%%%%%%
+% This is an sample CV template created using altacv.cls
+% (v1.7.4, 30 Jul 2025) written by LianTze Lim (liantze@gmail.com), based on the
+% CV created by BusinessInsider at http://www.businessinsider.my/a-sample-resume-for-marissa-mayer-2016-7/?r=US&IR=T
+%
+%% It may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2003/12/01 or later.
+%%%%%%%%%%%%%%%%
+
+%% Use the "normalphoto" option if you want a normal photo instead of cropped to a circle
+\documentclass[10pt,a4paper,withhypeper,normalphoto]{altacv}
+%% AltaCV uses the fontawesome5 and simpleicons packages.
+%% See http://texdoc.net/pkg/fontawesome5 and http://texdoc.net/pkg/simpleicons for full list of symbols.
+
+% Change the page layout if you need to
+\geometry{left=1.25cm,right=1.25cm,top=1.5cm,bottom=1.5cm,columnsep=1.2cm}
+
+% The paracol package lets you typeset columns of text in parallel
+\usepackage{paracol}
+
+
+% Change the font if you want to, depending on whether
+% you're using pdflatex or xelatex/lualatex
+% WHEN COMPILING WITH XELATEX PLEASE USE
+% xelatex -shell-escape -output-driver="xdvipdfmx -z 0" mmayer.tex
+\iftutex
+  % If using xelatex or lualatex:
+  \setmainfont{Lato}
+\else
+  % If using pdflatex:
+  \usepackage[default]{lato}
+\fi
+
+% Change the colours if you want to
+\definecolor{VividPurple}{HTML}{285399}
+\definecolor{SlateGrey}{HTML}{2E2E2E}
+\definecolor{LightGrey}{HTML}{666666}
+% \colorlet{name}{black}
+% \colorlet{tagline}{PastelRed}
+\colorlet{heading}{VividPurple}
+\colorlet{headingrule}{VividPurple}
+% \colorlet{subheading}{PastelRed}
+\colorlet{accent}{VividPurple}
+\colorlet{emphasis}{SlateGrey}
+\colorlet{body}{LightGrey}
+
+% Change some fonts, if necessary
+% \renewcommand{\namefont}{\Huge\rmfamily\bfseries}
+% \renewcommand{\personalinfofont}{\footnotesize}
+% \renewcommand{\cvsectionfont}{\LARGE\rmfamily\bfseries}
+% \renewcommand{\cvsubsectionfont}{\large\bfseries}
+
+% Change the bullets for itemize and rating marker
+% for \cvskill if you want to
+\renewcommand{\cvItemMarker}{{\small\textbullet}}
+\renewcommand{\cvRatingMarker}{\faCircle}
+% ...and the markers for the date/location for \cvevent
+% \renewcommand{\cvDateMarker}{\faCalendar*[regular]}
+% \renewcommand{\cvLocationMarker}{\faMapMarker*}
+
+
+% If your CV/résumé is in a language other than English,
+% then you probably want to change these so that when you
+% copy-paste from the PDF or run pdftotext, the location
+% and date marker icons for \cvevent will paste as correct
+% translations. For example Spanish:
+% \renewcommand{\locationname}{Ubicación}
+% \renewcommand{\datename}{Fecha}
+
+\begin{document}
+\name{ZHAN HO JACOB SHING}
+\tagline{HKU Beng(CompSc) Student}
+
+\photoR{2.5cm}{portrait}
+\personalinfo{%
+  \email{jacobszh@connect.hku.hk}
+  \phone{+852 5482 9448}
+  \location{Hong Kong}\\
+  \linkedin{jacobszh}
+  \github{ShingZhanho} 
+
+  %% You can add your own arbitrary detail with
+  %% \printinfo{symbol}{detail}[optional hyperlink prefix]
+  % \printinfo{\faPaw}{Hey ho!}
+  %% Or you can declare your own field with
+  %% \NewInfoFiled{fieldname}{symbol}[optional hyperlink prefix] and use it:
+  % \NewInfoField{gitlab}{\faGitlab}[https://gitlab.com/]
+  % \gitlab{your_id}
+	%%
+  %% For services and platforms like Mastodon where there isn't a
+  %% straightforward relation between the user ID/nickname and the hyperlink,
+  %% you can use \printinfo directly e.g.
+  % \printinfo{\faMastodon}{@username@instace}[https://instance.url/@username]
+  %% But if you absolutely want to create new dedicated info fields for
+  %% such platforms, then use \NewInfoField* with a star:
+  % \NewInfoField*{mastodon}{\faMastodon}
+  %% then you can use \mastodon, with TWO arguments where the 2nd argument is
+  %% the full hyperlink.
+  % \mastodon{@username@instance}{https://instance.url/@username}
+}
+
+\makecvheader
+
+%% Depending on your tastes, you may want to make fonts of itemize environments slightly smaller
+\AtBeginEnvironment{itemize}{\small}
+
+%% Set the left/right column width ratio to 6:4.
+\columnratio{0.6}
+
+% Start a 2-column paracol. Both the left and right columns will automatically
+% break across pages if things get too long.
+\begin{paracol}{2}
+
+\cvsection{Experience}
+
+\cvevent{Student Teaching Associate}{The University of Hong Kong}{Sept 2025 -- Ongoing}{Hong Kong}
+\begin{itemize}
+  \item Led weekly tutorials for the course COMP1117 (Computer Programming) to help students develop skills in the Python programming language
+\end{itemize}
+
+\cvevent{Programme Associate}{The University of Hong Kong}{Jun 2025 -- Aug 2025}{Hong Kong}
+\begin{itemize}
+\item Arranged and organised logistics for the HKU Summer Institute 2025 by creating information systems with the use of AI technologies
+\item Facilitated communication between different departments of the university to organise student activities
+\end{itemize}
+
+\divider
+
+\cvevent{Document Handler}{Hong Kong Examinations and Assessment Authority}{Apr 2024 -- May 2024}{Hong Kong}
+
+\begin{itemize}
+\item Handled classfied documents for the authority and facilitated logistics of documents
+\item Facilitated 
+\end{itemize}
+
+% use ONLY \newpage if you want to force a page break for
+% ONLY the currentc column
+% \newpage
+
+% %% Switch to the right column. This will now automatically move to the second
+% %% page if the content is too long.
+\switchcolumn
+
+\cvsection{Strengths}
+
+% Don't overuse these \cvtag boxes — they're just eye-candies and not essential. If something doesn't fit on a single line, it probably works better as part of an itemized list (probably inlined itemized list), or just as a comma-separated list of strengths.
+
+\textbf{\color{accent}Personalities}
+\cvtag{Hard-working}
+\cvtag{Motivated}
+\cvtag{Quick Learner}
+
+\divider
+
+\textbf{\color{accent}Technical Skills}
+\cvtag{C\#}
+\cvtag{Python}
+\cvtag{LaTeX}
+\cvtag{CI/CD on GitHub Actions}
+\cvtag{Java}
+\cvtag{Swift \& SwiftUI}
+
+\cvsection{Languages}
+
+\cvskill{Cantonese}{5}
+\divider
+
+\cvskill{Mandarin}{5}
+\divider
+
+\cvskill{English}{4.5} 
+\divider
+
+\cvskill{French}{1.5}
+
+
+\cvsection{Education}
+
+\cvevent{B.Eng.\ in Computer Science}{The University of Hong Kong}{Sept 2024 -- Ongoing}{}
+\begin{itemize}
+  \item CGPA: 3.87
+\end{itemize}
+
+\divider
+
+\cvevent{M.B., B.S.\ {\footnotesize (Incomplete \& Voluntarily Withdrawn)}}{The University of Hong Kong}{Sept 2023 -- Mar 2024}{}
+\begin{itemize}
+  \item Pass in all assessment components
+\end{itemize}
+
+\divider
+
+\cvevent{HKDSE}{WEO Chang Pui Chung Memorial School}{Sept 2017 -- Jun 2023}{}
+\begin{itemize}
+  \item ICT: Level 5**
+  \item Chinese, English, Mathematics (Compulsory),
+  Chemistry: Level 5*
+  \item Mathematics (Extended Module II): Level 5
+  \item Liberal Studies: Level 4
+\end{itemize}
+
+\end{paracol}
+
+\end{document}

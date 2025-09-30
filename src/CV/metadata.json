@@ -1,0 +1,17 @@
+{
+    "@metadata_file_version": "1",
+    "build": {
+        "miktex_package_file": "altacv.cls"
+    },
+    "static_site": {
+        "description": "The site owner's Curriculum Vitae.",
+        "custom_md_file": "custom.md",
+        "document_status": "sre",
+        "pdf_viewer": "at_tag",
+        "secondary_button": {
+            "text": "View on LinkedIn",
+            "icon": "material-linkedin",
+            "href": "https://www.linkedin.com/in/jacobszh/"
+        }
+    }
+}
