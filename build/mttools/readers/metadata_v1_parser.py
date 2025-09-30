@@ -32,7 +32,7 @@ class MetadataV1Parser(MetadataParserBase):
         self.parsed_obj.static_site__primary_button__disabled = self.json_obj.get("static_site", {}).get("primary_button", {}).get("disabled", False)
         self.parsed_obj.static_site__primary_button__text = self.json_obj.get("static_site", {}).get("primary_button", {}).get("text", "Download")
         self.parsed_obj.static_site__primary_button__icon = self.json_obj.get("static_site", {}).get("primary_button", {}).get("icon", "material-download")
-        self.parsed_obj.static_site__primary_button__href = self.json_obj.get("static_site", {}).get("primary_button", {}).get("href", self.parsed_obj.static_site__primary_button__href)
+        self.parsed_obj.static_site__primary_button__href = self.json_obj.get("static_site", {}).get("primary_button", {}).get("href", f"https://shingzhanho.github.io/HKU-Notes/files/{self.parsed_obj.name}/{self.parsed_obj.output_file}")
 
         # "static_site" > "secondary_button" keys
         self.parsed_obj.static_site__secondary_button__disabled = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("disabled", False)

@@ -29,7 +29,7 @@ class Metadata:
         self.static_site__primary_button__disabled = False
         self.static_site__primary_button__text = "Download"
         self.static_site__primary_button__icon = "material-download"
-        self.static_site__primary_button__href = f"https://shingzhanho.github.io/HKU-Notes/files/{self.name}/{self.output_file}"
+        self.static_site__primary_button__href = None
 
         # "static_site" > "secondary_button" keys
         self.static_site__secondary_button__disabled = False
