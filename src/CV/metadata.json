@@ -1,7 +1,10 @@
 {
     "@metadata_file_version": "1",
     "build": {
-        "miktex_package_file": "altacv.cls"
+        "miktex_package_file": "altacv.cls",
+        "root_file": "CV-JacobShing.tex",
+        "postbuild_command": "mv CV-JacobShing.pdf CV-SHING_Zhan_Ho_Jacob.pdf",
+        "output_file": "CV-SHING_Zhan_Ho_Jacob.pdf"
     },
     "static_site": {
         "description": "The site owner's Curriculum Vitae.",
