@@ -14,7 +14,7 @@ class Metadata:
         # "build" keys
         self.build__requires = None
         self.build__prebuild_command = None
-        self.build__build_command = f"latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./{self.root_file}"
+        self.build__build_command = None
         self.build__postbuild_command = None
         self.build__miktex_package_file = "packages.tex"
 

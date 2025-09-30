@@ -17,7 +17,7 @@ class MetadataV1Parser(MetadataParserBase):
 
         self.parsed_obj.build__requires = self.json_obj.get("build", {}).get("requires", None)
         self.parsed_obj.build__prebuild_command = self.json_obj.get("build", {}).get("prebuild_command", None)
-        self.parsed_obj.build__build_command = self.json_obj.get("build", {}).get("build_command", self.parsed_obj.build__build_command)
+        self.parsed_obj.build__build_command = self.json_obj.get("build", {}).get("build_command", f"latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./{self.parsed_obj.root_file}")
         self.parsed_obj.build__postbuild_command = self.json_obj.get("build", {}).get("postbuild_command", None)
         self.parsed_obj.build__miktex_package_file = self.json_obj.get("build", {}).get("miktex_package_file", self.parsed_obj.build__miktex_package_file)
 
