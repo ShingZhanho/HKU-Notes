@@ -183,7 +183,7 @@ def main():
                 continue
             if alpha == "#" and len(alpha_groups[alpha]["Miscellaneous"]) == 0:
                 continue
-            f.write(f"## {alpha}\n\n")
+            f.write(f"## {'\\' if alpha == '#' else ''}{alpha}\n\n")
             for course_code in alpha_groups[alpha]:
                 course_name = get_course_name(course_code)
                 f.write(f"### {course_code}")
