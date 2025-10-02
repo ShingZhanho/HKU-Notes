@@ -72,6 +72,18 @@
 % \renewcommand{\locationname}{Ubicación}
 % \renewcommand{\datename}{Fecha}
 
+% Custom commands on top of the template
+\newcommand{\cvicontag}[2]{\cvtag{\raisebox{-.4ex}{\color{accent}#1} \color{body}#2}}
+
+% make \cvachievment compatible with \simpleicon
+\newcommand{\cvachievementAlt}[3]{%
+  \begin{tabularx}{\linewidth}{@{}p{2em} @{\hspace{1ex}} >{\raggedright\arraybackslash}X@{}}
+  \multirow{2}{*}{\,\,\Large\color{accent}#1} & \bfseries\textcolor{emphasis}{#2}\\
+  & #3
+  \end{tabularx}%
+  \smallskip
+}
+
 \begin{document}
 \name{ZHAN HO JACOB SHING}
 \tagline{HKU Beng(CompSc) Student}
@@ -120,8 +132,10 @@
 
 \cvevent{Student Teaching Associate}{The University of Hong Kong}{Sept 2025 -- Ongoing}{Hong Kong}
 \begin{itemize}
-  \item Led weekly tutorials for the course COMP1117 (Computer Programming) to help students develop skills in the Python programming language
+  \item Led weekly tutorials for 30+ students for the course COMP1117 (Computer Programming) to help students develop skills in the Python programming language
 \end{itemize}
+
+\divider
 
 \cvevent{Programme Associate}{The University of Hong Kong}{Jun 2025 -- Aug 2025}{Hong Kong}
 \begin{itemize}
@@ -135,8 +149,41 @@
 
 \begin{itemize}
 \item Handled classfied documents for the authority and facilitated logistics of documents
-\item Facilitated 
+\item Facilitated the grading process of the 2024 HKDSE examinations by using information systems
 \end{itemize}
+
+\cvsection{Awards}
+
+\cvachievement
+  {\faTrophy}
+  {Y S and Christabel Lung Undergraduate Scholarship for Engineering Students}
+  {2024/25 Academic Year}
+
+
+\cvsection{Projects}
+
+\cvachievement{\faPython}{SpeedSlide}
+{
+https://github.com/ShingZhanho/ENGG1330-Project-24Fall
+\begin{itemize}
+  \item Course project, overall grade and all components A+
+  \item A text-based game implementing the Sliding Puzzle game
+  \item Implemented in pure Python, with a TUI (text user interface) library built from scratch,
+        leveraging OOP concepts
+\end{itemize}
+}
+
+\divider
+
+\cvachievementAlt{\simpleicon{cplusplus}}{SHOOT!}{
+https://github.com/ShingZhanho/ENGG1340-Project-25Spring
+\begin{itemize}
+  \item Course project, overall grade 19.3/20
+  \item A text-based 2D arena shooter game implemented in C++ with the FTXUI library
+  \item Event driven architecture, further reinforced OOP concepts, multi-threading,
+        memory management
+\end{itemize}
+}
 
 % use ONLY \newpage if you want to force a page break for
 % ONLY the currentc column
@@ -145,38 +192,6 @@
 % %% Switch to the right column. This will now automatically move to the second
 % %% page if the content is too long.
 \switchcolumn
-
-\cvsection{Strengths}
-
-% Don't overuse these \cvtag boxes — they're just eye-candies and not essential. If something doesn't fit on a single line, it probably works better as part of an itemized list (probably inlined itemized list), or just as a comma-separated list of strengths.
-
-\textbf{\color{accent}Personalities}
-\cvtag{Hard-working}
-\cvtag{Motivated}
-\cvtag{Quick Learner}
-
-\divider
-
-\textbf{\color{accent}Technical Skills}
-\cvtag{C\#}
-\cvtag{Python}
-\cvtag{LaTeX}
-\cvtag{CI/CD on GitHub Actions}
-\cvtag{Java}
-\cvtag{Swift \& SwiftUI}
-
-\cvsection{Languages}
-
-\cvskill{Cantonese}{5}
-\divider
-
-\cvskill{Mandarin}{5}
-\divider
-
-\cvskill{English}{4.5} 
-\divider
-
-\cvskill{French}{1.5}
 
 
 \cvsection{Education}
@@ -190,7 +205,8 @@
 
 \cvevent{M.B., B.S.\ {\footnotesize (Incomplete \& Voluntarily Withdrawn)}}{The University of Hong Kong}{Sept 2023 -- Mar 2024}{}
 \begin{itemize}
-  \item Pass in all assessment components
+  \item Pass in all assessment components (GPA system not applicable to the medicine programme)
+  \item Withdrawn and transffered to pursue his true passion in Computer Science
 \end{itemize}
 
 \divider
@@ -202,6 +218,44 @@
   Chemistry: Level 5*
   \item Mathematics (Extended Module II): Level 5
   \item Liberal Studies: Level 4
+\end{itemize}
+
+\cvsection{Strengths}
+
+% Don't overuse these \cvtag boxes — they're just eye-candies and not essential. If something doesn't fit on a single line, it probably works better as part of an itemized list (probably inlined itemized list), or just as a comma-separated list of strengths.
+
+\textbf{\color{accent}Personalities}
+\cvtag{Hard-working}
+\cvtag{Motivated}
+\cvtag{Quick Learner}
+
+\divider
+
+\textbf{\color{accent}Technical Skills}
+\cvicontag{\simpleicon{dotnet}}{C\#}
+\cvicontag{\simpleicon{python}}{Python}
+\cvtag{\color{accent}\LaTeX\hspace*{.5ex}\color{body}LaTeX}
+\cvicontag{\kern-.8ex\raisebox{.4ex}{\faJava}\hspace*{-.5ex}}{Java}
+\cvicontag{\kern-.8ex\raisebox{.4ex}{\faGit*}\hspace*{-.5ex}}{Git \& GitHub}
+\cvicontag{\kern-.8ex\raisebox{.3ex}{\faSwift}\hspace*{-.5ex}}{Swift \& SwiftUI}
+\cvicontag{\simpleicon{github}}{GitHub Actions}
+\cvicontag{\simpleicon{cplusplus}}{C++}
+
+\cvsection{Languages}
+
+\textcolor{emphasis}{\textbf{Cantonese \& Mandarin}}\hfill Native
+
+\divider
+
+\textcolor{emphasis}{\textbf{English}}\hfill Professional
+
+\divider
+
+\textcolor{emphasis}{\textbf{French}}\hfill Elementary
+
+\begin{itemize}
+  \item Currently minoring in French, A+ in both FREN1001 and FREN1002
+  \item DELF A2 (\textit{to be taken in Nov 2025})
 \end{itemize}
 
 \end{paracol}
