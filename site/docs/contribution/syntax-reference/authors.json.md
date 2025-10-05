@@ -29,7 +29,7 @@ Each author object must define all of the following fields:
 - **Example**: `"https://example.com/avatar.jpg"`
 
 Authors without a hosted avatar can place their avatar image in the `/site/docs/statics/authors/` directory,
-and reference it using `https://shingzhanho.github.io/hku-notes/statics/authors/[avatar_filename]`. Or,
+and reference it using `https://hku.jacobshing.com/statics/authors/[avatar_filename]`. Or,
 if they wish, leave this field as `null` to use the default avatar.
 
 ## `href`

@@ -1,5 +1,5 @@
 site_name: HKU-Notes
-site_url: https://shingzhanho.github.io/HKU-Notes/
+site_url: https://hku.jacobshing.com/
 theme:
   name: material
   custom_dir: overrides

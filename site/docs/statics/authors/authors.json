@@ -41,7 +41,7 @@
     },
     "@unknown": {
         "display_name": "Unknown Author",
-        "avatar": "https://shingzhanho.github.io/HKU-Notes/statics/authors/default_avatar.png",
+        "avatar": "https://hku.jacobshing.com/statics/authors/default_avatar.png",
         "href": "#"
     }
 }

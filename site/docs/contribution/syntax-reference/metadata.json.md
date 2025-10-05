@@ -196,7 +196,7 @@ or empty string for no icon.
 
 - **Description**: The URL to be linked to when the primary/secondary button is clicked.
 - **Type**: `string`
-- **Default**: `"https://shingzhanho.github.io/HKU-Notes/files/[BUILD_TARGET]/[OUTPUT_FILE]"` for primary, `"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/[BUILD_TARGET]"` for secondary,
+- **Default**: `"https://hku.jacobshing.com/files/[BUILD_TARGET]/[OUTPUT_FILE]"` for primary, `"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/[BUILD_TARGET]"` for secondary,
 where `[BUILD_TARGET]` is the name of the build target, and `[OUTPUT_FILE]` is the value of `build.output_file`.
 
 ### `authors`

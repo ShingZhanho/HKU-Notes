@@ -49,7 +49,7 @@ what information can you include in the file.
 
 To avoid unnecessary rebuilds, the GitHub Action will obtain the checksum of all the files under the `/src/[BUILD_TARGET]` directory.
 This value is compared with the previous build's checksum (can be accessed from
-`https://shingzhanho.github.io/HKU-Notes/files/[BUILD_TARGET]/src-checksum.txt`). If the checksum is the same, the build will be skipped
+`https://hku.jacobshing.com/files/[BUILD_TARGET]/src-checksum.txt`). If the checksum is the same, the build will be skipped
 and the previous output will be reused.
 
 ### 4. Build the Target

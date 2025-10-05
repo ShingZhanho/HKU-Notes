@@ -53,7 +53,7 @@ jobs:
       - name: Check deployed (remote) source checksum
         if: env.DYENV_IS_ALIAS == 'false'
         run: |
-          export remote_checksum_status=$(curl -s -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/src-checksum.txt" \
+          export remote_checksum_status=$(curl -s -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/src-checksum.txt" \
            -o ./src/${{ matrix.target}}/remote-src-checksum.txt \
            -w "%{http_code}")
           if [ "${remote_checksum_status}" != "200" ]; then
@@ -73,11 +73,11 @@ jobs:
           else
             echo "Checksum match. Skipping build. Downloading compiled file from remote."
             mv ./src/${{ matrix.target }}/remote-src-checksum.txt ./src/${{ matrix.target }}/src-checksum.txt
-            curl -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/compiled-at.txt" \
+            curl -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/compiled-at.txt" \
               -o ./src/${{ matrix.target }}/compiled-at.txt
-            curl -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/miktex-cache-key.txt" \
+            curl -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/miktex-cache-key.txt" \
               -o ./src/${{ matrix.target }}/miktex-cache-key.txt
-            curl -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}" \
+            curl -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}" \
               -o ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}
             echo "DYENV_ABORT_WORKFLOW=true" >> "$GITHUB_ENV"
           fi
@@ -96,7 +96,7 @@ jobs:
       - name: Download MiKTeX packages cache identifier key
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
         run: |
-          export miktex_remote_cache_key=$(curl -s -XGET "https://shingzhanho.github.io/HKU-Notes/files/${{ matrix.target }}/miktex-cache-key.txt" \
+          export miktex_remote_cache_key=$(curl -s -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/miktex-cache-key.txt" \
            -o ./src/${{ matrix.target}}/remote-miktex-cache-key.txt \
            -w "%{http_code}")
           if [ "${miktex_remote_cache_key}" != "200" ]; then
