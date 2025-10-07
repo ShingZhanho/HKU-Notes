@@ -38,7 +38,7 @@ def main():
     targets = sys.argv[1].split()
 
     for target in targets:
-        reader = Reader(f"./src/{target}/metadata.json")
+        reader = Reader(f"./src/{target}/metadata.json", target)
         metadata = reader.parse()
 
         # resolve for output file name
@@ -54,7 +54,7 @@ def main():
         write_lastmod_and_changefreq(sitemap_file, lastmod)
         end_url(sitemap_file)
 
-        if metadata.computed__is_alias:
+        if metadata.computed__is_alias():
             continue
         if metadata.output_file == "NON_FILE_TARGET":
             continue
