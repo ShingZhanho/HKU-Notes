@@ -268,6 +268,13 @@ jobs:
         run: mkdocs build -d ../gh-out
         working-directory: ./site
 
+      # --- GENERATE AND REPLACE SITEMAP.XML ---
+      - name: Remove generated sitemap.xml
+        run: rm -f ./gh-out/sitemap.xml && rm -f ./gh-out/sitemap.xml.gz
+
+      - name: Generate sitemap.xml
+        run: python3 ./build/generate_sitemap.py ${{ env.DYENV_TARGETS_LIST }} && mv ./sitemap.xml ./gh-out/sitemap.xml
+
       # --- CONFIGURE GOOGLE SEO VERIFICATION ---
       - name: Copy Google SEO verification file
         run: cp ./build/seo/google481bf8abff9a1de7.html ./gh-out
