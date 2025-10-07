@@ -219,6 +219,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # allow access to commit date and time for sitemap.xml
 
       # --- SETUP MKDOCS-MATERIAL ---
       - name: Set up Python
