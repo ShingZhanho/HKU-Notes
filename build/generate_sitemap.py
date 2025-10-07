@@ -70,21 +70,26 @@ def begin_sitemap():
     f = open("sitemap.xml", "w")
     f.write('<?xml version="1.0" encoding="UTF-8"?>')
     f.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+    print("Started sitemap.xml generation.")
     return f
 
 def begin_url(f, loc: str):
     f.write("<url>")
     f.write(f"<loc>{BASE_URL}{loc}</loc>")
+    print(f"\tStarted URL: {BASE_URL}{loc}")
 
 def write_lastmod_and_changefreq(f, lastmod: str):
     f.write(f"<lastmod>{lastmod}</lastmod>")
     f.write("<changefreq>monthly</changefreq>")
+    print(f"\t\tWrote lastmod: {lastmod}")
 
 def end_url(f):
     f.write("</url>")
+    print("\tEnded URL.")
 
 def end_sitemap(f):
     f.write("</urlset>")
+    print("Ended sitemap.xml generation.")
     f.close()
 
 def get_last_modified_datetime(target_name: str | None) -> str:
@@ -105,7 +110,7 @@ def get_last_modified_datetime(target_name: str | None) -> str:
     return lastmod
 
 def detail_page_url(target_name: str) -> str:
-    DETAIL_PAGE_URL_PREFIX = "/downloads/details/{% TARGET_NAME %}"
+    DETAIL_PAGE_URL_PREFIX = "/downloads/details/{% TARGET_NAME %}.html"
     return DETAIL_PAGE_URL_PREFIX.replace("{% TARGET_NAME %}", target_name)
 
 def pdf_direct_link(target_name: str, output_file_name: str) -> str:
