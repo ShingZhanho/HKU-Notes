@@ -57,6 +57,12 @@ The build pipeline looks for this file after executing the build command.
 - **Type**: `string`
 - **Default**: `[BUILD_TARGET].pdf` where `[BUILD_TARGET]` is the name of the build target.
 
+!!! warning "Non-File Targets"
+
+    If the build target does not produce a file (e.g., only a web page),
+    you must create a dummy file with the name "NON_FILE_TARGET" in the source directory of the target.
+    You must also point the `build.output_file` to this dummy file.
+
 ### `build.requires`
 
 - **Description**: A list of dependencies that are required to build the target.
@@ -98,6 +104,11 @@ This file is used to generate a hash for retrieving the cached LaTeX packages fo
     While `\usepackage` commands are not required to be in a separate file for
     general LaTeX documents, it is **mandatory** for documents in this repository
     to separate them into a single file for the purpose of caching LaTeX packages.
+
+!!! warning "Dummy File for Non-LaTeX Targets"
+
+    If the build target does not use LaTeX at all, you must point this key to any
+    arbitrary file that exists in the source directory of the target.
 
 ### `static_site.description`
 

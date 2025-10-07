@@ -1,9 +1,9 @@
 {
     "@metadata_file_version": "1",
     "build": {
-        "output_file": "FILE",
+        "output_file": "NON_FILE_TARGET",
         "build_command": "true",
-        "miktex_package_file": "FILE"
+        "miktex_package_file": "NON_FILE_TARGET"
     },
     "static_site": {
         "description": "The GitHub repository of the group project.",
