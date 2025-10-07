@@ -30,9 +30,11 @@ STATIC_PATHS = [
 
 def main():
     sitemap_file = begin_sitemap()
+    counter = 0
 
     for path in STATIC_PATHS:
         begin_url(sitemap_file, path)
+        counter += 1
         end_url(sitemap_file)
 
     targets = sys.argv[1].split()
@@ -51,6 +53,7 @@ def main():
 
         # detail page
         begin_url(sitemap_file, detail_page_url(target))
+        counter += 1
         write_lastmod_and_changefreq(sitemap_file, lastmod)
         end_url(sitemap_file)
 
@@ -61,10 +64,12 @@ def main():
 
         # pdf direct link
         begin_url(sitemap_file, pdf_direct_link(target, output_file))
+        counter += 1
         write_lastmod_and_changefreq(sitemap_file, lastmod)
         end_url(sitemap_file)
 
     end_sitemap(sitemap_file)
+    print(f"Generated sitemap.xml with {counter} URLs.")
 
 def begin_sitemap():
     f = open("sitemap.xml", "w")
