@@ -92,23 +92,29 @@ This command is executed in the source directory of the build target, i.e., `/sr
 - **Type**: `string`
 - **Default**: `null`
 
-### `build.miktex_package_file`
+### ~~`build.miktex_package_file`~~ **[Deprecated]**
 
-- **Description**: Specifies the `.tex` file that contains all the `\usepackage` commands for the target.
-This file is used to generate a hash for retrieving the cached LaTeX packages for saving build time.
-- **Type**: `string`
-- **Default**: `packages.tex`
+!!! warning "Deprecated Key"
+
+    The key `build.miktex_package_file` has been deprecated and will be removed in the future.
+    TeX package hashing is now handled automatically by the python script, and is available as
+    a runtime dynamic computed key `computed.tex_pkg_hash`.
+
+    This key should no longer be used in new build targets.
+
+    Although TeX packages are now automatically resolved, it is still a **mandatory code practice**
+    to separate all `\usepackage` commands into a single file named `packages.tex` in the source directory.
+
+- ~~**Description**: Specifies the `.tex` file that contains all the `\usepackage` commands for the target.~~
+~~This file is used to generate a hash for retrieving the cached LaTeX packages for saving build time.~~
+- ~~**Type**: `string`~~
+- ~~**Default**: `packages.tex`~~
 
 !!! note "Creating a `packages.tex` File"
 
     While `\usepackage` commands are not required to be in a separate file for
     general LaTeX documents, it is **mandatory** for documents in this repository
     to separate them into a single file for the purpose of caching LaTeX packages.
-
-!!! warning "Dummy File for Non-LaTeX Targets"
-
-    If the build target does not use LaTeX at all, you must point this key to any
-    arbitrary file that exists in the source directory of the target.
 
 ### `static_site.description`
 
