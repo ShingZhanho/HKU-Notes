@@ -259,11 +259,63 @@
             
             \subpart $f(n)=2n^2+3n+1$ and $g(n)=n^2$.
 
+            \begin{solution}
+                Note that $\forall n\geq0$, we always trivially have $f(n)\geq g(n)$.
+                That is, we can choose $c=1$ and $n_0=0$, then $\forall n\geq n_0:f(n)\geq cg(n)$ holds.
+                This gives us $f\in\bigOmg(g)$.
+
+                Also note that $\forall n\geq4$, we have $f(n)\leq3g(n)$,
+                Then, we can also choose $c=3$ and $n_0=4$, then $\forall n\geq n_0:f(n)\leq cg(n)$ holds.
+                This gives us $f\in\bigO(g)$.
+
+                Having shown that $f\in\bigO(g)$ and $f\in\bigOmg(g)$, by definition,
+                \fbox{we have $f\in\bigTh(g)$}.
+            \end{solution}
+
             \subpart $f(n)=\log_4 n$ and $g(n)=\log_2 (\log_2 n)$.
+
+            \begin{solution}
+                Note that we can transform $f(n)$ as \[
+                    f(n)=\frac{\log_2 n}{\log_2 4}=\frac{1}{2}\log_2 n.
+                \]
+
+                Then, we examine the growth rates of $f(n)$ and $g(n)$ as $n\to+\infty$:
+                \begin{align*}
+                    \lim_{n\to+\infty} \frac{f(n)}{g(n)} &=
+                    \lim_{n\to+\infty} \frac{\frac{1}{2}\log_2 n}{\log_2(\log_2 n)}\\
+                    &= \frac{1}{2} \cdot \lim_{n\to+\infty} \frac{\log_2 n}{\log_2(\log_2 n)}\\
+                    &= \frac{1}{2} \cdot \lim_{n\to+\infty} \frac{\frac{\ln n}{\ln 2}}{\frac{\ln(\log_2 n)}{\ln 2}}\\
+                    &= \frac{1}{2} \cdot \lim_{n\to+\infty} \frac{\ln n}{\ln(\log_2 n)}\\
+                    &= \frac{1}{2} \cdot \lim_{n\to+\infty} \frac{\ln n}{\ln(\frac{\ln n}{\ln 2})}\\
+                    &= \frac{1}{2} \cdot \lim_{n\to+\infty} \frac{\ln n}{\ln(\ln n) - \ln(\ln 2)}\\
+                    &= +\infty
+                \end{align*}
+
+                Therefore, we have $f(n)$ grows asymptotically faster than $g(n)$, i.e., $f\in\bigOmg(g)$.
+                We can verify this by choosing $c=1$ and $n_0=16$. Then, $\forall n\geq n_0$,
+                we have $f(n)\geq g(n)$. Thus, \fbox{$f\in\bigOmg(g)$}.
+            \end{solution}
 
             \subpart $f(n)=n!$ and $g(n)=100^n$. [Hint: Consider Stirling's formula.]
 
+            \begin{solution}
+                By Stirling's formula, we have $
+                    n! \approx \sqrt{2\pi n}\left(\frac{n}{e}\right)^n
+                $. Then, the limit evaluates as
+                $
+                    \limninf \frac{f(n)}{g(n)} \approx
+                    \limninf \frac{\sqrt{2\pi}n^{n+\frac{1}{2}}e^{-n}}{100^n}
+                $.
+                We can identify the dominant term being $n^{n+\frac{1}{2}}$, which grows faster than all
+                other terms. Thus, the ratio $\frac{f(n)}{g(n)}\to+\infty$ as $n\to+\infty$.
+
+                Therefore, we have $f(n)$ grows asymptotically faster than $g(n)$, 
+                i.e., $\boxed{f\in\bigOmg(g)}$.
+            \end{solution}
+
         \end{subparts}
+
+        \newpage
 
         \part[8] For any function $g:\N\to\N$, define $f_g:\N\to\N$ to be the function \[
             f_g(n)=\underbrace{g\circ\cdots\circ g}_{n\text{ times}}(n-1).
@@ -277,6 +329,48 @@
             \item $h\in\bigO(f_{g_2})$ but $h\notin\bigOmg(f_{g_2})$.
         \end{itemize}
         Justify your answer.
+
+        \begin{solution}
+            First, we observe the behaviour of $f_{g_1}$:
+            \begin{align*}
+                f_{g_1}(0) &= 0,\\
+                f_{g_1}(1) &= g_1(n-1)\big|_{n=1} = 2n-1\big|_{n=1} = 1,\\
+                f_{g_1}(2) &= g_1(g_1(n-1))\big|_{n=2} = g_1(2n-1)\big|_{n=2} = 4n+1\big|_{n=2} = 9,\\
+                f_{g_1}(3) &= g_1(4n+1)\big|_{n=3} = 8n+3\big|_{n=3} = 27,\\
+                f_{g_1}(4) &= g_1(8n+3)\big|_{n=4} = 16n+7\big|_{n=4} = 71,\\
+                f_{g_1}(5) &= g_1(16n+7)\big|_{n=5} = 32n+15\big|_{n=5} = 175,\\
+                &\cdots
+            \end{align*}
+            We can see the coefficient of the dominant term $n$ is $2^n$. Also, in each iteration,
+            the coefficient is multiplied by $n$ and some abitrary number is added. Then, we can identify
+            the dominant term of $f_{g_1}(n)$ being $2^n n$.
+
+            Similarly, we observe the behaviour of $f_{g_2}$:
+            \begin{align*}
+                f_{g_2}(0) &= 0,\\
+                f_{g_2}(1) &= g_2(n-1)\big|_{n=1} = (n-1)^2\big|_{n=1} = 0,\\
+                f_{g_2}(2) &= g_2((n-1)^2)\big|_{n=2} = (n-1)^4\big|_{n=2} = 1,\\
+                f_{g_2}(3) &= g_2((n-1)^4)\big|_{n=3} = (n-1)^8\big|_{n=3} = 256,\\
+                f_{g_2}(4) &= g_2((n-1)^8)\big|_{n=4} = (n-1)^{16}\big|_{n=4} = 43,046,721,\\
+                &\cdots
+            \end{align*}
+            The exponent of the dominant term $n$ is $2^n$. Then, the dominant term of $f_{g_2}(n)$
+            is $n^{2^n}$.
+
+            We would like to find a function $h:\N\to\N$ such that at large $n$, $h$ grows asymptotically
+            faster than $f_{g_1}$ but slower than $f_{g_2}$. We choose $h(n)=n^n$.
+
+            Consider the ratio $\frac{h(n)}{f_{g_1}(n)} = \frac{n^n}{2^n n} = \frac{n^{n-1}}{2^n}$
+            as $n\to+\infty$. It is clear that $n^{n-1}$ grows much faster than $2^n$.
+            Thus, $\limninf \frac{h(n)}{f_{g_1}(n)} = +\infty$, which implies that
+            $h\in\bigOmg(f_{g_1})$ but $h\notin\bigO(f_{g_1})$.
+
+            Now, consider the ratio $\frac{h(n)}{f_{g_2}(n)} = \frac{n^n}{n^{2^n}} = \frac{1}{n^{2^n-n}}$
+            as $n\to+\infty$. It is trivial to show that $\limninf \frac{h(n)}{f_{g_2}(n)} = 0$,
+            which implies that $h\in\bigO(f_{g_2})$ but $h\notin\bigOmg(f_{g_2})$.
+
+            Therefore, we have found a function $\boxed{h(n)=n^n}$ that satisfies all the requirements.
+        \end{solution}
 
     \end{parts}
 
