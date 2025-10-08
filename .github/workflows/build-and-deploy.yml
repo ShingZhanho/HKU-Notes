@@ -31,6 +31,24 @@ jobs:
     strategy:
       matrix: 
         target: ${{ fromJson(needs.configure-matrix.outputs.set-matrix) }}
+    env:
+      # --- DYNAMIC ENVIRONMENT VARIABLES ---
+      # These environment variables are evaluated at runtime.
+      # They are placed here to resolve the editor warning of undefined variables.
+      DYENV_ABORT_WORKFLOW: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_RESTORE_MIKTEX_FROM_CACHE: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_LOCAL_SRC_CHECKSUM: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_REMOTE_SRC_CHECKSUM: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_LOCAL_MIKTEX_CACHE_KEY: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_REMOTE_MIKTEX_CACHE_KEY: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_REQUIRE_PYTHON_MINTED_PKGS: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_PREBUILD_COMMAND: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_POSTBUILD_COMMAND: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_BUILD_COMMAND: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_OUTPUT_FILE: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_IS_ALIAS: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_TEX_PACKAGE_HASH: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_APT_DEPS_LIST: "RUNTIME DYNAMIC ENV VAR"
     steps:
       # --- ENVIRONMENT SETUP ---
       - name: Checkout repository
@@ -109,7 +127,7 @@ jobs:
 
       - name: Calculate local MiKTeX cache key
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
-        run: echo "DYENV_LOCAL_MIKTEX_CACHE_KEY=${{ hashFiles(format('./src/{0}/{1}', matrix.target ,env.DYENV_MIKTEX_PACKAGE_FILE)) }}" >> "$GITHUB_ENV"
+        run: echo "DYENV_LOCAL_MIKTEX_CACHE_KEY=${{ env.DYENV_TEX_PACKAGE_HASH }}" >> "$GITHUB_ENV"
 
       - name: Compare local and remote MikTeX cache key
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
@@ -216,6 +234,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

@@ -51,7 +51,7 @@ export_var "DYENV_POSTBUILD_COMMAND" "$(get_metadata_value build__postbuild_comm
 export_var "DYENV_OUTPUT_FILE" "$(get_metadata_value output_file)"
 
 # Handle build target miktex package file
-export_var "DYENV_MIKTEX_PACKAGE_FILE" "$(get_metadata_value build__miktex_package_file)"
+export_var "DYENV_TEX_PACKAGE_HASH" "$(get_metadata_value computed__tex_pkg_hash)"
 
 # Handle build target alias properties
 export_var "DYENV_IS_ALIAS" "$(get_metadata_value computed__is_alias)"
