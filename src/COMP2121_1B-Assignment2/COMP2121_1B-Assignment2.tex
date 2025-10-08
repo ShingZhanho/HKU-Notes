@@ -33,6 +33,56 @@
             if your answer is no, explain why.
         \end{enumerate*}
 
+        \begin{solution}
+            \begin{enumerate}[label=(\arabic*)]
+                \item \textbf{Case 1:} $n$ is divisible by 3, i.e., $ \forall k\in\Z :n=3k$.
+                Then, $h(n)=\frac{1}{3}(3k)=k$, which may or may not be divisible by 3.
+
+                \textbf{Case 2:} $n$ is not divisible by 3 and $n=3k+1$ for some $k\in\Z$.
+                Then, $h(n)=3(3k+1)=9k+3$, which is divisible by 3.
+
+                \textbf{Case 3:} $n$ is not divisible by 3 and $n=3k+2$ for some $k\in\Z$.
+                Then, $h(n)=3(3k+2)=9k+6$, which is also divisible by 3.
+
+                Thus, $h(n)$ is either divisible by 3 or not divisible by 3.
+                \fbox{Therefore, the range of $h$ is $\Z$.}
+
+                \item We show that $\forall n_1,n_2\in\Z:[(n_1\neq n_2)\rightarrow(h(n_1)\neq h(n_2))]$.
+                We can prove by contraposition, i.e., $\forall n_1,n_2\in\Z:[(h(n_1)=h(n_2))\rightarrow(n_1=n_2)]$.
+
+                \textbf{Case 1:} When both $n_1$ and $n_2$ are divisible by 3, we have
+                \begin{align*}
+                    h(n_1)=h(n_2) \quad\Leftrightarrow\quad \frac{1}{3}n_1&=\frac{1}{3}n_2\\
+                    n_1&=n_2.
+                \end{align*}
+
+                \textbf{Case 2:} When both $n_1$ and $n_2$ are not divisible by 3, we have
+                \begin{align*}
+                    h(n_1)=h(n_2) \quad\Leftrightarrow\quad 3n_1&=3n_2\\
+                    n_1&=n_2.
+                \end{align*}
+
+                \textbf{Case 3:} When one of $n_1$ and $n_2$ is divisible by 3 and the other is not,
+                without loss of generality, let $n_1$ be divisible by 3 and $n_2$ not divisible by 3.
+                Then, we have
+                \begin{align*}
+                    h(n_1)=h(n_2) \quad\Leftrightarrow\quad \frac{1}{3}n_1&=3n_2\\
+                    n_1&=9n_2\\
+                    3k&=9k+r\quad(\text{for some }k\in\Z\text{ and }r\in\set{1,2})\\
+                    6k&=-r\\
+                    k&=-\frac{r}{6}=-\frac{1}{6} \text{ or } -\frac{1}{3} \notin\Z
+                \end{align*}
+                Note that this case leads to a contraciction, so it is impossible.
+
+                Therefore, by cases 1 and 2, we conclude that \fbox{$h_2$ is injective}.
+
+                \item By sub-problem (1), we have shown that the range of $h_2$ is $\Z$,
+                which is the same as the codomain of $h_2$. By definition, \fbox{$h_2$ is surjective}.
+
+                \item Since $h_2$ is both injective and surjective, by definition, \fbox{$h_2$ is bijective}.
+            \end{enumerate}
+        \end{solution}
+
         \part[6] Functions $f:\R\to\R$ and $g:\R\to\R$ are defined as follows.
         Determine by formulas the compositions $f\circ g$ and $g\circ g$.
         \[
@@ -41,6 +91,54 @@
                 -x-1,\quad&\text{if }x<1.
             \end{cases}
         \]
+
+        \begin{solution}
+            \begin{enumerate}[label=(\arabic*)]
+                \item $\bm{f\circ g}$\textbf{:}
+                \[
+                    (f\circ g)(x)=\boxed{
+                        \begin{cases}
+                            (2x-4)^2,\quad&\text{if }x\geq1,\\
+                            (-x+1)^2,\quad&\text{if }x<1.
+                        \end{cases}
+                    }
+                \]
+
+                \item $\bm{g\circ g}$\textbf{:}
+                
+                Note that $g(x)\geq1$ when $2x-6\geq1\Rightarrow x\geq\frac{7}{2}\geq1$
+                and when $-x-1\geq1\Rightarrow x\leq-2$.
+
+                Also, $g(x)<1$ when $2x-6<1\Rightarrow 1\leq x<\frac{7}{2}$
+                and when $-x-1<1\Rightarrow 1>x> -2$.
+
+                Thus, the piecewise function $g\circ g$ has cases: $x\in(-\infty, -2]$,
+                $x\in(-2, 1)$, $x\in[1, \frac{7}{2})$, and $x\in[\frac{7}{2}, +\infty)$.
+
+                \textbf{Case 1:} $x\in(-\infty, -2]$. We have $g(x)\geq1$, so
+                $g(g(x))=2(-x-1)-6=-2x-8$.
+
+                \textbf{Case 2:} $x\in(-2, 1)$, We have $g(x)<1$, so
+                $g(g(x))=-(-x-1)-1=x$.
+
+                \textbf{Case 3:} $x\in[1,\frac{7}{2})$. We have $g(x)<1$, so
+                $g(g(x))=-(2x-6)-1=-2x+5$.
+
+                \textbf{Case 4:} $x\in[\frac{7}{2}, +\infty)$. We have $g(x)\geq1$, so
+                $g(g(x))=2(2x-6)-6=4x-18$.
+
+                Putting all cases together, we have \[
+                    (g\circ g)(x) = \boxed{
+                        \begin{cases}
+                            -2x-8,\quad&\text{if }x\leq-2,\\
+                            x,\quad&\text{if }-2<x<1,\\
+                            -2x+5,\quad&\text{if }1\leq x<\frac{7}{2},\\
+                            4x-18,\quad&\text{if }x\geq\frac{7}{2}.
+                        \end{cases}
+                    }
+                \]
+            \end{enumerate}
+        \end{solution}
 
     \end{parts}
 
