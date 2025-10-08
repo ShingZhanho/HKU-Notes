@@ -261,7 +261,7 @@ i.e. $R \subseteq A \times A$.
     Easily, we have $[1] = \set{1, 3, 5, 7, \ldots}$ and $[2] = \set{2, 4, 6, 8, \ldots}$.
 \end{example}
 
-\begin{lemma}[Disjoint Sets]
+\begin{lemma}[Disjoint Sets]\label{lem:disjoint-sets}
     Two sets $A_1$ and $A_2$ are said to be \textbf{disjoint} if $A_1 \cap A_2 = \mtset$,
     i.e. they have no elements in common.
 \end{lemma}
@@ -462,4 +462,19 @@ i.e. $R \subseteq A \times A$.
 
 \begin{remark}
     The relation $f\rel g: f\in\bigTh(g)$ is an equivalence relation.
+\end{remark}
+
+\begin{remark}
+    To determine whether $f\in\bigO(g)$, $\bigOmg(g)$ or $\bigTh(g)$, we can use the limit test:
+    \[
+        \lim_{n\to\infty} \frac{f(n)}{g(n)} =
+        \begin{cases}
+            0 & \Rightarrow f\in\bigO(g) \text{ but } f\notin\bigOmg(g) \\
+            c \in \R^+ & \Rightarrow f\in\bigTh(g) \\
+            \infty & \Rightarrow f\in\bigOmg(g) \text{ but } f\notin\bigO(g)
+        \end{cases}
+    \]
+
+    Further, when $\lim_{n\to\infty} \frac{f(n)}{g(n)} = c \in \R^+$, such constant $c$ can be
+    used as $c_1$ or $c_2$ in the definition of $\bigTh$.
 \end{remark}
