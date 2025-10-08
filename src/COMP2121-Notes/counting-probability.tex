@@ -1,1 +1,70 @@
 \section{Counting \& Probability}
+
+\subsection{Fundamentals of Counting}
+
+\begin{theorem}[Product Rule] \label{thm:product-rule}
+    If a procedure can be broken down into $k$ tasks, where the first task can be done in $n_1$
+    ways, and for each way of doing the first task the second task can be done in $n_2$ ways,
+    and so on, then the entire procedure can be done in $n_1 n_2 \cdots n_k$ ways.
+\end{theorem}
+
+With the \nameref{thm:product-rule}, we can solve problems like:
+
+\begin{example}[Counting Elements of a Cartesian Product of Sets]
+    Given sets $A_1$, $A_2$, \ldots, $A_k$, find $\card{\displaystyle\prod_{i=1}^k A_i}$.
+    
+    \textbf{Solution:}
+    The Cartesian product contains elements of the form $(a_1, a_2, \ldots, a_k)$
+    where $a_i \in A_i$. Constructing such product can be broken down into $k$ tasks,
+    namely choosing $a_1, a_2, \ldots, a_k$. The $i$-th task can be done in $\card{A_i}$ ways.
+
+    By the \nameref{thm:product-rule}, the total number of ways to construct such product is
+    \[
+        \boxed{\card{A_1}\cdot\card{A_2}\cdots\card{A_k} = \prod_{i=1}^k \card{A_i}}
+    \]
+\end{example}
+
+\begin{example}[Counting Functions]
+    Find the number of functions $f:A\to B$, provided that $A$ and $B$ are finite sets.
+
+    \textbf{Solution:}
+    A function $f:A\to B$ can be constructed by assigning each element in $A$ to an element in $B$.
+    This can be broken down into $\card{A}$ tasks, where the $i$-th task is to assign $f(a_i)\in B$
+    for some $a_i \in A$. The $i$-th task can be done in $\card{B}$ ways.
+
+    By the \nameref{thm:product-rule}, the total number of ways to construct such function is
+    \[
+        \boxed{\card{B}^{\card{A}}}
+    \]
+\end{example}
+
+\begin{example}[Counting Injective Functions]
+    Find the number of injective functions $f:A\to B$, provided that $A$ and $B$ are finite sets.
+
+    \textbf{Solution:}
+    First, note that if $\card{A} > \card{B}$, then there is no injective function from $A$ to $B$.
+    Now, suppose $\card{A} \leq \card{B}$. An injective function $f:A\to B$ can be constructed by
+    several steps. First, we choose an element $a_1\in A$. There are $\card{B}$ ways to choose
+    a $f(a_1)\in B$. Next, we choose another element $a_2\in A$. Since $f$ is injective,
+    there are $\card{B}-1$ ways to choose $f(a_2)\in B$. Continuing this way, we can see that
+    the $i$-th task can be done in $\card{B}-i+1$ ways.
+
+    Therefore, the number of injective functions from $A$ to $B$ is
+    \[
+        \boxed{\card{B}(\card{B}-1)(\card{B}-2)\cdots(\card{B}-\card{A}+1) = \frac{\card{B}!}{(\card{B}-\card{A})!}}
+    \]
+    provided that $\card{A} \leq \card{B}$.
+\end{example}
+
+\begin{theorem}[Inclusion-Exclusion Principle]
+    For some sets $A_1, A_2, \ldots, A_n$,
+    \[
+        \card{\bigcup_{i=1}^n A_i}
+        = \sum_{i} \card{A_i}
+        - \sum_{i<j} \card{A_i \cap A_j}
+        + \sum_{i<j<k} \card{A_i \cap A_j \cap A_k}
+        - \cdots
+        + (-1)^{n+1} \card{A_1 \cap A_2 \cap \cdots \cap A_n}
+    \]
+\end{theorem}
+
