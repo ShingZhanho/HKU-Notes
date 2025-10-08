@@ -463,3 +463,18 @@ i.e. $R \subseteq A \times A$.
 \begin{remark}
     The relation $f\rel g: f\in\bigTh(g)$ is an equivalence relation.
 \end{remark}
+
+\begin{remark}
+    To determine whether $f\in\bigO(g)$, $\bigOmg(g)$ or $\bigTh(g)$, we can use the limit test:
+    \[
+        \lim_{n\to\infty} \frac{f(n)}{g(n)} =
+        \begin{cases}
+            0 & \Rightarrow f\in\bigO(g) \text{ but } f\notin\bigOmg(g) \\
+            c \in \R^+ & \Rightarrow f\in\bigTh(g) \\
+            \infty & \Rightarrow f\in\bigOmg(g) \text{ but } f\notin\bigO(g)
+        \end{cases}
+    \]
+
+    Further, when $\lim_{n\to\infty} \frac{f(n)}{g(n)} = c \in \R^+$, such constant $c$ can be
+    used as $c_1$ or $c_2$ in the definition of $\bigTh$.
+\end{remark}
