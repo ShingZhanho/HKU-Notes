@@ -130,9 +130,58 @@
             R=\set{(x,y)\in\Z\times\Z\mid f(x)-f(y)\text{ is even}}
         \] is reflexive and transitive.
 
+        \begin{solution}
+            \textbf{Reflexivity:} Recall one of the properties of a function $f:A\to B$ defined by a relation $R_0$ is that
+            $\forall x\in A, y_1,y_2\in B:[(x\rel[R_0] y_1)\land(x\rel[R_0] y_2)\rightarrow (y_1=y_2)]$.
+            Therefore, for any pair $(x,y)$ where $x,y\in\Z$ and $x=y$, we must have
+            $f(x)=f(y) \Rightarrow f(x)-f(y)=0$, which is even. Thus, $x\rel x$ for all $x\in\Z$.
+            By definition, \fbox{$R$ is reflexive}.
+
+            \textbf{Transitivity:} Let $a,b,c\in\Z$ be arbitrary. Note that for $x\rel y$ to hold,
+            $f(x)$ and $f(y)$ must either be both even or both odd. Also note that the image of $f:\Z\to\Z$
+            must be integers, which must either be even or odd. Then, when $a\rel b$ holds, we must have
+            that the parity of $f(a)$ and $f(b)$ are the same. Similarly, when $b\rel c$ holds,
+            we must have that the parity of $f(b)$ and $f(c)$ are the same. Thus, the parity of $f(a)$ and $f(c)$
+            must also be the same, which implies that $a\rel c$ holds. By definition, \fbox{$R$ is transitive}.
+
+            \textbf{Conclusion:} Since $R$ is both reflexive and transitive, \fbox{the statement is true}.
+        \end{solution}
+
         \part[4] For arbitrary function $f:\Z\to\Z$, the relation defined by \[
             R=\set{(x,y)\in\Z\times\Z\mid f(x)\cdot f(y)\in\set{-1, 0, 1}}
         \] is symmetric and transitive.
+
+        \begin{solution}
+            Observe that for $f(x)\cdot f(y)=1$ to hold, $f(x)$ and $f(y)$ must both have the magnitude of 1
+            and the same sign. Similarly, for $f(x)\cdot f(y)=-1$ to hold, $f(x)$ and $f(y)$ must both have
+            the magnitude of 1 but different signs. Finally, for $f(x)\cdot f(y)=0$ to hold, at least one of
+            $f(x)$ and $f(y)$ must be 0. That is,
+            $f(x), f(y)\in\set{-1,0,1}\leftrightarrow f(x)\cdot f(y)\in\set{-1,1}$, and
+            $[(f(x)=0)\lor(f(y)=0)]\leftrightarrow f(x)\cdot f(y)=0$.
+
+            \textbf{Symmetry:} We need to show that $x\rel y\rightarrow y\rel x$ holds for all $x,y\in\Z$.
+            We try to prove by contradiction. Suppose $x\rel y$ holds but we have $y\notrel x$.
+            For the case when $f(x)\cdot f(y)\in\set{-1,1}$, from $x\rel y$, we have
+            $f(x), f(y)\in\set{-1,1}$. Then, $f(y)\cdot f(x)\in\set{-1,1}$, which implies that
+            $y\rel x$ must hold. Then, for the case when $f(x)\cdot f(y)=0$, from $x\rel y$, we have
+            either or both of $f(x)$ and $f(y)$ equal to 0. Without loss of generality, suppose $f(x)=0$.
+            Then, $f(y)\cdot f(x)=f(y)\cdot 0=0$, which implies that $y\rel x$ must hold.
+            Then, we have shown that in both cases, $y\rel x$ must hold. This contradicts our assumption
+            that $y\notrel x$. Therefore, \fbox{$R$ is symmetric}.
+
+            \textbf{Transitivity:} The transitivity can be easily disproved by a counterexample.
+            Define $f_0:\Z\to\Z$ as: \[
+                f_0(x) = \begin{cases}
+                    5,\quad&\text{if }x\neq0,\\
+                    0,\quad&\text{if }x=0.
+                \end{cases}
+            \]
+            Then, we have $f_0(-1)\cdot f_0(0)=0\in\set{-1,0,1}$ and $f_0(0)\cdot f_0(1)=0\in\set{-1,0,1}$,
+            so $-1\rel 0$ and $0\rel 1$ hold. However, $f_0(-1)\cdot f_0(1)=5\cdot5=25\notin\set{-1,0,1}$,
+            so $-1\notrel 1$. Therefore, \fbox{$R$ is not transitive}.
+
+            \textbf{Conclusion:} Since $R$ is symmetric but not transitive, \fbox{the statement is false}.
+        \end{solution}
 
     \end{parts}
 
