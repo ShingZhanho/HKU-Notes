@@ -1,0 +1,103 @@
+% for long multiplications
+\makeatletter
+    \providecommand\text\mbox
+    \newenvironment{arithmetic}[1][]{\begin{tabular}[#1]{Al}}{\end{tabular}}
+    \newcolumntype{A}{>{\bgroup\def~{\phantom{0}}$\@testOptor}r<{\@gobble\\$\egroup}}
+    \def\@testOptor\ignorespaces#1#2\\{%
+    \ifx#1\times
+        \@OperatorRow{#1}{#2}\@tempa%
+    \else\ifx#1+
+        \@OperatorRow+{#2}\@tempa%
+    \else\ifx#1\discretionary% detects the soft hyphen, \-
+        \@ShortSubtractRow{#2}\@tempa%
+    \else\ifx#1-
+        \@OperatorRow-{#2}\@tempa%
+    \else
+        \@NormalRow{#1#2}\@tempa%
+    \fi\fi\fi\fi
+    \@tempa}
+    \def\@OperatorRow#1#2#3{%
+    \@IfEndRow#2\@gobble\\{%
+        \def#3{\underline{{}#1 #2}\\}%
+    }{%
+        \def#3{\underline{{}#1 #2{}}}%
+    }}
+
+\def\@NormalRow#1#2{%
+    \@IfEndRow#1\@gobble\\{%
+        \def#2{#1\\}%
+    }{%
+        \def#2{#1{}}%
+    }}
+
+\def\@IfEndRow#1\@gobble#2\\#3#4{%
+    \ifx#2\@gobble
+        #4%
+    \else
+        #3%
+    \fi}
+
+\makeatother
+
+\pagestyle{foot}
+\cfoot{Page \thepage\ of \numpages}
+\bracketedpoints
+\renewcommand{\solutiontitle}{\noindent\textbf{Answers:}\par\noindent}
+
+% Logic symbols
+\newcommand{\lxor}{\oplus}
+\newcommand{\limp}{\rightarrow}
+\newcommand{\liff}{\leftrightarrow}
+\newcommand{\ltrue}{\bm{T}}
+\newcommand{\lfalse}{\bm{F}}
+
+% Set symbols
+\newcommand{\set}[1]{\left\{#1\right\}} % set braces
+\newcommand{\card}[1]{\left|#1\right|} % cardinality of a set
+\newcommand{\pwset}[1]{\mathcal{P}(#1)} % power set
+\newcommand{\mtset}{\varnothing} % empty set
+\renewcommand{\emptyset}{\varnothing} % empty set
+
+\renewcommand{\thesubpart}{(\arabic{subpart})}
+\renewcommand{\subpartlabel}{\thesubpart}
+
+% commands for question 4b
+\newcommand{\tnot}[1]{\texttt{NOT}\left(#1\right)}
+\newcommand{\topr}[3]{\texttt{#1}\left(#2, #3\right)}
+
+% psol (proof-solution) environment
+\newenvironment{psol}{
+    \renewcommand{\solutiontitle}{\noindent\textbf{Proof:}\par\noindent}
+    \begin{solution}
+}{
+    \par\hfill\textbf{Q.E.D.}
+    \end{solution}
+    \renewcommand{\solutiontitle}{\noindent\textbf{Answers:}\par\noindent}
+}
+
+\newcommand{\ds}{\displaystyle}
+
+\allowdisplaybreaks
+
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\X}{\mathbb{X}}
+\newcommand{\Y}{\mathbb{Y}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\bigO}{\mathcal{O}} % Big O notation
+\newcommand{\bigOmg}{\Omega} % Big Omega notation
+\newcommand{\bigTh}{\Theta} % Big Theta notation
+
+% Symbols for relations
+\newcommand{\rel}[1][R]{\mathrel #1} % Related (defaults to R if no argument is provided)
+\newcommand{\notrel}[1][R]{\centernot #1} % Not related (defaults to R if no argument is provided)
