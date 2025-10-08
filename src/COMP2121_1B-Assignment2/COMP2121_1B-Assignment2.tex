@@ -200,8 +200,49 @@
         Prove or disprove the statement: $f(A_1\cap A_2)=f(A_1)\cap f(A_2)$ holds for any function
         $f:A\to B$.
 
+        \begin{solution}
+            Consider the function $f:A\to B$ defined as: \[
+                f(x)=\begin{cases}
+                    a,\quad&x\in\set{1,3},\\
+                    c,\quad&x=2.
+                \end{cases}
+            \]
+            Then, the image of $A_1\cap A_2=\set{2}$ is \[
+                f(A_1\cap A_2)=f(\set{2})=\set{c},
+            \] and the intersection of the images of $A_1$ and $A_2$ is \[
+                f(A_1)\cap f(A_2)=f(\set{1,2})\cap f(\set{2,3})=\set{a,c}\cap\set{c,a}=\set{a,c}.
+            \]
+            Therefore, we have found a counterexample such that the statement does not hold.
+            Thus, \fbox{the statement is false}.
+        \end{solution}
+
         \part[6] Prove that for any subsets $A_1, A_2$ of $A$, $f(A_1\cap A_2) = f(A_1)\cap f(A_2)$
         if $f$ is injective.
+
+        \begin{psol}
+            If $f$ is injective, then for any $x_1,x_2\in A$ where $x_1\neq x_2$,
+            we must have $f(x_1)\neq f(x_2)$. For any arbitrary set $A=\set{a_1,a_2,\ldots}$,
+            we have $A'=f(A)=\set{f(a_1),f(a_2),\ldots}$ and $\card{A}=\card{A'}$,
+            and for any $A_i\subseteq A$, we also have $A_i'=f(A_i)\subseteq A'$
+            and $\card{A_i}=\card{A_i'}$.
+
+            \textbf{Case 1:} $A_1\cap A_2=\mtset$. Then, $f(A_1\cap A_2)=f(\mtset)=\mtset$.
+            Also, $f(A_1)\cap f(A_2)=A_1'\cap A_2'=\mtset$ since $A_1\cap A_2=\mtset$.
+            Thus, $f(A_1\cap A_2)=f(A_1)\cap f(A_2)$ holds.
+
+            \textbf{Case 2:} $A_1\cap A_2\neq\mtset$. Suppose $A_1$ and $A_2$ has some arbitrary common
+            elements $c_1,c_2,\ldots,c_k$ where $k\in[1,\max(\card{A_1},\card{A_2})]$. Then,
+            $f(A_1\cap A_2)=\set{f(c_1),f(c_2),\ldots,f(c_k)}$. Also, suppose $A_1$ has some arbitrary
+            unique elements $a_{11}, a_{12},\ldots,a_{1m}$ where $m\in[0,\card{A_1}-k]$, and the same for
+            $A_2$ with unique elements $a_{21}, a_{22},\ldots,a_{2n}$ where $n\in[0,\card{A_2}-k]$.
+            Then, $f(A_1)=\set{f(c_1),f(c_2),\ldots,f(c_k),f(a_{11}),f(a_{12}),\ldots,f(a_{1m})}$ and
+            $f(A_2)=\set{f(c_1),f(c_2),\ldots,f(c_k),f(a_{21}),f(a_{22}),\ldots,f(a_{2n})}$.
+            Thus, $f(A_1)\cap f(A_2)=\set{f(c_1),f(c_2),\ldots,f(c_k)}=f(A_1\cap A_2)$.
+            Therefore, $f(A_1\cap A_2)=f(A_1)\cap f(A_2)$ also holds. 
+
+            \textbf{Conclusion:} Since $f(A_1\cap A_2)=f(A_1)\cap f(A_2)$ holds in both cases,
+            \fbox{the statement is true}.
+        \end{psol}
 
     \end{parts}
 
