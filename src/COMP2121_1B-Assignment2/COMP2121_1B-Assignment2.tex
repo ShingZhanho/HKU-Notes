@@ -47,41 +47,17 @@
                 Thus, $h(n)$ is either divisible by 3 or not divisible by 3.
                 \fbox{Therefore, the range of $h$ is $\Z$.}
 
-                \item We show that $\forall n_1,n_2\in\Z:[(n_1\neq n_2)\rightarrow(h(n_1)\neq h(n_2))]$.
-                We can prove by contraposition, i.e., $\forall n_1,n_2\in\Z:[(h(n_1)=h(n_2))\rightarrow(n_1=n_2)]$.
-
-                \textbf{Case 1:} When both $n_1$ and $n_2$ are divisible by 3, we have
-                \begin{align*}
-                    h(n_1)=h(n_2) \quad\Leftrightarrow\quad \frac{1}{3}n_1&=\frac{1}{3}n_2\\
-                    n_1&=n_2.
-                \end{align*}
-
-                \textbf{Case 2:} When both $n_1$ and $n_2$ are not divisible by 3, we have
-                \begin{align*}
-                    h(n_1)=h(n_2) \quad\Leftrightarrow\quad 3n_1&=3n_2\\
-                    n_1&=n_2.
-                \end{align*}
-
-                \textbf{Case 3:} When one of $n_1$ and $n_2$ is divisible by 3 and the other is not,
-                without loss of generality, let $n_1$ be divisible by 3 and $n_2$ not divisible by 3.
-                Then, we have
-                \begin{align*}
-                    h(n_1)=h(n_2) \quad\Leftrightarrow\quad \frac{1}{3}n_1&=3n_2\\
-                    n_1&=9n_2\\
-                    3k&=9k+r\quad(\text{for some }k\in\Z\text{ and }r\in\set{1,2})\\
-                    6k&=-r\\
-                    k&=-\frac{r}{6}=-\frac{1}{6} \text{ or } -\frac{1}{3} \notin\Z
-                \end{align*}
-                Note that this case leads to a contraciction, so it is impossible.
-
-                Therefore, by cases 1 and 2, we conclude that \fbox{$h_2$ is injective}.
+                \item We can easily find a counterexample, e.g., $h(1)=h(9)=3$.
+                Thus, \fbox{$h_2$ is not injective}.
 
                 \item By sub-problem (1), we have shown that the range of $h_2$ is $\Z$,
                 which is the same as the codomain of $h_2$. By definition, \fbox{$h_2$ is surjective}.
 
-                \item Since $h_2$ is both injective and surjective, by definition, \fbox{$h_2$ is bijective}.
+                \item Since $h_2$ is not injective, by definition, \fbox{$h_2$ is not bijective}.
             \end{enumerate}
         \end{solution}
+
+        \newpage
 
         \part[6] Functions $f:\R\to\R$ and $g:\R\to\R$ are defined as follows.
         Determine by formulas the compositions $f\circ g$ and $g\circ g$.
