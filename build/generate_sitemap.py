@@ -51,14 +51,15 @@ def main():
         # time should be based on git commit time, not file system time
         lastmod = get_last_modified_datetime(target)
 
+        if metadata.computed__is_alias():
+            continue
+
         # detail page
         begin_url(sitemap_file, detail_page_url(target))
         counter += 1
         write_lastmod_and_changefreq(sitemap_file, lastmod)
         end_url(sitemap_file)
-
-        if metadata.computed__is_alias():
-            continue
+        
         if metadata.output_file == "NON_FILE_TARGET":
             continue
 
