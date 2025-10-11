@@ -38,6 +38,9 @@ else
     export_var "DYENV_REQUIRE_PYTHON_MINTED_PKGS" "false"
 fi
 
+# Handle if the build target requires LaTeX installation
+export_var "DYENV_NO_LATEX" "$(get_metadata_value build__no_latex)"
+
 # Handle build target prebuild command
 export_var "DYENV_PREBUILD_COMMAND" "$(get_metadata_value build__prebuild_command)"
 

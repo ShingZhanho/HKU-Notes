@@ -49,6 +49,7 @@ jobs:
       DYENV_IS_ALIAS: "RUNTIME DYNAMIC ENV VAR"
       DYENV_TEX_PACKAGE_HASH: "RUNTIME DYNAMIC ENV VAR"
       DYENV_APT_DEPS_LIST: "RUNTIME DYNAMIC ENV VAR"
+      DYENV_NO_LATEX: "RUNTIME DYNAMIC ENV VAR"
     steps:
       # --- ENVIRONMENT SETUP ---
       - name: Checkout repository
@@ -108,11 +109,11 @@ jobs:
 
       # --- INSTALL MIKTEX DISTRIBUTION ---
       - name: Get APT dependencies list
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
         run: echo "DYENV_APT_DEPS_LIST=$(awk '{$1=$1}1' OFS=' ' RS='' ./build/apt-packages.txt)" >> "$GITHUB_ENV"
 
       - name: Download MiKTeX packages cache identifier key
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
         run: |
           export miktex_remote_cache_key=$(curl -s -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/miktex-cache-key.txt" \
            -o ./src/${{ matrix.target}}/remote-miktex-cache-key.txt \
@@ -126,11 +127,11 @@ jobs:
           fi
 
       - name: Calculate local MiKTeX cache key
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
         run: echo "DYENV_LOCAL_MIKTEX_CACHE_KEY=${{ env.DYENV_TEX_PACKAGE_HASH }}" >> "$GITHUB_ENV"
 
       - name: Compare local and remote MikTeX cache key
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
         run: |
           if [ "${{ env.DYENV_REMOTE_MIKTEX_CACHE_KEY }}" != "${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}" ]; then
             echo "MikTeX cache key mismatch. Proceeding with package installation."
@@ -141,28 +142,28 @@ jobs:
           fi
 
       - name: Configure MiKTeX repository key for APT
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
         run: |
           curl -fsSL https://miktex.org/download/key | gpg --dearmor | sudo tee /usr/share/keyrings/miktex-keyring.gpg > /dev/null
           echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.gpg] https://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
           sudo apt-get update
 
       - name: Install MiKTeX and dependencies
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
         uses: awalsh128/cache-apt-pkgs-action@v1
         with:
           packages: ${{ env.DYENV_APT_DEPS_LIST }}
 
       - name: Restore MiKTeX packages from cache
         id: restore-miktex-cache
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_RESTORE_MIKTEX_FROM_CACHE == 'true' && env.DYENV_IS_ALIAS == 'false'
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_RESTORE_MIKTEX_FROM_CACHE == 'true' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
         uses: actions/cache/restore@v4
         with:
           key: miktex-pkg-${{ runner.os }}-${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}
           path: ~/.miktex
 
       - name: Configure MiKTeX
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
         run: |
           miktexsetup finish
           initexmf --set-config-value [MPM]AutoInstall=1
@@ -175,7 +176,7 @@ jobs:
       # --- CONFIGURE TOOLSETS ---
         # toolset for minted
       - name: Install Python minted toolset
-        if: env.DYENV_REQUIRE_PYTHON_MINTED_PKGS == 'true' && env.DYENV_ABORT_WORKFLOW == 'false'
+        if: env.DYENV_REQUIRE_PYTHON_MINTED_PKGS == 'true' && env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_NO_LATEX == 'false'
         run: pip install -r ./build/python-requirement-lists/python-minted-pkgs.txt
 
       # --- RUN PRE-BUILD COMMAND ---
@@ -204,11 +205,17 @@ jobs:
           key: miktex-pkg-${{ runner.os }}-${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}
           path: ~/.miktex
 
-      - name: Generate files for deployment (non-alias targets)
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
+      - name: Generate files for deployment (non-alias LaTeX targets)
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
         run: |
           echo "${{ env.DYENV_LOCAL_SRC_CHECKSUM }}" > ./src/${{ matrix.target }}/src-checksum.txt
           echo "${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}" > ./src/${{ matrix.target }}/miktex-cache-key.txt
+
+      - name: Generate files for deployment (non-alias non-LaTeX targets)
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'true'
+        run: |
+          echo "${{ env.DYENV_LOCAL_SRC_CHECKSUM }}" > ./src/${{ matrix.target }}/src-checksum.txt
+        # miktex-cache-key.txt is not generated for non-latex targets
 
       - name: Generate files for deployment (alias targets)
         if: env.DYENV_IS_ALIAS == 'true'

@@ -63,6 +63,14 @@ The build pipeline looks for this file after executing the build command.
     you must create a dummy file with the name "NON_FILE_TARGET" in the source directory of the target.
     You must also point the `build.output_file` to this dummy file.
 
+### `build.no_latex`
+
+- **Description**: If set to `true`, the build pipeline will skip the LaTeX installation and proceed to the commands
+specified in `build.prebuild_command`, `build.build_command`, and `build.postbuild_command` directly.
+This is useful for targets that do not require LaTeX to build, such as HTML or Markdown documents.
+- **Type**: `boolean`
+- **Default**: `false`
+
 ### `build.requires`
 
 - **Description**: A list of dependencies that are required to build the target.

@@ -13,6 +13,7 @@ class Metadata:
 
         # "build" keys
         self.build__requires = None
+        self.build__no_latex = False
         self.build__prebuild_command = None
         self.build__build_command = None
         self.build__postbuild_command = None
