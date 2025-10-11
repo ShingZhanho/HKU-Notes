@@ -100,17 +100,22 @@ def end_sitemap(f):
 
 def get_last_modified_datetime(target_name: str | None) -> str:
     target_path = f"./src/{target_name}" if target_name else "./src"
-    latest_mtime = 0
-
-    for root, _, files in os.walk(target_path):
-        for file in files:
-            file_path = os.path.join(root, file)
-            # Get the latest git commit time for this file
-            git_time = os.popen(f'git log -1 --format=%ct "{file_path}"').read().strip()
-            mtime = int(git_time) if git_time else os.path.getmtime(file_path)
-            if mtime > latest_mtime:
-                latest_mtime = mtime
-
+    
+    # Get the latest git commit time for the entire directory
+    git_time = os.popen(f'git log -1 --format=%ct -- "{target_path}"').read().strip()
+    
+    if git_time:
+        latest_mtime = int(git_time)
+    else:
+        # Fallback to filesystem time if git history is unavailable
+        latest_mtime = 0
+        for root, _, files in os.walk(target_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                mtime = os.path.getmtime(file_path)
+                if mtime > latest_mtime:
+                    latest_mtime = mtime
+    
     # Convert to ISO 8601 format
     lastmod = datetime.fromtimestamp(latest_mtime).strftime("%Y-%m-%dT%H:%M:%S+00:00")
     return lastmod
