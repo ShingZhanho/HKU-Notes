@@ -60,8 +60,13 @@ def main():
         output_file = metadata.output_file
         with open(f"./site/docs/downloads/details/{target}.md", "w") as f:
             print(f"Generating details page for {target}")
+
+            html_meta_desc = metadata.static_site__meta_description
+            if html_meta_desc is None:
+                html_meta_desc = f"Download {target} for free - {metadata.static_site__description}"
+
             ## Front matter in YAML
-            f.write(f"---\nhide:\n  - navigation\ndescription: Download {target} for free - {metadata.static_site__description}\ncomments: true\n---\n")
+            f.write(f"---\nhide:\n  - navigation\ndescription: {html_meta_desc}\ncomments: true\n---\n")
 
             ## Header
             f.write(f"# {target}\n\n")

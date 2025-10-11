@@ -122,6 +122,14 @@ This command is executed in the source directory of the build target, i.e., `/sr
 - **Type**: `string`
 - **Default**: `"-"` (a hyphen)
 
+### `static_site.meta_description`
+
+- **Description**: A short description of the target, used in the HTML meta tags for SEO purposes.
+If not specified, the tag will be `"Download [BUILD_TARGET] for free - [DESCRIPTION]"`,
+where `[BUILD_TARGET]` is the name of the build target, and `[DESCRIPTION]` is the value of `static_site.description`.
+- **Type**: `string`
+- **Default**: `null`
+
 ### `static_site.custom_md_file`
 
 - **Description**: A custom Markdown file whose content will be copied to the end
