@@ -47,11 +47,11 @@ class Metadata:
     def computed__is_alias(self):
         return self.static_site__alias_to is not None
     
-    def computed_is_non_file_target(self):
+    def computed__is_non_file_target(self):
         return self.output_file == "NON_FILE_TARGET"
     
     def computed__tex_pkg_hash(self):
-        if self.computed_is_non_file_target() or self.computed__is_alias():
+        if self.computed__is_non_file_target() or self.computed__is_alias():
             return "0"
         from hash_tex_pkgs import hash_pkgs
         return hash_pkgs(self.name, False)

@@ -186,7 +186,7 @@ jobs:
         working-directory: ./src/${{ matrix.target }}
 
       # --- BUILD TARGET ---
-      - name: Build LaTeX target
+      - name: Run build command
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
         run: ${{ env.DYENV_BUILD_COMMAND }}
         working-directory: ./src/${{ matrix.target }}

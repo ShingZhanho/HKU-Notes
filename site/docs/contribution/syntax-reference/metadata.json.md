@@ -251,3 +251,34 @@ where `[BUILD_TARGET]` is the name of the build target, and `[OUTPUT_FILE]` is t
 
 Also refer to the [syntax reference for `authors.json`](./authors.json.md) for the details about
 how to define authors in the `authors.json` file.
+
+!!! note "Computed Keys"
+
+    The following keys are computed dynamically at runtime by the metada parser.
+    Their values are not stored in the `metadata.json` file, but can be accessed
+    through the **methods** in the `Metadata` class.
+
+    Specifying these keys in the `metadata.json` file will have no effect.
+
+### `computed.tex_pkg_hash`
+
+- **Description**: The hash of the TeX packages used in the target.
+This is computed by traversing the `\usepackage`, `\RequirePackage`, and `\documentclass` commands
+in all `.tex` files in the source directory of the target. When `build.no_latex` is `true`, or when
+`computed.is_alias` is `true`, this value will be `"0"`.
+- **Type**: `string`
+- **Access By**: `Metadata.computed__tex_pkg_hash()`
+
+### `computed.is_alias`
+
+- **Description**: Whether the target is an alias to another target. Evaluates to `true` if `static_site.alias_to` is not `null`,
+`false` otherwise.
+- **Type**: `boolean`
+- **Access By**: `Metadata.computed__is_alias()`
+
+### `computed.is_non_file_target`
+
+- **Description**: Whether the target is a non-file target. Evaluates to `true` if `build.output_file` is `"NON_FILE_TARGET"`,
+`false` otherwise.
+- **Type**: `boolean`
+- **Access By**: `Metadata.computed__is_non_file_target()`
