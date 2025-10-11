@@ -3,7 +3,8 @@
     "build": {
         "output_file": "NON_FILE_TARGET",
         "build_command": "true",
-        "miktex_package_file": "NON_FILE_TARGET"
+        "miktex_package_file": "NON_FILE_TARGET",
+        "no_latex": true
     },
     "static_site": {
         "description": "The GitHub repository of the group project.",
