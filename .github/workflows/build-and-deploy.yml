@@ -140,14 +140,6 @@ jobs:
             echo "DYENV_RESTORE_MIKTEX_FROM_CACHE=true" >> "$GITHUB_ENV"
           fi
 
-      - name: Restore MiKTeX packages from cache
-        id: restore-miktex-cache
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_RESTORE_MIKTEX_FROM_CACHE == 'true' && env.DYENV_IS_ALIAS == 'false'
-        uses: actions/cache/restore@v4
-        with:
-          key: miktex-pkg-${{ runner.os }}-${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}
-          path: ~/.miktex
-
       - name: Configure MiKTeX repository key for APT
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
         run: |
@@ -160,6 +152,14 @@ jobs:
         uses: awalsh128/cache-apt-pkgs-action@v1
         with:
           packages: ${{ env.DYENV_APT_DEPS_LIST }}
+
+      - name: Restore MiKTeX packages from cache
+        id: restore-miktex-cache
+        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_RESTORE_MIKTEX_FROM_CACHE == 'true' && env.DYENV_IS_ALIAS == 'false'
+        uses: actions/cache/restore@v4
+        with:
+          key: miktex-pkg-${{ runner.os }}-${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}
+          path: ~/.miktex
 
       - name: Configure MiKTeX
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
@@ -208,14 +208,13 @@ jobs:
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
         run: |
           echo "${{ env.DYENV_LOCAL_SRC_CHECKSUM }}" > ./src/${{ matrix.target }}/src-checksum.txt
-          echo $(TZ='Asia/Hong_Kong' date +"%Y-%m-%d %H:%M:%S UTC+8 (Hong Kong)") > ./src/${{ matrix.target }}/compiled-at.txt
           echo "${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}" > ./src/${{ matrix.target }}/miktex-cache-key.txt
 
       - name: Generate files for deployment (alias targets)
         if: env.DYENV_IS_ALIAS == 'true'
         run: |
             echo "${{ env.DYENV_REMOTE_SRC_CHECKSUM }}" > ./src/${{ matrix.target }}/src-checksum.txt
-        # The compiled-at.txt and miktex-cache-key.txt files are not generated for alias targets
+        # miktex-cache-key.txt is not generated for alias targets
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -224,7 +223,6 @@ jobs:
           path: |
             ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}
             ./src/${{ matrix.target }}/src-checksum.txt
-            ./src/${{ matrix.target }}/compiled-at.txt
             ./src/${{ matrix.target }}/miktex-cache-key.txt
           retention-days: 1
 
