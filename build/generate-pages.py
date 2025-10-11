@@ -46,12 +46,7 @@ def main():
         if is_alias_target := metadata.computed__is_alias():
             continue  # no details page for alias targets
 
-        src_checksum = ""
-        compiled_at = ""
-        with open(f"./gh-out/files/{target}/src-checksum.txt", "r") as f:
-            src_checksum = f.read().strip()
-        with open(f"./gh-out/files/{target}/compiled-at.txt", "r") as f:
-            compiled_at = f.read().strip()
+        compiled_at = get_last_modified_time(target)
         custom_md_file = metadata.static_site__custom_md_file
         custom_md_content = ""
         if custom_md_file != "":
@@ -74,7 +69,7 @@ def main():
             ## Content
             f.write(f"**File description:** {metadata.static_site__description}\n\n")
             f.write(f"**Document status:** {generate_badge(metadata.static_site__document_status, True)}\n\n")
-            f.write(f"**Compiled at:** {compiled_at}\n\n")
+            f.write(f"**Last Modified:** {compiled_at}\n\n")
             
             ## Authors
             f.write("<div class=\"author-card-container\">\n")
@@ -193,7 +188,7 @@ def main():
                 course_name = get_course_name(course_code)
                 f.write(f"### {course_code}")
                 f.write(f" - {course_name}\n\n" if course_name else "\n\n")
-                f.write("| Material Name | Description | Compiled At | Author(s) | Status |\n")
+                f.write("| Material Name | Description | Last Modified | Author(s) | Status |\n")
                 f.write("| --- | --- | --- | --- | :-: |\n")
                 for target in alpha_groups[alpha][course_code]:
                     metadata_reader = Reader(f"./src/{target}/metadata.json", target)
@@ -205,10 +200,8 @@ def main():
                         alias_from = target
                         target = metadata.name
 
-                    ## Compiled At 
-                    compiled_at = ""
-                    with open(f"./gh-out/files/{target}/compiled-at.txt", "r") as f2:
-                        compiled_at = f2.read().strip().replace(" UTC+8 (Hong Kong)", "")
+                    ## Last Modified
+                    compiled_at = get_last_modified_time(target)
 
                     ## Description
                     description = ""
@@ -327,6 +320,20 @@ def get_course_name(course_code: str) -> str:
         result = ' '.join(word.capitalize() if not word.isupper() else word for word in result.split())
         return result
     return None
+
+def get_last_modified_time(target_name: str) -> str:
+    """
+    Get the last modified time of the target in Hong Kong time
+    Format: "YYYY-MM-DD HH:MM HKT"
+    """
+    from generate_sitemap import get_last_modified_datetime
+    last_mod_utc = get_last_modified_datetime(target_name) # in ISO 8601 format, e.g. "2024-06-01T12:34:56+00:00", UTC time
+    # convert to Hong Kong time (UTC+8)
+    from datetime import datetime, timedelta, timezone
+    hong_kong_tz = timezone(timedelta(hours=8))
+    last_mod_utc_dt = datetime.fromisoformat(last_mod_utc)
+    last_mod_hk_dt = last_mod_utc_dt.astimezone(hong_kong_tz)
+    return last_mod_hk_dt.strftime("%Y-%m-%d %H:%M HKT")
 
 if __name__ == "__main__":
     main()
