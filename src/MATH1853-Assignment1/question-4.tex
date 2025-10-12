@@ -1,0 +1,75 @@
+\question
+
+Let $S = \{\bvec{v_1}, \bvec{v_2}, \bvec{v_3}, \bvec{v_4}, \bvec{v_5}\}$ where
+\[
+    \bvec{v_1} = \begin{bmatrix} 1 \\ 2 \\ 2 \\ -1 \end{bmatrix}, \quad
+    \bvec{v_2} = \begin{bmatrix} 1 \\ 3 \\ 1 \\ 1 \end{bmatrix}, \quad
+    \bvec{v_3} = \begin{bmatrix} 1 \\ 5 \\ -1 \\ 5 \end{bmatrix}, \quad
+    \bvec{v_4} = \begin{bmatrix} 1 \\ 1 \\ 4 \\ -1 \end{bmatrix}, \quad
+    \bvec{v_5} = \begin{bmatrix} 2 \\ 7 \\ 0 \\ 2 \end{bmatrix}.
+\]
+
+Find the basis vectors for $\text{Span}(S)$ from the set $S$, choosing sequentially from
+$\bvec{v_1}$ onwards.
+
+\begin{solution}
+    \newenvironment{am51}{
+        \begin{augmatrix}{5}{\left[}{\right]}
+    }{
+        \end{augmatrix}
+    }
+
+    Construct the augmented matrix with the vectors as columns, and row reduce:
+    \begin{align*}
+        &\begin{am51}
+            1 & 1 & 1 & 1 & 2 & 0 \\
+            2 & 3 & 5 & 1 & 7 & 0 \\
+            2 & 1 & -1 & 4 & 0 & 0  \\
+            -1 & 1 & 5 & -1 & 2 & 0
+        \end{am51}
+        \xrightarrow[R_4+R_1]{\substack{R_2-2R_1, \\ R_3-2R_1}}
+        \begin{am51}
+            1 & 1 & 1 & 1 & 2 & 0 \\
+            0 & 1 & 3 & -1 & 3 & 0 \\
+            0 & -1 & -3 & 2 & -4 & 0 \\
+            0 & 2 & 6 & 0 & 4 & 0
+        \end{am51} \\
+        \xrightarrow[R_4+2R_3]{R_3+R_2}
+        &\begin{am51}
+            1 & 1 & 1 & 1 & 2 & 0 \\
+            0 & 1 & 3 & -1 & 3 & 0 \\
+            0 & 0 & 0 & 1 & -1 & 0 \\
+            0 & 0 & 0 & 4 & -4 & 0
+        \end{am51}
+        \xrightarrow{R_4-4R_3}
+        \begin{am51}
+            1 & 1 & 1 & 1 & 2 & 0 \\
+            0 & 1 & 3 & -1 & 3 & 0 \\
+            0 & 0 & 0 & 1 & -1 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0
+        \end{am51} \\
+        \xrightarrow[R_1-R_3]{R_2+R_3}
+        &\begin{am51}
+            1 & 1 & 1 & 0 & 3 & 0 \\
+            0 & 1 & 3 & 0 & 2 & 0 \\
+            0 & 0 & 0 & 1 & -1 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0
+        \end{am51}
+        \xrightarrow{R_1-R_2}
+        \begin{am51}
+            \boxed{1} & 0 & -2 & 0 & 1 & 0 \\
+            0 & \boxed{1} & 3 & 0 & 2 & 0 \\
+            0 & 0 & 0 & \boxed{1} & -1 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0
+        \end{am51}
+    \end{align*}
+
+    The pivot columns are the 1st, 2nd, and 4th columns, indicating that $\bvec{v_1}$,
+    $\bvec{v_2}$, and $\bvec{v_4}$ are linearly independent, and form a basis for
+    $\text{Span}(S)$.
+
+    Also note that $\bvec{v_3} = -2\bvec{v_1} + 3\bvec{v_2}$ and
+    $\bvec{v_5} = \bvec{v_1} + 2\bvec{v_2} - \bvec{v_4}$.
+
+    Therefore, a basis for $\text{Span}(S)$ is $\boxed{\{\bvec{v_1}, \bvec{v_2}, \bvec{v_4}\}}$.
+\end{solution}
