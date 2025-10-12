@@ -1,0 +1,86 @@
+\question Solve the linear system $A\bvec{x}=\bvec{b}$, where
+\[
+    A = \begin{bmatrix}
+        1 & -2 & -2 & -2 \\
+        0 & -2 & 0 & -1 \\
+        1 & 2 & 2 & 0 \\
+        1 & -2 & 1 & 2
+    \end{bmatrix},
+    \quad
+    \bvec{b} = \begin{bmatrix}
+        -31 \\ -19 \\ 27 \\ -4
+    \end{bmatrix},
+    \quad
+    \bvec{x} = \begin{bmatrix}
+        x_1 \\ x_2 \\ x_3 \\ x_4
+    \end{bmatrix}.
+\]
+
+\begin{solution}
+    {\itshape
+        In this solution, row operation notations will always place the resulting row on the
+        left-hand side. For example, $R_1-R_2$ means the new $R_1$ is obtained by subtracting
+        $R_2$ from the old $R_1$. Swapping is denoted by $R_i \leftrightarrow R_j$.
+    }
+
+    Construct the augmented matrix $[A|\bvec{b}]$ and reduce it to the row echelon form:
+    \begin{align*}
+        &\begin{am41}
+            1 & -2 & -2 & -2 & -31 \\
+            0 & -2 & 0 & -1 & -19 \\
+            1 & 2 & 2 & 0 & 27 \\
+            1 & -2 & 1 & 2 & -4
+        \end{am41}
+        \xrightarrow[R_4-R_1]{\substack{R_1-R_2,\\R_3-R_1}}
+        \begin{am41}
+            1 & 0 & -2 & -1 & -12 \\
+            0 & -2 & 0 & -1 & -19 \\
+            0 & 4 & 4 & 2 & 58 \\
+            0 & 0 & 3 & 4 & 27
+        \end{am41}
+        \xrightarrow[R_3+2R_2]{-\dfrac{1}{2}R_2}
+        \begin{am41}
+            1 & 0 & -2 & -1 & -12 \\
+            0 & 1 & 0 & \nicefrac{1}{2} & \nicefrac{19}{2} \\
+            0 & 0 & 4 & 0 & 20 \\
+            0 & 0 & 3 & 4 & 27
+        \end{am41} \\
+        &\xrightarrow{\dfrac{1}{4}R_3}
+        \begin{am41}
+            1 & 0 & -2 & -1 & -12 \\
+            0 & 1 & 0 & \nicefrac{1}{2} & \nicefrac{19}{2} \\
+            0 & 0 & 1 & 0 & 5 \\
+            0 & 0 & 3 & 4 & 27
+        \end{am41}
+        \xrightarrow{R_4-3R_3}
+        \begin{am41}
+            1 & 0 & -2 & -1 & -12 \\
+            0 & 1 & 0 & \nicefrac{1}{2} & \nicefrac{19}{2} \\
+            0 & 0 & 1 & 0 & 5 \\
+            0 & 0 & 0 & 4 & 12
+        \end{am41}
+        \xrightarrow[\dfrac{1}{4}R_4]{R_1+2R_3}
+        \begin{am41}
+            1 & 0 & 0 & -1 & -2 \\
+            0 & 1 & 0 & \nicefrac{1}{2} & \nicefrac{19}{2} \\
+            0 & 0 & 1 & 0 & 5 \\
+            0 & 0 & 0 & 1 & 3
+        \end{am41} \\
+        &\xrightarrow[R_2-\dfrac{1}{2}R_4]{R_1+R_4}
+        \begin{am41}
+            1 & 0 & 0 & 0 & 1 \\
+            0 & 1 & 0 & 0 & 8 \\
+            0 & 0 & 1 & 0 & 5 \\
+            0 & 0 & 0 & 1 & 3
+        \end{am41}
+    \end{align*}
+
+    Therefore, we have
+    \[
+        \bvec{x} = \begin{bmatrix}
+            x_1 \\ x_2 \\ x_3 \\ x_4
+        \end{bmatrix} =\boxed{\begin{bmatrix}
+            1 \\ 8 \\ 5 \\ 3
+        \end{bmatrix}}
+    \]
+\end{solution}
