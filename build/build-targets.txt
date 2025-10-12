@@ -59,3 +59,7 @@ CCGL9042-Question-Bank
 
 # CCCH9044 - Dunhuang and the Silk Road
 CCCH9044-Individual-Essay
+
+# MATH1853 - Linear Algebra, Probability and Statistics
+MATH1853-Assignment
+	1
