@@ -1,0 +1,47 @@
+\question
+\bgroup
+
+\newenvironment{am31}{
+    \begin{augmatrix}{3}{\left[}{\right]}
+}{
+    \end{augmatrix}
+}
+
+Suppose that the following matrix $A$ is the augmented matrix for a system of linear equations,
+where $\alpha$ is a real number. Determine all values of $\alpha$ such that the system is consistent.
+\[
+    A = \begin{am31}
+        1 & 2 & 3 & 4 \\
+        2 & -1 & -2 & \alpha^2 \\
+        -1 & -7 & -11 & \alpha
+    \end{am31}
+\]
+
+\begin{solution}
+    Perform row operations on $A$:
+    \begin{align*}
+        &A
+        \xrightarrow[R_3+R_1]{R_2 - 2R_1}
+        \begin{am31}
+            1 & 2 & 3 & 4 \\
+            0 & -5 & -8 & \alpha^2 - 8 \\
+            0 & -5 & -8 & \alpha + 4
+        \end{am31}
+        \xrightarrow{R_3 - R_2}
+        \begin{am31}
+            1 & 2 & 3 & 4 \\
+            0 & -5 & -8 & \alpha^2 - 8 \\
+            0 & 0 & 0 & -\alpha^2 + \alpha + 12
+        \end{am31}
+    \end{align*}
+
+    Consider $R_3$. The system is inconsistent if and only if the last entry of $R_3$ is non-zero, i.e.
+    \begin{align*}
+        -\alpha^2 + \alpha + 12 &\neq 0 \\
+        -(\alpha - 4)(\alpha + 3) &\neq 0 \\
+        \alpha &\neq 4, -3
+    \end{align*}
+
+    Then, the system is consistent if and only if \fbox{$\alpha = 4$ or $\alpha = -3$}.
+\end{solution}
+\egroup
