@@ -1,6 +1,6 @@
 \pagestyle{foot}
 \cfoot{Page \thepage\ of \numpages}
-\shadedsolutions
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution:}\par\noindent}
 
 \renewcommand{\thesubpart}{(\arabic{subpart})}
 \renewcommand{\subpartlabel}{\thesubpart}
@@ -18,12 +18,6 @@
     #3 \begin{array}{@{}*{#2}{c}|*{#1}{c}@{}}
 }{%
     \end{array} \endbrace
-}
-
-\newenvironment{am41}{%
-    \begin{augmatrix}{4}{\left[}{\right]}
-}{%
-    \end{augmatrix}
 }
 
 % \dfrac is overridden to produce a diagonal fraction
