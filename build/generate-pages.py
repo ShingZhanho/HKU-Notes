@@ -195,6 +195,7 @@ def main():
                 f.write("---\n\n")
                 f.write("    " + Reader(f"./src/{related_target}/metadata.json", related_target).parse().static_site__description + "\n\n")
                 f.write("    [:octicons-arrow-right-24: Go](./" + related_target + ".md)\n\n")
+            f.write("</div>\n\n")
 
     # generate course catalogue page
     with open("./site/docs/downloads/index.md", "w") as f:
