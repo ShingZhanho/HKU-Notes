@@ -191,7 +191,7 @@ def main():
             f.write("\n\n## See also\n\n")
             f.write("<div class=\"grid cards\" markdown>\n\n")
             for related_target in related_targets:
-                f.write("-   :material:{ .lg .middle } __{" + related_target + "}__\n\n")
+                f.write("-   :material:{ .lg .middle } __" + related_target + "__\n\n")
                 f.write("---\n\n")
                 f.write("    " + Reader(f"./src/{related_target}/metadata.json", related_target).parse().static_site__description + "\n\n")
                 f.write("    [:octicons-arrow-right-24: Go](./" + related_target + ".md)\n\n")
