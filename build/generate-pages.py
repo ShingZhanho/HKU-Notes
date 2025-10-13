@@ -182,10 +182,9 @@ def main():
                 additional_targets = [t for t in targets_list if t != target and t not in related_targets]
                 # filter out alias targets
                 additional_targets = [t for t in additional_targets if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()]
+                import random
+                random.shuffle(additional_targets)
                 related_targets.extend(additional_targets)
-            # randomize the list
-            import random
-            random.shuffle(related_targets)
             related_targets = related_targets[:4] # take up to 4 targets
             # write the section
             f.write("\n\n## See also\n\n")
@@ -194,7 +193,7 @@ def main():
                 f.write("-   :material-file-document:{ .lg .middle } __" + related_target + "__\n\n")
                 f.write("    ---\n\n")
                 f.write("    " + Reader(f"./src/{related_target}/metadata.json", related_target).parse().static_site__description + "\n\n")
-                f.write("    [:octicons-arrow-right-24: Go](./" + related_target + ".md)\n\n")
+                f.write("    [:octicons-arrow-right-24: Check out the document](./" + related_target + ".md)\n\n")
             f.write("</div>\n\n")
 
     # generate course catalogue page
