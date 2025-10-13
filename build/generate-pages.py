@@ -168,6 +168,34 @@ def main():
             if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_footer":
                 f.write(f"\n\n{pdf_viewer_string}\n\n")
 
+            ## "Check out also" section
+            # randomly select up to 4 other targets that are not alias targets and not the current target
+            # prioritize targets with the same course code
+            related_targets = []
+            if match: # find targets with the same course code
+                course_code = match.group(1).upper()
+                if course_code in alpha_groups[course_code[0].upper()]:
+                    related_targets = [t for t in alpha_groups[course_code[0].upper()][course_code] if t != target]
+                    # filter out alias targets
+                    related_targets = [t for t in related_targets if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()]
+            if len(related_targets) < 4: # fill up with other targets
+                additional_targets = [t for t in targets_list if t != target and t not in related_targets]
+                # filter out alias targets
+                additional_targets = [t for t in additional_targets if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()]
+                related_targets.extend(additional_targets)
+            # randomize the list
+            import random
+            random.shuffle(related_targets)
+            related_targets = related_targets[:4] # take up to 4 targets
+            # write the section
+            f.write("\n\n## See also\n\n")
+            f.write("<div class=\"grid cards\" markdown>\n\n")
+            for related_target in related_targets:
+                f.write("-   :material:{ .lg .middle } __{" + related_target + "}__\n\n")
+                f.write("---\n\n")
+                f.write("    " + Reader(f"./src/{related_target}/metadata.json", related_target).parse().static_site__description + "\n\n")
+                f.write("    [:octicons-arrow-right-24: Go](./" + related_target + ".md)\n\n")
+
     # generate course catalogue page
     with open("./site/docs/downloads/index.md", "w") as f:
         print("Generating course catalogue page")
