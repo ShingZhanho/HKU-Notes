@@ -222,7 +222,7 @@ jobs:
           export DYENV_PDF_PAGE_COUNT=$(pdfinfo ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }} | grep -- ^Pages | awk '{print $2}')
           echo "Downloading $DYENV_PDF_PAGE_COUNT preview images from remote."
           for i in $(seq 1 $DYENV_PDF_PAGE_COUNT); do
-            curl -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/~preview/${{ matrix.target }}_preview-${i}.png" \
+            curl -XGET "https://hku.jacobshing.com/downloads/details/${{ matrix.target }}~preview/${{ matrix.target }}_preview-${i}.png" \
               -o ./src/${{ matrix.target }}/\~preview/${{ matrix.target }}_preview-${i}.png
             echo "Downloaded page $i"
           done
