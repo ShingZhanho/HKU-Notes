@@ -1,11 +1,5 @@
 ??? abstract "Essay Preview"
 
-    !!! tip
-
-        Since the document size is large, the PDF preview may not display correctly on your
-        browser. If you encounter any issues, click on the Download button above to view it
-        locally.
-
     <!-- % PDF_VIEWER % -->
 
 This is the individual essay submitted for the course CCCH9044. Its source is uploaded here
