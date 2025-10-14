@@ -53,6 +53,7 @@ extra:
     property: G-DCVVW9HRJ5
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/splide.min.csss
 extra_javascript:
   - javascripts/splide.min.js
 use_directory_urls: false
