@@ -97,12 +97,35 @@ With the \nameref{thm:product-rule}, we can solve problems like:
     The notation $\binom{n}{r}$ is called a \textbf{binomial coefficient}.
 \end{definition}
 
-\begin{corollary}
+Below are some useful properties of binomial coefficients:
+
+\begin{corollary}[Symmetry of Binomial Coefficients]
     Let $n$ and $r$ be nonnegative integers with $r \leq n$. Then
     \[
-        C(n,r) = C(n,n-r)
+        \binom{n}{r} = \binom{n}{n-r}
     \]
 \end{corollary}
+
+\begin{corollary}[Sum of Binomial Coefficients]
+    Let $n$ be a nonnegative integer. Then
+    \[
+        \sum_{k=0}^n \binom{n}{k} = 2^n
+    \]
+\end{corollary}
+
+\begin{corollary}[Recursive Formula of Binomial Coefficients]
+    Let $n>m\geq 1$ be integers. Then
+    \[
+        \binom{n}{m} = \binom{n-1}{m} + \binom{n-1}{m-1}
+    \]
+\end{corollary}
+
+\begin{theorem}[Vandermonde's Identity]
+    Let $m,n$ and $r$ be nonnegative integers with $r$ not exceeding either $m$ or $n$. Then
+    \[
+        \sum_{k=0}^r \binom{m}{k} \binom{n}{r-k} = \binom{m+n}{r}
+    \]
+\end{theorem}
 
 \begin{definition}[Equivalence Upon Reshuffling]
     Two permutations are said to be \textbf{equivalent upon reshuffling} if they correspond
