@@ -16,7 +16,7 @@ ul.splide__list {
 
 @media (max-width: 680px) {
   section.splide {
-    display: none;
+    display: none !important;
   }
 
   .splide__mobile__prompt {
