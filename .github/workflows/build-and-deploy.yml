@@ -236,7 +236,7 @@ jobs:
       - name: Generate files for deployment (alias targets)
         if: env.DYENV_IS_ALIAS == 'true'
         run: |
-            echo "${{ env.DYENV_REMOTE_SRC_CHECKSUM }}" > ./src/${{ matrix.target }}/src-checksum.txt
+            echo "${{ env.DYENV_REMOTE_SRC_CHECKSUM }}" > ./${{ matrix.target }}/src-checksum.txt
         # miktex-cache-key.txt is not generated for alias targets
 
       - name: Upload artifacts
