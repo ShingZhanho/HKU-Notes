@@ -365,11 +365,13 @@ def get_last_modified_time(target_name: str) -> str:
 
 def move_preview_pictures(target_name: str):
     """
-    Move the entire ./{target_name}/~preview directory to ./site/docs/downloads/{target_name}/~preview
+    Move the all images in the ./{target_name}/~preview into ./site/docs/downloads/details/{target_name}~preview
     You must ensure that the source directory exists before calling this function.
     """
-    os.makedirs(f"./site/docs/downloads/{target_name}/~preview", exist_ok=True)
-    shutil.move(f"./src/{target_name}/~preview", f"./site/docs/downloads/{target_name}/~preview")
+    os.makedirs(f"./site/docs/downloads/details/{target_name}~preview", exist_ok=True)
+    for file_name in os.listdir(f"./src/{target_name}/~preview"):
+        if file_name.endswith(".png"):
+            shutil.copy2(f"./src/{target_name}/~preview/{file_name}", f"./site/docs/downloads/details/{target_name}~preview/{file_name}")
 
 def get_splide_preview_html(target_name: str) -> str:
     """
@@ -386,7 +388,7 @@ def get_splide_preview_html(target_name: str) -> str:
 
     for i in range(png_count):
         strSegments.append('<li class="splide__slide">')
-        strSegments.append(f'<img src="./~preview/{target_name}_preview-{i+1}.png" alt="Page {i+1} of the PDF of {target_name}"/>')
+        strSegments.append(f'<img src="./{target_name}~preview/{target_name}_preview-{i+1}.png" alt="Page {i+1} of the PDF of {target_name}"/>')
         strSegments.append(f'<div class="splide__caption">Page {i+1} of {png_count}</div>')
         strSegments.append('</li>\n')
 
