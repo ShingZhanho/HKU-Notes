@@ -144,8 +144,7 @@ def main():
             ## PDF preview if file is a PDF
             pdf_viewer_string = None
             if metadata.output_file.endswith(".pdf") and metadata.static_site__pdf_viewer != "hidden":
-                pdf_viewer_string = f"<iframe src=\"https://docs.google.com/gview?url=https://hku.jacobshing.com/files/{target}/{output_file}"
-                pdf_viewer_string += "&embedded=true\" style=\"width: 100%; height: 600px;\" frameborder=\"0\"></iframe>\n\n"
+                pdf_viewer_string = get_splide_preview_html(target)
 
             ## Write PDF viewer to head
             if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_head":
@@ -362,6 +361,29 @@ def get_last_modified_time(target_name: str) -> str:
     last_mod_utc_dt = datetime.fromisoformat(last_mod_utc)
     last_mod_hk_dt = last_mod_utc_dt.astimezone(hong_kong_tz)
     return last_mod_hk_dt.strftime("%Y-%m-%d %H:%M HKT")
+
+def get_splide_preview_html(target_name: str) -> str:
+    """
+    Write the splide preview HTML to the given file object.
+    The target must be a PDF target. It is not checked in this function.
+    """
+    strSegments = [str]
+    strSegments.append("<section aria-label=\"PDF Preview\" class=\"splide\">")
+    strSegments.append('<div class="splide__track">')
+    strSegments.append('<ul class="splide__list">\n')
+
+    # count the number of png files in the ~preview directory
+    png_count = len([f for f in os.listdir("./~preview") if f.endswith(".png")])
+
+    for i in range(png_count):
+        strSegments.append('<li class="splide__slide">')
+        strSegments.append(f'<img src="./~preview/{target_name}_preview-{i+1}.png" alt="Page {i+1} of the PDF of {target_name}"/>')
+        strSegments.append(f'<div class="splide__caption">Page {i+1} of {png_count}</div>')
+        strSegments.append('</li>\n')
+
+    strSegments.append('</ul></div></section>\n')
+
+    return ''.join(strSegments)
 
 if __name__ == "__main__":
     main()
