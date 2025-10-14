@@ -386,6 +386,7 @@ def get_splide_preview_html(target_name: str) -> str:
     # to prevent breaking the markdown formatting
 
     strSegments: list[str] = []
+    strSegments.append('<div class="splide__wrapper">')
     strSegments.append("<section aria-label=\"PDF Preview\" class=\"splide\">")
     strSegments.append('<div class="splide__track">')
     strSegments.append('<ul class="splide__list" style="display: flex !important;">')
@@ -404,6 +405,10 @@ def get_splide_preview_html(target_name: str) -> str:
         strSegments.append('</li>')
 
     strSegments.append('</ul></div></section>')
+    strSegments.append('<div class="splide__mobile__propmt admonition warning">')
+    strSegments.append('<p class="admonition-title">Preview Unavailable on Mobile Devices</p>')
+    strSegments.append('<p>The PDF preview cannot be displayed on your device. Please tap the download button above to view the document.</p>')
+    strSegments.append('</div></div>')
 
     return ''.join(strSegments)
 

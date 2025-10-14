@@ -10,6 +10,25 @@ ul.splide__list {
   height: 73vh;
 }
 
+.splide__mobile__prompt {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  section.splide {
+    display: none;
+  }
+
+  .splide__mobile__prompt {
+    display: block;
+  }
+
+  .splide__slide img {
+    width: 80vw;
+    height: auto;
+  }
+}
+
 .splide__caption {
     text-align: center;
 }
