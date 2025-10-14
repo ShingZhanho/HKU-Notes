@@ -50,6 +50,9 @@ class Metadata:
     def computed__is_non_file_target(self):
         return self.output_file == "NON_FILE_TARGET"
     
+    def computed__is_pdf_target(self):
+        return self.output_file.endswith(".pdf") and not self.computed__is_non_file_target() and not self.computed__is_alias()
+    
     def computed__tex_pkg_hash(self):
         if self.computed__is_non_file_target() or self.computed__is_alias():
             return "0"

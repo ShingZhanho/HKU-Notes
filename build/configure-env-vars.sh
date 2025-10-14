@@ -56,6 +56,9 @@ export_var "DYENV_OUTPUT_FILE" "$(get_metadata_value output_file)"
 # Handle build target miktex package file
 export_var "DYENV_TEX_PACKAGE_HASH" "$(get_metadata_value computed__tex_pkg_hash)"
 
+# Checks if the target is a PDF file
+export_var "DYENV_IS_PDF" "$(get_metadata_value computed__is_pdf)"
+
 # Handle build target alias properties
 export_var "DYENV_IS_ALIAS" "$(get_metadata_value computed__is_alias)"
 export_var "DYENV_ALIAS_TO" "$(get_metadata_value static_site__alias_to)"
