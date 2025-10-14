@@ -365,13 +365,15 @@ def get_last_modified_time(target_name: str) -> str:
 
 def move_preview_pictures(target_name: str):
     """
-    Move the all images in the ./{target_name}/~preview into ./site/docs/downloads/details/{target_name}~preview
+    Move the all images in the ./gh-out/files/{target_name}/~preview into ./site/docs/downloads/details/{target_name}~preview
     You must ensure that the source directory exists before calling this function.
     """
     os.makedirs(f"./site/docs/downloads/details/{target_name}~preview", exist_ok=True)
-    for file_name in os.listdir(f"./src/{target_name}/~preview"):
+    for file_name in os.listdir(f"./gh-out/files/{target_name}/~preview"):
         if file_name.endswith(".png"):
-            shutil.copy2(f"./src/{target_name}/~preview/{file_name}", f"./site/docs/downloads/details/{target_name}~preview/{file_name}")
+            shutil.copy2(f"./gh-out/files/{target_name}/~preview/{file_name}", f"./site/docs/downloads/details/{target_name}~preview/{file_name}")
+    # delete the source directory
+    shutil.rmtree(f"./gh-out/files/{target_name}/~preview")
 
 def get_splide_preview_html(target_name: str) -> str:
     """
