@@ -386,7 +386,7 @@ def get_splide_preview_html(target_name: str) -> str:
     strSegments.append('<ul class="splide__list">\n')
 
     # count the number of png files in the ~preview directory
-    png_count = len([f for f in os.listdir(f"./src/{target_name}/~preview") if f.endswith(".png")])
+    png_count = len([f for f in os.listdir(f"./site/docs/downloads/details/{target_name}~preview") if f.endswith(".png")])
 
     for i in range(png_count):
         strSegments.append('<li class="splide__slide">')
