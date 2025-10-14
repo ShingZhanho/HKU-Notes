@@ -388,9 +388,13 @@ def get_splide_preview_html(target_name: str) -> str:
     # count the number of png files in the ~preview directory
     png_count = len([f for f in os.listdir(f"./site/docs/downloads/details/{target_name}~preview") if f.endswith(".png")])
 
+    def pad_number(num: int, total: int) -> str:
+        total_digits = len(str(total))
+        return str(num).zfill(total_digits)
+
     for i in range(png_count):
         strSegments.append('<li class="splide__slide">')
-        strSegments.append(f'<img src="./{target_name}~preview/{target_name}_preview-{i+1}.png" alt="Page {i+1} of the PDF of {target_name}"/>')
+        strSegments.append(f'<img src="./{target_name}~preview/{target_name}_preview-{pad_number(i+1)}.png" alt="Page {i+1} of the PDF of {target_name}"/>')
         strSegments.append(f'<div class="splide__caption">Page {i+1} of {png_count}</div>')
         strSegments.append('</li>\n')
 
