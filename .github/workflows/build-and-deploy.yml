@@ -206,12 +206,15 @@ jobs:
           key: miktex-pkg-${{ runner.os }}-${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}
           path: ~/.miktex
 
-      - name: Prepare PDF preview png directory (for PDF targets) and install poppler-utils
+      - name: Install poppler-utils for PDF targets
         if: env.DYENV_IS_PDF == 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y poppler-utils
-          mkdir -p ./src/${{ matrix.target }}/\~preview
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: poppler-utils
+
+      - name: Prepare PDF preview png directory (for PDF targets)
+        if: env.DYENV_IS_PDF == 'true'
+        run: mkdir -p ./src/${{ matrix.target }}/\~preview
 
       - name: Generate PDF preview png (for PDF targets)
         if: env.DYENV_IS_PDF == 'true'
