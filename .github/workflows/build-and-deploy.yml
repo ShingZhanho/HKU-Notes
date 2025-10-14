@@ -208,7 +208,10 @@ jobs:
 
       - name: Prepare PDF preview png directory (for PDF targets) and install poppler-utils
         if: env.DYENV_IS_PDF == 'true'
-        run: mkdir -p ./src/${{ matrix.target }}/\~preview && sudo apt-get install -y poppler-utils
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+          mkdir -p ./src/${{ matrix.target }}/\~preview
 
       - name: Generate PDF preview png (for PDF targets)
         if: env.DYENV_IS_PDF == 'true'
