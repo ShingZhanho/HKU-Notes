@@ -379,11 +379,16 @@ def get_splide_preview_html(target_name: str) -> str:
     """
     Write the splide preview HTML to the given file object.
     The target must be a PDF target. It is not checked in this function.
+    The returned string contains no newline characters.
     """
+
+    # the returned string must contain no newline characters
+    # to prevent breaking the markdown formatting
+
     strSegments: list[str] = []
     strSegments.append("<section aria-label=\"PDF Preview\" class=\"splide\">")
     strSegments.append('<div class="splide__track">')
-    strSegments.append('<ul class="splide__list">\n')
+    strSegments.append('<ul class="splide__list">')
 
     # count the number of png files in the ~preview directory
     png_count = len([f for f in os.listdir(f"./site/docs/downloads/details/{target_name}~preview") if f.endswith(".png")])
@@ -396,9 +401,9 @@ def get_splide_preview_html(target_name: str) -> str:
         strSegments.append('<li class="splide__slide">')
         strSegments.append(f'<img src="./{target_name}~preview/{target_name}_preview-{pad_number(i+1)}.png" alt="Page {i+1} of the PDF of {target_name}"/>')
         strSegments.append(f'<div class="splide__caption">Page {i+1} of {png_count}</div>')
-        strSegments.append('</li>\n')
+        strSegments.append('</li>')
 
-    strSegments.append('</ul></div></section>\n')
+    strSegments.append('</ul></div></section>')
 
     return ''.join(strSegments)
 
