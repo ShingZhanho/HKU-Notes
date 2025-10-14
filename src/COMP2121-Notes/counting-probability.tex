@@ -8,21 +8,25 @@
     and so on, then the entire procedure can be done in $n_1 n_2 \cdots n_k$ ways.
 \end{theorem}
 
-With the \nameref{thm:product-rule}, we can solve problems like:
-
-\begin{example}[Counting Elements of a Cartesian Product of Sets]
-    Given sets $A_1$, $A_2$, \ldots, $A_k$, find $\card{\displaystyle\prod_{i=1}^k A_i}$.
-    
-    \textbf{Solution:}
-    The Cartesian product contains elements of the form $(a_1, a_2, \ldots, a_k)$
-    where $a_i \in A_i$. Constructing such product can be broken down into $k$ tasks,
-    namely choosing $a_1, a_2, \ldots, a_k$. The $i$-th task can be done in $\card{A_i}$ ways.
-
-    By the \nameref{thm:product-rule}, the total number of ways to construct such product is
+\begin{theorem}[Product Rule for Finite Sets]
+    For some finite sets $A_1, A_2, \ldots, A_k$, the number of \textbf{ordered list}
+    $(a_1, a_2, \ldots, a_k)$ where $a_i \in A_i$ for $i=1,2,\ldots,k$ is
     \[
-        \boxed{\card{A_1}\cdot\card{A_2}\cdots\card{A_k} = \prod_{i=1}^k \card{A_i}}
+        \card{A_1} \cdot \card{A_2} \cdots \card{A_k} = \prod_{i=1}^k \card{A_i}
     \]
-\end{example}
+\end{theorem}
+
+\begin{corollary}
+    For some finite sets $A_1, A_2, \ldots, A_k$, if all of them are identical, say, $A$,
+    then a \textbf{sequence of length $\bm{n}$ with entries from $\bm{A}$} is an ordered list
+    $(a_1, a_2, \ldots, a_k)$ where $a_i \in A$ for $i=1,2,\ldots,k$. The number of such
+    $n$-sequences is
+    \[
+        \card{A}^n
+    \]
+\end{corollary}
+
+With the \nameref{thm:product-rule}, we can solve problems like:
 
 \begin{example}[Counting Functions]
     Find the number of functions $f:A\to B$, provided that $A$ and $B$ are finite sets.
@@ -68,3 +72,41 @@ With the \nameref{thm:product-rule}, we can solve problems like:
     \]
 \end{theorem}
 
+\subsection{Permutations and Combinations}
+
+\begin{definition}[Permutation]
+    A \textbf{permutation} of a set $A$ is an ordered arrangement of all the elements of $A$.
+    The number of permutations of a set with $n$ elements is $n!$.
+\end{definition}
+
+\begin{definition}[$r$-Permutation]
+    An \textbf{$\bm{r}$-permutation} of a set $A$ is an ordered arrangement of $r$ elements of $A$.
+    The number of $r$-permutations of a set with $n$ elements is denoted by
+    \[
+        P(n,r) = \frac{n!}{(n-r)!},\quad r\in[0,n]
+    \]
+\end{definition}
+
+\begin{definition}[$r$-Combination]
+    An \textbf{$\bm{r}$-combination} of a set $A$ is an unordered selection of $r$ elements of $A$.
+    Thus, an $r$-combination is simply a subset of $A$ with $r$ elements. The number of
+    $r$-combinations of a set with $n$ elements is denoted by
+    \[
+        C(n,r) = \binom{n}{r} = \frac{n!}{r!(n-r)!},\quad r\in[0,n]
+    \]
+    The notation $\binom{n}{r}$ is called a \textbf{binomial coefficient}.
+\end{definition}
+
+\begin{corollary}
+    Let $n$ and $r$ be nonnegative integers with $r \leq n$. Then
+    \[
+        C(n,r) = C(n,n-r)
+    \]
+\end{corollary}
+
+\begin{definition}[Equivalence Upon Reshuffling]
+    Two permutations are said to be \textbf{equivalent upon reshuffling} if they correspond
+    to the same combination. For example, the permutations $(a,b,c)$, $(b,c,a)$ and $(c,a,b)$
+    are equivalent upon reshuffling, since they correspond to the same combination $\{a,b,c\}$.
+    The number of $k$-permutations that are equivalent upon reshuffling is $k!$.
+\end{definition}
