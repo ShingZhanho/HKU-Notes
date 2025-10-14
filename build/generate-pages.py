@@ -388,7 +388,7 @@ def get_splide_preview_html(target_name: str) -> str:
     strSegments: list[str] = []
     strSegments.append("<section aria-label=\"PDF Preview\" class=\"splide\">")
     strSegments.append('<div class="splide__track">')
-    strSegments.append('<ul class="splide__list">')
+    strSegments.append('<ul class="splide__list" style="display: flex !important;">')
 
     # count the number of png files in the ~preview directory
     png_count = len([f for f in os.listdir(f"./site/docs/downloads/details/{target_name}~preview") if f.endswith(".png")])
