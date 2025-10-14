@@ -16,7 +16,7 @@ export_var() {
 get_metadata_value() {
     local key=$1
     local output
-    output=$(python3 ./build/get-metadata.py "${METADATA_FILE}" "${key}")
+    output=$(python3 ./build/get_metadata.py "${METADATA_FILE}" "${key}")
     local status=$?
     if [ $status -eq 0 ]; then
         echo "$output"

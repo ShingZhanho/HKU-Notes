@@ -405,7 +405,7 @@ def get_splide_preview_html(target_name: str) -> str:
         strSegments.append('</li>')
 
     strSegments.append('</ul></div></section>')
-    strSegments.append('<div class="splide__mobile__prompt"><div class="admonition warning">')
+    strSegments.append('<div class="splide__mobile__prompt"><div class="admonition failure">')
     strSegments.append('<p class="admonition-title">Preview Unavailable on Mobile Devices</p>')
     strSegments.append('<p>The PDF preview cannot be displayed on your device. Please tap the download button above to view the document.</p>')
     strSegments.append('</div></div></div>')

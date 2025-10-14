@@ -23,7 +23,7 @@ jobs:
           python-version: '3.13'
       - name: Parse build-targets.txt
         id: parse-build-targets
-        run: python ./build/resolve-targets.py >> $GITHUB_OUTPUT
+        run: python ./build/resolve_targets.py >> $GITHUB_OUTPUT
 
   build-target:
     runs-on: ubuntu-22.04 # Jammy
@@ -307,7 +307,7 @@ jobs:
         run: echo DYENV_TARGETS_LIST=\"$(ls ./gh-out/files)\" >> $GITHUB_ENV
 
       - name: Generate static pages
-        run: python3 ./build/generate-pages.py ${{ env.DYENV_TARGETS_LIST }}
+        run: python3 ./build/generate_pages.py ${{ env.DYENV_TARGETS_LIST }}
 
       - name: Upload generated Markdown sources
         uses: actions/upload-artifact@v4
