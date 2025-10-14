@@ -399,7 +399,7 @@ def get_splide_preview_html(target_name: str) -> str:
 
     for i in range(png_count):
         strSegments.append('<li class="splide__slide">')
-        strSegments.append(f'<img src="./{target_name}~preview/{target_name}_preview-{pad_number(i+1)}.png" alt="Page {i+1} of the PDF of {target_name}"/>')
+        strSegments.append(f'<img src="./{target_name}~preview/{target_name}_preview-{pad_number(i+1, png_count)}.png" alt="Page {i+1} of the PDF of {target_name}"/>')
         strSegments.append(f'<div class="splide__caption">Page {i+1} of {png_count}</div>')
         strSegments.append('</li>')
 
