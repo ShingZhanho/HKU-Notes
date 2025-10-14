@@ -247,7 +247,7 @@ jobs:
             ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}
             ./src/${{ matrix.target }}/src-checksum.txt
             ./src/${{ matrix.target }}/miktex-cache-key.txt
-            ./src/${{ matrix.target }}/\~preview/*
+            ./src/${{ matrix.target }}/~preview/*
           retention-days: 1
 
   deploy-pages:
