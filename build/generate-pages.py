@@ -144,6 +144,7 @@ def main():
             ## PDF preview if file is a PDF
             pdf_viewer_string = None
             if metadata.output_file.endswith(".pdf") and metadata.static_site__pdf_viewer != "hidden":
+                move_preview_pictures(target)
                 pdf_viewer_string = get_splide_preview_html(target)
 
             ## Write PDF viewer to head
@@ -361,6 +362,14 @@ def get_last_modified_time(target_name: str) -> str:
     last_mod_utc_dt = datetime.fromisoformat(last_mod_utc)
     last_mod_hk_dt = last_mod_utc_dt.astimezone(hong_kong_tz)
     return last_mod_hk_dt.strftime("%Y-%m-%d %H:%M HKT")
+
+def move_preview_pictures(target_name: str):
+    """
+    Move the entire ./{target_name}/~preview directory to ./site/docs/downloads/{target_name}/~preview
+    You must ensure that the source directory exists before calling this function.
+    """
+    os.makedirs(f"./site/docs/downloads/{target_name}/~preview", exist_ok=True)
+    shutil.move(f"./src/{target_name}/~preview", f"./site/docs/downloads/{target_name}/~preview")
 
 def get_splide_preview_html(target_name: str) -> str:
     """
