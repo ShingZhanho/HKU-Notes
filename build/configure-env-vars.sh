@@ -57,7 +57,7 @@ export_var "DYENV_OUTPUT_FILE" "$(get_metadata_value output_file)"
 export_var "DYENV_TEX_PACKAGE_HASH" "$(get_metadata_value computed__tex_pkg_hash)"
 
 # Checks if the target is a PDF file
-export_var "DYENV_IS_PDF" "$(get_metadata_value computed__is_pdf)"
+export_var "DYENV_IS_PDF" "$(get_metadata_value computed__is_pdf_target)"
 
 # Handle build target alias properties
 export_var "DYENV_IS_ALIAS" "$(get_metadata_value computed__is_alias)"
