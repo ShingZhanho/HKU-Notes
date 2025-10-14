@@ -380,7 +380,7 @@ def get_splide_preview_html(target_name: str) -> str:
     Write the splide preview HTML to the given file object.
     The target must be a PDF target. It is not checked in this function.
     """
-    strSegments = [str]
+    strSegments: list[str] = []
     strSegments.append("<section aria-label=\"PDF Preview\" class=\"splide\">")
     strSegments.append('<div class="splide__track">')
     strSegments.append('<ul class="splide__list">\n')
