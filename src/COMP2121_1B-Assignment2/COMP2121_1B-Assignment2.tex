@@ -473,6 +473,24 @@
         \part[6] Let $A$, $B$, $C$ be sets with $\card{A}=\card{B}=\card{C}=n$ and
         $\card{A\cup B\cup C}=m$. Find the minimal value of $\card{A\cap B\cap C}$.
 
+        \begin{solution}
+            Recall that $\card{A\cup B\cup C}= \card{A}+\card{B}+\card{C}
+                                            -\card{A\cap B}-\card{A\cap C}-\card{B\cap C}
+                                            +\card{A\cap B\cap C}$,
+            substitue the given values, we have
+            \begin{align*}
+                m &= 3n-\card{A\cap B}-\card{A\cap C}-\card{B\cap C}+\card{A\cap B\cap C} \\
+                \card{A\cap B\cap C} &= m-3n+\card{A\cap B}+\card{A\cap C}+\card{B\cap C}
+            \end{align*}
+            When $m$ and $n$ are constants, $\card{A\cap B\cap C}$ is minimum when $\card{A\cap B}
+            =\card{A\cap C}=\card{B\cap C}=0$.
+            In such case, $A$, $B$, and $C$ are mutually disjoint. Then, $m$ is simply:
+            \[
+                m=\card{A\cup B\cup C}=\card{A}+\card{B}+\card{C}=n+n+n=3n.
+            \]
+            Thus, $\boxed{\min \card{A\cup B\cup C} = m-3n = 3n-3n = 0}$.
+        \end{solution}
+
         \part[6] Let $A$ be a set with $\card{A}=5$. Count the number of distinct
         \begin{enumerate*}[label=(\roman*)]
             \item symmetric relations and
