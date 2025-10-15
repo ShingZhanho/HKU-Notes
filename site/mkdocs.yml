@@ -39,6 +39,7 @@ markdown_extensions:
   - abbr
   - admonition
   - attr_list
+  - md_in_html
   - pymdownx.details
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
@@ -52,4 +53,8 @@ extra:
     property: G-DCVVW9HRJ5
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/splide.min.css
+extra_javascript:
+  - javascripts/splide.min.js
+  - javascripts/splide_mount.js
 use_directory_urls: false

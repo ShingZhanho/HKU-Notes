@@ -16,7 +16,7 @@ export_var() {
 get_metadata_value() {
     local key=$1
     local output
-    output=$(python3 ./build/get-metadata.py "${METADATA_FILE}" "${key}")
+    output=$(python3 ./build/get_metadata.py "${METADATA_FILE}" "${key}")
     local status=$?
     if [ $status -eq 0 ]; then
         echo "$output"
@@ -55,6 +55,9 @@ export_var "DYENV_OUTPUT_FILE" "$(get_metadata_value output_file)"
 
 # Handle build target miktex package file
 export_var "DYENV_TEX_PACKAGE_HASH" "$(get_metadata_value computed__tex_pkg_hash)"
+
+# Checks if the target is a PDF file
+export_var "DYENV_IS_PDF" "$(get_metadata_value computed__is_pdf_target)"
 
 # Handle build target alias properties
 export_var "DYENV_IS_ALIAS" "$(get_metadata_value computed__is_alias)"

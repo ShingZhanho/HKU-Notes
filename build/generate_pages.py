@@ -144,8 +144,8 @@ def main():
             ## PDF preview if file is a PDF
             pdf_viewer_string = None
             if metadata.output_file.endswith(".pdf") and metadata.static_site__pdf_viewer != "hidden":
-                pdf_viewer_string = f"<iframe src=\"https://docs.google.com/gview?url=https://hku.jacobshing.com/files/{target}/{output_file}"
-                pdf_viewer_string += "&embedded=true\" style=\"width: 100%; height: 600px;\" frameborder=\"0\"></iframe>\n\n"
+                move_preview_pictures(target)
+                pdf_viewer_string = get_splide_preview_html(target)
 
             ## Write PDF viewer to head
             if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_head":
@@ -167,6 +167,34 @@ def main():
 
             if pdf_viewer_string is not None and metadata.static_site__pdf_viewer == "at_footer":
                 f.write(f"\n\n{pdf_viewer_string}\n\n")
+
+            ## "Check out also" section
+            # randomly select up to 4 other targets that are not alias targets and not the current target
+            # prioritize targets with the same course code
+            related_targets = []
+            if match: # find targets with the same course code
+                course_code = match.group(1).upper()
+                if course_code in alpha_groups[course_code[0].upper()]:
+                    related_targets = [t for t in alpha_groups[course_code[0].upper()][course_code] if t != target]
+                    # filter out alias targets
+                    related_targets = [t for t in related_targets if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()]
+            if len(related_targets) < 4: # fill up with other targets
+                additional_targets = [t for t in targets_list if t != target and t not in related_targets]
+                # filter out alias targets
+                additional_targets = [t for t in additional_targets if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()]
+                import random
+                random.shuffle(additional_targets)
+                related_targets.extend(additional_targets)
+            related_targets = related_targets[:4] # take up to 4 targets
+            # write the section
+            f.write("\n\n## See also\n\n")
+            f.write("<div class=\"grid cards\" markdown>\n\n")
+            for related_target in related_targets:
+                f.write("-   :material-file-document:{ .lg .middle } __" + related_target + "__\n\n")
+                f.write("    ---\n\n")
+                f.write("    " + Reader(f"./src/{related_target}/metadata.json", related_target).parse().static_site__description + "\n\n")
+                f.write("    [:octicons-arrow-right-24: Check out the document](./" + related_target + ".md)\n\n")
+            f.write("</div>\n\n")
 
     # generate course catalogue page
     with open("./site/docs/downloads/index.md", "w") as f:
@@ -334,6 +362,55 @@ def get_last_modified_time(target_name: str) -> str:
     last_mod_utc_dt = datetime.fromisoformat(last_mod_utc)
     last_mod_hk_dt = last_mod_utc_dt.astimezone(hong_kong_tz)
     return last_mod_hk_dt.strftime("%Y-%m-%d %H:%M HKT")
+
+def move_preview_pictures(target_name: str):
+    """
+    Move the all images in the ./gh-out/files/{target_name}/~preview into ./site/docs/downloads/details/{target_name}~preview
+    You must ensure that the source directory exists before calling this function.
+    """
+    os.makedirs(f"./site/docs/downloads/details/{target_name}~preview", exist_ok=True)
+    for file_name in os.listdir(f"./gh-out/files/{target_name}/~preview"):
+        if file_name.endswith(".png"):
+            shutil.copy2(f"./gh-out/files/{target_name}/~preview/{file_name}", f"./site/docs/downloads/details/{target_name}~preview/{file_name}")
+    # delete the source directory
+    shutil.rmtree(f"./gh-out/files/{target_name}/~preview")
+
+def get_splide_preview_html(target_name: str) -> str:
+    """
+    Write the splide preview HTML to the given file object.
+    The target must be a PDF target. It is not checked in this function.
+    The returned string contains no newline characters.
+    """
+
+    # the returned string must contain no newline characters
+    # to prevent breaking the markdown formatting
+
+    strSegments: list[str] = []
+    strSegments.append('<div class="splide__wrapper">')
+    strSegments.append("<section aria-label=\"PDF Preview\" class=\"splide\">")
+    strSegments.append('<div class="splide__track">')
+    strSegments.append('<ul class="splide__list" style="display: flex !important;">')
+
+    # count the number of png files in the ~preview directory
+    png_count = len([f for f in os.listdir(f"./site/docs/downloads/details/{target_name}~preview") if f.endswith(".png")])
+
+    def pad_number(num: int, total: int) -> str:
+        total_digits = len(str(total))
+        return str(num).zfill(total_digits)
+
+    for i in range(png_count):
+        strSegments.append('<li class="splide__slide">')
+        strSegments.append(f'<img src="./{target_name}~preview/{target_name}_preview-{pad_number(i+1, png_count)}.png" alt="Page {i+1} of the PDF of {target_name}"/>')
+        strSegments.append(f'<div class="splide__caption">Page {i+1} of {png_count}</div>')
+        strSegments.append('</li>')
+
+    strSegments.append('</ul></div></section>')
+    strSegments.append('<div class="splide__mobile__prompt"><div class="admonition failure">')
+    strSegments.append('<p class="admonition-title">Preview Unavailable on Mobile Devices</p>')
+    strSegments.append('<p>The PDF preview cannot be displayed on your device. Please tap the download button above to view the document.</p>')
+    strSegments.append('</div></div></div>')
+
+    return ''.join(strSegments)
 
 if __name__ == "__main__":
     main()
