@@ -408,7 +408,35 @@
         If each box can contain at most 2 balls, how many ways are there to put the balls in the boxes?
 
         \begin{solution}
-            
+            Consider the distribution of balls, we can solve the problem by cases.
+
+            \textbf{Case 1:} Every box contains exactly 1 ball. This is the same as the number of
+            5-permutations of 2 red balls and 3 black balls, which is $\displaystyle\frac{5!}{2!3!}=10$.
+
+            \textbf{Case 2:} One box contains 2 balls, another box contains no balls, and the remaining
+            3 boxes contain 1 ball each. We can choose 1 box out of 5 to contain 2 balls (label it as $B_2$),
+            and then choose 1 box out of 4 to contain no balls ($B_0$). The remaining 3 boxes will contain
+            1 ball each ($B_{1i}$, $i=1,2,3$). There are $5\cdot4=20$ ways to choose the boxes.
+            In each of these choices, $B_2$ can either contain 2 red balls, 2 black balls, or 1 of each colour.
+            For the two red balls case, $B_{1i}$ must contain 1 black ball each, which is 1 way.
+            For the two black balls case, we have 3 ways to choose one of $B_{1i}$ to contain the remaining
+            black ball, and the other two boxes will contain 1 red ball each.
+            For the 1 red and 1 black balls case, we have 3 ways to choose one of $B_{1i}$ to contain
+            the remaining red ball, and the other two boxes will contain 1 black ball each.
+            Thus, there are $1+3+3=7$ ways to distribute the balls in each choice of boxes.
+            Therefore, there are $20\cdot7=140$ ways in this case.
+
+            \textbf{Case 3:} Two boxes contain 2 balls each, and one box contains 1 ball, and the remaining
+            2 boxes contain no balls. We first choose 1 box to hold 1 ball ($B_1$), there are 5 ways.
+            $B_1$ can either hold a black ball or a red ball (2 ways). If $B_1$ holds a black ball,
+            then we either choose 1 box out of 4 to hold 2 red balls (4 ways) and 1 box out of 3 to hold
+            2 black balls (3 ways), or we choose 2 boxes out of 4, each holding the same colour (6 ways)
+            This gives us $4\cdot3+6=18$ ways.
+            If $B_1$ holds a red ball, then we must choose 1 box out of 4 to hold 2 black balls (4 ways)
+            and 1 box out of 3 to hold 1 red and 1 black balls (3 ways). This gives us $4\cdot3=12$ ways.
+            Therefore, there are $5\cdot(18+12)=150$ ways in this case.
+
+            Putting all cases together, we have \fbox{$10+140+150=300$ ways in total}.
         \end{solution}
 
         \part[4] In a game, the player needs to move from the point $(0,0)$ to the point $(a,b)$ where
