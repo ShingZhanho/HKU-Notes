@@ -151,6 +151,21 @@ Below are some useful properties of binomial coefficients:
     
 \end{theorem}
 
+\begin{corollary}[Permutations of Indistinguishable Objects]
+    The number of different permutations of $n$ objects, where there are $n_1$ indistinguishable objects
+    of type 1, $n_2$ indistinguishable objects of type 2, $\ldots$, and $n_k$ indistinguishable objects
+    of type $k$, is
+    \[
+        \prod_{i=1}^{k} \binom{n-\sum_{j=1}^{i-1} n_j}{n_i} = \frac{n!}{\prod_{i=1}^k n_i!}
+    \]
+    or in simpler form,
+    \[
+        \binom{n}{n_1}\binom{n-n_1}{n_2}\cdots\binom{n-n_1-\cdots-n_{k-1}}{n_k} =
+        \frac{n!}{n_1! n_2! \cdots n_k!}
+    \]
+    where $\sum_{i=1}^k n_i = n$.
+\end{corollary}
+
 \subsection{Pigeonhole Principle}
 
 \begin{theorem}[Pigeonhole Principle]
