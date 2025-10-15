@@ -1,0 +1,74 @@
+\question Given five vectors: \[
+    \alpha_1 = \displaystyle\begin{bmatrix}
+        1 \\ -1 \\ 2 \\ 4
+    \end{bmatrix}, \quad
+    \alpha_2 = \displaystyle\begin{bmatrix}
+        0 \\ 3 \\ 1 \\ 2
+    \end{bmatrix}, \quad
+    \alpha_3 = \displaystyle\begin{bmatrix}
+        3 \\ 0 \\ 7 \\ 14
+    \end{bmatrix}, \quad
+    \alpha_4 = \displaystyle\begin{bmatrix}
+        1 \\ -2 \\ 2 \\ 0
+    \end{bmatrix}, \quad
+    \alpha_5 = \displaystyle\begin{bmatrix}
+        2 \\ 1 \\ 5 \\ 10
+    \end{bmatrix}
+\]
+Find one maximal linearly independent set of this vector group when we choose
+sequentially from $\alpha_1$ to $\alpha_5$, then put down the rank of this set.
+
+\begin{solution}
+    \newenvironment{am51}{
+        \begin{augmatrix}[1]{5}{\left[}{\right]}
+    }{
+        \end{augmatrix}
+    }
+    We form the augmented matrix with the five vectors as columns:
+    \begin{align*}
+        &\begin{am51}
+            1 & 0 & 3 & 1 & 2 & 0 \\
+            -1 & 3 & 0 & -2 & 1 & 0 \\
+            2 & 1 & 7 & 2 & 5 & 0 \\
+            4 & 2 & 14 & 0 & 10 & 0
+        \end{am51}
+        \xrightarrow[R_4-4R_1]{R_3-2R_1, R_2+R_1}
+        \begin{am51}
+            1 & 0 & 3 & 1 & 2 & 0 \\
+            0 & 3 & 3 & -1 & 3 & 0 \\
+            0 & 1 & 1 & 0 & 1 & 0 \\
+            0 & 2 & 2 & -4 & 2 & 0
+        \end{am51}
+        \xrightarrow[R_2-3R_3, R_4-2R_3]{R_2 \leftrightarrow R_3}
+        \begin{am51}
+            1 & 0 & 3 & 1 & 2 & 0 \\
+            0 & 1 & 1 & 0 & 1 & 0 \\
+            0 & 0 & 0 & -1 & 0 & 0 \\
+            0 & 0 & 0 & -4 & 0 & 0
+        \end{am51} \\
+        &\xrightarrow[-\dfrac{1}{4}R_4]{-R_3}
+        \begin{am51}
+            1 & 0 & 3 & 1 & 2 & 0 \\
+            0 & 1 & 1 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 1 & 0 & 0
+        \end{am51}
+        \xrightarrow[R_4-R_3]{R_1-R_3}
+        \begin{am51}
+            1 & 0 & 0 & 1 & -1 & 0 \\
+            0 & 1 & 1 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0
+        \end{am51}
+        \xrightarrow{R_1-R_3}
+        \begin{am51}
+            \boxed{1} & 0 & 0 & 0 & -1 & 0 \\
+            0 & \boxed{1} & 1 & 0 & 1 & 0 \\
+            0 & 0 & 0 & \boxed{1} & 0 & 0 \\
+            0 & 0 & 0 & 0 & 0 & 0
+        \end{am51}
+    \end{align*}
+
+    Therefore, the maximal linearly independent set is $\boxed{\{\alpha_1, \alpha_2,
+    \alpha_4\}}$, and the rank of this set is $\boxed{3}$.
+\end{solution}

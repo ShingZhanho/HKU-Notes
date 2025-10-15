@@ -1,0 +1,106 @@
+\question Given four vectors $\alpha_1=\displaystyle\begin{bmatrix}
+    1 \\ 4 \\ 0 \\ 2
+\end{bmatrix}, \alpha_2=\displaystyle\begin{bmatrix}
+    2 \\ 7 \\ 1 \\ 3
+\end{bmatrix}, \alpha_3=\displaystyle\begin{bmatrix}
+    0 \\ 1 \\ -1 \\ a
+\end{bmatrix}, \beta=\displaystyle\begin{bmatrix}
+    3 \\ 10 \\ b \\ 4
+\end{bmatrix}$, please find:
+
+\begin{parts}\bgroup
+
+    \newenvironment{am31}{
+        \begin{augmatrix}{3}{\left[}{\right]}
+    }{
+        \end{augmatrix}
+    }
+    
+\part for what values of $a$ and $b$ is the $\beta$ column linearly independent from
+$\alpha_1, \alpha_2, \alpha_3$;
+
+\begin{solution}
+    {\itshape
+        In this solution, row operation notations will always place the resulting row on the
+        left-hand side. For example, $R_1-R_2$ means the new $R_1$ is obtained by subtracting
+        $R_2$ from the old $R_1$. Swapping is denoted by $R_i \leftrightarrow R_j$.
+    }
+
+    When the system $[\alpha_1 \, \alpha_2 \, \alpha_3 \, | \, \beta]$ does not have a non-trivial
+    solution, $\beta$ is linearly independent from $\alpha_1, \alpha_2, \alpha_3$.
+    \begin{align*}
+        &\begin{am31}
+            1 & 2 & 0 & 3 \\
+            4 & 7 & 1 & 10 \\
+            0 & 1 & -1 & b \\
+            2 & 3 & a & 4
+        \end{am31}
+        \xrightarrow[R_4-2R_1]{R_2-4R_1}
+        \begin{am31}
+            1 & 2 & 0 & 3 \\
+            0 & -1 & 1 & -2 \\
+            0 & 1 & -1 & b \\
+            0 & -1 & a & -2
+        \end{am31}
+        \xrightarrow[R_4-R_2]{-R_2, R_3+R_2}
+        \begin{am31}
+            1 & 2 & 0 & 3 \\
+            0 & 1 & -1 & 2 \\
+            0 & 0 & 0 & b-2 \\
+            0 & 0 & a-1 & 0
+        \end{am31} \\
+        \xrightarrow{R_3 \leftrightarrow R_4}
+        &\begin{am31}
+            1 & 2 & 0 & 3 \\
+            0 & 1 & -1 & 2 \\
+            0 & 0 & a-1 & 0 \\
+            0 & 0 & 0 & b-2
+        \end{am31}
+    \end{align*}
+    The system does not have a non-trivial solution when $b-2 \neq 0 \Rightarrow b \neq 2$.
+
+    Therefore, $\boxed{\forall a \in\mathbb{R}, b\neq 2}$, we always have $\beta\notin
+    \mathrm{span}\{\alpha_1, \alpha_2, \alpha_3\}$.
+\end{solution}
+
+\part for what values of $a$ and $b$ can $\beta$ be uniquely linearly represented by
+$\alpha_1, \alpha_2, \alpha_3$, i.e., a unique $\bvec{x}=\begin{bmatrix}
+    x_1 \\ x_2 \\ x_3
+\end{bmatrix}$ such that $\beta=\begin{bmatrix}
+    \alpha_1 & \alpha_2 & \alpha_3
+\end{bmatrix} \bvec{x}$. Please write the corresponding expression.
+
+\begin{solution}
+    Consider the linear system from the previous part. From $R_4$, we have $0x_3=b-2 \Rightarrow
+    b=2$. For the system to have a unique solution, we must have $a-1 \neq 0 \Rightarrow a \neq1$.
+
+    We pick $a=b=2$ and solve the system:
+    \begin{align*}
+        &\begin{am31}
+            1 & 2 & 0 & 3 \\
+            0 & 1 & -1 & 2 \\
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 0
+        \end{am31}
+        \xrightarrow[R_1-2R_2]{R_2+R_3}
+        \begin{am31}
+            1 & 0 & 2 & -1 \\
+            0 & 1 & 0 & 2 \\
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 0
+        \end{am31}
+        \xrightarrow{R_1-2R_3}
+        \begin{am31}
+            1 & 0 & 0 & -1 \\
+            0 & 1 & 0 & 2 \\
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 0
+        \end{am31}
+    \end{align*}
+
+    Therefore, the unique solution is $\boxed{\bvec{x}=\begin{bmatrix}
+        -1 \\ 2 \\ 0
+    \end{bmatrix}}$, and the required values are $\boxed{a\neq 1, b=2}$.
+\end{solution}
+
+\egroup\end{parts}
