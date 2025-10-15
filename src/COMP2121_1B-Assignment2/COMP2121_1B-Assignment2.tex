@@ -381,9 +381,35 @@
         
         \part[4] Among all positive numbers that devide 4050 exactly, how many are multiples of 45?
 
+        \begin{solution}
+            Observe the prime factorisation of $4050=2\cdot3^4\cdot5^2$.
+            Also note the fact that an integer $d\leq n$ divides $n$ exactly iff every prime factor of $d$
+            is also a prime factor of $n$, i.e., the multiples of at least one prime factor of $n$ divide
+            $n$ exactly.
+
+            Then, the divisors of $4050$ must have the form $2^a\cdot3^b\cdot5^c$ where $a\in[0,1]\cap\Z$,
+            $b\in[0,4]\cap\Z$, and $c\in[0,2]\cap\Z$. We have $2$ ways to choose $a$, $5$ ways to choose $b$,
+            and $3$ ways to choose $c$. Thus, the total number of divisors of $4050$ is $2\cdot5\cdot3=30$.
+
+            Now, we denote $S_n$ as the set of multiples of $n$ with $\forall x\in S_n: 1\leq x\leq 4050$.
+            Then, $\card{S_{45}} = \floor*{\frac{4050}{45}}=90$. Note that every multiple of $45$ must have
+            the form $C\cdot3^2\cdot5$, where $C\in\Z^+$ such that $C\cdot3^2\cdot5\leq4050$.
+            Then, for the multiples of $45$ to also be divisors of $4050$, $C$ must be in the form
+            $2^a\cdot3^b\cdot5^c$ where $a\in[0,1]\cap\Z$, $b\in[0,2]\cap\Z$, and $c\in[0,1]\cap\Z$.
+            We have $2$ ways to choose $a$, $3$ ways to choose $b$, and $2$ ways to choose $c$.
+            Thus, the total number of multiples of $45$ that are also divisors of $4050$ is
+            $2\cdot3\cdot2=12$.
+
+            Therefore, \fbox{there are 12 such numbers}.
+        \end{solution}
+
         \part[4] There are 2 identical red balls and 3 identical black balls.
         You are going to put them into 5 different boxes.
         If each box can contain at most 2 balls, how many ways are there to put the balls in the boxes?
+
+        \begin{solution}
+            
+        \end{solution}
 
         \part[4] In a game, the player needs to move from the point $(0,0)$ to the point $(a,b)$ where
         $a\geq b>0$ are integers. At each point $(x,y)$, the player can either move right to $(x+1,y)$
