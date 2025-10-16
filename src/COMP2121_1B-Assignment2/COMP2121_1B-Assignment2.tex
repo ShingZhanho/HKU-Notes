@@ -515,10 +515,30 @@
         \part[6] Let $A$ be a set with $\card{A}=5$. Count the number of distinct
         \begin{enumerate*}[label=(\roman*)]
             \item symmetric relations and
-            \item assymetric relations
+            \item asymmetric relations
         \end{enumerate*} that can be constructed on $A$.
-        An assymetric relation $R$ is a relation such that, for every pair of distinct $x$ and $y$,
+        An asymmetric relation $R$ is a relation such that, for every pair of distinct $x$ and $y$,
         $x\rel y\Rightarrow\neg(y\rel x)$.
+
+        \begin{solution}
+            Express a relation on $A$ as a 5-by-5 matrix, where each entry $r_{ij}=\begin{cases}
+                1,&\text{if }x_i\rel x_j,\\
+                0,&\text{if }x_i\notrel x_j
+            \end{cases}$, and $x\in A$.
+
+            \begin{enumerate}[label=(\roman*)]
+                \item \textbf{Symmetric Relations:}
+                
+                If $R$ is symmetric, then its matrix representation must also be a symmetric matrix.
+                Since the main diagonal of a symmetric matrix is arbitrary, for each entry, we can
+                freely choose between 1 and 0. Then, we have $2^5=32$ choices. For the off-diagonals,
+                we must have $r_{ij}=r_{ji}$, where $i\neq j$. Then, for $r_{ij}$ where $i\in[2,5]$
+                and $j\in[1,i-1]$, we can freely choose between 1 and 0, and the corresponding 
+                $r_{ji}$ is constrained. We have $2^4\cdot2^3\cdot2^2\cdot2^1=1024$ choices.
+
+                Therefore, in total, there are $32\cdot1024=\boxed{32,768}$ distinct symmetric relations.
+            \end{enumerate}
+        \end{solution}
 
     \end{parts}
 
