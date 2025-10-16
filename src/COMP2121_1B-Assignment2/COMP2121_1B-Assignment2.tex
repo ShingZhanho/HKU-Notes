@@ -533,14 +533,23 @@
                 Since the main diagonal of a symmetric matrix is arbitrary, for each entry, we can
                 freely choose between 1 and 0. Then, we have $2^5=32$ choices. For the off-diagonals,
                 we must have $r_{ij}=r_{ji}$, where $i\neq j$. Then, for $r_{ij}$ where $i\in[2,5]$
-                and $j\in[1,i-1]$, we can freely choose between 1 and 0, and the corresponding 
+                and $j\in[1,i-1]$, i.e., the lower triangular part of the matrix excluding the main diagonal,
+                we can freely choose between 1 and 0, and the corresponding 
                 $r_{ji}$ is constrained. We have $2^4\cdot2^3\cdot2^2\cdot2^1=1024$ choices.
 
                 Therefore, in total, there are $32\cdot1024=\boxed{32,768}$ distinct symmetric relations.
 
                 \item \textbf{Asymmetric Relations:}
                 
-                Since
+                Note that the requirement of asymmetry implies that whenever $r_{ij}=1$, its
+                corresponding $r_{ji}$ must be 0, and vice versa, but if $r_{ij}=r_{ji}=0$, 
+                the requirement is still satisfied. Also, the main diagonal must be all 0's
+                as asymmetry requires irreflexivity. Then, for each of the off-diagonal pairs
+                $(r_{ij},r_{ji})$ where $i\in[2,5]$ and $j\in[1,i-1]$, there are 3 possibilities:
+                $(1,0)$, $(0,1)$, and $(0,0)$. Note that there are $4+3+2+1=10$ such pairs.
+                Thus, we have $3^{10}=59,049$ choices.
+
+                Therefore, in total, there are $\boxed{59,049}$ distinct asymmetric relations.
             \end{enumerate}
         \end{solution}
 
