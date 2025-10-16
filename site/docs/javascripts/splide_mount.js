@@ -4,18 +4,36 @@ document$.subscribe(function() {
     for (var i = 0; i < splides.length; i++) {
         var splide = new Splide(splides[i], {
             type: 'slide',
-            direction: 'ltr',
-            fixHeight: '77vh',
-            autoWidth: true,
             autoplay: false,
-            trimSpace: false,
-            padding: '10%',
+            arrows: true,
             pagination: false,
+            direction: 'ltr',
+
+            width: '100%',
+            autoHeight: true,
+            fixedWidth: 'max-content',
+            trimspace: 'move',
+            focus: 'center',
+
+            drag: 'free',
+            freeDrag: true,
+            snap: false,
+            
+            lazyLoad: 'nearby',
+
+            mediaQuery: 'max',
             breakpoints: {
-                680: {
-                    destroy: true
-                }
-            }
+                768: { // Mobile (max-width: 768px)
+                    arrows: false,
+                    direction: 'ttb',
+                    height: '100%',
+                    fixedWidth: '100%',
+                    focus: undefined,
+                    trimspace: true,
+                    wheel: true,
+                    releaseWheel: true,
+                },
+            },
         });
         splide.mount();
     }

@@ -5,30 +5,112 @@ ul.splide__list {
   display: flex !important;
 }
 
-.splide__slide img {
-  width: auto;
-  height: 73vh;
+li.splide__slide {
+  /* Override margin property from MkDocs */
+  margin: 0 !important;
+}
+
+.splide__wrapper {
+  width: 100%;
+  height: 85vh;
+  min-height: 600px;
+  max-height: 750px;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--md-code-bg-color);
+  border-radius: 6px;
+}
+
+.splide__wrapper .splide {
+  height: 100%;
+  width: 100%;
+}
+
+.splide__wrapper .splide__track {
+  height: 100%;
+}
+
+.splide__wrapper .splide__list {
+  height: 100%;
+  gap: 15px;
+}
+
+.splide__wrapper .splide__slide {
+  height: 100%;
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.splide__wrapper .splide__slide--pseudo {
+  visibility: hidden;
+  display: block;
+  height: 0px;
+  width: 10px;
+}
+
+.splide__wrapper  .splide__slide img {
+  max-width: 100%;
+  max-height: calc(100% - 40px);
+  object-fit: contain;
+  object-position: center;
+}
+
+.splide__wrapper .splide__caption {
+  font-size: 16px;
+  color: var(--md-code-hl-name-color);
+  text-align: center;
+  padding: 5px 10px;
+  /* background-color: rgba(255, 255, 255, 0.9); */
+  border-radius: 4px;
 }
 
 .splide__mobile__prompt {
   display: none;
 }
 
-@media (max-width: 680px) {
-  section.splide {
-    display: none !important;
+@media screen and (max-width: 768px) {
+  .splide__wrapper {
+    height: 80vh; /* Change to 80vh on mobile */
   }
 
-  .splide__mobile__prompt {
+  ul.splide__list {
+    flex-direction: column !important; /* Stack slides vertically */
+    overflow: visible;
+  }
+
+  .splide__wrapper .splide {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .splide__wrapper .splide__slide {
+    height: max-content;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .splide__wrapper .splide__slide--pseudo {
+    /* For fixing list cannot be scrolled to the end on mobile */
+    visibility: hidden;
     display: block;
+    height: 0px;
   }
 
-  .splide__slide img {
-    width: 80vw;
-    height: auto;
+  .splide__wrapper .splide__slide img {
+    width: 100%;
+    height: auto; /* Proportional height */
+    max-width: 100%;
+    max-height: 73vh; 
+    object-fit: contain;
   }
 }
 
-.splide__caption {
-    text-align: center;
+@media print {
+  .splide__wrapper {
+    display: none; /* Hide the carousel on print */
+  }
 }
