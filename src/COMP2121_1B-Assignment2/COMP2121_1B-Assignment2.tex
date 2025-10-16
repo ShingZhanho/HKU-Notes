@@ -470,6 +470,27 @@
         other members of the group. Prove that there exist 3 members, such that each one of them has
         collaborated with the other two members.
 
+        \begin{psol}
+            Let $A$ be the set of the 15 computer scientists,
+            $x\rel y: \text{``}x\text{ has collaborated with }y\text{''}$. Note that $R$ is symmetric.
+            Also define the set $C_x=\set{y\in A-\set{x}\mid x\rel y}$ as the set of collaborators of $x$.
+            Then, we have $\forall x\in A:\card{C_x}\geq8$.
+
+            Assume, for contradiction, that no 3 members have mutually collaborated.
+
+            For any arbitrary $x\in A$, and for some arbitrary $y\in C_x$, since $x$ and $y$ have collaborated,
+            we also have $x\in C_y$. Since no 3 members have mutually collaborated, we have 
+            $\centernot\exists z: (z\in C_x \land z\in C_y)$, where $x,y,z$ are distinct.
+
+            Note that $\card{C_x-\set{y}}\geq7$ and $\card{C_y-\set{x}}\geq7$.
+            Since $C_x-\set{y}$ and $C_y-\set{x}$ are disjoint, we have $\card{C_x-\set{y}}+\card{C_y-\set{x}}\geq14$.
+            However, since $A-\set{x,y}$ has only 13 members, and $(C_x-\set{y})\cup(C_y-\set{x})\subseteq A-\set{x,y}$,
+            we must have $\card{(C_x-\set{y})\cup(C_y-\set{x})}\leq13$.
+            This contradicts the fact that $\card{C_x-\set{y}}+\card{C_y-\set{x}}\geq14$.
+            
+            Therefore, our assumption is false, and \fbox{there exist 3 members who have mutually collaborated}.
+        \end{psol}
+
         \part[6] Let $A$, $B$, $C$ be sets with $\card{A}=\card{B}=\card{C}=n$ and
         $\card{A\cup B\cup C}=m$. Find the minimal value of $\card{A\cap B\cap C}$.
 
