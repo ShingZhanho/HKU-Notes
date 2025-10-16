@@ -172,8 +172,8 @@ def main():
             # randomly select up to 4 other targets that are not alias targets and not the current target
             # prioritize targets with the same course code
             related_targets = []
-            if match: # find targets with the same course code
-                course_code = match.group(1).upper()
+            if len(target) >= 8 and target[:5].isalpha() and target[5:9].isdigit(): # find targets with the same course code
+                course_code = target[:9]
                 if course_code in alpha_groups[course_code[0].upper()]:
                     related_targets = [t for t in alpha_groups[course_code[0].upper()][course_code] if t != target]
                     # filter out alias targets
