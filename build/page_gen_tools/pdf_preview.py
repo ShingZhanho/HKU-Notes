@@ -1,3 +1,4 @@
+import os
 
 
 def generate_pdf_viewer_html(target: str) -> str:
@@ -29,5 +30,4 @@ def generate_pdf_viewer_html(target: str) -> str:
     return "".join(sb)
 
 def __pdf_page_count(target: str) -> int:
-    import os
     return len([f for f in os.listdir(f"./site/docs/downloads/details/{target}~preview") if f.endswith(".png")])

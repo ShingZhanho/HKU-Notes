@@ -1,4 +1,8 @@
+import sqlite3
 from mttools import Reader, Metadata
+from .utils import write_front_matters, get_last_modified_time_hkt
+from .authors_resolver import get_authors_summary, resolve_authors
+from .status_badge import get_badge_str
 
 def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
     print("Generating catalogue page...")
@@ -6,7 +10,6 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
     f = open("./site/docs/downloads/index.md", "w", encoding="utf-8")
 
     # Prepare front matter data
-    from .utils import write_front_matters
     front_matter = {
         "hide": [
             "navigation",
@@ -67,15 +70,12 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
                               f"_An alias of [{target}](./details/{target}.md)_")
                 
                 # Last Modified
-                from .utils import get_last_modified_time_hkt
                 last_modified = get_last_modified_time_hkt(target)
 
                 # Authors
-                from .authors_resolver import get_authors_summary, resolve_authors
                 authors_string = get_authors_summary(resolve_authors(metadata.authors))
 
                 # Status
-                from .status_badge import get_badge_str
                 status_badge = get_badge_str(metadata.static_site__document_status, False)
 
                 # write table row
@@ -103,7 +103,6 @@ def __get_course_name(course_code: str) -> str:
     """
     if course_code == "Miscellaneous":
         return "Miscellaneous"
-    import sqlite3
     conn = sqlite3.connect("./build/course-codes.sqlite")
     cursor = conn.cursor()
     cursor.execute("SELECT course_name FROM courses WHERE course_code = ?", (course_code,))

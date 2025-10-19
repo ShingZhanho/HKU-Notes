@@ -1,3 +1,6 @@
+from datetime import timedelta, timezone, datetime
+from generate_sitemap import get_last_modified_datetime
+
 def get_targets_dict(targets: list[str]) -> dict[str, dict[str, list[str]]]:
     """
     Converts the list of target strings into a nested dictionary structure.
@@ -45,9 +48,7 @@ def get_last_modified_time_hkt(target: str) -> str:
     Use the last git commit time if git is available; otherwise, traverse the tree
     to find the latest modified time among all files in the directory.
     """
-    from generate_sitemap import get_last_modified_datetime
     last_mod_utc = get_last_modified_datetime(target)
-    from datetime import timedelta, timezone, datetime
     hkt = timezone(timedelta(hours=8))
     last_mod_utc_dt = datetime.fromisoformat(last_mod_utc)
     last_mod_hkt_dt = last_mod_utc_dt.astimezone(hkt)

@@ -1,4 +1,11 @@
-from mttools import Metadata
+import os
+import shutil
+import random
+from mttools import Metadata, Reader
+from .utils import write_front_matters, get_last_modified_time_hkt
+from .authors_resolver import resolve_authors, get_author_cards, write_authors_section
+from .status_badge import get_badge_str
+from .pdf_preview import generate_pdf_viewer_html
 
 def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dict[str, list[str]]]):
     print(f"Generating details page for target: {target}")
@@ -8,13 +15,11 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
         return
     
     # Prepare output file path
-    import os
     out_file = f"./site/docs/downloads/details/{target}.md"
     f = open(out_file, "w", encoding="utf-8")
     print(f"Writing details page to: {out_file}")
 
     # Prepare front matter data
-    from .utils import write_front_matters
     front_matter = {
         "hide": [
             "navigation",
@@ -31,7 +36,6 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     print("Target information written.")
 
     # Write authors section
-    from .authors_resolver import resolve_authors, get_author_cards, write_authors_section
     resolved_authors = resolve_authors(metadata.authors)
     if len(resolved_authors) == 0:
         raise Exception(f"No authors found for target: {target}")
@@ -63,7 +67,6 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
             f"./site/docs/downloads/details/{target}~preview",
             exist_ok=True
         )
-        import shutil
         for file in os.listdir(f"./gh-out/files/{target}/~preview"):
             shutil.copy2(
                 f"./gh-out/files/{target}/~preview/{file}",
@@ -75,7 +78,6 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     # Prepare PDF viewer section
     pdf_viewer_html = ""
     if metadata.output_file.endswith(".pdf") and metadata.static_site__pdf_viewer != "hidden":
-        from .pdf_preview import generate_pdf_viewer_html
         pdf_viewer_html = generate_pdf_viewer_html(target)
 
     # Write customised content
@@ -101,9 +103,7 @@ def __write_target_info(file_obj, target: str, metadata: Metadata):
 
     ## Information
     f.write(f"**File description:** {metadata.static_site__description}\n\n")
-    from .status_badge import get_badge_str
     f.write(f"**Document status:** {get_badge_str(metadata.static_site__document_status, True)}\n\n")
-    from .utils import get_last_modified_time_hkt
     f.write(f"**Last modified:** {get_last_modified_time_hkt(target)}\n\n")
 
 def __generate_button_md(primary: bool, text: str, href: str, icon: str | None = None) -> str:
@@ -161,8 +161,6 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
         if alphabet in all_targets and course_code in all_targets[alphabet]:
             see_also_targets = [t for t in all_targets[alphabet][course_code] if t != target]
             # filter out alias targets
-            import os
-            from mttools import Reader
             see_also_targets = [
                 t for t in see_also_targets
                 if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()
@@ -177,13 +175,10 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
                     if t != target and t not in see_also_targets:
                         additional_targets.append(t)
         # filter out alias targets
-        import os
-        from mttools import Reader
         additional_targets = [
             t for t in additional_targets
             if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()
         ]
-        import random
         random.shuffle(additional_targets)
         see_also_targets.extend(additional_targets)
     
