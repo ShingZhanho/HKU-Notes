@@ -55,17 +55,17 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
             for target in targets[alphabet][course_code]:
                 metadata: Metadata = Reader(f"./src/{target}/metadata.json", target).parse()
                 print(f"Writing catalogue entry for target: {target}")
-                flag_is_alias = metadata.computed__is_alias()
+                flag_is_alias = metadata.computed.is_alias.get()
 
                 # alias targets:
                 if flag_is_alias:
                     # override metadata with the aliased target's metadata
-                    metadata = Reader(f'./src/{metadata.static_site__alias_to}/metadata.json', metadata.static_site__alias_to).parse()
+                    metadata = Reader(f'./src/{metadata.static_site.alias_to.get()}/metadata.json', metadata.static_site.alias_to.get()).parse()
                     alias_from = target
-                    target = metadata.name
+                    target = metadata.name.get()
 
                 # Description
-                description = (metadata.static_site__description 
+                description = (metadata.static_site.description.get() 
                                     if not flag_is_alias else
                               f"_An alias of [{target}](./details/{target}.md)_")
                 
@@ -73,10 +73,10 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
                 last_modified = get_last_modified_time_hkt(target)
 
                 # Authors
-                authors_string = get_authors_summary(resolve_authors(metadata.authors))
+                authors_string = get_authors_summary(resolve_authors(metadata.authors.get()))
 
                 # Status
-                status_badge = get_badge_str(metadata.static_site__document_status, False)
+                status_badge = get_badge_str(metadata.static_site.document_status.get(), False)
 
                 # write table row
                 f.write("".join((

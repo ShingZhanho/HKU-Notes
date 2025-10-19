@@ -45,14 +45,14 @@ def main():
         metadata = reader.parse()
 
         # resolve for output file name
-        output_file = metadata.output_file
+        output_file = metadata.output_file.get()
 
         # resolve for last modified datetime
         # use the most recently modified file in the target directory
         # time should be based on git commit time, not file system time
         lastmod = get_last_modified_datetime(target)
 
-        if metadata.computed__is_alias():
+        if metadata.computed.is_alias.get():
             continue
 
         # detail page
@@ -61,7 +61,7 @@ def main():
         write_lastmod_and_changefreq(sitemap_file, lastmod)
         end_url(sitemap_file)
         
-        if metadata.output_file == "NON_FILE_TARGET":
+        if metadata.output_file.get() == "NON_FILE_TARGET":
             continue
 
         # pdf direct link
@@ -78,7 +78,7 @@ def main():
     img_sitemap = begin_sitemap("preview-images-sitemap.xml")
     for target in targets:
         metadata = Reader(f"./src/{target}/metadata.json", target).parse()
-        if not metadata.computed__is_pdf_target():
+        if not metadata.computed.is_pdf_target.get():
             continue
 
         lastmod = get_last_modified_datetime(target)

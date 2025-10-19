@@ -10,7 +10,7 @@ from .pdf_preview import generate_pdf_viewer_html
 def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dict[str, list[str]]]):
     print(f"Generating details page for target: {target}")
 
-    if metadata.computed__is_alias():
+    if metadata.computed.is_alias.get():
         print(f"Skipping alias target: {target}")
         return
     
@@ -24,8 +24,8 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
         "hide": [
             "navigation",
         ],
-        "description": metadata.static_site__meta_description or \
-            f"Download {target} for free - {metadata.static_site__description}",
+        "description": metadata.static_site.meta_description.get() or \
+            f"Download {target} for free - {metadata.static_site.description.get()}",
         "comments": True,
     }
     write_front_matters(f, front_matter)
@@ -36,7 +36,7 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     print("Target information written.")
 
     # Write authors section
-    resolved_authors = resolve_authors(metadata.authors)
+    resolved_authors = resolve_authors(metadata.authors.get())
     if len(resolved_authors) == 0:
         raise Exception(f"No authors found for target: {target}")
     author_cards = get_author_cards(resolved_authors)
@@ -44,25 +44,25 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     print("Authors section written.")
 
     # Writ buttons
-    if not metadata.static_site__primary_button__disabled:
+    if not metadata.static_site.primary_button.disabled.get():
         f.write(f"\n{__generate_button_md(
             True,
-            metadata.static_site__primary_button__text,
-            metadata.static_site__primary_button__href,
-            metadata.static_site__primary_button__icon
+            metadata.static_site.primary_button.text.get(),
+            metadata.static_site.primary_button.href.get(),
+            metadata.static_site.primary_button.icon.get()
         )}")
-    if not metadata.static_site__secondary_button__disabled:
+    if not metadata.static_site.secondary_button.disabled.get():
         f.write(f"\n{__generate_button_md(
             False,
-            metadata.static_site__secondary_button__text,
-            metadata.static_site__secondary_button__href,
-            metadata.static_site__secondary_button__icon
+            metadata.static_site.secondary_button.text.get(),
+            metadata.static_site.secondary_button.href.get(),
+            metadata.static_site.secondary_button.icon.get()
         )}")
     f.write("\n\n")
     print("Buttons written.")
 
     # Move PDF preview pngs (if any) - MUST be done before generating PDF viewer HTML
-    if metadata.output_file.endswith(".pdf"):
+    if metadata.output_file.get().endswith(".pdf"):
         os.makedirs(
             f"./site/docs/downloads/details/{target}~preview",
             exist_ok=True
@@ -77,14 +77,14 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
 
     # Prepare PDF viewer section
     pdf_viewer_html = ""
-    if metadata.output_file.endswith(".pdf") and metadata.static_site__pdf_viewer != "hidden":
+    if metadata.output_file.get().endswith(".pdf") and metadata.static_site.pdf_viewer.get() != "hidden":
         pdf_viewer_html = generate_pdf_viewer_html(target)
 
     # Write customised content
     parsed_content = __read_and_process_custom_md(
-        f"./src/{target}/{metadata.static_site__custom_md_file}" if metadata.static_site__custom_md_file else "",
+        f"./src/{target}/{metadata.static_site.custom_md_file.get()}" if metadata.static_site.custom_md_file.get() else "",
         pdf_viewer_html,
-        metadata.static_site__pdf_viewer
+        metadata.static_site.pdf_viewer.get()
     )
     f.write(parsed_content)
     print("Custom markdown content written.")
@@ -102,8 +102,8 @@ def __write_target_info(file_obj, target: str, metadata: Metadata):
     f.write(f"# {target}\n\n")
 
     ## Information
-    f.write(f"**File description:** {metadata.static_site__description}\n\n")
-    f.write(f"**Document status:** {get_badge_str(metadata.static_site__document_status, True)}\n\n")
+    f.write(f"**File description:** {metadata.static_site.description.get()}\n\n")
+    f.write(f"**Document status:** {get_badge_str(metadata.static_site.document_status.get(), True)}\n\n")
     f.write(f"**Last modified:** {get_last_modified_time_hkt(target)}\n\n")
 
 def __generate_button_md(primary: bool, text: str, href: str, icon: str | None = None) -> str:
@@ -177,7 +177,7 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
         # filter out alias targets
         additional_targets = [
             t for t in additional_targets
-            if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()
+            if not Reader(f"./src/{t}/metadata.json", t).parse().computed.is_alias.get()
         ]
         random.shuffle(additional_targets)
         see_also_targets.extend(additional_targets)
@@ -196,6 +196,6 @@ def __generate_see_also_card(target: str, metadata: Metadata) -> str:
     return "".join((
         f"-   :material-file-document:{{ .lg .middle }} __{target}__\n\n",
         f"    ---\n\n",
-        f"    {metadata.static_site__description}\n\n",
+        f"    {metadata.static_site.description.get()}\n\n",
         f"    [Check out the document :octicons-arrow-right-24:](./{target}.md)\n\n"
     ))
