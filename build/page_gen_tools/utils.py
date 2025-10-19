@@ -45,7 +45,7 @@ def get_last_modified_time_hkt(target: str) -> str:
     Use the last git commit time if git is available; otherwise, traverse the tree
     to find the latest modified time among all files in the directory.
     """
-    from ..generate_sitemap import get_last_modified_datetime
+    from generate_sitemap import get_last_modified_datetime
     last_mod_utc = get_last_modified_datetime(target)
     from datetime import timedelta, timezone, datetime
     hkt = timezone(timedelta(hours=8))

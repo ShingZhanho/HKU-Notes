@@ -1,4 +1,4 @@
-from ..mttools import Metadata
+from mttools import Metadata
 
 def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dict[str, list[str]]]):
     print(f"Generating details page for target: {target}")
@@ -162,7 +162,7 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
             see_also_targets = [t for t in all_targets[alphabet][course_code] if t != target]
             # filter out alias targets
             import os
-            from ..mttools import Reader
+            from mttools import Reader
             see_also_targets = [
                 t for t in see_also_targets
                 if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()
@@ -178,7 +178,7 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
                         additional_targets.append(t)
         # filter out alias targets
         import os
-        from ..mttools import Reader
+        from mttools import Reader
         additional_targets = [
             t for t in additional_targets
             if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()

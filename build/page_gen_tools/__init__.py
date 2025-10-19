@@ -19,7 +19,7 @@ def start(targets: list[str], out_dir: str | None = None):
     print("Writing outputs to", details_output_dir)
 
     from .gen_details_page import gen_details_page
-    from ..mttools import Reader, Metadata
+    from mttools import Reader, Metadata
     for target in targets:
         metadata: Metadata = Reader(f"./src/{target}/metadata.json", target).parse()
         gen_details_page(target, metadata, targets_dict)

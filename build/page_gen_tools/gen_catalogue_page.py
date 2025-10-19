@@ -1,4 +1,4 @@
-from ..mttools import Reader, Metadata
+from mttools import Reader, Metadata
 
 def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
     print("Generating catalogue page...")

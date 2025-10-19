@@ -1,4 +1,4 @@
-from ..get_authors import Authors
+from get_authors import Authors
 
 def resolve_authors(authors_list: list[str]) -> list[str]:
     """
