@@ -237,13 +237,26 @@ where `[BUILD_TARGET]` is the name of the build target, and `[OUTPUT_FILE]` is t
 - **Description**: A list of authors for the target. Each author must be a string, whose value is defined in `/site/docs/statics/authors/authors.json`.
 - **Type**: `array` of `string`
 - **Default**: `["jacob_shing"]` (an array containing a single string `jacob_shing`)
-- **Accepted Values**: Any string that is a valid key in the `/site/docs/statics/authors/authors.json` file.
+- **Accepted Values**: Any string that is a valid key in the `/site/docs/statics/authors/authors.json` file, or a pseudo-author.
+
+!!! note "Pseudo-Authors"
+
+    In addition to the authors defined in the `authors.json` file, you can also use pseudo-authors
+    to control the behaviour and display of authors.
+
+    The following pseudo-authors are supported:
+
+    - `@unknown`: Represents an unknown author. This will display as "Unknown Author" on the static site.
+        Defining more than one `@unknown` in the authors list will display a plural form "Unknown Authors".
+        
+    - `@do_not_sort`: Preserves the order of authors as defined in the list.
+        By default, authors are sorted alphabetically by their `display_name`, with the main author always appearing first,
+        and unknown authors appearing at the end. Using this pseudo-author will disable sorting for non-main authors and non-unknown authors.
 
 !!! note "Main Author and Coauthors"
 
     Add an exclamation mark (`!`) before the author string to indicate that this is the main author of the target.
     At most one author can be the main author. Having more than one main author will cause the build pipeline to fail.
-    The unknown author `@unknown` cannot be the main author.
 
     If no main author is specified, the first author in the alphabetical order will be treated as the main author.
 

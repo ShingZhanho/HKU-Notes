@@ -11,8 +11,9 @@ Each author is represented as a JSON object, with its unique identifier as the k
 
 !!! warning "Naming Convention for Author Identifiers"
 
-    Identifiers with a leading at sign (`@`) are reserved for system use.
-    While they will not cause issues in the build process, pull requests that use these identifiers will not be accepted.
+    Identifiers with a leading at sign (`@`) are reserved called pseudo-authors.
+    They are used for controlling how authors are displayed. Defining an identifier
+    with a leading at sign (`@`) in this file will result in an error.
 
 Each author object must define all of the following fields:
 
