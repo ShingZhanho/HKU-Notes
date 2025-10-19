@@ -82,7 +82,7 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
 
     # Write customised content
     parsed_content = __read_and_process_custom_md(
-        f"./src/{target}/{metadata.static_site__custom_md_file}",
+        f"./src/{target}/{metadata.static_site__custom_md_file}" if metadata.static_site__custom_md_file else "",
         pdf_viewer_html,
         metadata.static_site__pdf_viewer
     )
