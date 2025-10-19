@@ -18,12 +18,12 @@ def get_targets_dict(targets: list[str]) -> dict[str, dict[str, list[str]]]:
 
     # arrange targets into the dictionary
     for target in targets:
-        if not __is_course_code(target):
+        if len(target) <= 8 or not __is_course_code(target[:9]):
             alphas['#']["Miscellaneous"].append(target)
             continue
 
         leading_alpha = target[0].upper()
-        course_code = target[:8]
+        course_code = target[:9]
         if course_code not in alphas[leading_alpha]:
             alphas[leading_alpha][course_code] = []
         alphas[leading_alpha][course_code].append(target)
