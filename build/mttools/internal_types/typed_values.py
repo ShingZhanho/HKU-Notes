@@ -1,4 +1,4 @@
-from generic_values import GenericValue, GenericArrayValue, GenericComputedValue
+from .generic_values import GenericValue, GenericArrayValue, GenericComputedValue
 
 # Simple typed value classes
 

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from typing import Callable
 
 class GenericValue[T]:
     def __init__(self):
@@ -10,13 +11,13 @@ class GenericValue[T]:
     def set(self, value: T | None) -> None:
         self.__value = value
 
-    def set_if(self, value: T | None, condition: callable[[], bool]) -> None:
+    def set_if(self, value: T | None, condition: Callable[[], bool]) -> None:
         """
         Sets the value only if the condition function returns True, otherwise the value is not changed.
         """
         self.set_if_else(value, condition, self.__value)
 
-    def set_if_else(self, value: T | None, condition: callable[[], bool], else_value: T | None) -> None:
+    def set_if_else(self, value: T | None, condition: Callable[[], bool], else_value: T | None) -> None:
         """
         Sets the value to `value` if the condition function returns True, otherwise sets to `else_value`.
         """
@@ -68,14 +69,14 @@ class GenericArrayValue[T](GenericValue[list[T]]):
         else:
             super().set(value.copy())
 
-    def set_if(self, value: list[T] | None, condition: callable[[], bool]) -> None:
+    def set_if(self, value: list[T] | None, condition: Callable[[], bool]) -> None:
         """
         Sets a copy of the provided list as the internal value if the condition function returns True,
         otherwise the value is not changed.
         """
         self.set_if_else(value, condition, self.get())
 
-    def set_if_else(self, value: list[T] | None, condition: callable[[], bool], else_value: list[T] | None) -> None:
+    def set_if_else(self, value: list[T] | None, condition: Callable[[], bool], else_value: list[T] | None) -> None:
         """
         Sets a copy of the provided list as the internal value if the condition function returns True,
         otherwise sets a copy of the else_value list.
@@ -183,23 +184,23 @@ class GenericArrayValue[T](GenericValue[list[T]]):
         """
         return item in self.__value
     
-class GenericComputedValue[T](GenericValue[callable[[], T]]):
+class GenericComputedValue[T](GenericValue[Callable[[], T]]):
     def __init__(self):
         raise ValueError("ComputedValue must be initialized with a callable.")
     
-    def __init__(self, compute_func: callable[[], T]):
+    def __init__(self, compute_func: Callable[[], T]):
         if compute_func is None:
             raise ValueError("Compute function cannot be None")
         super().__init__(compute_func)
 
-    def set(self, _: callable[[], T]) -> None:
+    def set(self, _: Callable[[], T]) -> None:
         """
         Setting the "value" of a computed value is impossible as the value is computed.
         To change the internal function, use `set_func()` instead.
         """
         raise NotImplementedError("Cannot set value of ComputedValue. Use set_func() to change the compute function.")
     
-    def set_func(self, compute_func: callable[[], T]) -> None:
+    def set_func(self, compute_func: Callable[[], T]) -> None:
         """
         Set the internal compute function.
         """
@@ -207,13 +208,13 @@ class GenericComputedValue[T](GenericValue[callable[[], T]]):
             raise ValueError("Compute function cannot be None")
         super().set(compute_func)
 
-    def set_if(self, _: callable[[], T], __: callable[[], bool]) -> None:
+    def set_if(self, _: Callable[[], T], __: Callable[[], bool]) -> None:
         """
         `set_if` is not supported for ComputedValue.
         """
         raise NotImplementedError("set_if is not supported for ComputedValue.")
     
-    def set_if_else(self, _: callable[[], T], __: callable[[], bool], ___: callable[[], T]) -> None:
+    def set_if_else(self, _: Callable[[], T], __: Callable[[], bool], ___: Callable[[], T]) -> None:
         """
         `set_if_else` is not supported for ComputedValue.
         """
@@ -241,7 +242,7 @@ class GenericComputedValue[T](GenericValue[callable[[], T]]):
         """
         return self.get()
     
-    def __call__(self, val: callable[[], T]) -> None:
+    def __call__(self, val: Callable[[], T]) -> None:
         """
         Alias for setting the value of the compute function, which will raise an error.
         """

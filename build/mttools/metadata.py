@@ -1,4 +1,4 @@
-from internal_types import *
+from .internal_types import *
 from hash_tex_pkgs import hash_pkgs
 
 class Metadata(KeyNode):
