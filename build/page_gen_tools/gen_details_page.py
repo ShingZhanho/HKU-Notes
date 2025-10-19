@@ -112,7 +112,7 @@ def __generate_button_md(primary: bool, text: str, href: str, icon: str | None =
         f" :{icon}:" if icon else "",
         f"]({href})",
         "{.md-button ",
-        "md-button--primary" if primary else "",
+        ".md-button--primary" if primary else "",
         "}",
     ))
     
