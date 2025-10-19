@@ -1,9 +1,12 @@
-from abc import ABC
+from __future__ import annotations
 
-class KeyNode(ABC):
+class KeyNode:
     """
     A node representing a key in a hierarchical structure.
-    This is an abstract base class for key nodes. All key nodes should inherit from this class
-    and define their children keys or values as attributes.
+    All key nodes should inherit from this class and define their children keys or values as attributes.
+    This class itself should not be instantiated directly.
     """
-    pass
+    def __init__(self, parent_node: KeyNode | None = None):
+        if parent_node is not None and not isinstance(parent_node, KeyNode):
+            raise TypeError("parent_node must be a KeyNode or None")
+        self.parent = parent_node
