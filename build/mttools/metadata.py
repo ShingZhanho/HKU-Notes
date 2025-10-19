@@ -20,8 +20,7 @@ class Metadata(KeyNode):
         self.static_site = StaticSiteKeyNode(self)
         self.computed = ComputedKeyNode(self)
 
-# KeyNode definitions (should not be exposed in __init__.py)
-
+# KeyNode definitions 
 class BuildKeyNode(KeyNode):
     def __init__(self, parent_node: Metadata):
         super().__init__(parent_node)
