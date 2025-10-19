@@ -110,8 +110,51 @@ def __get_course_name(course_code: str) -> str:
     conn.close()
     if row:
         result = row[0]
-        # for each word, cap the first letter and lower the rest,
-        # except for words that are all uppercase (e.g. "HKU")
-        result = ' '.join(word.capitalize() if not word.isupper() else word for word in result.split())
+        # Convert to title case with proper exceptions
+        result = __to_title_case(result)
         return result
     return None
+
+def __to_title_case(text: str) -> str:
+    """
+    Convert text to title case, capitalizing major words while keeping
+    minor words (articles, prepositions, conjunctions) lowercase,
+    preserving roman numerals and acronyms.
+    """
+    # Minor words that should be lowercase (unless first or last word)
+    minor_words = {
+        'a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'of', 'on', 
+        'or', 'the', 'to', 'via', 'with', 'from', 'into', 'onto', 'than',
+        'over', 'upon', 'nor', 'yet', 'so'
+    }
+    
+    # Roman numerals (common ones used in course names)
+    roman_numerals = {'i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x'}
+    
+    words = text.split()
+    result = []
+    
+    for i, word in enumerate(words):
+        word_lower = word.lower()
+        is_first = i == 0
+        is_last = i == len(words) - 1
+        
+        # Check if it's a roman numeral
+        if word_lower in roman_numerals:
+            result.append(word.upper())
+        # Check if it's an acronym (all uppercase in original, length > 1)
+        elif word.isupper() and len(word) > 1:
+            result.append(word)
+        # Check if it's a contraction (contains apostrophe)
+        elif "'" in word:
+            # Capitalize first part, keep rest as-is for contractions
+            parts = word.split("'")
+            result.append(parts[0].capitalize() + "'" + parts[1].lower())
+        # Check if it's a minor word (and not first/last)
+        elif word_lower in minor_words and not is_first and not is_last:
+            result.append(word_lower)
+        # Default: capitalize first letter
+        else:
+            result.append(word.capitalize())
+    
+    return ' '.join(result)
