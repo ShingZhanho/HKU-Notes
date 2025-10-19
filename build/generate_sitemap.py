@@ -26,6 +26,7 @@ STATIC_PATHS = [
     "/contribution/syntax-reference/build-targets.txt.html",
     "/downloads/index.html",                                    # Course catalogue page
     "/downloads/document-status.html",                          # Document status page
+    "/preview-images-sitemap.xml",                              # Sitemap containing preview images
 ]
 
 def main():
@@ -72,11 +73,33 @@ def main():
     end_sitemap(sitemap_file)
     print(f"Generated sitemap.xml with {counter} URLs.")
 
-def begin_sitemap():
-    f = open("sitemap.xml", "w")
+    # Generate preview images sitemap
+    counter = 0
+    img_sitemap = begin_sitemap("preview-images-sitemap.xml")
+    for target in targets:
+        metadata = Reader(f"./src/{target}/metadata.json", target).parse()
+        if not metadata.computed__is_pdf_target():
+            continue
+
+        lastmod = get_last_modified_datetime(target)
+
+        # traverse through ./site/docs/downloads/details/{target}~preview/
+        preview_dir = f"./site/docs/downloads/details/{target}~preview/"
+        for img_file in [f for f in os.listdir(preview_dir) if f.endswith('.png')]:
+            img_path = f"/docs/downloads/details/{target}~preview/{img_file}"
+            begin_url(img_sitemap, img_path)
+            counter += 1
+            write_lastmod_and_changefreq(img_sitemap, lastmod)
+            end_url(img_sitemap)
+    end_sitemap(img_sitemap)
+    print(f"Generated preview-images-sitemap.xml with {counter} URLs.")
+
+def begin_sitemap(path: str | None = None):
+    path = path if path else "sitemap.xml"
+    f = open(path, "w")
     f.write('<?xml version="1.0" encoding="UTF-8"?>')
     f.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
-    print("Started sitemap.xml generation.")
+    print(f"Started {path} generation.")
     return f
 
 def begin_url(f, loc: str):
@@ -95,7 +118,7 @@ def end_url(f):
 
 def end_sitemap(f):
     f.write("</urlset>")
-    print("Ended sitemap.xml generation.")
+    print("Ended generation.")
     f.close()
 
 def get_last_modified_datetime(target_name: str | None) -> str:
