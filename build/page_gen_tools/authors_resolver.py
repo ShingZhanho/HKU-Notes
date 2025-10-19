@@ -128,7 +128,8 @@ def get_authors_summary(authors_list: list[str]) -> str:
     """
     Given a list of author handles, returns a summary string of authors.
     For one author, returns the author's display name.
-    For more than one author, returns "MainAuthor et al.".
+    For two authors, returns "Author1 and Author2".
+    For three or more authors, returns "MainAuthor et al.".
 
     You should guarantee that the input list is already resolved by `resolve_authors()`.
     """
@@ -138,6 +139,10 @@ def get_authors_summary(authors_list: list[str]) -> str:
     if num_authors == 1:
         author_handle = authors_list[0]
         return authors_db.get_author_display_name(author_handle)
+    elif num_authors == 2:
+        author1_handle = authors_list[0]
+        author2_handle = authors_list[1]
+        return f"{authors_db.get_author_display_name(author1_handle)} and {authors_db.get_author_display_name(author2_handle)}"
     else:
         main_author_handle = authors_list[0]
         return f"{authors_db.get_author_display_name(main_author_handle)} et al."

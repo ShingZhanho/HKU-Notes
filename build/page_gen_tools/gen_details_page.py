@@ -170,7 +170,7 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
             ]
     
     # then fill up with other targets if needed
-    if len(see_also_targets) < 4:
+    if len(see_also_targets) < 6:
         additional_targets = []
         for alpha in all_targets.keys():
             for course in all_targets.get(alpha).keys():
@@ -188,8 +188,8 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
         random.shuffle(additional_targets)
         see_also_targets.extend(additional_targets)
     
-    # truncate to 4 targets
-    see_also_targets = see_also_targets[:4]
+    # truncate to 6 targets
+    see_also_targets = see_also_targets[:6]
     
     # write see also cards
     f.write('<div class="grid cards" markdown>\n\n')
@@ -203,5 +203,5 @@ def __generate_see_also_card(target: str, metadata: Metadata) -> str:
         f"-   :material-file-document:{{ .lg .middle }} __{target}__\n\n",
         f"    ---\n\n",
         f"    {metadata.static_site__description}\n\n",
-        f"    [:octicons-arrow-right-24: Check out the document](./{target}.md)\n\n"
+        f"    [Check out the document :octicons-arrow-right-24:](./{target}.md)\n\n"
     ))
