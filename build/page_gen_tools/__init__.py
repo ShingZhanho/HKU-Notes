@@ -14,7 +14,7 @@ def start(targets: list[str], out_dir: str | None = None):
     # generate details pages
     import os
     details_output_dir = os.path.join(out_dir, "details")
-    os.mkdir(details_output_dir, exist_ok=True)
+    os.makedirs(details_output_dir, exist_ok=True)
     print("Generating details pages...")
     print("Writing outputs to", details_output_dir)
 
