@@ -365,7 +365,7 @@ jobs:
     # +---
     runs-on: ubuntu-22.04 # Jammy
     needs: build-target
-    if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'pull_request' }}
+    if: ${{ github.event_name == 'pull_request' }}
     env:
       DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
     steps:
