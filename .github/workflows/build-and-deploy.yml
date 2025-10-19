@@ -7,6 +7,9 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
 jobs:
 
   configure-matrix:
@@ -343,13 +346,16 @@ jobs:
 
       # --- DEPLOY TO GITHUB PAGES ---
       - name: Upload static files as artifact
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./gh-out/
 
       - name: Configure pages
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: actions/configure-pages@v5
 
       - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         id: deployment
         uses: actions/deploy-pages@v4
