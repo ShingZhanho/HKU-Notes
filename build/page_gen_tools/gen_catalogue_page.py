@@ -43,7 +43,7 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
             print(f"Writing catalogue subsection for course code: {course_code}")
             # course code and name h3 header
             f.write(f'### {course_code}')
-            if course_name:
+            if course_name and course_code != "Miscellaneous":
                 f.write(f' - {course_name}')
             f.write('\n\n')
 

@@ -17,16 +17,16 @@ def get_targets_dict(targets: list[str]) -> dict[str, dict[str, list[str]]]:
     alphas['#'] = {"Miscellaneous": []}
 
     def __is_course_code(s: str) -> bool:
-        return len(s) >= 8 and s[:4].isalpha() and s[4:8].isdigit()
+        return len(s) == 8 and s[:4].isalpha() and s[4:8].isdigit()
 
     # arrange targets into the dictionary
     for target in targets:
-        if len(target) <= 8 or not __is_course_code(target[:9]):
+        if len(target) <= 8 or not __is_course_code(target[:8]):
             alphas['#']["Miscellaneous"].append(target)
             continue
 
         leading_alpha = target[0].upper()
-        course_code = target[:9]
+        course_code = target[:8]
         if course_code not in alphas[leading_alpha]:
             alphas[leading_alpha][course_code] = []
         alphas[leading_alpha][course_code].append(target)
