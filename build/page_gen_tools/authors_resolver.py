@@ -96,14 +96,15 @@ def __get_card(author_handle: str, name_override: str | None = None) -> str:
     Generates a one-line HTML tag representing an author card for the given author handle.
     """
     authors_db = Authors()
+    is_main_author = author_handle.startswith("!")
     author_handle = author_handle[1:] if author_handle.startswith("!") else author_handle
     author_name = name_override or authors_db.get_author_display_name(author_handle)
     author_avatar_url = authors_db.get_author_avatar(author_handle)
     author_href = authors_db.get_author_href(author_handle)
 
     return "".join((
-        '<a class="author-card md-button ',
-        'md-button--primary' if author_handle.startswith("!") else '',
+        '<a class="author-card md-button',
+        ' md-button--primary' if is_main_author else '',
         '" ',
         'title="You will be sent to a link provided by the author, ',
         'which may be an external website." ',
