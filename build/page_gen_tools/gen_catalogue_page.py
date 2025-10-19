@@ -1,5 +1,5 @@
 import sqlite3
-from mttools import Reader, Metadata2
+from mttools import Reader, Metadata
 from .utils import write_front_matters, get_last_modified_time_hkt
 from .authors_resolver import get_authors_summary, resolve_authors
 from .status_badge import get_badge_str
@@ -53,7 +53,7 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
 
             # for each target under the course code:
             for target in targets[alphabet][course_code]:
-                metadata: Metadata2 = Reader(f"./src/{target}/metadata.json", target).parse()
+                metadata: Metadata = Reader(f"./src/{target}/metadata.json", target).parse()
                 print(f"Writing catalogue entry for target: {target}")
                 flag_is_alias = metadata.computed.is_alias.get()
 

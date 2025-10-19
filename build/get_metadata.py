@@ -9,7 +9,7 @@ import sys
 
 def get_value_from_metadata(metadata, key):
     """
-    Extract a value from the Metadata2 object using a key path with dot notation.
+    Extract a value from the Metadata object using a key path with dot notation.
     
     Examples:
         - "name" -> metadata.name

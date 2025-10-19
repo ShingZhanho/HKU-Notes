@@ -1,5 +1,5 @@
 from .metadata_base_parser import MetadataParserBase
-from ..metadata2 import Metadata2
+from ..metadata import Metadata
 
 class MetadataV1Parser(MetadataParserBase):
     """
@@ -11,7 +11,7 @@ class MetadataV1Parser(MetadataParserBase):
         """
         super().__init__(metadata_file, build_target)
 
-    def parse(self) -> Metadata2:
+    def parse(self) -> Metadata:
         # Top-level keys
         self.parsed_obj.root_file.set_if(
             self.json_obj.get("build", {}).get("root_file"),

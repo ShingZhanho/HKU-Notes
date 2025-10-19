@@ -7,7 +7,7 @@ import shutil
 from .utils import get_targets_dict
 from .gen_details_page import gen_details_page
 from .gen_catalogue_page import gen_catalogue_page
-from mttools import Reader, Metadata2
+from mttools import Reader, Metadata
 
 def start(targets: list[str], out_dir: str | None = None):
     out_dir = out_dir or "./site/docs/downloads"
@@ -24,7 +24,7 @@ def start(targets: list[str], out_dir: str | None = None):
     print("Writing outputs to", details_output_dir)
 
     for target in targets:
-        metadata: Metadata2 = Reader(f"./src/{target}/metadata.json", target).parse()
+        metadata: Metadata = Reader(f"./src/{target}/metadata.json", target).parse()
         gen_details_page(target, metadata, targets_dict)
 
         # post-page-generation file handling

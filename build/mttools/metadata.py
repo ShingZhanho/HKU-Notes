@@ -1,60 +1,97 @@
-class Metadata:
-    """
-    A class to represent metadata for a build target.
-    """
-    def __init__(self, build_target):
+from internal_types import *
+from hash_tex_pkgs import hash_pkgs
+
+class Metadata(KeyNode):
+    def __init__(self, target: str):
         """
-        Set up the metadata fields.
-        The values should be set by the reader, not the user.
+        Configures the metadata fields for the given build target name.
         """
-        self.name = build_target
-        self.root_file = f"{self.name}.tex"
-        self.output_file = f"{self.name}.pdf"
+        super().__init__(None)
 
-        # "build" keys
-        self.build__requires = None
-        self.build__no_latex = False
-        self.build__prebuild_command = None
-        self.build__build_command = None
-        self.build__postbuild_command = None
-        self.build__miktex_package_file = "packages.tex"
+        # Keys
+        self.name: StrValue = StrValue(target)
+        self.root_file: StrValue = StrValue(f"{target}.tex")
+        self.output_file: StrValue = StrValue(f"{target}.pdf")
 
-        # "static_site" keys
-        self.static_site__description = None
-        self.static_site__meta_description = None
-        self.static_site__custom_md_file = None
-        self.static_site__document_status = None
-        self.static_site__alias_to = None
-        self.static_site__pdf_viewer = "at_head"
+        self.authors: StrArrayValue = StrArrayValue([])
 
-        # "static_site" > "primary_button" keys
-        self.static_site__primary_button__disabled = False
-        self.static_site__primary_button__text = "Download"
-        self.static_site__primary_button__icon = "material-download"
-        self.static_site__primary_button__href = None
+        # Sub-keys
+        self.build = BuildKeyNode(self)
+        self.static_site = StaticSiteKeyNode(self)
+        self.computed = ComputedKeyNode(self)
 
-        # "static_site" > "secondary_button" keys
-        self.static_site__secondary_button__disabled = False
-        self.static_site__secondary_button__text = "View source"
-        self.static_site__secondary_button__icon = "material-github"
-        self.static_site__secondary_button__href = f"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{self.name}"
+# KeyNode definitions (should not be exposed in __init__.py)
 
-        # "authors" keys
-        self.authors = []
+class BuildKeyNode(KeyNode):
+    def __init__(self, parent_node: Metadata):
+        super().__init__(parent_node)
 
-    # computed keys
-    # These keys are computed based on static keys.
-    def computed__is_alias(self):
-        return self.static_site__alias_to is not None
+        # Keys
+        self.requires: StrValue = StrValue(None)
+        self.no_latex: BoolValue = BoolValue(False)
+        self.prebuild_command: StrValue = StrValue(None)
+        self.build_command: StrValue = StrValue(None)
+        self.postbuild_command: StrValue = StrValue(None)
+        self.miktex_package_file: StrValue = StrValue("packages.tex")
+
+class StaticSiteKeyNode(KeyNode):
+    def __init__(self, parent_node: Metadata):
+        super().__init__(parent_node)
+
+        # Keys
+        self.description: StrValue = StrValue(None)
+        self.meta_description: StrValue = StrValue(None)
+        self.custom_md_file: StrValue = StrValue(None)
+        self.document_status: StrValue = StrValue(None)
+        self.alias_to: StrValue = StrValue(None)
+        self.pdf_viewer: StrValue = StrValue("at_head")
+
+        # Sub-keys
+        self.primary_button: StaticClassButtonKeyNode = StaticClassButtonKeyNode(self)
+        self.secondary_button: StaticClassButtonKeyNode = StaticClassButtonKeyNode(self)
+
+class StaticClassButtonKeyNode(KeyNode):
+    def __init__(self, parent_node: Metadata):
+        super().__init__(parent_node)
+
+        # Keys
+        self.disabled: BoolValue = BoolValue(False)
+        self.text: StrValue = StrValue(None)
+        self.icon: StrValue = StrValue(None)
+        self.href: StrValue = StrValue(None)
+
+class ComputedKeyNode(KeyNode):
+    def __init__(self, parent_node: Metadata):
+        super().__init__(parent_node)
+
+        # Keys
+        self.is_alias: BoolComputedValue = BoolComputedValue(self.__is_alias)
+        self.is_non_file_target: BoolComputedValue = BoolComputedValue(self.__is_non_file_target)
+        self.is_pdf_target: BoolComputedValue = BoolComputedValue(self.__is_pdf_target)
+        self.tex_pkg_hash: StrComputedValue = StrComputedValue(self.__tex_pkg_hash)
+
+    def __is_alias(self) -> bool:
+        metadata: Metadata = self.parent
+        alias_to: StrValue = metadata.static_site.alias_to
+        return alias_to.get() is not None
     
-    def computed__is_non_file_target(self):
-        return self.output_file == "NON_FILE_TARGET"
+    def __is_non_file_target(self) -> bool:
+        metadata: Metadata = self.parent
+        output_file: StrValue = metadata.output_file
+        return output_file.get() == "NON_FILE_TARGET"
     
-    def computed__is_pdf_target(self):
-        return self.output_file.endswith(".pdf") and not self.computed__is_non_file_target() and not self.computed__is_alias()
+    def __is_pdf_target(self) -> bool:
+        metadata: Metadata = self.parent
+        output_file: StrValue = metadata.output_file
+        return (output_file.get() is not None and
+                output_file.get().endswith(".pdf") and
+                not self.__is_non_file_target() and
+                not self.__is_alias())
     
-    def computed__tex_pkg_hash(self):
-        if self.computed__is_non_file_target() or self.computed__is_alias():
+    def __tex_pkg_hash(self) -> str:
+        metadata: Metadata = self.parent
+        if self.__is_non_file_target() or self.__is_alias():
             return "0"
-        from hash_tex_pkgs import hash_pkgs
-        return hash_pkgs(self.name, False)
+        name: StrValue = metadata.name
+        return hash_pkgs(name.get(), False)
+

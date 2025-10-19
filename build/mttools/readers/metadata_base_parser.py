@@ -1,5 +1,5 @@
 import json
-from ..metadata2 import Metadata2
+from ..metadata import Metadata
 
 class MetadataParserBase:
     """
@@ -12,10 +12,10 @@ class MetadataParserBase:
         """
         self.json_str = json_str
         self.json_obj = json.loads(json_str)
-        self.parsed_obj = Metadata2(build_target)
+        self.parsed_obj = Metadata(build_target)
 
-    def parse(self) -> Metadata2:
+    def parse(self) -> Metadata:
         """
-        Parse the JSON string and return a Metadata2 object.
+        Parse the JSON string and return a Metadata object.
         """
         pass # implemented in subclasses

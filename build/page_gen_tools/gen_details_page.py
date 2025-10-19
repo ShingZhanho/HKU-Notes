@@ -1,13 +1,13 @@
 import os
 import shutil
 import random
-from mttools import Metadata2, Reader
+from mttools import Metadata, Reader
 from .utils import write_front_matters, get_last_modified_time_hkt
 from .authors_resolver import resolve_authors, get_author_cards, write_authors_section
 from .status_badge import get_badge_str
 from .pdf_preview import generate_pdf_viewer_html
 
-def gen_details_page(target: str, metadata: Metadata2, all_targets: dict[str, dict[str, list[str]]]):
+def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dict[str, list[str]]]):
     print(f"Generating details page for target: {target}")
 
     if metadata.computed.is_alias.get():
@@ -96,7 +96,7 @@ def gen_details_page(target: str, metadata: Metadata2, all_targets: dict[str, di
     f.close()
     print(f"Details page generation for target {target} completed.")
 
-def __write_target_info(file_obj, target: str, metadata: Metadata2):
+def __write_target_info(file_obj, target: str, metadata: Metadata):
     f = file_obj
     ## Heading
     f.write(f"# {target}\n\n")
@@ -192,7 +192,7 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
         f.write(__generate_see_also_card(t, metadata))
     f.write('</div>\n\n')
     
-def __generate_see_also_card(target: str, metadata: Metadata2) -> str:
+def __generate_see_also_card(target: str, metadata: Metadata) -> str:
     return "".join((
         f"-   :material-file-document:{{ .lg .middle }} __{target}__\n\n",
         f"    ---\n\n",
