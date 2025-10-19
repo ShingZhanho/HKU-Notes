@@ -10,17 +10,17 @@ class GenericValue[T]:
     def set(self, value: T | None) -> None:
         self.__value = value
 
-    def set_if(self, value: T | None, condition: callable[[T | None], bool]) -> None:
+    def set_if(self, value: T | None, condition: callable[[], bool]) -> None:
         """
         Sets the value only if the condition function returns True, otherwise the value is not changed.
         """
         self.set_if_else(value, condition, self.__value)
 
-    def set_if_else(self, value: T | None, condition: callable[[T | None], bool], else_value: T | None) -> None:
+    def set_if_else(self, value: T | None, condition: callable[[], bool], else_value: T | None) -> None:
         """
         Sets the value to `value` if the condition function returns True, otherwise sets to `else_value`.
         """
-        if condition(value):
+        if condition():
             self.__value = value
         else:
             self.__value = else_value
@@ -68,19 +68,19 @@ class GenericArrayValue[T](GenericValue[list[T]]):
         else:
             super().set(value.copy())
 
-    def set_if(self, value: list[T] | None, condition: callable[[list[T]], bool]) -> None:
+    def set_if(self, value: list[T] | None, condition: callable[[], bool]) -> None:
         """
         Sets a copy of the provided list as the internal value if the condition function returns True,
         otherwise the value is not changed.
         """
         self.set_if_else(value, condition, self.get())
 
-    def set_if_else(self, value: list[T] | None, condition: callable[[list[T]], bool], else_value: list[T] | None) -> None:
+    def set_if_else(self, value: list[T] | None, condition: callable[[], bool], else_value: list[T] | None) -> None:
         """
         Sets a copy of the provided list as the internal value if the condition function returns True,
         otherwise sets a copy of the else_value list.
         """
-        if condition(value):
+        if condition():
             super().set(value.copy() if value is not None else None)
         else:
             super().set(else_value.copy() if else_value is not None else None)
@@ -207,13 +207,13 @@ class GenericComputedValue[T](GenericValue[callable[[], T]]):
             raise ValueError("Compute function cannot be None")
         super().set(compute_func)
 
-    def set_if(self, _: callable[[], T], __: callable[[callable[[], T]], bool]) -> None:
+    def set_if(self, _: callable[[], T], __: callable[[], bool]) -> None:
         """
         `set_if` is not supported for ComputedValue.
         """
         raise NotImplementedError("set_if is not supported for ComputedValue.")
     
-    def set_if_else(self, _: callable[[], T], __: callable[[callable[[], T]], bool], ___: callable[[], T]) -> None:
+    def set_if_else(self, _: callable[[], T], __: callable[[], bool], ___: callable[[], T]) -> None:
         """
         `set_if_else` is not supported for ComputedValue.
         """

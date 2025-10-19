@@ -13,7 +13,7 @@ class Metadata(KeyNode):
         self.root_file: StrValue = StrValue(f"{target}.tex")
         self.output_file: StrValue = StrValue(f"{target}.pdf")
 
-        self.authors: StrArrayValue = StrArrayValue([])
+        self.authors: StrArrayValue = StrArrayValue(None)
 
         # Sub-keys
         self.build = BuildKeyNode(self)
@@ -28,11 +28,11 @@ class BuildKeyNode(KeyNode):
 
         # Keys
         self.requires: StrValue = StrValue(None)
-        self.no_latex: BoolValue = BoolValue(False)
+        self.no_latex: BoolValue = BoolValue(None)
         self.prebuild_command: StrValue = StrValue(None)
         self.build_command: StrValue = StrValue(None)
         self.postbuild_command: StrValue = StrValue(None)
-        self.miktex_package_file: StrValue = StrValue("packages.tex")
+        self.miktex_package_file: StrValue = StrValue(None)
 
 class StaticSiteKeyNode(KeyNode):
     def __init__(self, parent_node: Metadata):
@@ -44,18 +44,28 @@ class StaticSiteKeyNode(KeyNode):
         self.custom_md_file: StrValue = StrValue(None)
         self.document_status: StrValue = StrValue(None)
         self.alias_to: StrValue = StrValue(None)
-        self.pdf_viewer: StrValue = StrValue("at_head")
+        self.pdf_viewer: StrValue = StrValue(None)
 
         # Sub-keys
-        self.primary_button: StaticClassButtonKeyNode = StaticClassButtonKeyNode(self)
-        self.secondary_button: StaticClassButtonKeyNode = StaticClassButtonKeyNode(self)
+        self.primary_button: PrimaryButtonKeyNode = PrimaryButtonKeyNode(self)
+        self.secondary_button: SecondaryButtonKeyNode = SecondaryButtonKeyNode(self)
 
-class StaticClassButtonKeyNode(KeyNode):
+class PrimaryButtonKeyNode(KeyNode):
     def __init__(self, parent_node: Metadata):
         super().__init__(parent_node)
 
         # Keys
-        self.disabled: BoolValue = BoolValue(False)
+        self.disabled: BoolValue = BoolValue(None)
+        self.text: StrValue = StrValue(None)
+        self.icon: StrValue = StrValue(None)
+        self.href: StrValue = StrValue(None)
+
+class SecondaryButtonKeyNode(KeyNode):
+    def __init__(self, parent_node: Metadata):
+        super().__init__(parent_node)
+
+        # Keys
+        self.disabled: BoolValue = BoolValue(None)
         self.text: StrValue = StrValue(None)
         self.icon: StrValue = StrValue(None)
         self.href: StrValue = StrValue(None)
