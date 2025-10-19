@@ -1,4 +1,4 @@
-# get-metadata.py
+# get_metadata.py
 # This script takes two arguments:
 #   1. The metadata.json file to read
 #   2. The key to extract and print
