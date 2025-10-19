@@ -32,33 +32,33 @@ METADATA_FILE="./src/${BUILD_TARGET_NAME}/metadata.json"
 export_var "METADATA_FILE" "${METADATA_FILE}"
 
 # Handle build target requirements
-if [ $(get_metadata_value build__requires | grep "python-minted-pkgs" | wc -l) -eq 1 ]; then
+if [ $(get_metadata_value build.requires | grep "python-minted-pkgs" | wc -l) -eq 1 ]; then
     export_var "DYENV_REQUIRE_PYTHON_MINTED_PKGS" "true"
 else
     export_var "DYENV_REQUIRE_PYTHON_MINTED_PKGS" "false"
 fi
 
 # Handle if the build target requires LaTeX installation
-export_var "DYENV_NO_LATEX" "$(get_metadata_value build__no_latex)"
+export_var "DYENV_NO_LATEX" "$(get_metadata_value build.no_latex)"
 
 # Handle build target prebuild command
-export_var "DYENV_PREBUILD_COMMAND" "$(get_metadata_value build__prebuild_command)"
+export_var "DYENV_PREBUILD_COMMAND" "$(get_metadata_value build.prebuild_command)"
 
 # Handle build target build command
-export_var "DYENV_BUILD_COMMAND" "$(get_metadata_value build__build_command)"
+export_var "DYENV_BUILD_COMMAND" "$(get_metadata_value build.build_command)"
 
 # Handle build target postbuild command
-export_var "DYENV_POSTBUILD_COMMAND" "$(get_metadata_value build__postbuild_command)"
+export_var "DYENV_POSTBUILD_COMMAND" "$(get_metadata_value build.postbuild_command)"
 
 # Handle build target output file
 export_var "DYENV_OUTPUT_FILE" "$(get_metadata_value output_file)"
 
 # Handle build target miktex package file
-export_var "DYENV_TEX_PACKAGE_HASH" "$(get_metadata_value computed__tex_pkg_hash)"
+export_var "DYENV_TEX_PACKAGE_HASH" "$(get_metadata_value computed.tex_pkg_hash)"
 
 # Checks if the target is a PDF file
-export_var "DYENV_IS_PDF" "$(get_metadata_value computed__is_pdf_target)"
+export_var "DYENV_IS_PDF" "$(get_metadata_value computed.is_pdf_target)"
 
 # Handle build target alias properties
-export_var "DYENV_IS_ALIAS" "$(get_metadata_value computed__is_alias)"
-export_var "DYENV_ALIAS_TO" "$(get_metadata_value static_site__alias_to)"
+export_var "DYENV_IS_ALIAS" "$(get_metadata_value computed.is_alias)"
+export_var "DYENV_ALIAS_TO" "$(get_metadata_value static_site.alias_to)"
