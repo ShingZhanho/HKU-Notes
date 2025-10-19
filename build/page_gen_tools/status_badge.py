@@ -53,6 +53,6 @@ def get_badge_str(status_key: str, for_details_page: bool) -> str:
         '<span class="status-badge">',
         f'<span class="status-badge__icon">:{icon}:</span>',
         f'<span class="status-badge__text">[{status_key.upper()}]',
-        f'{href} "{description} Click for more info."</span>',
+        f'({href} "{description} Click for more info.")</span>',
         '</span>'
     ])

@@ -2,7 +2,7 @@
 
 def generate_pdf_viewer_html(target: str) -> str:
     sb: list[str] = [
-        '<div class-"splide__wrapper>',
+        '<div class="splide__wrapper">',
         '<section aria-label="PDF Preview" class="splide">',
         '<div class="splide__track">',
         '<ul class="splide__list" style="display: flex !important;">',
@@ -17,8 +17,8 @@ def generate_pdf_viewer_html(target: str) -> str:
     for i in range(1, page_count + 1):
         sb.extend((
             '<li class="splide__slide">',
-            f'<img data-splide-src="./{target}~preview/{target}_preview-{pad_number(i, page_count)}.png" alt="Page {i} of {target}">',
-            f'<div class="splide__caption">Page {i} of {target}</div>',
+            f'<img data-splide-lazy="./{target}~preview/{target}_preview-{pad_number(i, page_count)}.png" alt="Page {i} of {target}">',
+            f'<div class="splide__caption">Page {i} of {page_count}</div>',
             '</li>',
         ))
 

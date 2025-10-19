@@ -84,6 +84,13 @@ def get_author_cards(authors_list: list[str]) -> list[str]:
         name_override = ("Unknown Author" + ("s" if cntr_unknown_authors > 1 else "")) if author == "@unknown" else None
         author_cards.append(__get_card(author, name_override))
     
+    # Add unknown author cards if any
+    if cntr_unknown_authors > 0:
+        name_override = "Unknown Author" + ("s" if cntr_unknown_authors > 1 else "")
+        author_cards.append(__get_card("@unknown", name_override))
+    
+    return author_cards
+    
 def __get_card(author_handle: str, name_override: str | None = None) -> str:
     """
     Generates a one-line HTML tag representing an author card for the given author handle.
@@ -121,8 +128,7 @@ def get_authors_summary(authors_list: list[str]) -> str:
     """
     Given a list of author handles, returns a summary string of authors.
     For one author, returns the author's display name.
-    For two authors, returns "Author1 and Author2".
-    For more than two authors, returns "MainAuthor et al.".
+    For more than one author, returns "MainAuthor et al.".
 
     You should guarantee that the input list is already resolved by `resolve_authors()`.
     """
@@ -132,10 +138,6 @@ def get_authors_summary(authors_list: list[str]) -> str:
     if num_authors == 1:
         author_handle = authors_list[0]
         return authors_db.get_author_display_name(author_handle)
-    elif num_authors == 2:
-        author1_handle = authors_list[0]
-        author2_handle = authors_list[1]
-        return f"{authors_db.get_author_display_name(author1_handle)} and {authors_db.get_author_display_name(author2_handle)}"
     else:
         main_author_handle = authors_list[0]
         return f"{authors_db.get_author_display_name(main_author_handle)} et al."

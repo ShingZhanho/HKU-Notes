@@ -58,13 +58,7 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     f.write("\n\n")
     print("Buttons written.")
 
-    # Prepare PDF viewer section
-    pdf_viewer_html = ""
-    if metadata.output_file.endswith(".pdf") and metadata.static_site__pdf_viewer != "hidden":
-        from .pdf_preview import generate_pdf_viewer_html
-        pdf_viewer_html = generate_pdf_viewer_html(target)
-
-    # Move PDF preview pngs (if any)
+    # Move PDF preview pngs (if any) - MUST be done before generating PDF viewer HTML
     if metadata.output_file.endswith(".pdf"):
         os.makedirs(
             f"./site/docs/downloads/details/{target}~preview",
@@ -78,6 +72,12 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
             ) if file.endswith(".png") else None
         shutil.rmtree(f"./gh-out/files/{target}/~preview")
         print("PDF preview images moved.")
+
+    # Prepare PDF viewer section
+    pdf_viewer_html = ""
+    if metadata.output_file.endswith(".pdf") and metadata.static_site__pdf_viewer != "hidden":
+        from .pdf_preview import generate_pdf_viewer_html
+        pdf_viewer_html = generate_pdf_viewer_html(target)
 
     # Write customised content
     parsed_content = __read_and_process_custom_md(
@@ -141,10 +141,10 @@ def __read_and_process_custom_md(file_path: str, pdf_viewer_html: str, pdf_viewe
         raise Exception("PDF viewer tag not found.")
     
     if pdf_viewer_mode == "at_head":
-        lines = [pdf_viewer_html, "\n\n"].extend(lines)
+        lines = [pdf_viewer_html, "\n\n"] + lines
 
     if pdf_viewer_mode == "at_footer":
-        lines.extend(["\n\n", pdf_viewer_html])
+        lines = lines + ["\n\n", pdf_viewer_html]
 
     return "".join(lines)
 
@@ -158,34 +158,38 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
     course_code = ""
     if len(target) >= 8 and target[:5].isalpha() and target[5:9].isdigit():
         course_code = target[:9]
-    alphabet = course_code[0] if course_code != "" else "#"
-    course_code = course_code if course_code != "" else "Miscellaneous"
-    see_also_targets.extend([t for t in all_targets.get(alphabet).get(course_code) if t != target])
-    related_count = len(see_also_targets)
-
-    # then fill up with other targets
-    if len(see_also_targets) < 6:
+        alphabet = course_code[0]
+        if alphabet in all_targets and course_code in all_targets[alphabet]:
+            see_also_targets = [t for t in all_targets[alphabet][course_code] if t != target]
+            # filter out alias targets
+            import os
+            from ..mttools import Reader
+            see_also_targets = [
+                t for t in see_also_targets
+                if not Reader(os.path.join("./src", t, "metadata.json"), t).parse().computed__is_alias()
+            ]
+    
+    # then fill up with other targets if needed
+    if len(see_also_targets) < 4:
+        additional_targets = []
         for alpha in all_targets.keys():
             for course in all_targets.get(alpha).keys():
                 for t in all_targets.get(alpha).get(course):
                     if t != target and t not in see_also_targets:
-                        see_also_targets.append(t)
-
-    # filter out alias targets
-    import os
-    from ..mttools import Reader
-    see_also_targets = [
-        t for t in see_also_targets
-        if not Reader(os.path.join("./src", t, "metadata.json"), t).parse().computed__is_alias()
-    ]
-
-    # truncate to 6 targets
-    see_also_targets = see_also_targets[:6]
-
-    # shuffle the irrelevent ones
-    import random
-    see_also_targets = see_also_targets[:related_count] +\
-                        random.shuffle(see_also_targets[related_count:])
+                        additional_targets.append(t)
+        # filter out alias targets
+        import os
+        from ..mttools import Reader
+        additional_targets = [
+            t for t in additional_targets
+            if not Reader(os.path.join("./src", t, "metadata.json"), t).parse().computed__is_alias()
+        ]
+        import random
+        random.shuffle(additional_targets)
+        see_also_targets.extend(additional_targets)
+    
+    # truncate to 4 targets
+    see_also_targets = see_also_targets[:4]
     
     # write see also cards
     f.write('<div class="grid cards" markdown>\n\n')
@@ -199,5 +203,5 @@ def __generate_see_also_card(target: str, metadata: Metadata) -> str:
         f"-   :material-file-document:{{ .lg .middle }} __{target}__\n\n",
         f"    ---\n\n",
         f"    {metadata.static_site__description}\n\n",
-        f"    [Check out the document :octions-arrow-right-24:](./{target}.md)\n\n"
+        f"    [:octicons-arrow-right-24: Check out the document](./{target}.md)\n\n"
     ))
