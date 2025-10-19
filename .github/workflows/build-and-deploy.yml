@@ -270,6 +270,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
     env:
       DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
     steps:
@@ -346,16 +347,103 @@ jobs:
 
       # --- DEPLOY TO GITHUB PAGES ---
       - name: Upload static files as artifact
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./gh-out/
 
       - name: Configure pages
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         uses: actions/configure-pages@v5
 
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         id: deployment
         uses: actions/deploy-pages@v4
+
+  test-deploy-scripts:
+    # +---
+    # | This job is identical to deploy-pages, but is only run for PR validation.
+    # | No actual deployment occurs in this job.
+    # +---
+    runs-on: ubuntu-22.04 # Jammy
+    needs: build-target
+    if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'pull_request' }}
+    env:
+      DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # allow access to commit date and time for sitemap.xml
+
+      # --- SETUP MKDOCS-MATERIAL ---
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+          cache-dependency-path: ./build/python-requirement-lists/*.txt
+
+      # --- DOWNLOAD COMPILED ARTIFACTS ---
+      - name: Install mkdocs-material
+        run: pip install -r ./build/python-requirement-lists/mkdocs-material-pkgs.txt
+
+      - name: Prepare deployment directories
+        run: |
+          mkdir -p ./gh-out/files
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: compiled-artifact-*
+          path: ./gh-out/files
+
+      - name: Fix directory names
+        run: for dir in compiled-artifact-*; do [ -d "$dir" ] && mv "$dir" "${dir#compiled-artifact-}"; done; ls -l
+        working-directory: ./gh-out/files
+        # removes the prefix "compiled-artifact-" from the directory names
+
+      # --- GENERATE STATIC PAGES ---
+      - name: Output target list
+        run: echo DYENV_TARGETS_LIST=\"$(ls ./gh-out/files)\" >> $GITHUB_ENV
+
+      - name: Generate static pages
+        run: python3 ./build/generate_pages.py ${{ env.DYENV_TARGETS_LIST }}
+
+      - name: Upload generated Markdown sources
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-md
+          path: ./site
+          retention-days: 1
+
+      - name: Copy downloadable files to site
+        run: mkdir ./site/docs/files && cp -r ./gh-out/files/* ./site/docs/files && rm -rf ./gh-out
+
+      - name: Build static site
+        run: mkdocs build -d ../gh-out
+        working-directory: ./site
+
+      # --- GENERATE AND REPLACE SITEMAP.XML ---
+      - name: Remove generated sitemap.xml
+        run: rm -f ./gh-out/sitemap.xml && rm -f ./gh-out/sitemap.xml.gz
+
+      - name: Generate sitemap.xml
+        run: |
+          python3 ./build/generate_sitemap.py ${{ env.DYENV_TARGETS_LIST }}
+          mv ./sitemap.xml ./gh-out/sitemap.xml
+          mv ./preview-images-sitemap.xml ./gh-out/preview-images-sitemap.xml
+
+      # --- CONFIGURE GOOGLE SEO VERIFICATION ---
+      - name: Copy Google SEO verification file
+        run: cp ./build/seo/google481bf8abff9a1de7.html ./gh-out
+
+      # --- CONFIGURE INDEXNOW KEY ---
+      - name: Copy IndexNow key file
+        run: cp ./build/seo/indexnowkey33fe8f8f945.txt ./gh-out
+
+      # --- UPLOAD TO ARTIFACT (NO DEPLOYMENT) ---
+      - name: Upload static files as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-deploy-pages-artifact
+          path: ./gh-out
+          retention-days: 1
