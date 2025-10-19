@@ -1,4 +1,4 @@
-from ..metadata import Metadata
+from ..metadata2 import Metadata2
 import re
 
 class Reader:
@@ -16,7 +16,7 @@ class Reader:
         else:
             self.build_target = build_target
         
-    def parse(self) -> Metadata:
+    def parse(self) -> Metadata2:
         """
         Parse the metadata file and return a metadata object.
         """

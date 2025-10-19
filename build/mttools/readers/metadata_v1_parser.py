@@ -1,5 +1,5 @@
 from .metadata_base_parser import MetadataParserBase
-from ..metadata import Metadata
+from ..metadata2 import Metadata2
 
 class MetadataV1Parser(MetadataParserBase):
     """
@@ -11,38 +11,121 @@ class MetadataV1Parser(MetadataParserBase):
         """
         super().__init__(metadata_file, build_target)
 
-    def parse(self) -> Metadata:
-        self.parsed_obj.root_file = self.json_obj.get("build", {}).get("root_file", self.parsed_obj.root_file)
-        self.parsed_obj.output_file = self.json_obj.get("build", {}).get("output_file", self.parsed_obj.output_file)
+    def parse(self) -> Metadata2:
+        # Top-level keys
+        self.parsed_obj.root_file.set_if(
+            self.json_obj.get("build", {}).get("root_file"),
+            lambda x: x is not None
+        )
+        self.parsed_obj.output_file.set_if(
+            self.json_obj.get("build", {}).get("output_file"),
+            lambda x: x is not None
+        )
 
-        self.parsed_obj.build__requires = self.json_obj.get("build", {}).get("requires", None)
-        self.parsed_obj.build__no_latex = self.json_obj.get("build", {}).get("no_latex", False)
-        self.parsed_obj.build__prebuild_command = self.json_obj.get("build", {}).get("prebuild_command", None)
-        self.parsed_obj.build__build_command = self.json_obj.get("build", {}).get("build_command", f"latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./{self.parsed_obj.root_file}")
-        self.parsed_obj.build__postbuild_command = self.json_obj.get("build", {}).get("postbuild_command", None)
-        self.parsed_obj.build__miktex_package_file = self.json_obj.get("build", {}).get("miktex_package_file", self.parsed_obj.build__miktex_package_file)
+        # "build" sub-keys
+        self.parsed_obj.build.requires.set_if(
+            self.json_obj.get("build", {}).get("requires"),
+            lambda x: x is not None
+        )
+        self.parsed_obj.build.no_latex.set_if(
+            self.json_obj.get("build", {}).get("no_latex"),
+            lambda x: x is not None
+        )
+        self.parsed_obj.build.prebuild_command.set_if(
+            self.json_obj.get("build", {}).get("prebuild_command"),
+            lambda x: x is not None
+        )
+        # build_command has a computed default based on root_file
+        self.parsed_obj.build.build_command.set_if_else(
+            self.json_obj.get("build", {}).get("build_command"),
+            lambda x: x is not None,
+            f"latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./{self.parsed_obj.root_file.get()}"
+        )
+        self.parsed_obj.build.postbuild_command.set_if(
+            self.json_obj.get("build", {}).get("postbuild_command"),
+            lambda x: x is not None
+        )
+        self.parsed_obj.build.miktex_package_file.set_if(
+            self.json_obj.get("build", {}).get("miktex_package_file"),
+            lambda x: x is not None
+        )
 
         # "static_site" keys
-        self.parsed_obj.static_site__description = self.json_obj.get("static_site", {}).get("description", "-")
-        self.parsed_obj.static_site__meta_description = self.json_obj.get("static_site", {}).get("meta_description", None)
-        self.parsed_obj.static_site__custom_md_file = self.json_obj.get("static_site", {}).get("custom_md_file", "")
-        self.parsed_obj.static_site__document_status = self.json_obj.get("static_site", {}).get("document_status", "unk")
-        self.parsed_obj.static_site__alias_to = self.json_obj.get("static_site", {}).get("alias_to", None)
-        self.parsed_obj.static_site__pdf_viewer = self.json_obj.get("static_site", {}).get("pdf_viewer", "at_head")
+        self.parsed_obj.static_site.description.set_if_else(
+            self.json_obj.get("static_site", {}).get("description"),
+            lambda x: x is not None,
+            "-"
+        )
+        self.parsed_obj.static_site.meta_description.set_if(
+            self.json_obj.get("static_site", {}).get("meta_description"),
+            lambda x: x is not None
+        )
+        self.parsed_obj.static_site.custom_md_file.set_if_else(
+            self.json_obj.get("static_site", {}).get("custom_md_file"),
+            lambda x: x is not None,
+            ""
+        )
+        self.parsed_obj.static_site.document_status.set_if_else(
+            self.json_obj.get("static_site", {}).get("document_status"),
+            lambda x: x is not None,
+            "unk"
+        )
+        self.parsed_obj.static_site.alias_to.set_if(
+            self.json_obj.get("static_site", {}).get("alias_to"),
+            lambda x: x is not None
+        )
+        self.parsed_obj.static_site.pdf_viewer.set_if(
+            self.json_obj.get("static_site", {}).get("pdf_viewer"),
+            lambda x: x is not None
+        )
 
         # "static_site" > "primary_button" keys
-        self.parsed_obj.static_site__primary_button__disabled = self.json_obj.get("static_site", {}).get("primary_button", {}).get("disabled", False)
-        self.parsed_obj.static_site__primary_button__text = self.json_obj.get("static_site", {}).get("primary_button", {}).get("text", "Download")
-        self.parsed_obj.static_site__primary_button__icon = self.json_obj.get("static_site", {}).get("primary_button", {}).get("icon", "material-download")
-        self.parsed_obj.static_site__primary_button__href = self.json_obj.get("static_site", {}).get("primary_button", {}).get("href", f"https://hku.jacobshing.com/files/{self.parsed_obj.name}/{self.parsed_obj.output_file}")
+        self.parsed_obj.static_site.primary_button.disabled.set_if(
+            self.json_obj.get("static_site", {}).get("primary_button", {}).get("disabled"),
+            lambda x: x is not None
+        )
+        self.parsed_obj.static_site.primary_button.text.set_if_else(
+            self.json_obj.get("static_site", {}).get("primary_button", {}).get("text"),
+            lambda x: x is not None,
+            "Download"
+        )
+        self.parsed_obj.static_site.primary_button.icon.set_if_else(
+            self.json_obj.get("static_site", {}).get("primary_button", {}).get("icon"),
+            lambda x: x is not None,
+            "material-download"
+        )
+        self.parsed_obj.static_site.primary_button.href.set_if_else(
+            self.json_obj.get("static_site", {}).get("primary_button", {}).get("href"),
+            lambda x: x is not None,
+            f"https://hku.jacobshing.com/files/{self.parsed_obj.name.get()}/{self.parsed_obj.output_file.get()}"
+        )
 
         # "static_site" > "secondary_button" keys
-        self.parsed_obj.static_site__secondary_button__disabled = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("disabled", False)
-        self.parsed_obj.static_site__secondary_button__text = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("text", "View source")
-        self.parsed_obj.static_site__secondary_button__icon = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("icon", "material-github")
-        self.parsed_obj.static_site__secondary_button__href = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("href", self.parsed_obj.static_site__secondary_button__href)
+        self.parsed_obj.static_site.secondary_button.disabled.set_if(
+            self.json_obj.get("static_site", {}).get("secondary_button", {}).get("disabled"),
+            lambda x: x is not None
+        )
+        self.parsed_obj.static_site.secondary_button.text.set_if_else(
+            self.json_obj.get("static_site", {}).get("secondary_button", {}).get("text"),
+            lambda x: x is not None,
+            "View source"
+        )
+        self.parsed_obj.static_site.secondary_button.icon.set_if_else(
+            self.json_obj.get("static_site", {}).get("secondary_button", {}).get("icon"),
+            lambda x: x is not None,
+            "material-github"
+        )
+        self.parsed_obj.static_site.secondary_button.href.set_if_else(
+            self.json_obj.get("static_site", {}).get("secondary_button", {}).get("href"),
+            lambda x: x is not None,
+            f"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{self.parsed_obj.name.get()}"
+        )
 
         # "authors" keys
-        self.parsed_obj.authors = self.json_obj.get("authors", ["jacob_shing"])
+        self.parsed_obj.authors.set_if_else(
+            self.json_obj.get("authors"),
+            lambda x: x is not None,
+            ["jacob_shing"]
+        )
 
         return self.parsed_obj
