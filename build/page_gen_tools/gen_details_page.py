@@ -1,6 +1,6 @@
 from ..mttools import Metadata
 
-def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dict[str, list[str]]], out_dir: str | None = None):
+def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dict[str, list[str]]]):
     print(f"Generating details page for target: {target}")
 
     if metadata.computed__is_alias():
@@ -9,8 +9,7 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     
     # Prepare output file path
     import os
-    out_dir = out_dir or "./site/docs/downloads/details"
-    out_file = os.path.join(out_dir, f"{target}.md")
+    out_file = f"./site/docs/downloads/details/{target}.md"
     f = open(out_file, "w", encoding="utf-8")
     print(f"Writing details page to: {out_file}")
 
@@ -81,7 +80,7 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
 
     # Write customised content
     parsed_content = __read_and_process_custom_md(
-        os.path.join("./src", target, metadata.static_site__custom_md_file),
+        f"./src/{target}/{metadata.static_site__custom_md_file}",
         pdf_viewer_html,
         metadata.static_site__pdf_viewer
     )
@@ -166,7 +165,7 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
             from ..mttools import Reader
             see_also_targets = [
                 t for t in see_also_targets
-                if not Reader(os.path.join("./src", t, "metadata.json"), t).parse().computed__is_alias()
+                if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()
             ]
     
     # then fill up with other targets if needed
@@ -182,7 +181,7 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
         from ..mttools import Reader
         additional_targets = [
             t for t in additional_targets
-            if not Reader(os.path.join("./src", t, "metadata.json"), t).parse().computed__is_alias()
+            if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()
         ]
         import random
         random.shuffle(additional_targets)
@@ -194,7 +193,7 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
     # write see also cards
     f.write('<div class="grid cards" markdown>\n\n')
     for t in see_also_targets:
-        metadata = Reader(os.path.join("./src", t, "metadata.json"), t).parse()
+        metadata = Reader(f"./src/{t}/metadata.json", t).parse()
         f.write(__generate_see_also_card(t, metadata))
     f.write('</div>\n\n')
     

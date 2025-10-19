@@ -21,21 +21,17 @@ def start(targets: list[str], out_dir: str | None = None):
     from .gen_details_page import gen_details_page
     from ..mttools import Reader, Metadata
     for target in targets:
-        metadata: Metadata = Reader(os.path.join("./src", target, "metadata.json"), target).parse()
+        metadata: Metadata = Reader(f"./src/{target}/metadata.json", target).parse()
         gen_details_page(target, metadata, targets_dict)
 
         # post-page-generation file handling
-        if os.path.exists(os.path.join(
-            "./src",
-            target,
-            ".COPY"
-        )):
+        if os.path.exists(f"./src/{target}/.COPY"):
             import shutil
             print(f"Copying .COPY files for target: {target}")
-            os.makedirs(os.path.join("./site/docs/downloads", target), exist_ok=True)
+            os.makedirs(f"./site/docs/downloads/{target}", exist_ok=True)
             shutil.copytree(
-                os.path.join("./src", target, ".COPY"),
-                os.path.join("./site/docs/downloads", target),
+                f"./src/{target}/.COPY",
+                f"./site/docs/downloads/{target}",
                 dirs_exist_ok=True,
                 copy_function=shutil.copy2,
                 symlinks=False
