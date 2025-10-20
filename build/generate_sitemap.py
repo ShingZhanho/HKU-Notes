@@ -86,7 +86,7 @@ def main():
         # traverse through ./site/docs/downloads/details/{target}~preview/
         preview_dir = f"./site/docs/downloads/details/{target}~preview/"
         for img_file in [f for f in os.listdir(preview_dir) if f.endswith('.png')]:
-            img_path = f"/docs/downloads/details/{target}~preview/{img_file}"
+            img_path = f"/downloads/details/{target}~preview/{img_file}"
             begin_url(img_sitemap, img_path)
             counter += 1
             write_lastmod_and_changefreq(img_sitemap, lastmod)
