@@ -197,3 +197,48 @@ Below are some useful properties of binomial coefficients:
         were played from the $(j+1)$-th day to the $i$-th day.
     \end{proof}
 \end{example}
+
+\subsection{Fundamental Probability}
+
+\begin{definition}[Probability Distribution]
+    Let $S$ be a finite set, or we call the \textbf{sample space}.
+    A \textbf{probability distribution} on $S$ is a function
+    $p:S\to[0,1]$ that maps each \textbf{outcome} $x\in S$ to its probability $p(x)$, such that
+    it satisfies:
+    \[
+        \sum_{x\in S} p(x) = 1
+    \]
+\end{definition}
+
+\begin{definition}[Probability of Subsets]
+    Let $p:S\to[0,1]$ be a probability distribution on $S$, and let $A\subseteq S$ be a subset of $S$.
+    $A$ is also called an \textbf{event}. The \textbf{probability} of the event $A$ is defined as
+    \[
+        P(A) = \sum_{x\in A} p(x)
+    \]
+\end{definition}
+
+\begin{remark}
+    We have the following facts: \begin{enumerate*}[label=(\arabic*)]
+        \item $P(\emptyset) = 0$ and $P(S) = 1$;
+        \item $P(\set{x}) = p(x)$;
+        \item $A\subseteq S \Rightarrow P(A)\leq P(S)$;
+    \end{enumerate*}
+\end{remark}
+
+\begin{definition}[Uniform Probability Distribution]
+    Let $S$ be a finite sample space. The \textbf{uniform probability distribution} on $S$ is defined as
+    \[
+        p(x) = \frac{1}{\card{S}},\quad \forall x\in S
+    \]
+\end{definition}
+
+Note that we have $\forall A\subseteq S: P(A) = \frac{\card{A}}{\card{S}}$.
+Under uniform probability distribution, to compute the probability of an event,
+it is equivalent to counting.
+
+\begin{definition}[Equal Probability Assumption]
+    Let $S$ be a finite sample space, in the absence of any additional information,
+    we assume that all outcomes in $S$ are equally likely. This is called the
+    \textbf{equal probability assumption}.
+\end{definition}
