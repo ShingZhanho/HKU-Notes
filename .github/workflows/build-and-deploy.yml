@@ -7,9 +7,7 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
+      - 'targets/**'
 jobs:
 
   configure-matrix:
@@ -18,7 +16,7 @@ jobs:
       set-matrix: ${{ steps.parse-build-targets.outputs.set-matrix }}
     if: ${{ !contains(github.event.head_commit.message, '@nobuild') }}
     env:
-      PR_BRANCH_NAME: ""
+      TARGET_BRANCH_NAME: ""
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,12 +24,12 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - name: Get PR branch name (if on PR)
-        if: ${{ github.event_name == 'pull_request' }}
-        run: echo "PR_BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+      - name: Get target branch name (if on targets/* branch)
+        if: ${{ startsWith(github.ref, 'refs/heads/targets/') }}
+        run: echo "TARGET_BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
       - name: Parse build-targets.txt
         id: parse-build-targets
-        run: python ./build/resolve_targets.py ${{ env.PR_BRANCH_NAME }} >> $GITHUB_OUTPUT
+        run: python ./build/resolve_targets.py ${{ env.TARGET_BRANCH_NAME }} >> $GITHUB_OUTPUT
 
   build-target:
     runs-on: ubuntu-22.04 # Jammy
@@ -365,12 +363,12 @@ jobs:
 
   test-deploy-scripts:
     # +---
-    # | This job is identical to deploy-pages, but is only run for PR validation.
+    # | This job is identical to deploy-pages, but is only run for branch validation.
     # | No actual deployment occurs in this job.
     # +---
     runs-on: ubuntu-22.04 # Jammy
     needs: build-target
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ startsWith(github.ref, 'refs/heads/targets/') }}
     env:
       DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
     steps:

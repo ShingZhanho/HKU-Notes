@@ -3,9 +3,9 @@
 # resolve-targets.py
 # A script for resolving LaTeX build targets for GitHub Actions integration.
 # Read build-targets.txt for syntax.
-# If a PR branch name is provided as an argument, only the target matching the PR branch name will be output.
+# If a target branch name is provided as an argument, only the target matching the branch name will be output.
 # If no matching target is found, return as if no branch name was provided.
-#     Note: for this to work, the PR branch name must be in the format of targets/{target_name}/*
+#     Note: for this to work, the branch name must be in the format of targets/{target_name}/*
 
 import sys
 import re
@@ -28,17 +28,17 @@ def main():
     # Flatten the tree into a list
     targets_list = flatten_tree(targets_tree)
 
-    # Check for PR branch name argument
-    pr_branch_name = None
+    # Check for target branch name argument
+    target_branch_name = None
     if len(sys.argv) > 1:
-        pr_branch_name = sys.argv[1]
+        target_branch_name = sys.argv[1]
     MATCH_PATTERN = r"^targets\/([^\/]+)\/.*$"
     matched_target = None
-    match = re.match(MATCH_PATTERN, pr_branch_name) if pr_branch_name else None
+    match = re.match(MATCH_PATTERN, target_branch_name) if target_branch_name else None
     if match:
-        pr_target_name = match.group(1)
-        if pr_target_name in targets_list:
-            matched_target = pr_target_name
+        target_name = match.group(1)
+        if target_name in targets_list:
+            matched_target = target_name
 
     if matched_target:
         targets_list = [matched_target]
