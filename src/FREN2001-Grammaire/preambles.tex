@@ -1,0 +1,48 @@
+\geometry{a4paper, top=0.5in,bottom=0.2in, left=0.5in, right=0.5in}
+\tcbuselibrary{skins, breakable}
+
+\newtcolorbox{frbox}[2][cyan]{%
+    enhanced,breakable,
+    colback=#1!5!white,colframe=#1,
+    colbacktitle=#1!80!black,
+    fonttitle=\sffamily\bfseries,
+    title={#2},
+    attach boxed title to top left = {yshift = -3mm, xshift = 5mm},
+}
+
+\NewDocumentEnvironment{frwarn}{+b}{%
+    \par\vspace{0.5em}\noindent\hfill
+    \begin{minipage}{0.5\textwidth}
+    \begin{tcolorbox}[
+        enhanced,breakable,
+        colback=yellow!10!white,colframe=orange!80!red,
+        colbacktitle=orange!80!black,
+        fonttitle=\sffamily\bfseries,
+        title={Attention !},
+        attach boxed title to top left = {yshift = -3mm, xshift = 5mm},
+    ]
+    #1
+    \end{tcolorbox}
+    \end{minipage}
+    \par\vspace{0.5em}
+}{}
+
+\newtcbox{\hl}[1][cyan]{
+    on line,
+    arc=0pt,
+    outer arc=0pt,
+    colback=#1!5!white,
+    colframe=#1!5!white,
+    boxsep=0pt,
+    left=0pt,
+    right=0pt,
+    top=2pt,
+    bottom=2pt,
+    boxrule=0pt,
+    toprule=1pt,
+    bottomrule=1pt,
+    colframe=#1,
+    tcbox raise base,
+}
+
+\newcommand{\conjugelem}[1]{\textit{\bfseries\sffamily #1}}
