@@ -155,32 +155,26 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
 
     # first select targets with the same course code
     course_code = ""
-    if len(target) >= 8 and target[:5].isalpha() and target[5:9].isdigit():
-        course_code = target[:9]
+    if len(target) >= 9 and target[:4].isalpha() and target[4:8].isdigit():
+        course_code = target[:8]
         alphabet = course_code[0]
         if alphabet in all_targets and course_code in all_targets[alphabet]:
-            see_also_targets = [t for t in all_targets[alphabet][course_code] if t != target]
-            # filter out alias targets
             see_also_targets = [
-                t for t in see_also_targets
-                if not Reader(f"./src/{t}/metadata.json", t).parse().computed__is_alias()
+                t for t in all_targets[alphabet][course_code]
+                if t != target and not Reader(f"./src/{t}/metadata.json", t).parse().computed.is_alias.get()
             ]
     
     # then fill up with other targets if needed
     if len(see_also_targets) < 6:
         additional_targets = []
+        selected_set = set(see_also_targets + [target])
         for alpha in all_targets.keys():
             for course in all_targets.get(alpha).keys():
                 for t in all_targets.get(alpha).get(course):
-                    if t != target and t not in see_also_targets:
+                    if t not in selected_set and not Reader(f"./src/{t}/metadata.json", t).parse().computed.is_alias.get():
                         additional_targets.append(t)
-        # filter out alias targets
-        additional_targets = [
-            t for t in additional_targets
-            if not Reader(f"./src/{t}/metadata.json", t).parse().computed.is_alias.get()
-        ]
         random.shuffle(additional_targets)
-        see_also_targets.extend(additional_targets)
+        see_also_targets.extend(additional_targets[:6 - len(see_also_targets)])
     
     # truncate to 6 targets
     see_also_targets = see_also_targets[:6]
