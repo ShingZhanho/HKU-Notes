@@ -60,6 +60,9 @@ CCGL9042-Question-Bank
 # CCCH9044 - Dunhuang and the Silk Road
 CCCH9044-Individual-Essay
 
+# FREN2001 - French II.1
+FREN2001-Grammaire
+
 # MATH1853 - Linear Algebra, Probability and Statistics
 MATH1853-
 	Assignment-
