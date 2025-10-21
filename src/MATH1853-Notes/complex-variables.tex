@@ -1,0 +1,60 @@
+\section{Complex Variables}
+
+\begin{definition}[Complex Number]
+    The set of \textbf{complex numbers} is defined as
+    \[
+        \C = \set{a+b\iu\mid a,b\in\R, \iu^2=-1}
+    \]
+    Further, for $z=a+b\iu\in\C$, we refer to $a$ as the \textbf{real part} of $z$, denoted $\Re(z)$,
+    and $b$ as the \textbf{imaginary part} of $z$, denoted $\Im(z)$.
+\end{definition}
+
+\begin{definition}[Complex Operations]
+    $\C$ is a field under the certain operations. For $z=a+b\iu, w=c+d\iu\in\C$,
+    we define:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{lll}
+            \textbf{Name} & \textbf{Notation} & \textbf{Definition} \\
+            \hline
+            Addition & $z+w$ & $(a+c) + (b+d)\iu$ \\
+            Subtraction & $z-w$ & $(a-c) + (b-d)\iu$ \\
+            Multiplication & $zw$ & $(ac - bd) + (ad + bc)\iu$ \\
+            Division & $\displaystyle\frac{z}{w}$, ($w\neq 0$) & $\displaystyle\frac{ac + bd}{c^2 + d^2} + \frac{bc - ad}{c^2 + d^2}\iu$ \\
+            Conjugate & $\conj{z}$ & $a - b\iu$\\
+            Modulus & $|z|$ & $\sqrt{a^2 + b^2}$
+        \end{tabular}
+    \end{table}
+\end{definition}
+
+\begin{theorem}[Triangle Inequality]
+    For any $z,w\in\C$, we have
+    \[
+        |z+w| \leq |z| + |w|
+    \]
+    \begin{proof}
+        \begin{align*}
+            |z+w|^2 &= (z+w)\conj{(z+w)} \\
+            &= z\conj{z} + w\conj{w} + z\conj{w} + \conj{z}w \\
+            &= |z|^2 + |w|^2 + z\conj{w} + \conj{z\conj{w}} \\
+            &= |z|^2 + |w|^2 + 2\Re(z\conj{w}) \qquad (\text{by }\Re(z) = \frac{z+\conj{z}}{2}) \\
+            &\leq |z|^2 + |w|^2 + 2|z\conj{w}| \qquad (\sqrt{\Re(z)^2+\Im(z)^2}\geq \Re(z)) \\
+            &= |z|^2 + |w|^2 + 2|z||w| \\
+            &= (|z| + |w|)^2
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+\begin{definition}[Polar Form of a Complex Number]
+    For any $z=a+b\iu\in\C$, we can express $z$ in \textbf{polar form} as
+    \[
+        z = r(\cos\theta + \iu\sin\theta)
+    \]
+    where $r=|z|=\sqrt{a^2+b^2}$ is the \textbf{modulus} of $z$,
+    and $\theta=\arg(z)=\arctan\frac{b}{a}$ is the \textbf{argument} of $z$.
+\end{definition}
+
+\begin{remark}
+    In MATH1853, we limit $\theta$ to be the principal argument, i.e.,
+    $\arg(z)\in[0,2\pi)\text{ or }(-\pi,\pi]$.
+\end{remark}
