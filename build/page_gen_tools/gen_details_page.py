@@ -118,7 +118,7 @@ def __generate_button_md(primary: bool, text: str, href: str, icon: str | None =
     
 def __read_and_process_custom_md(file_path: str, pdf_viewer_html: str, pdf_viewer_mode: str) -> str:
     if file_path == "" or file_path is None:
-        return ["\n\n", pdf_viewer_html, "\n\n"]
+        return "".join(["\n\n", pdf_viewer_html, "\n\n"])
     
     lines: list[str] = []
     flag_pdf_tag_found = False
