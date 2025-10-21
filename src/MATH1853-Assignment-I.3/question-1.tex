@@ -1,0 +1,148 @@
+\question Given the matrix
+$A=\begin{pmatrix}
+    3 & 2 \\
+    -1 & 0
+\end{pmatrix}$.
+
+\begin{parts}
+    \part Find itw two eigenpairs with the eigenvectors normalized to unit vectors;
+    \begin{solution}
+        \begin{align*}
+            \begin{vmatrix}
+                3-\lambda & 2 \\
+                -1 & -\lambda
+            \end{vmatrix} &= 0 \\
+            (3-\lambda)(-\lambda) - (-2) &= 0 \\
+            \lambda^2 - 3\lambda + 2 &= 0 \\
+            (\lambda - 1)(\lambda - 2) &= 0 \\
+            \lambda_1 &= 1, \lambda_2 = 2
+        \end{align*}
+        \begin{multicols}{2}
+            For $\lambda_1 = 1$,
+            \begin{align*}
+                \begin{augmatrix}{2}{\left[}{\right]}
+                    2 & 2 & 0 \\
+                    -1 & -1 & 0
+                \end{augmatrix}
+                &\xrightarrow[R_2+\dfrac{1}{2}R_1]{\dfrac{1}{2}R_1}
+                \begin{augmatrix}{2}{\left[}{\right]}
+                    1 & 1 & 0 \\
+                    0 & 0 & 0
+                \end{augmatrix}
+            \end{align*}
+            Then, $x_2$ is free, and the eigenvector is
+            \[
+                \bvec{v_1} = x_2\begin{pmatrix}
+                    -1 \\ 1
+                \end{pmatrix}, x_2 \neq 0.
+            \]
+            For convenience, we pick $x_2 = 1$, and normalize the eigenvector:
+            \[
+                \bvec{\widehat{v}_1} = \frac{1}{\sqrt{2}}\begin{pmatrix}
+                    -1 \\ 1
+                \end{pmatrix}.
+            \]
+            \columnbreak
+
+            For $\lambda_2 = 2$,
+            \begin{align*}
+                \begin{augmatrix}{2}{\left[}{\right]}   
+                    1 & 2 & 0 \\
+                    -1 & -2 & 0
+                \end{augmatrix}
+                &\xrightarrow{R_2 + R_1}
+                \begin{augmatrix}{2}{\left[}{\right]}
+                    1 & 2 & 0 \\
+                    0 & 0 & 0
+                \end{augmatrix}
+            \end{align*}
+            Then, $x_2$ is free, and the eigenvector is
+            \[
+                \bvec{v_2} = x_2\begin{pmatrix}
+                    -2 \\ 1
+                \end{pmatrix}, x_2 \neq 0.
+            \]
+            For convenience, we pick $x_2 = 1$, and normalize the eigenvector:
+            \[
+                \bvec{\widehat{v}_2} = \frac{1}{\sqrt{5}}\begin{pmatrix}
+                    -2 \\ 1
+                \end{pmatrix}.
+            \]
+            \columnbreak
+        \end{multicols}
+
+        Therefore, the two eigenpairs are
+        \[
+            \boxed{(\lambda_1, \bvec{\widehat{v}_1}) = \left(1, \frac{1}{\sqrt{2}}\begin{pmatrix}
+                -1 \\ 1
+            \end{pmatrix}\right), \quad
+            (\lambda_2, \bvec{\widehat{v}_2}) = \left(2, \frac{1}{\sqrt{5}}\begin{pmatrix}
+                -2 \\ 1
+            \end{pmatrix}\right).}
+        \]
+    \end{solution}
+
+    \part Hence, or otherwise, compute $A^{10}$;
+    \begin{solution}
+        For $D = \begin{pmatrix}
+            \bvec{v_1} & \bvec{v_2}
+        \end{pmatrix} = \begin{pmatrix}
+            -1 & -2 \\
+            1 & 1
+        \end{pmatrix}$, and $D = \begin{pmatrix}
+            \lambda_1 & 0 \\
+            0 & \lambda_2
+        \end{pmatrix} = \begin{pmatrix}
+            1 & 0 \\
+            0 & 2
+        \end{pmatrix}$,
+        by diagonalisation, we have
+        \[
+            A = VDV^{-1} = \begin{pmatrix}
+                -1 & -2 \\
+                1 & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                1 & 0 \\
+                0 & 2
+            \end{pmatrix}
+            \begin{pmatrix}
+                -1 & -2 \\
+                1 & 1
+            \end{pmatrix}^{-1}.
+        \]
+        Then,
+        \[
+            A^{10} = VD^{10}V^{-1} = \begin{pmatrix}
+                -1 & -2 \\
+                1 & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                1^{10} & 0 \\
+                0 & 2^{10}
+            \end{pmatrix}
+            \begin{pmatrix}
+                1 & 2 \\
+                -1 & -1
+            \end{pmatrix}
+        \]
+        Calculating, we get
+        \[
+            A^{10} = \boxed{\begin{pmatrix}
+                2047 & 2046 \\
+                -1023 & -1022
+            \end{pmatrix}}.
+        \]
+    \end{solution}
+
+    \part Express the dominant direction of $A^{100}\bvec{v}$ in a unit vector (where $\bvec{v}$ is a random vector).
+    \begin{solution}
+        Since $\left|\lambda_2\right| > \left|\lambda_1\right|$, the dominant direction of $A^{100}\bvec{v}$ 
+        is along the eigenvector $\bvec{v_2}$. Therefore, the normalised dominant direction is
+        \[
+            \boxed{\begin{pmatrix}
+                -\frac{2}{\sqrt{5}} \\[6pt] \frac{1}{\sqrt{5}}
+            \end{pmatrix}}
+        \]
+    \end{solution}
+\end{parts}

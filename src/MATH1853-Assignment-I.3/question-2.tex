@@ -1,0 +1,81 @@
+\question The vector $\bvec{v}=\begin{pmatrix}
+    1 \\ -1 \\ 1
+\end{pmatrix}$ is an eigenvector of the matrix $A=\begin{pmatrix}
+    1 & -1 & k \\
+    1 & 3 & 0 \\
+    1 & 1 & 2
+\end{pmatrix}$.
+
+\begin{parts}
+    \part Find the value of the constant $k$ and the corresponding eigenvalue $\lambda$.
+        \begin{solution}
+            Since $\bvec{v}$ is an eigenvector, we have $A\bvec{v} = \lambda\bvec{v}$.
+            \begin{align*}
+                A\bvec{v} &= \begin{pmatrix}
+                    1 & -1 & k \\
+                    1 & 3 & 0 \\
+                    1 & 1 & 2
+                \end{pmatrix}\begin{pmatrix}
+                    1 \\ -1 \\ 1
+                \end{pmatrix} = \begin{pmatrix}
+                    2+k \\ -2 \\ 2
+                \end{pmatrix}
+            \end{align*}
+            For this to equal $\lambda\bvec{v} = \begin{pmatrix}
+                \lambda \\ -\lambda \\ \lambda
+            \end{pmatrix}$, we need:
+            \begin{align}
+                2+k &= \lambda \\
+                -2 &= -\lambda \\
+                2 &= \lambda
+            \end{align}
+            From the second and third equations, $\lambda = 2$.
+            Substituting into the first equation: $2+k = 2$, so $\boxed{k = 0}$.
+        \end{solution}
+        
+        \part What are all the eigenvalues of $A$?
+        \begin{solution}
+            With $k=0$, we have $A = \begin{pmatrix}
+                1 & -1 & 0 \\
+                1 & 3 & 0 \\
+                1 & 1 & 2
+            \end{pmatrix}$.
+            The characteristic polynomial is:
+            \begin{align*}
+                \det(A - \lambda I) &= \det\begin{pmatrix}
+                    1-\lambda & -1 & 0 \\
+                    1 & 3-\lambda & 0 \\
+                    1 & 1 & 2-\lambda
+                \end{pmatrix} \\
+                &= (2-\lambda)\det\begin{pmatrix}
+                    1-\lambda & -1 \\
+                    1 & 3-\lambda
+                \end{pmatrix} \\
+                &= (2-\lambda)[(1-\lambda)(3-\lambda) + 1] \\
+                &= (2-\lambda)(\lambda^2 - 4\lambda + 4) \\
+                &= (2-\lambda)(\lambda - 2)^2 = 0
+            \end{align*}
+            The eigenvalues are \fbox{$\lambda = 2$ (with algebraic multiplicity 3)}.
+        \end{solution}
+        
+        \newpage
+        \part Is $A$ diagonalisable?
+        \begin{solution}
+            Since $\lambda = 2$ is the only eigenvalue with algebraic multiplicity 3,
+            $A$ is diagonalisable if and only if the geometric multiplicity of
+            $\lambda = 2$ is also 3, i.e., the dimension of the eigenspace is 3.
+            \begin{align*}
+                A - 2I = \begin{pmatrix}
+                    -1 & -1 & 0 \\
+                    1 & 1 & 0 \\
+                    1 & 1 & 0
+                \end{pmatrix} \xrightarrow{\text{RREF}} \begin{pmatrix}
+                    1 & 1 & 0 \\
+                    0 & 0 & 0 \\
+                    0 & 0 & 0
+                \end{pmatrix}
+            \end{align*}
+            The rank is 1, so dimension $= 3 - 1 = 2 < 3$.
+            Therefore, \fbox{$A$ is not diagonalisable}.
+        \end{solution}
+\end{parts}
