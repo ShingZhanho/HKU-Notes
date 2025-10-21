@@ -24,6 +24,7 @@
             Conjugate & $\conj{z}$ & $a - b\iu$\\
             Modulus & $|z|$ & $\sqrt{a^2 + b^2}$
         \end{tabular}
+        \caption{Operations on Complex Numbers}
     \end{table}
 \end{definition}
 
@@ -32,7 +33,7 @@
     \[
         |z+w| \leq |z| + |w|
     \]
-    \begin{proof}
+    \begin{proof} The proof is as follows:
         \begin{align*}
             |z+w|^2 &= (z+w)\conj{(z+w)} \\
             &= z\conj{z} + w\conj{w} + z\conj{w} + \conj{z}w \\
@@ -43,6 +44,25 @@
             &= (|z| + |w|)^2
         \end{align*}
     \end{proof}
+\end{theorem}
+\pagebreak
+
+\begin{theorem}[Properties of Conjugates and Moduli]
+    For any $z,w\in\C$, we have
+    \begin{enumerate}
+        \item \textbf{properties of conjugates:} \begin{enumerate}
+            \item $\conj{(z+w)} = \conj{z} + \conj{w}$
+            \item $\conj{(zw)} = \conj{z}\conj{w}$
+            \item $\conj{\left(\displaystyle\frac{z}{w}\right)} = \displaystyle\frac{\conj{z}}{\conj{w}}$, ($w\neq 0$)
+            \item $\conj{(\conj{z})} = z$ \qquad (\textbf{involution})
+        \end{enumerate}
+        \item \textbf{properties of moduli:} \begin{enumerate}
+            \item $|z| \geq 0$, and $|z|=0$ if and only if $z=0$
+            \item $|zw| = |z||w|$
+            \item $\displaystyle\left|\frac{z}{w}\right| = \frac{|z|}{|w|}$, ($w\neq 0$)
+            \item $|z|^n = |z^n|$
+        \end{enumerate}
+    \end{enumerate}
 \end{theorem}
 
 \begin{definition}[Polar Form of a Complex Number]
@@ -58,3 +78,60 @@
     In MATH1853, we limit $\theta$ to be the principal argument, i.e.,
     $\arg(z)\in[0,2\pi)\text{ or }(-\pi,\pi]$.
 \end{remark}
+
+\begin{definition}[Multiplication of Complex Numbers in Polar Form]
+    Let $z_1, z_2\in\C$, where $z_1 = r_1(\cos\theta_1 + \iu\sin\theta_1)$
+    and $z_2 = r_2(\cos\theta_2 + \iu\sin\theta_2)$.
+    Then, the multiplication of $z_1$ and $z_2$ is given by
+    \[
+        z_1z_2 = r_1r_2\left[\cos(\theta_1 + \theta_2) + \iu\sin(\theta_1 + \theta_2)\right]
+    \]
+\end{definition}
+
+\begin{theorem}[De Moivre's Theorem]
+    If $z = r(\cos\theta + \iu\sin\theta)\in\C$, $n\in\Z$, $r>0$, then
+    \[
+        z^n = r^n\left[\cos(n\theta) + \iu\sin(n\theta)\right]
+    \]
+\end{theorem}
+
+\begin{theorem}[Euler's Formula]
+    The formula states:
+    \[
+        e^{\iu\theta} = \cos\theta + \iu\sin\theta
+    \]
+\end{theorem}
+
+\begin{corollary}
+    The trigonometric functions can be expressed in terms of exponentials as follows:
+    \[
+        \cos\theta = \frac{e^{\iu\theta} + e^{-\iu\theta}}{2}, \quad
+        \sin\theta = \frac{e^{\iu\theta} - e^{-\iu\theta}}{2\iu}
+    \]
+\end{corollary}
+
+\begin{definition}[Exponential Form of a Complex Number]
+    For any $z=a+b\iu\in\C$, $z$ has the \textbf{exponential form}:
+    \[
+        z = re^{\iu\theta}
+    \]
+    where $r=|z|=\sqrt{a^2+b^2}$ and $\theta=\arg(z)=\arctan\frac{b}{a}$.
+\end{definition}
+
+\begin{theorem}[Properties of the Exponential Form]
+    For any $z, w\in\C$, we have the following properties:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{ll}
+            \textbf{Property} & \textbf{Rule} \\
+            \hline
+            Product & $e^z e^w=e^{z+w}$ \\
+            Quotient & $\displaystyle\frac{e^z}{e^w} = e^{z-w}$ \\
+            Power & $(e^z)^n = e^{nz}$ \\
+            De Moivre's & $(re^{\iu\theta})^n = r^n e^{\iu n\theta}$ \\
+            Conjugage & $\conj{e^z} = e^{\conj{z}}$ \\
+            Modulus & $|e^z| = e^{\Re(z)}$ \\
+            Argument & $\arg(e^z) = \Im(z)$
+        \end{tabular}
+    \end{table}
+\end{theorem}
