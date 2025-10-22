@@ -7,7 +7,7 @@
     colbacktitle=#1!80!black,
     fonttitle=\sffamily\bfseries,
     title={#2},
-    attach boxed title to top left = {yshift = -3mm, xshift = 5mm},
+    attach boxed title to top left = {yshift = -2mm, xshift = 5mm},
 }
 
 \NewDocumentEnvironment{frwarn}{+b}{%
@@ -19,7 +19,7 @@
         colbacktitle=orange!80!black,
         fonttitle=\sffamily\bfseries,
         title={Attention !},
-        attach boxed title to top left = {yshift = -3mm, xshift = 5mm},
+        attach boxed title to top left = {yshift = -2mm, xshift = 5mm},
     ]
     #1
     \end{tcolorbox}
@@ -46,3 +46,7 @@
 }
 
 \newcommand{\conjugelem}[1]{\textit{\bfseries\sffamily #1}}
+
+\newcommand{\multilinecell}[2][l]{
+    \begin{tabular}{@{}#1@{}}#2\end{tabular}
+}
