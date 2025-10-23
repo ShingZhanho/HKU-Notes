@@ -18,7 +18,7 @@
 
     \begin{parts}
         
-        \part[4] For the function $h_2:\Z\to\Z$, \[
+        \part[4] For the function $h:\Z\to\Z$, \[
             h(n)=\begin{cases}
                 \frac{1}{3}n,\quad&\text{if }n\text{ is divisible by 3},\\
                 3n,\quad&\text{if }n\text{ is not divisible by 3},
@@ -48,12 +48,12 @@
                 \fbox{Therefore, the range of $h$ is $\Z$.}
 
                 \item We can easily find a counterexample, e.g., $h(1)=h(9)=3$.
-                Thus, \fbox{$h_2$ is not injective}.
+                Thus, \fbox{$h$ is not injective}.
 
-                \item By sub-problem (1), we have shown that the range of $h_2$ is $\Z$,
-                which is the same as the codomain of $h_2$. By definition, \fbox{$h_2$ is surjective}.
+                \item By sub-problem (1), we have shown that the range of $h$ is $\Z$,
+                which is the same as the codomain of $h$. By definition, \fbox{$h$ is surjective}.
 
-                \item Since $h_2$ is not injective, by definition, \fbox{$h_2$ is not bijective}.
+                \item Since $h$ is not injective, by definition, \fbox{$h$ is not bijective}.
             \end{enumerate}
         \end{solution}
 
@@ -612,12 +612,61 @@
         \part[4] Given that 10\% of the data in the dataset is labelled as spam and 90\% is labelled
         as non-spam, and that the model's output satisfies the following conditions: \[
             P(\text{output}=\text{spam}\mid\text{label}=\text{spam})=0.8,\quad
-            P(\text{output}=\text{spam}\mid\text{label}=\text{non-spam})=0.9,
+            P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam})=0.9,
         \] determine the probability that the model's output matches the true label when the input is
         randomly selected from the dataset.
 
+        \begin{solution}
+            From the given information, we have $P(\text{label}=\text{spam})=0.1$ and
+            $P(\text{label}=\text{non-spam})=0.9$. We are required to find
+            $P(\text{correct prediction})=
+            P(\text{label}=\text{spam}\cap\text{output}=\text{spam}) +
+            P(\text{label}=\text{non-spam}\cap\text{output}=\text{non-spam})$.
+            
+            By the property of conditional probability, we have
+            \[
+                P(A\cap B) = P(A) P(B\mid A).
+            \]
+
+            Therefore,
+            \begin{align*}
+                P(\text{correct prediction}) &=
+                P(\text{label}=\text{spam}\cap\text{output}=\text{spam}) + P(\text{label}=\text{non-spam}\cap\text{output}=\text{non-spam}) \\
+                &= P(\text{label}=\text{spam}) P(\text{output}=\text{spam}\mid\text{label}=\text{spam}) \\
+                &\qquad+ P(\text{label}=\text{non-spam}) P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam}) \\
+                &= 0.1 \cdot 0.8 + 0.9 \cdot 0.9 \\
+                &= 0.08 + 0.81 \\
+                &= \boxed{0.89}
+            \end{align*}
+        \end{solution}
+
         \part[4] Continuing from part (\ref{part@8@1}), calculate the probability that the
         true label is spam given that the model predicts spam.
+
+        \begin{solution}
+            The required probability is $P(\text{label}=\text{spam}\mid\text{output}=\text{spam})$,
+            which is given by:
+            \begin{align*}
+                P(\text{label}=\text{spam}\mid\text{output}=\text{spam}) &=
+                \frac{P(\text{label}=\text{spam}\cap\text{output}=\text{spam})}{P(\text{output}=\text{spam})}\\
+                &=\frac{0.08}{P(\text{output}=\text{spam})}
+            \end{align*}
+
+            To find $P(\text{output}=\text{spam})$, we use the law of total probability:
+            \begin{align*}
+                P(\text{output}=\text{spam}) &=
+                P(\text{label}=\text{spam}) P(\text{output}=\text{spam}\mid\text{label}=\text{spam}) \\
+                &\qquad+ P(\text{label}=\text{non-spam}) P(\text{output}=\text{spam}\mid\text{label}=\text{non-spam}) \\
+                &= 0.1 \cdot 0.8 + 0.9 \cdot (1-P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam})) \\
+                &= 0.1 \cdot 0.8 + 0.9 \cdot 0.1 \\
+                &= 0.08 + 0.09 \\
+                &= 0.17
+            \end{align*}
+
+            Therefore, the required probability is $\frac{0.08}{0.17}=\boxed{\textstyle\frac{8}{17}}$.
+        \end{solution}
+
+        \newpage
 
         \part[4] Suppose the labels are manually provided by users, introducing noise in the dataset. 
         This means some emails have incorrect labels (i.e., the label has been flipped from spam to
@@ -625,14 +674,107 @@
         5\% of the emails have incorrect labels, determine the probability that the model categorizes
         a random email from the dataset correctly, regardless of whether the label is accurate.
 
+        \begin{solution}
+            We are given:
+            \[
+                P(\text{label}=\text{truth})=0.95,\quad
+                P(\text{label}\neq\text{truth})=0.05,
+            \]
+            and $P(\text{truth}=\text{spam})$ is now given by:
+            \begin{align*}
+                P(\text{label}=\text{spam}) &=
+                P(\text{truth}=\text{spam}\mid\text{label}=\text{truth}) P(\text{label}=\text{truth}) \\
+                &\qquad+ P(\text{truth}=\text{spam}\mid\text{label}\neq\text{truth}) P(\text{label}\neq\text{truth}) \\
+                0.1 &= P(\text{truth}=\text{spam})\cdot0.95 + (1-P(\text{truth}=\text{spam}))\cdot0.05 \\
+                0.05 &= 0.9 P(\text{truth}=\text{spam}) \\
+                P(\text{truth}=\text{spam}) &= \frac{1}{18}
+            \end{align*}
+            and $P(\text{truth}=\text{non-spam})=\frac{17}{18}$.
+
+            We need to find $P(\text{output}=\text{label})$. By the law of total probability, we have
+            \begin{align*}
+                P(\text{output}=\text{label}) &=
+                P(\text{output}=\text{label}\mid\text{label}=\text{truth}) P(\text{label}=\text{truth}) \\
+                &\qquad+ P(\text{output}=\text{label}\mid\text{label}\neq\text{truth}) P(\text{label}\neq\text{truth}) \\
+                &=\left[P(\text{output}=\text{spam}\mid\text{label}=\text{spam}) P(\text{truth}=\text{spam})\right.\\
+                &\qquad\qquad+ \left.P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam}) P(\text{truth}=\text{non-spam})\right]\cdot 0.95 \\
+                &\qquad+\left[P(\text{output}=\text{non-spam}\mid\text{label}=\text{spam}) P(\text{truth}=\text{spam})\right.\\
+                &\qquad\qquad+ \left.P(\text{output}=\text{spam}\mid\text{label}=\text{non-spam}) P(\text{truth}=\text{non-spam})\right] \cdot 0.05 \\
+                &=\left[0.8\cdot\frac{1}{18} + 0.9\cdot\frac{17}{18}\right]\cdot0.95 + \left[0.2\cdot\frac{1}{18} + 0.1\cdot\frac{17}{18}\right]\cdot0.05 \\
+                &=\frac{3059}{3600}+\frac{19}{3600} \\
+                &= \boxed{\frac{3078}{3600}=0.855}.
+            \end{align*}
+        \end{solution}
+
+        \newpage
+
         \part[4] There are $n$ passengers queuing to board a bus one by one.
         Each passenger has an assigned seat. However, the first passenger does not follow the seating
         arrangement and chooses a seat at random. Subsequently, each passenger takes their assigned
         seat if it is available; otherwise, they select a seat uniformly at random from the remaining
         unoccupied seats. Determine the probability that the last passenger sits in the assigned seat.
 
+        \begin{solution}
+            Denote $E^m_n$ as the event that the $n$-th passenger sits in the seat numbered $m$.
+            We are required to find $P(E^n_n)$.
+
+            Note that there are three cases:
+            \begin{itemize}
+                \item \textbf{Case 1 -- }$\bm{E^1_1}$: The first passenger chooses seat 1. In this case, all subsequent
+                passengers will find their assigned seats unoccupied and sit in them. Thus,
+                $P(E^n_n\mid E^1_1)=1$.
+
+                \item \textbf{Case 2 -- }$\bm{E^n_1}$: The first passenger chooses seat $n$. In this case,
+                the last passenger will find their assigned seat occupied and must choose to sit somewhere
+                else. Thus, $P(E^n_n\mid E^n_1)=0$.
+
+                \item \textbf{Case 3 -- }$\bm{E^x_1}$\textbf{, where }$\bm{x\in\set{2,3,4,\ldots,n-1}}$:
+                $P(E^x_1)=\frac{n-2}{n}$. Now, assume the 1st passenger chooses some seat, say seat $x_0$.
+                Then, passengers $2,3,\ldots,x_0-1$ will find their assigned seats unoccupied and sit in them.
+                When passenger $x_0$ boards the bus, the problem reduces to as if the $x_0$-th passenger
+                were the first to board the bus with $n-x_0+1$ seats remaining. The passenger, can either
+                sit in seat 1, allowing all subsequent passengers to sit in their assigned seats,
+                or sit in seat $n$, so that the last passenger cannot sit in their assigned seat,
+                or sit in some other seat, until the problem reduces to only two passengers remaining.
+                That is, the $(n-1)$-th passenger either sits in seat 1 or seat $n$.
+                Therefore, we have $P(E^n_n\mid E^x_1)=P(E^{n-x+1}_{n-x+1})=\frac{1}{2}$.
+            \end{itemize}
+
+            Therefore, by the law of total probability, we have
+            \begin{align*}
+                P(E^n_n) &= P(E^n_n\mid E^1_1) P(E^1_1) + P(E^n_n\mid E^n_1) P(E^n_1) + P(E^n_n\mid E^x_1) P(E^x_1) \\
+                &= 1\cdot\frac{1}{n} + 0\cdot\frac{1}{n} + \frac{1}{2}\cdot\frac{n-2}{n} \\
+                &= \frac{1}{n} + \frac{n-2}{2n} \\
+                &= \frac{n}{2n} \\
+                &= \boxed{\frac{1}{2}}.
+            \end{align*}
+        \end{solution}
+
         \part[4] A family has two children. It is known that at least one of them is a girl born on
         a Monday. What is the probability that both children are girls?
+
+        \begin{solution}
+            Let $G=\set{M, F}$ be the set of genders, and 
+            $D=\set{\text{Mon}, \text{Tue}, \text{Wed}, \text{Thu}, \text{Fri}, \text{Sat}, \text{Sun}}$
+            be the set of days in a week. Then, the sample space $S$ is given by
+            $S=(G\times D)\times(G\times D)$ and $\card{S}=2\cdot7\cdot2\cdot7=196$.
+
+            Denote $A$ as the event that at least one girl was born on a Monday, and $B$ as the event
+            that both children are girls. We are required to find $P(B\mid A)$.
+
+            To find $\card{A}$, we consider the complement $\overline{A}$, which is that there is no
+            girl, or if there is a girl, she was not born on a Monday. For two children, there are
+            $13\cdot13=169$ such outcomes in total. Thus, $\card{A} = \card{S}-\card{\overline{A}} = 196-169=27$.
+
+            To find $\card{A\cap B}$, first consider $B$, whose cardinality is $\card{B}=7\cdot7=49$.
+            Then, count the number of outcomes in $B$ that none of the girls was born on a Monday.
+            There are $6\cdot6=36$ such outcomes. Thus, $\card{A\cap B} = \card{B}-36=49-36=13$.
+
+            Therefore, by conditional probability, we have
+            \[
+                P(B\mid A) = \frac{P(A\cap B)}{P(A)} = \boxed{\frac{13}{27}}.
+            \]
+        \end{solution}
 
     \end{parts}
 
