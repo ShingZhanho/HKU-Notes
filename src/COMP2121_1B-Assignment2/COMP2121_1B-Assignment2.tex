@@ -689,7 +689,7 @@
                 0.05 &= 0.9 P(\text{truth}=\text{spam}) \\
                 P(\text{truth}=\text{spam}) &= \frac{1}{18}
             \end{align*}
-            and $P(\text{truth}=\text{non-spam})=\frac{17}{18}$.
+            and $P(\text{truth}=\text{non-spam})=1-\displaystyle\frac{1}{18}=\frac{17}{18}$.
 
             We need to find $P(\text{output}=\text{label})$. By the law of total probability, we have
             \begin{align*}
@@ -697,12 +697,12 @@
                 P(\text{output}=\text{label}\mid\text{label}=\text{truth}) P(\text{label}=\text{truth}) \\
                 &\qquad+ P(\text{output}=\text{label}\mid\text{label}\neq\text{truth}) P(\text{label}\neq\text{truth}) \\
                 &=\left[P(\text{output}=\text{spam}\mid\text{label}=\text{spam}) P(\text{truth}=\text{spam})\right.\\
-                &\qquad\qquad+ \left.P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam}) P(\text{truth}=\text{non-spam})\right]\cdot 0.95 \\
-                &\qquad+\left[P(\text{output}=\text{non-spam}\mid\text{label}=\text{spam}) P(\text{truth}=\text{spam})\right.\\
-                &\qquad\qquad+ \left.P(\text{output}=\text{spam}\mid\text{label}=\text{non-spam}) P(\text{truth}=\text{non-spam})\right] \cdot 0.05 \\
-                &=\left[0.8\cdot\frac{1}{18} + 0.9\cdot\frac{17}{18}\right]\cdot0.95 + \left[0.2\cdot\frac{1}{18} + 0.1\cdot\frac{17}{18}\right]\cdot0.05 \\
-                &=\frac{3059}{3600}+\frac{19}{3600} \\
-                &= \boxed{\frac{3078}{3600}=0.855}.
+                        &\qquad\qquad+ \left.P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam}) P(\text{truth}=\text{non-spam})\right]\cdot 0.95 \\
+                    &\qquad+\left[P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam}) P(\text{truth}=\text{spam})\right.\\
+                        &\qquad\qquad+ \left.P(\text{output}=\text{spam}\mid\text{label}=\text{spam}) P(\text{truth}=\text{non-spam})\right] \cdot 0.05 \\
+                &=\left[0.8\cdot\frac{1}{18} + 0.9\cdot\frac{17}{18}\right]\cdot0.95 + \left[0.9\cdot\frac{1}{18} + 0.8\cdot\frac{17}{18}\right]\cdot0.05 \\
+                &=\frac{3059}{3600}+\frac{29}{720} \\
+                &= \boxed{\frac{89}{100}}.
             \end{align*}
         \end{solution}
 
