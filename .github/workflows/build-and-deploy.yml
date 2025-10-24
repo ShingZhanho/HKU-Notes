@@ -235,7 +235,7 @@ jobs:
 
       - name: Generate PDF preview png (for PDF targets) (cache miss)
         if: env.DYENV_IS_PDF == 'true' && env.DYENV_ABORT_WORKFLOW == 'false'
-        run: pdftoppm -png -r 200 -scale-to 650 -forcenum -progress ../${{ env.DYENV_OUTPUT_FILE }} ${{ matrix.target }}_preview
+        run: pdftoppm -png -r 150 -forcenum -progress ../${{ env.DYENV_OUTPUT_FILE }} ${{ matrix.target }}_preview
         working-directory: src/${{ matrix.target }}/~preview
 
       - name: Generate files for deployment (non-alias LaTeX targets)
