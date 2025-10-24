@@ -58,9 +58,3 @@ extra_javascript:
   - javascripts/splide.min.js
   - javascripts/splide_mount.js
 use_directory_urls: false
-plugins: 
-  - glightbox:
-      auto_themed: true
-      auto_caption: true
-      manual: true
-      height: 90vh
