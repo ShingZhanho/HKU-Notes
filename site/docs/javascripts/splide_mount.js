@@ -18,8 +18,6 @@ document$.subscribe(function() {
             drag: 'free',
             freeDrag: true,
             snap: false,
-            
-            lazyLoad: 'nearby',
 
             mediaQuery: 'max',
             breakpoints: {
