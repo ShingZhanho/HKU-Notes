@@ -50,7 +50,7 @@ class StaticSiteKeyNode(KeyNode):
         self.secondary_button: SecondaryButtonKeyNode = SecondaryButtonKeyNode(self)
 
 class PrimaryButtonKeyNode(KeyNode):
-    def __init__(self, parent_node: Metadata):
+    def __init__(self, parent_node: StaticSiteKeyNode):
         super().__init__(parent_node)
 
         # Keys
@@ -60,7 +60,7 @@ class PrimaryButtonKeyNode(KeyNode):
         self.href: StrValue = StrValue(None)
 
 class SecondaryButtonKeyNode(KeyNode):
-    def __init__(self, parent_node: Metadata):
+    def __init__(self, parent_node: StaticSiteKeyNode):
         super().__init__(parent_node)
 
         # Keys
