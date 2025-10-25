@@ -8,7 +8,7 @@
     \textbf
     {\Large{COMP2121 Discrete Mathematics} \\
     \large{25/26 Semester 1} \\
-    \large{Assignment 1}}\\
+    \large{Assignment 1 (Proposed Solutions)}}\\
     SHING, Zhan Ho Jacob \qquad 3036228892
 \end{center}
 
@@ -19,22 +19,29 @@
 
 \begin{questions}
     
-    \question English Statements and Logic
+    \question Let $C$ be the statement ``Lady Furina has clues'', $M$ be the statement ``Lady Furina has a motive'', $S$ be
+    the statement ``Lady Furina solves the case'' and $T$ be the statement ``The truth is revealed''.
 
     \begin{parts}
 
-        \part $(C \land \neg M) \limp \neg S$
+        \part Translate $(C \land \neg M) \limp \neg S$ into English.
         \begin{solution}
             The statement translates to ``If Lady Furina has clues and does not have motive,
             then she does not solve the case.''
         \end{solution}
 
-        \part Rewrite sentence:
+        \part Rewrite the following sentence using logical operators: ``The truth is revealed only if Lady Furina
+        solves the case and has clues.''
         \begin{solution}
             The required logical expression is $T \limp (S\land C)$.
         \end{solution}
 
-        \part Verify if an argument is valid:
+        \part Determine whether the argument
+        \begin{quote}
+            ``If Lady Furina solves the case, then she has clues. The truth is not revealed unless she
+            has clues. Therefore, if she solves the case, the truth is revealed.''
+        \end{quote}
+        is valid. Justify your answer. 
         \begin{solution}
             If we rewrite the argument in logical expressions, we have:
             \begin{enumerate}
@@ -61,18 +68,42 @@
 
     \end{parts}
 
-    \question A Logic Puzzle
+    \question In a town live three types of people: knights, who always tell the truth, knaves, who always lie, and spies,
+    who sometimes tell the truth and sometimes lie. You meet three individuals on the road and you know
+    one of them is a knight, one is a knave and one is a spy. However, the three persons are foreigners. They
+    can understand English, but they can only say in their own language, namely ``Ja'' and ``Da''. You know
+    they mean either ``yes'' or ``no'', but you don’t know which means ``yes'' and which means ``no''.
 
+    You ask A ``If I asked you if B is the spy, would you say Ja?'' A answers ``Ja''.
+
+    Then you ask C “If I asked you if you were the knave, would you say Ja?” C answers ``Ja''.
+
+    Finally, you ask C again ``If I asked you if A is the spy, would you say Ja?'' C answers ``Da''.
+
+    According to the above information, can you determine who is the knight, who is the knave and who is
+    the spy?
     \begin{solution}
-        \textit{The originally proposed solution was incorrect and is hence deleted.}
+        \textit{The originally proposed solution was incorrect and is hence deleted.
+        For copyright reasons, official solutions cannot be provided here.}
     \end{solution}
 
-    \question Logical Operators
+    \question You are an experienced engineer who wants to design a new computer. A computer is composed of many
+    logical gates, each implements a logical operator. Therefore, your task is to implement every logical
+    operator to realize universal computation. You ask your assistant to buy some chips that integrates
+    the basic logical gates inside, so that you can combine them to realize every possible logical operator.
+    Unfortunately, your assistant only bought you chips for \texttt{NAND} gate, which implements $\neg(A\land B)$ for
+    two arbitrary inputs $A$ and $B$. This troubles you a lot, because you’ll have to implement other logical
+    operators by yourself.
 
     \begin{parts}
         
-        \part Number of possible 2-to-1 logical operators for inputs $A, B\in\{0,1\}$
-        and output $C\in \{0,1\}$.
+        \part Since you want to realize universal computation, first you have to decide how many different logical
+        operators you have to implement. For example, a 1-to-1 logical operator takes a 1-bit binary number
+        $A \in\set{0, 1}$ as input and 1-bit binary number $B \in\set{0, 1}$ as output. There are four 1-to-1 logical
+        operators in total. Two examples are \texttt{IDENTITY} $(B= A)$ and \texttt{NOT} $(B= \neg A)$.
+        
+        A 2-to-1 logical operator takes two 1-bit binary numbers $A, B \in\set{0, 1}$as input and outputs $C \in
+        \set{0, 1}$. Determine the total number of possible 2-to-1 logical operators. 
         \begin{solution}
             Note that for two inputs $A$ and $B$, there are four possible combinations,
             i.e., $(A, B) \in \{(0,0), (0, 1), (1, 0), (1, 1)\}$. A logical operator
@@ -96,8 +127,11 @@
             Therefore, there are \fbox{\textbf{16}} possible 2-to-1 logical operators.
         \end{solution}
 
-        \part Implement \texttt{NOT}, \texttt{AND}, \texttt{OR}, \texttt{XOR}, and
-        \texttt{IMPLIES} using only the logical operator \texttt{NAND}. 
+        \part Even though there are many different logical operators, you found that you can implement all of
+        them using only \texttt{NAND} operators. Please implement \texttt{NOT}, \texttt{OR}, \texttt{AND}, \texttt{XOR}, \texttt{IMPLIES} operators
+        using \texttt{NAND} only. For simplicity, you may write, e.g., $\neg(A\land B)$ as $\texttt{NAND}(A, B)$.
+        
+        [Hint: here’s an example of using \texttt{NOR} to implement \texttt{NOT}: $\texttt{NOT}(A)\equiv \texttt{NOR}(A, A)$, since $(A\lor A) \equiv A$.]
         \begin{solution}
             \begin{itemize}
                 \item \textbf{\texttt{NOT} operator}
@@ -172,7 +206,7 @@
     \begin{parts}
         
         \part Rewrite expression
-        $\neg(\exists y\neg(\forall x(P(x)\land Q(y)))\limp\exists z R(z))$.
+        $\neg(\exists y\neg(\forall x(P(x)\land Q(y)))\limp\exists z R(z))$ so that all the negation signs immediately precedes predicates.
         \begin{solution}
             \begin{align*}
                 \neg[\exists y\neg\{\forall x[P(x)\land Q(y)]\}\limp\exists zR(z)]
@@ -185,7 +219,9 @@
             \end{align*}
         \end{solution}
 
-        \part Prove that $\forall xP(x)\land\exists xQ(x) \equiv \forall x \exists y (P(x)\land Q(y))$.
+        \part Consider the two predicates $P(x)$ and $Q(x)$ with the same universe of discourse.
+
+        Prove that $\forall xP(x)\land\exists xQ(x) \equiv \forall x \exists y (P(x)\land Q(y))$.
         \begin{psol}
             Rename the variable on the left-hand side, we have:
             $$\forall xP(x)\land\exists yQ(y) \equiv \forall x\exists y(P(x)\land Q(y))$$
@@ -242,7 +278,16 @@
 
     \begin{parts}
         
-        \part Determine the validity of a proof.
+        \part Consider the following proof that uses logical equivalence/implication:
+        \begin{align}
+            \forall x(\neg P(x)\limp Q(x))\land\forall y\neg Q(y)
+            &\equiv \forall x(P(x)\lor Q(x))\land\forall y\neg Q(y) \\
+            &\equiv \forall x[(P(x)\land Q(x))\lor\neg Q(x)] \\
+            &\equiv \forall x[P(x)\land\neg Q(x)] \\
+            &\Rightarrow \forall xP(x) \\
+            &\Rightarrow \exists xP(x).
+        \end{align}
+        Determine whether the proof is corrct.
         \begin{solution}
             Step 1: Valid. This is implication law ($P \limp Q \equiv \neg P \lor Q$).
 
@@ -266,7 +311,11 @@
             Therefore, the proof is sound and valid.
         \end{solution}
 
-        \part Proof by Induction.
+        \part Proof by induction that
+        \[
+            \sum_{k=1}^n \cos(kx) = \frac{1}{2}\left(\frac{\sin\left[\left(n+\frac{1}{2}\right)x\right]}{\sin\left(\frac{1}{2}x\right)}-1\right)
+        \]
+        holds for all integers $n\geq 1$.
         \begin{psol}
             Denote $P(n) : \ds{\sum_{k=1}^n \cos(kx) = \frac{1}{2}\left(\frac{\sin\left[\left(n+\frac{1}{2}\right)x\right]}{\sin\left(\frac{1}{2}x\right)}-1\right)}$.
 
@@ -302,7 +351,12 @@
             By the principle of mathematical induction, $P(n)$ holds for all $n\geq 1$.
         \end{psol}
 
-        \part Wining Strategy
+        \newpage
+
+        \part One day you are playing a card game with one friend. Suppose there are 191 cards in total. You
+        and your friend take turns to draw 1 to 5 cards once. The one who draws the last card will lose the
+        game. Suppose you always draw the cards first, and your friend is wise enough. Design a winning
+        strategy and proof that you can always win.
         \begin{solution}
             We may consider different cases at the end of the game. When 2 cards remain, and it
             is my turn to take cards, I can take 1, and the opponent is left with 1 card,
@@ -376,12 +430,20 @@
         \end{solution}
 
     \end{parts}
+    
+    \newpage 
 
     \question Basics on Sets
 
     \begin{parts}
         
-        \part Cardinality.
+        \part Determine the cardinality of the following sets:
+        \begin{enumerate}[label=(\roman*)]
+            \item $A = \set{\set{0, 1}, 2, 3, \mtset}$
+            \item The power set $\pwset{B}$ of $B = \set{1, 2, \mtset, |x|=2}$
+            \item The set $C=\set{x\in\N\mid x^2\leq 100}$ (Note that the set of natural numbers $\N$ includes zero).
+            \item The set $D = \set{x\text{ is a letter}\mid x\text{ does not appear in the word ``artificial''}}$.
+        \end{enumerate}
         \begin{solution}
             \begin{enumerate}[label=(\roman*)]
                 \item $\card{A} = \boxed{4}$
@@ -393,7 +455,12 @@
             \end{enumerate}
         \end{solution}
 
-        \part Set Operations.
+        \part For $A,B,C$ in part \ref{part@6@1}, determine the cardinalities of the following sets:
+        \begin{enumerate}[label=(\roman*)]
+            \item $A \cap B$
+            \item $B \cup (C\cap\mtset) - A$
+            \item $(A\cap B)\times(B\cap C)$
+        \end{enumerate}
         \begin{solution}
             \begin{enumerate}[label=(\roman*)]
                 \item $A \cap B = \set{2, \mtset} \Rightarrow \card{A\cap B} = \boxed{2}$.
@@ -416,13 +483,21 @@
 
     \end{parts}
 
+    \newpage
+
     \question Venn Diagrams
 
     \begin{parts}
         
-        \part Set in Figure 2.
+        \part Identify the set represented in the following figure:
+        \begin{center}
+            \begin{venndiagram3sets}
+                \fillACapC
+                \fillBCapC
+            \end{venndiagram3sets}
+        \end{center}
         \begin{solution}
-            The set represented in Figure 2 is $(A\cup B)\cap C$.
+            The set represented in the figure is $(A\cup B)\cap C$.
         \end{solution}
 
         \part Draw Venn diagram for $(A\cup B) - (\overline{A\cap C})$.
@@ -435,6 +510,8 @@
         \end{solution}
 
     \end{parts}
+
+    \newpage
 
     \question Set Theory and Logic
 
@@ -485,6 +562,8 @@
         \end{psol}
 
     \end{parts}
+
+    \newpage
 
     \question Relations
 
