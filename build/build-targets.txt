@@ -27,11 +27,18 @@
 # ENGG1300 - Fundamental Mechanics
 ENGG1300-Practical-Work-Report
 
+# ENGG1330 - Computer Programming I
+ENGG1330-Project
+
 # ENGG1340 - Computer Programming II
-ENGG1340-Cheatsheet
+ENGG1340-
+	Cheatsheet
+	Project
 
 # COMP2113 - Programming Technologies (an alias for ENGG1340)
-COMP2113-Cheatsheet
+COMP2113-
+	Cheatsheet
+	Project
 
 # COMP2120 - Computer Organisation
 COMP2120-
