@@ -63,8 +63,8 @@
         Determine by formulas the compositions $f\circ g$ and $g\circ g$.
         \[
             f(x)=(x+2)^2\quad\text{and}\quad g(x)=\begin{cases}
-                2x-6,\quad&\text{if }x\geq1,\\
-                -x-1,\quad&\text{if }x<1.
+                2x-6,&\text{if }x\geq1,\\
+                -x-1,&\text{if }x<1.
             \end{cases}
         \]
 
@@ -74,8 +74,8 @@
                 \[
                     (f\circ g)(x)=\boxed{
                         \begin{cases}
-                            (2x-4)^2,\quad&\text{if }x\geq1,\\
-                            (-x+1)^2,\quad&\text{if }x<1.
+                            (2x-4)^2,&\text{if }x\geq1,\\
+                            (-x+1)^2,&\text{if }x<1.
                         \end{cases}
                     }
                 \]
@@ -499,18 +499,33 @@
                                             -\card{A\cap B}-\card{A\cap C}-\card{B\cap C}
                                             +\card{A\cap B\cap C}$,
             substitue the given values, we have
-            \begin{align*}
-                m &= 3n-\card{A\cap B}-\card{A\cap C}-\card{B\cap C}+\card{A\cap B\cap C} \\
+            \begin{align}
+                m &= 3n-\card{A\cap B}-\card{A\cap C}-\card{B\cap C}+\card{A\cap B\cap C} \nonumber \label{eq:1}\\
                 \card{A\cap B\cap C} &= m-3n+\card{A\cap B}+\card{A\cap C}+\card{B\cap C}
+            \end{align}
+            
+            Since $\card{A\cup B}=\card{A}+\card{B}-\card{A\cap B}$,
+            and $\card{A\cup B}\leq\card{A\cup B\cup C}=m$,
+            we have
+            \begin{align*}
+                \card{A}+\card{B}-\card{A\cap B} &\leq m \\
+                2n-\card{A\cap B} &\leq m \\
+                \card{A\cap B} &\geq 2n - m
             \end{align*}
-            When $m$ and $n$ are constants, $\card{A\cap B\cap C}$ is minimum when $\card{A\cap B}
-            =\card{A\cap C}=\card{B\cap C}=0$.
-            In such case, $A$, $B$, and $C$ are mutually disjoint. Then, $m$ is simply:
-            \[
-                m=\card{A\cup B\cup C}=\card{A}+\card{B}+\card{C}=n+n+n=3n.
-            \]
-            Thus, $\boxed{\min \card{A\cup B\cup C} = m-3n = 3n-3n = 0}$.
+            Similarly, we find the lower bounds for $\card{A\cap C}$ and $\card{B\cap C}$
+            to also be $2n - m$.
+
+            Then, equation \eqref{eq:1} becomes
+            \begin{align*}
+                \card{A\cup B\cup C} &\geq m - 3n + 3(2n - m) \\
+                &= 3n - 2m
+            \end{align*}
+
+            Moreover, since $\card{A\cap B\cap C}\geq0$, we have that
+            $\min\card{A\cup B\cup C}=\boxed{\max(0,3n-2m)}$.
         \end{solution}
+
+        \newpage
 
         \part[6] Let $A$ be a set with $\card{A}=5$. Count the number of distinct
         \begin{enumerate*}[label=(\roman*)]
@@ -554,8 +569,6 @@
         \end{solution}
 
     \end{parts}
-
-    \newpage
 
     \question Pigeonhole Principle
 
