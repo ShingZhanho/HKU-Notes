@@ -18,8 +18,7 @@ def generate_pdf_viewer_html(target: str) -> str:
         sb.extend((
             '<div class="preview__item">',
             f'<img class="preview__image on-glb" src="./{target}~preview/{target}_preview-{pad_number(i, page_count)}.png" ',
-            f'alt="Page {i} of {target}" ',
-            f'data-title="Page {i} of {target}">',
+            f'alt="Page {i} of {target}">',
             f'<div class="preview__caption">Page {i} of {page_count}</div>',
             '</div>',
         ))
