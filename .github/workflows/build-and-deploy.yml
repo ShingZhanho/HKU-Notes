@@ -277,6 +277,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
+        # Deploy iff we are on master branch and the event is a push (not a PR)
     env:
       DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
     steps:
@@ -371,7 +372,8 @@ jobs:
     # +---
     runs-on: ubuntu-22.04 # Jammy
     needs: build-target
-    if: ${{ startsWith(github.ref, 'refs/heads/targets/') }}
+    if: ${{ github.ref != 'refs/heads/master' || github.event_name != 'push' }}
+        # Only run this job if we are NOT on master branch or the event is a PR (negation of deploy-pages job condition)
     env:
       DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
     steps:
