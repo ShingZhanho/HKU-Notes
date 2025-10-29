@@ -17,9 +17,8 @@ def get_urls_to_index() -> list[str]:
     try:
         with open("./gh-out/sitemap.xml", "r", encoding="utf-8") as f:
             while (line := f.readline()):
-                match = re.search(PATTERN, line)
-                if match:
-                    urls.append(match.group(1))
+                matches = re.findall(PATTERN, line)
+                urls.extend([m for m in matches if not m.endswith('.xml')])
     except FileNotFoundError:
         print("WARNING: Sitemap file not found at ./gh-out/sitemap.xml")
     except Exception as e:
@@ -124,6 +123,7 @@ def main():
             return 0
         
         print(f"Found {len(urls)} URLs to index.\n")
+        print(f"URLs to be indexed:\n\n{'\n'.join(urls)}")
 
         # Google Indexing API setup
         SCOPES = ["https://www.googleapis.com/auth/indexing"]
