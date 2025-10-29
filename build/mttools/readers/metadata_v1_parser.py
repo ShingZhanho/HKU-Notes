@@ -117,18 +117,30 @@ class MetadataV1Parser(MetadataParserBase):
         # V2 format no longer uses static_site.primary_button and static_site.secondary_button keys.
         # Instead, an object array static_site.buttons is used to define buttons.
         # Old format primary_button and secondary_button will be converted to buttons array here.
+        # NOTE: In V1, if no button configuration is provided, default buttons are created.
+        # This maintains backward compatibility with the old format.
 
         self.parsed_obj.static_site.buttons.set([])
 
         # "static_site" > "primary_button" keys
-        primary_disabled_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("disabled")
-        if isinstance(primary_disabled_val, bool) and not primary_disabled_val:
+        primary_button_obj = self.json_obj.get("static_site", {}).get("primary_button")
+        # In V1 format, if primary_button key doesn't exist, we treat it as enabled with defaults
+        # If it exists, we check the disabled field
+        if primary_button_obj is None:
+            # No configuration = create default button
+            primary_disabled_val = False
+            primary_button_obj = {}
+        else:
+            primary_disabled_val = primary_button_obj.get("disabled")
+        
+        # Create button if disabled is not True (i.e., if disabled is False or not present)
+        if primary_disabled_val is not True:
             primary_button = ButtonKeyNode(self.parsed_obj.static_site)
             primary_button.isPrimary.set(True)
             primary_button.index.set(0)
-            primary_text_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("text")
-            primary_icon_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("icon")
-            primary_href_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("href")
+            primary_text_val = primary_button_obj.get("text")
+            primary_icon_val = primary_button_obj.get("icon")
+            primary_href_val = primary_button_obj.get("href")
             primary_button.text.set_if_else(
                 primary_text_val,
                 lambda: primary_text_val is not None,
@@ -148,14 +160,24 @@ class MetadataV1Parser(MetadataParserBase):
             self.parsed_obj.static_site.buttons.append(primary_button)
 
         # "static_site" > "secondary_button" keys
-        secondary_disabled_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("disabled")
-        if isinstance(secondary_disabled_val, bool) and not secondary_disabled_val:
+        secondary_button_obj = self.json_obj.get("static_site", {}).get("secondary_button")
+        # In V1 format, if secondary_button key doesn't exist, we treat it as enabled with defaults
+        # If it exists, we check the disabled field
+        if secondary_button_obj is None:
+            # No configuration = create default button
+            secondary_disabled_val = False
+            secondary_button_obj = {}
+        else:
+            secondary_disabled_val = secondary_button_obj.get("disabled")
+        
+        # Create button if disabled is not True (i.e., if disabled is False or not present)
+        if secondary_disabled_val is not True:
             secondary_button = ButtonKeyNode(self.parsed_obj.static_site)
             secondary_button.isPrimary.set(False)
             secondary_button.index.set(1)
-            secondary_text_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("text")
-            secondary_icon_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("icon")
-            secondary_href_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("href")
+            secondary_text_val = secondary_button_obj.get("text")
+            secondary_icon_val = secondary_button_obj.get("icon")
+            secondary_href_val = secondary_button_obj.get("href")
             secondary_button.text.set_if_else(
                 secondary_text_val,
                 lambda: secondary_text_val is not None,
