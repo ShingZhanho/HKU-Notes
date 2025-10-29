@@ -1,15 +1,27 @@
 from .metadata_base_parser import MetadataParserBase
 from ..metadata import Metadata, ButtonKeyNode
+import jsonschema
 
-class MetadataV1Parser(MetadataParserBase):
+class MetadataV2Parser(MetadataParserBase):
     """
-    Parser for version 1 of the metadata file.
+    Parser for version 2 of the metadata file.
     """
     def __init__(self, metadata_file, build_target):
         """
         Initialize the parser with a metadata file.
         """
         super().__init__(metadata_file, build_target)
+        # Validate JSON against v2 schema
+        self.__validate_json(self.metadata_file)
+
+    @staticmethod
+    def __validate_json(json_str: str) -> None:
+        """
+        Validate the JSON string against the v2 schema.
+        """
+        SCHEMA_URL = "https://hku.jacobshing.com/statics/schemas/v2.json"
+        schema = jsonschema.validators.validator_for({"$schema": SCHEMA_URL}).META_SCHEMA
+        jsonschema.validate(instance=json_str, schema=schema)
 
     def parse(self) -> Metadata:
         # Top-level keys
@@ -113,88 +125,53 @@ class MetadataV1Parser(MetadataParserBase):
             "at_head"
         )
 
-        ### COMPATIBILITY WITH V2 FORMAT ###
-        # V2 format no longer uses static_site.primary_button and static_site.secondary_button keys.
-        # Instead, an object array static_site.buttons is used to define buttons.
-        # Old format primary_button and secondary_button will be converted to buttons array here.
-        # NOTE: In V1, if no button configuration is provided, default buttons are created.
-        # This maintains backward compatibility with the old format.
+        # "static_site" > "buttons"
+        buttons_val = self.json_obj.get("static_site", {}).get("buttons")
+        # if buttons_val is None, create two default buttons
+        buttons_dicts: list[dict] = []
+        if buttons_val is None:
+            buttons_dicts = [
+                {
+                    "isPrimary": True,
+                    "text": "Download",
+                    "icon": "material-download",
+                    "href": f"https://hku.jacobshing.com/files/{self.parsed_obj.name.get()}/{self.parsed_obj.output_file.get()}"
+                },
+                {
+                    "isPrimary": False,
+                    "text": "View source",
+                    "icon": "material-github",
+                    "href": f"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{self.parsed_obj.name.get()}"
+                }
+            ]
+        elif isinstance(buttons_val, list):
+            buttons_dicts = buttons_val
 
-        self.parsed_obj.static_site.buttons.set([])
-
-        # "static_site" > "primary_button" keys
-        primary_button_obj = self.json_obj.get("static_site", {}).get("primary_button")
-        # In V1 format, if primary_button key doesn't exist, we treat it as enabled with defaults
-        # If it exists, we check the disabled field
-        if primary_button_obj is None:
-            # No configuration = create default button
-            primary_disabled_val = False
-            primary_button_obj = {}
-        else:
-            primary_disabled_val = primary_button_obj.get("disabled")
+        def create_button_node(button_dict: dict) -> ButtonKeyNode:
+            button_node = ButtonKeyNode(self.parsed_obj.static_site)
+            button_node.index.set_if_else(
+                button_dict.get("index"),
+                lambda: button_dict.get("index") is not None,
+                0
+            )
+            button_node.isPrimary.set_if_else(
+                button_dict.get("isPrimary"),
+                lambda: button_dict.get("isPrimary") is not None,
+                False
+            )
+            if not button_dict.get("text"):
+                raise ValueError("You must provide 'text' for each button.")
+            button_node.text.set(button_dict.get("text"))
+            button_node.icon.set(button_dict.get("icon")) # icon can be None
+            if not button_dict.get("href"):
+                raise ValueError("You must provide 'href' for each button.")
+            button_node.href.set(button_dict.get("href"))
+            return button_node
         
-        # Create button if disabled is not True (i.e., if disabled is False or not present)
-        if primary_disabled_val is not True:
-            primary_button = ButtonKeyNode(self.parsed_obj.static_site)
-            primary_button.isPrimary.set(True)
-            primary_button.index.set(0)
-            primary_text_val = primary_button_obj.get("text")
-            primary_icon_val = primary_button_obj.get("icon")
-            primary_href_val = primary_button_obj.get("href")
-            primary_button.text.set_if_else(
-                primary_text_val,
-                lambda: primary_text_val is not None,
-                "Download"
-            )
-            primary_button.icon.set_if_else(
-                primary_icon_val,
-                lambda: primary_icon_val is not None,
-                "material-download"
-            )
-            primary_button.href.set_if_else(
-                primary_href_val,
-                lambda: primary_href_val is not None,
-                f"https://hku.jacobshing.com/files/{self.parsed_obj.name.get()}/{self.parsed_obj.output_file.get()}"
-            )
-            
-            self.parsed_obj.static_site.buttons.append(primary_button)
-
-        # "static_site" > "secondary_button" keys
-        secondary_button_obj = self.json_obj.get("static_site", {}).get("secondary_button")
-        # In V1 format, if secondary_button key doesn't exist, we treat it as enabled with defaults
-        # If it exists, we check the disabled field
-        if secondary_button_obj is None:
-            # No configuration = create default button
-            secondary_disabled_val = False
-            secondary_button_obj = {}
-        else:
-            secondary_disabled_val = secondary_button_obj.get("disabled")
-        
-        # Create button if disabled is not True (i.e., if disabled is False or not present)
-        if secondary_disabled_val is not True:
-            secondary_button = ButtonKeyNode(self.parsed_obj.static_site)
-            secondary_button.isPrimary.set(False)
-            secondary_button.index.set(1)
-            secondary_text_val = secondary_button_obj.get("text")
-            secondary_icon_val = secondary_button_obj.get("icon")
-            secondary_href_val = secondary_button_obj.get("href")
-            secondary_button.text.set_if_else(
-                secondary_text_val,
-                lambda: secondary_text_val is not None,
-                "View source"
-            )
-            secondary_button.icon.set_if_else(
-                secondary_icon_val,
-                lambda: secondary_icon_val is not None,
-                "material-github"
-            )
-            secondary_button.href.set_if_else(
-                secondary_href_val,
-                lambda: secondary_href_val is not None,
-                f"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{self.parsed_obj.name.get()}"
-            )
-            
-            self.parsed_obj.static_site.buttons.append(secondary_button)
+        button_nodes = [create_button_node(b_dict) for b_dict in buttons_dicts]
+        # sort button nodes by index
+        button_nodes.sort(key=lambda b: b.index.get())
+        self.parsed_obj.static_site.buttons.set(button_nodes)
 
         # "authors" keys - default: ["jacob_shing"]
         authors_val = self.json_obj.get("authors")

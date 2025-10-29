@@ -44,10 +44,18 @@ class StaticSiteKeyNode(KeyNode):
         self.document_status: StrValue = StrValue(None)
         self.alias_to: StrValue = StrValue(None)
         self.pdf_viewer: StrValue = StrValue(None)
+        self.buttons: GenericArrayValue[ButtonKeyNode] = GenericArrayValue(None)
 
-        # Sub-keys
-        self.primary_button: PrimaryButtonKeyNode = PrimaryButtonKeyNode(self)
-        self.secondary_button: SecondaryButtonKeyNode = SecondaryButtonKeyNode(self)
+class ButtonKeyNode(KeyNode):
+    def __init__(self, parent_node: StaticSiteKeyNode):
+        super().__init__(parent_node)
+
+        # Keys
+        self.index: IntValue = IntValue(0)
+        self.isPrimary: BoolValue = BoolValue(False)
+        self.text: StrValue = StrValue(None)
+        self.icon: StrValue = StrValue(None)
+        self.href: StrValue = StrValue(None)
 
 class PrimaryButtonKeyNode(KeyNode):
     def __init__(self, parent_node: StaticSiteKeyNode):
