@@ -365,6 +365,18 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      # --- POST-DEPLOY NOTIFICATIONS ---
+      - name: Write Google API key
+        run: |
+          mkdir -p ./secrets
+          echo "${{ secrets.GOOGLE_INDEXING_API_JSON_KEY }}" > ./secrets/google_indexing_api_key.json
+
+      - name: Copy IndexNow key
+        run: cp ./gh-out/indexnowkey33fe8f8f945.txt ./secrets/
+
+      - name: Request indexing from Google and IndexNow
+        run: python3 ./build/request_indexing.py
+
   test-deploy-scripts:
     # +---
     # | This job is identical to deploy-pages, but is only run for branch validation.
