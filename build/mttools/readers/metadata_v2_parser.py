@@ -1,5 +1,6 @@
 from .metadata_base_parser import MetadataParserBase
 from ..metadata import Metadata, ButtonKeyNode
+import jsonschema
 
 class MetadataV2Parser(MetadataParserBase):
     """
@@ -10,6 +11,17 @@ class MetadataV2Parser(MetadataParserBase):
         Initialize the parser with a metadata file.
         """
         super().__init__(metadata_file, build_target)
+        # Validate JSON against v2 schema
+        self.__validate_json(self.metadata_file)
+
+    @staticmethod
+    def __validate_json(json_str: str) -> None:
+        """
+        Validate the JSON string against the v2 schema.
+        """
+        SCHEMA_URL = "https://hku.jacobshing.com/statics/schemas/v2.json"
+        schema = jsonschema.validators.validator_for({"$schema": SCHEMA_URL}).META_SCHEMA
+        jsonschema.validate(instance=json_str, schema=schema)
 
     def parse(self) -> Metadata:
         # Top-level keys
