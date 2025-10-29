@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hku.jacobshing.com/statics/schemas/v2.json",
+  "title": "HKU Notes Metadata Schema v2",
+  "description": "Schema for metadata.json files in the HKU Notes project (version 2)",
+  "type": "object",
+  "required": ["$schema"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to this JSON schema for validation and IDE support. Must point to this schema.",
+      "const": "https://hku.jacobshing.com/statics/schemas/v2.json"
+    },
+    "@metadata_file_version": {
+      "type": "string",
+      "const": "2",
+      "description": "Optional field for backward compatibility. The version is now determined by the $schema field.",
+      "deprecated": true
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "root_file": {
+          "type": "string",
+          "description": "Specifies the main file to be built for the target.",
+          "pattern": "^.+\\.(tex|md|html)$"
+        },
+        "output_file": {
+          "type": "string",
+          "description": "Specifies the name of the output file to be generated after building the target."
+        },
+        "no_latex": {
+          "type": "boolean",
+          "description": "If true, the build pipeline will skip the LaTeX installation.",
+          "default": false
+        },
+        "requires": {
+          "type": "array",
+          "description": "A list of dependencies that are required to build the target.",
+          "items": {
+            "type": "string",
+            "enum": ["python-minted-pkgs"]
+          },
+          "uniqueItems": true
+        },
+        "prebuild_command": {
+          "type": "string",
+          "description": "A command to run before building the target."
+        },
+        "build_command": {
+          "type": "string",
+          "description": "The command to build the target."
+        },
+        "postbuild_command": {
+          "type": "string",
+          "description": "A command to run after building the target."
+        },
+        "miktex_package_file": {
+          "type": "string",
+          "description": "Deprecated. Specifies the .tex file that contains all the \\usepackage commands.",
+          "deprecated": true
+        }
+      }
+    },
+    "static_site": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A short description of the target, used in the static site.",
+          "default": "-"
+        },
+        "meta_description": {
+          "type": "string",
+          "description": "A short description of the target, used in the HTML meta tags for SEO purposes."
+        },
+        "custom_md_file": {
+          "type": "string",
+          "description": "A custom Markdown file whose content will be copied to the end of the static site page.",
+          "default": ""
+        },
+        "document_status": {
+          "type": "string",
+          "description": "The status of the document, used in the static site.",
+          "pattern": "^[a-z]{3}$",
+          "default": "unk"
+        },
+        "alias_to": {
+          "type": "string",
+          "description": "Treats the target as an alias to another build target."
+        },
+        "pdf_viewer": {
+          "type": "string",
+          "description": "Where the PDF viewer should be displayed on the details page.",
+          "enum": ["at_head", "at_footer", "at_tag", "hidden"],
+          "default": "at_head"
+        },
+        "buttons": {
+          "description": "An array of button objects that define the buttons to be displayed on the static site.",
+          "oneOf": [
+            {
+              "type": "null",
+              "description": "If null, two default buttons (Download and View Source) will be created automatically."
+            },
+            {
+              "type": "array",
+              "description": "Array of button objects. Use an empty array [] to display no buttons.",
+              "items": {
+                "type": "object",
+                "required": ["text", "href"],
+                "additionalProperties": false,
+                "properties": {
+                  "index": {
+                    "type": "integer",
+                    "description": "The index of the button in the array. Used to determine the order of buttons.",
+                    "default": 0
+                  },
+                  "isPrimary": {
+                    "type": "boolean",
+                    "description": "Whether the button is a primary button or not.",
+                    "default": false
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "The text to be displayed on the button.",
+                    "minLength": 1
+                  },
+                  "icon": {
+                    "type": ["string", "null"],
+                    "description": "The icon to be displayed on the button. Use null or omit for no icon.",
+                    "default": null
+                  },
+                  "href": {
+                    "type": "string",
+                    "description": "The URL to be linked to when the button is clicked.",
+                    "minLength": 1,
+                    "format": "uri-reference"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "authors": {
+      "type": "array",
+      "description": "A list of authors for the target.",
+      "items": {
+        "type": "string",
+        "pattern": "^(!)?(@unknown|@do_not_sort|[a-z_][a-z0-9_]*)$"
+      },
+      "default": ["jacob_shing"],
+      "minItems": 1
+    }
+  }
+}

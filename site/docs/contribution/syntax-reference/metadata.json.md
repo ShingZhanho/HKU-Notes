@@ -8,6 +8,16 @@ The `metadata.json` file is used to define the metadata for each build target in
 This file is required for each build target as it contains information about how the target should be built,
 how it should be displayed and presented on the website.
 
+!!! info "Version Detection"
+
+    The build pipeline automatically detects the schema version of each `metadata.json` file using the following priority:
+
+    1. **`$schema` field** - If present and contains `schemas/v2.json`, the file is treated as v2
+    2. **`@metadata_file_version` field** - Legacy method for both v1 and v2
+    3. **Error** - If neither field is present, the build will fail
+
+    For new files, use the `$schema` field (v2 format). Existing files with `@metadata_file_version` will continue to work.
+
 !!! note "Key Naming Conventions"
 
     All keys in the `metadata.json` file should be in `snake_case` format.
@@ -34,27 +44,65 @@ how it should be displayed and presented on the website.
         }
         ```
 
+    An arbitrary object of an array is denoted using `[i]`. The keys of the object are enclosed
+    within curly braces `{}`.
+
+    ??? example
+
+        The key `static_site.buttons[i].{text}` would mean:
+
+        ```json
+        {
+            "static_site": {
+                "buttons": [
+                    {
+                        "text": "Button 1"
+                    },
+                    {
+                        "text": "Button 2"
+                    }
+                ]
+            }
+        }
+        ```
+
 ## Schema (v2)
 
-The current latest schema version is `2`. It has only one required field, which is the version number. All other fields are optional.
+The current latest schema version is `2`. It has only one required field: `$schema`. All other fields are optional.
 All keys and their behaviours remain unchanged as in version `1`, except for those listed below.
 
 ### Changes from `v1` to `v2`
 
 - `static_site.primary_button` and `static_site.secondary_button` have been replaced with `static_site.buttons`, an array of button objects.
+- Version is now specified using the `$schema` field instead of `@metadata_file_version`.
 
 !!! note "Recommendation and Compatibility"
 
-    For new build targets, it is recommended to use the `v2` schema.
+    For new build targets, it is recommended to use the `v2` schema with the `$schema` field.
 
     The build pipeline will automatically parse v1 formats and convert them to v2 internally,
     so existing build targets using v1 schema will continue to work without any changes.
 
-### `@metadata_file_version`
+### `$schema`
 
 - **Required**: Yes
-- **Description**: The version of the metadata file schema. Must be set to `"2"` to use the v2 schema.
+- **Description**: Reference to the JSON schema for validation and IDE support. Must be set to the v2 schema URL.
 - **Type**: `string`
+- **Value**: `"https://hku.jacobshing.com/statics/schemas/v2.json"`
+
+### ~~`@metadata_file_version`~~ **[Deprecated]**
+
+!!! warning "Deprecated Field"
+
+    The `@metadata_file_version` field is deprecated in v2 and replaced by the `$schema` field.
+    
+    For backward compatibility, you may still include this field (set to `"2"`), but it is no longer
+    required or recommended for new files. The build pipeline will prioritize `$schema` for version detection.
+
+- **Required**: No (deprecated)
+- **Description**: Legacy field for specifying metadata schema version. Replaced by `$schema` in v2.
+- **Type**: `string`
+- **Value**: `"2"` (if present)
 
 ### `static_site.buttons`
 
