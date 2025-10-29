@@ -34,6 +34,8 @@ class Reader:
         # select the appropriate parser based on the version
         if version == "1":
             from .metadata_v1_parser import MetadataV1Parser as Parser
+        elif version == "2":
+            from .metadata_v2_parser import MetadataV2Parser as Parser
         else:
             raise ValueError(f"Unsupported metadata file version: {version}")
         
