@@ -16,7 +16,7 @@ def get_urls_to_index() -> list[str]:
     urls = []
     try:
         with open("./gh-out/sitemap.xml", "r", encoding="utf-8") as f:
-            while not (line := f.readline()):
+            while (line := f.readline()):
                 match = re.search(PATTERN, line)
                 if match:
                     urls.append(match.group(1))
