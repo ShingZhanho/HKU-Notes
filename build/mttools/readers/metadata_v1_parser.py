@@ -1,5 +1,5 @@
 from .metadata_base_parser import MetadataParserBase
-from ..metadata import Metadata
+from ..metadata import Metadata, ButtonKeyNode
 
 class MetadataV1Parser(MetadataParserBase):
     """
@@ -113,71 +113,66 @@ class MetadataV1Parser(MetadataParserBase):
             "at_head"
         )
 
+        ### COMPATIBILITY WITH V2 FORMAT ###
+        # V2 format no longer uses static_site.primary_button and static_site.secondary_button keys.
+        # Instead, an object array static_site.buttons is used to define buttons.
+        # Old format primary_button and secondary_button will be converted to buttons array here.
+
+        self.parsed_obj.static_site.buttons.set([])
+
         # "static_site" > "primary_button" keys
-        # primary_button.disabled - default: false
         primary_disabled_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("disabled")
-        self.parsed_obj.static_site.primary_button.disabled.set_if_else(
-            primary_disabled_val,
-            lambda: primary_disabled_val is not None,
-            False
-        )
-        
-        # primary_button.text - default: "Download"
-        primary_text_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("text")
-        self.parsed_obj.static_site.primary_button.text.set_if_else(
-            primary_text_val,
-            lambda: primary_text_val is not None,
-            "Download"
-        )
-        
-        # primary_button.icon - default: "material-download"
-        primary_icon_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("icon")
-        self.parsed_obj.static_site.primary_button.icon.set_if_else(
-            primary_icon_val,
-            lambda: primary_icon_val is not None,
-            "material-download"
-        )
-        
-        # primary_button.href - default: computed
-        primary_href_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("href")
-        self.parsed_obj.static_site.primary_button.href.set_if_else(
-            primary_href_val,
-            lambda: primary_href_val is not None,
-            f"https://hku.jacobshing.com/files/{self.parsed_obj.name.get()}/{self.parsed_obj.output_file.get()}"
-        )
+        if isinstance(primary_disabled_val, bool) and not primary_disabled_val:
+            primary_button = ButtonKeyNode(self.parsed_obj.static_site)
+            primary_button.isPrimary.set(True)
+            primary_button.index.set(0)
+            primary_text_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("text")
+            primary_icon_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("icon")
+            primary_href_val = self.json_obj.get("static_site", {}).get("primary_button", {}).get("href")
+            primary_button.text.set_if_else(
+                primary_text_val,
+                lambda: primary_text_val is not None,
+                "Download"
+            )
+            primary_button.icon.set_if_else(
+                primary_icon_val,
+                lambda: primary_icon_val is not None,
+                "material-download"
+            )
+            primary_button.href.set_if_else(
+                primary_href_val,
+                lambda: primary_href_val is not None,
+                f"https://hku.jacobshing.com/files/{self.parsed_obj.name.get()}/{self.parsed_obj.output_file.get()}"
+            )
+            
+            self.parsed_obj.static_site.buttons.append(primary_button)
 
         # "static_site" > "secondary_button" keys
-        # secondary_button.disabled - default: false
         secondary_disabled_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("disabled")
-        self.parsed_obj.static_site.secondary_button.disabled.set_if_else(
-            secondary_disabled_val,
-            lambda: secondary_disabled_val is not None,
-            False
-        )
-        
-        # secondary_button.text - default: "View source"
-        secondary_text_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("text")
-        self.parsed_obj.static_site.secondary_button.text.set_if_else(
-            secondary_text_val,
-            lambda: secondary_text_val is not None,
-            "View source"
-        )
-        
-        # secondary_button.icon - default: "material-github"
-        secondary_icon_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("icon")
-        self.parsed_obj.static_site.secondary_button.icon.set_if_else(
-            secondary_icon_val,
-            lambda: secondary_icon_val is not None,
-            "material-github"
-        )
-        
-        # secondary_button.href - default: computed
-        secondary_href_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("href")
-        self.parsed_obj.static_site.secondary_button.href.set_if_else(
-            secondary_href_val,
-            lambda: secondary_href_val is not None,
-            f"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{self.parsed_obj.name.get()}"
-        )
+        if isinstance(secondary_disabled_val, bool) and not secondary_disabled_val:
+            secondary_button = ButtonKeyNode(self.parsed_obj.static_site)
+            secondary_button.isPrimary.set(False)
+            secondary_button.index.set(1)
+            secondary_text_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("text")
+            secondary_icon_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("icon")
+            secondary_href_val = self.json_obj.get("static_site", {}).get("secondary_button", {}).get("href")
+            secondary_button.text.set_if_else(
+                secondary_text_val,
+                lambda: secondary_text_val is not None,
+                "View source"
+            )
+            secondary_button.icon.set_if_else(
+                secondary_icon_val,
+                lambda: secondary_icon_val is not None,
+                "material-github"
+            )
+            secondary_button.href.set_if_else(
+                secondary_href_val,
+                lambda: secondary_href_val is not None,
+                f"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{self.parsed_obj.name.get()}"
+            )
+            
+            self.parsed_obj.static_site.buttons.append(secondary_button)
 
         # "authors" keys - default: ["jacob_shing"]
         authors_val = self.json_obj.get("authors")
