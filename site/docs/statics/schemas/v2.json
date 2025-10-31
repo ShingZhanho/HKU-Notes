@@ -24,8 +24,7 @@
       "properties": {
         "root_file": {
           "type": "string",
-          "description": "Specifies the main file to be built for the target.",
-          "pattern": "^.+\\.(tex|md|html)$"
+          "description": "Specifies the main file to be built for the target."
         },
         "output_file": {
           "type": "string",
@@ -56,11 +55,6 @@
         "postbuild_command": {
           "type": "string",
           "description": "A command to run after building the target."
-        },
-        "miktex_package_file": {
-          "type": "string",
-          "description": "Deprecated. Specifies the .tex file that contains all the \\usepackage commands.",
-          "deprecated": true
         }
       }
     },
@@ -85,7 +79,7 @@
         "document_status": {
           "type": "string",
           "description": "The status of the document, used in the static site.",
-          "pattern": "^[a-z]{3}$",
+          "enum": ["sre", "wip", "lts", "abd", "fin", "obs", "unk"],
           "default": "unk"
         },
         "alias_to": {
@@ -118,7 +112,7 @@
                     "description": "The index of the button in the array. Used to determine the order of buttons.",
                     "default": 0
                   },
-                  "isPrimary": {
+                  "is_primary": {
                     "type": "boolean",
                     "description": "Whether the button is a primary button or not.",
                     "default": false
@@ -151,7 +145,7 @@
       "description": "A list of authors for the target.",
       "items": {
         "type": "string",
-        "pattern": "^(!)?(@unknown|@do_not_sort|[a-z_][a-z0-9_]*)$"
+        "pattern": "^(!)?(@unknown|@do_not_sort|[a-zA-Z0-9_]*)$"
       },
       "default": ["jacob_shing"],
       "minItems": 1

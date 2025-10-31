@@ -52,27 +52,7 @@ class ButtonKeyNode(KeyNode):
 
         # Keys
         self.index: IntValue = IntValue(0)
-        self.isPrimary: BoolValue = BoolValue(False)
-        self.text: StrValue = StrValue(None)
-        self.icon: StrValue = StrValue(None)
-        self.href: StrValue = StrValue(None)
-
-class PrimaryButtonKeyNode(KeyNode):
-    def __init__(self, parent_node: StaticSiteKeyNode):
-        super().__init__(parent_node)
-
-        # Keys
-        self.disabled: BoolValue = BoolValue(None)
-        self.text: StrValue = StrValue(None)
-        self.icon: StrValue = StrValue(None)
-        self.href: StrValue = StrValue(None)
-
-class SecondaryButtonKeyNode(KeyNode):
-    def __init__(self, parent_node: StaticSiteKeyNode):
-        super().__init__(parent_node)
-
-        # Keys
-        self.disabled: BoolValue = BoolValue(None)
+        self.is_primary: BoolValue = BoolValue(False)
         self.text: StrValue = StrValue(None)
         self.icon: StrValue = StrValue(None)
         self.href: StrValue = StrValue(None)
