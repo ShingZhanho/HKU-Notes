@@ -12,7 +12,7 @@ class MetadataV2Parser(MetadataParserBase):
         """
         super().__init__(metadata_file, build_target)
         # Validate JSON against v2 schema
-        self.__validate_json(self.metadata_file)
+        self.__validate_json(metadata_file)
 
     @staticmethod
     def __validate_json(json_str: str) -> None:
