@@ -119,7 +119,7 @@ Each button object must conform the structure described below.
 
     However, if you wish to display no buttons, you must explicitly set `static_site.buttons` to an empty array `[]`.
 
-#### `static_site.buttons[i].{index}`
+### `static_site.buttons[i].{index}`
 
 - **Description**: The index of the button in the array. Used to determine the order of buttons.
 - **Type**: `integer`
@@ -130,7 +130,7 @@ Each button object must conform the structure described below.
     By default, all buttons have an index of `0`, which means their order can be inconsistent between builds.
     You should explicitly set **distinct** indices for each button to ensure a consistent order.
 
-#### `static_site.buttons[i].{isPrimary}`
+### `static_site.buttons[i].{is_primary}`
 
 - **Description**: Whether the button is a primary button or not.
 - **Type**: `boolean`
@@ -143,24 +143,28 @@ Each button object must conform the structure described below.
     The order of buttons is soley determined by their `index` values, regardless of whether they are primary or secondary.
     Buttons with lower index values are displayed before buttons with higher index values.
 
-#### `static_site.buttons[i].{text}`
+### `static_site.buttons[i].{text}`
 
 - **Required**: Yes
 - **Description**: The text to be displayed on the button. You must explicitly set this value for each button.
 - **Type**: `string`
 
-#### `static_site.buttons[i].{icon}`
+### `static_site.buttons[i].{icon}`
 
 - **Description**: Defines the icon and href of the button.
 - **Type**: `string`
 - **Default**: `null` (no icon)
 - **Accepted Values**: Any valid icon name specified in the [Material for MkDocs documentation](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/),
 
-#### `static_site.buttons[i].{href}`
+### `static_site.buttons[i].{href}`
 
 - **Required**: Yes
 - **Description**: The URL to be linked to when the button is clicked. You must explicitly set this value for each button.
 - **Type**: `string`
+
+### Other Keys
+
+Refer to the next section for the keys carried over from v1 without changes.
 
 ## Schema (v1)
 
@@ -240,6 +244,11 @@ This command is executed in the source directory of the build target, i.e., `/sr
 
     Although TeX packages are now automatically resolved, it is still a **mandatory code practice**
     to separate all `\usepackage` commands into a single file named `packages.tex` in the source directory.
+
+!!! failure "Not Applicable to v2 Schema"
+
+    This key is not applicable to the v2 schema and should not be used in `metadata.json` files
+    that use the v2 schema.
 
 - ~~**Description**: Specifies the `.tex` file that contains all the `\usepackage` commands for the target.~~
 ~~This file is used to generate a hash for retrieving the cached LaTeX packages for saving build time.~~

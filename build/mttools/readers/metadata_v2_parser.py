@@ -132,13 +132,13 @@ class MetadataV2Parser(MetadataParserBase):
         if buttons_val is None:
             buttons_dicts = [
                 {
-                    "isPrimary": True,
+                    "is_primary": True,
                     "text": "Download",
                     "icon": "material-download",
                     "href": f"https://hku.jacobshing.com/files/{self.parsed_obj.name.get()}/{self.parsed_obj.output_file.get()}"
                 },
                 {
-                    "isPrimary": False,
+                    "is_primary": False,
                     "text": "View source",
                     "icon": "material-github",
                     "href": f"https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{self.parsed_obj.name.get()}"
@@ -154,9 +154,9 @@ class MetadataV2Parser(MetadataParserBase):
                 lambda: button_dict.get("index") is not None,
                 0
             )
-            button_node.isPrimary.set_if_else(
-                button_dict.get("isPrimary"),
-                lambda: button_dict.get("isPrimary") is not None,
+            button_node.is_primary.set_if_else(
+                button_dict.get("is_primary"),
+                lambda: button_dict.get("is_primary") is not None,
                 False
             )
             if not button_dict.get("text"):
