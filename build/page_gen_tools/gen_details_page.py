@@ -46,7 +46,7 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     # Writ buttons
     for button in metadata.static_site.buttons.get():
         f.write(__generate_button_md(
-            button.isPrimary.get(),
+            button.is_primary.get(),
             button.text.get(),
             button.href.get(),
             button.icon.get()
