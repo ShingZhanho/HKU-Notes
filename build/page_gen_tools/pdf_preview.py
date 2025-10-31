@@ -23,6 +23,8 @@ def generate_pdf_viewer_html(target: str) -> str:
             '</div>',
         ))
 
+    sb.append('<div class="preview__item preview__item-pseudo"><span></span></div>')  # for spacing
+
     sb.append('</div></div></div>')
 
     return "".join(sb)
