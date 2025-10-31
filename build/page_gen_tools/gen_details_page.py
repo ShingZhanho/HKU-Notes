@@ -51,6 +51,7 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
             button.href.get(),
             button.icon.get()
         ))
+        f.write("\n")
     f.write("\n\n")
     print("Buttons written.")
 
