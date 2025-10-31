@@ -72,6 +72,9 @@ jobs:
           cache: 'pip'
           cache-dependency-path: ./build/python-requirement-lists/*.txt
 
+      - name: Install general Python dependencies
+        run: pip install -r ./build/python-requirement-lists/general-pkgs.txt
+
       - name: Compute environment variables
         run: ./build/configure-env-vars.sh ${{ matrix.target }}
 
