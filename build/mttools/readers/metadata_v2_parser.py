@@ -12,16 +12,16 @@ class MetadataV2Parser(MetadataParserBase):
         """
         super().__init__(metadata_file, build_target)
         # Validate JSON against v2 schema
-        self.__validate_json(metadata_file)
+        self.__validate_json(self.json_obj)
 
     @staticmethod
-    def __validate_json(json_str: str) -> None:
+    def __validate_json(json_obj: dict) -> None:
         """
-        Validate the JSON string against the v2 schema.
+        Validate the JSON object against the v2 schema.
         """
         SCHEMA_URL = "https://hku.jacobshing.com/statics/schemas/v2.json"
         schema = jsonschema.validators.validator_for({"$schema": SCHEMA_URL}).META_SCHEMA
-        jsonschema.validate(instance=json_str, schema=schema)
+        jsonschema.validate(instance=json_obj, schema=schema)
 
     def parse(self) -> Metadata:
         # Top-level keys
