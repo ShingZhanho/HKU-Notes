@@ -136,7 +136,7 @@ class MetadataV1Parser(MetadataParserBase):
         # Create button if disabled is not True (i.e., if disabled is False or not present)
         if primary_disabled_val is not True:
             primary_button = ButtonKeyNode(self.parsed_obj.static_site)
-            primary_button.isPrimary.set(True)
+            primary_button.is_primary.set(True)
             primary_button.index.set(0)
             primary_text_val = primary_button_obj.get("text")
             primary_icon_val = primary_button_obj.get("icon")
@@ -173,7 +173,7 @@ class MetadataV1Parser(MetadataParserBase):
         # Create button if disabled is not True (i.e., if disabled is False or not present)
         if secondary_disabled_val is not True:
             secondary_button = ButtonKeyNode(self.parsed_obj.static_site)
-            secondary_button.isPrimary.set(False)
+            secondary_button.is_primary.set(False)
             secondary_button.index.set(1)
             secondary_text_val = secondary_button_obj.get("text")
             secondary_icon_val = secondary_button_obj.get("icon")
