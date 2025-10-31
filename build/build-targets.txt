@@ -52,7 +52,10 @@ COMP2120-
 		3
 
 # COMP2121 - Discrete Mathematics
-COMP2121-Notes
+COMP2121
+	-Notes
+	_1B-Assignment
+		1
 
 # CCGL9042 - Evolution of Civilisation
 CCGL9042-Question-Bank

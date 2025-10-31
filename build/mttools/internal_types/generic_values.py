@@ -123,21 +123,31 @@ class GenericArrayValue[T](GenericValue[list[T]]):
         """
         Append an item to the internal list. If the internal list is None, error is raised.
         """
-        self.__value.append(item)
+        # Access the internal value directly from parent class
+        value = super().get()  # This gets the actual internal list, not a copy
+        if value is None:
+            raise ValueError("Cannot append to a None value. Set the value first.")
+        value.append(item)
         return self
     
     def extend(self, items: list[T]) -> GenericArrayValue[T]:
         """
         Extend the internal list with items from another list. If the internal list is None, error is raised.
         """
-        self.__value.extend(items)
+        value = super().get()  # This gets the actual internal list, not a copy
+        if value is None:
+            raise ValueError("Cannot extend a None value. Set the value first.")
+        value.extend(items)
         return self
     
     def remove(self, item: T) -> GenericArrayValue[T]:
         """
         Remove an item from the internal list. If the internal list is None, error is raised.
         """
-        self.__value.remove(item)
+        value = super().get()  # This gets the actual internal list, not a copy
+        if value is None:
+            raise ValueError("Cannot remove from a None value. Set the value first.")
+        value.remove(item)
         return self
     
     def clear_array(self) -> GenericArrayValue[T]:
@@ -145,7 +155,10 @@ class GenericArrayValue[T](GenericValue[list[T]]):
         Clear all items from the internal list. If the internal list is None, error is raised.
         If you are looking to set the internal list to None, use `set(None)` or `__call__(None)` instead.
         """
-        self.__value.clear()
+        value = super().get()  # This gets the actual internal list, not a copy
+        if value is None:
+            raise ValueError("Cannot clear a None value. Set the value first.")
+        value.clear()
         return self
     
     def __len__(self) -> int:

@@ -23,17 +23,36 @@ class Reader:
         # Read the metadata file
         with open(self.metadata_file, 'r') as file:
             metadata_str = file.read()
-        # use regex to find the metadata file version
-        # format: "@metadata_file_version": "<ver>", ...
-        # if not found, raise an error
-        match = re.search(r'"@metadata_file_version"\s*:\s*"([^"]+)"', metadata_str)
-        if not match:
-            raise ValueError("Metadata file version not found.")
-        version = match.group(1)
+        
+        # Determine version: first check $schema, then fall back to @metadata_file_version
+        version = None
+        
+        # Try to detect version from $schema field (v2 format)
+        schema_match = re.search(r'"\$schema"\s*:\s*"([^"]+)"', metadata_str)
+        if schema_match:
+            schema_url = schema_match.group(1)
+            # Check if it's the v2 schema
+            if 'schemas/v2.json' in schema_url:
+                version = "2"
+        
+        # Fall back to @metadata_file_version field (v1 and legacy v2 format)
+        if version is None:
+            version_match = re.search(r'"@metadata_file_version"\s*:\s*"([^"]+)"', metadata_str)
+            if version_match:
+                version = version_match.group(1)
+        
+        # If no version indicator found, raise an error
+        if version is None:
+            raise ValueError(
+                "Metadata file version could not be determined. "
+                "Please include either '$schema' field (v2) or '@metadata_file_version' field (v1)."
+            )
 
         # select the appropriate parser based on the version
         if version == "1":
             from .metadata_v1_parser import MetadataV1Parser as Parser
+        elif version == "2":
+            from .metadata_v2_parser import MetadataV2Parser as Parser
         else:
             raise ValueError(f"Unsupported metadata file version: {version}")
         

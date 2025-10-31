@@ -44,20 +44,14 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     print("Authors section written.")
 
     # Writ buttons
-    if not metadata.static_site.primary_button.disabled.get():
-        f.write(f"\n{__generate_button_md(
-            True,
-            metadata.static_site.primary_button.text.get(),
-            metadata.static_site.primary_button.href.get(),
-            metadata.static_site.primary_button.icon.get()
-        )}")
-    if not metadata.static_site.secondary_button.disabled.get():
-        f.write(f"\n{__generate_button_md(
-            False,
-            metadata.static_site.secondary_button.text.get(),
-            metadata.static_site.secondary_button.href.get(),
-            metadata.static_site.secondary_button.icon.get()
-        )}")
+    for button in metadata.static_site.buttons.get():
+        f.write(__generate_button_md(
+            button.is_primary.get(),
+            button.text.get(),
+            button.href.get(),
+            button.icon.get()
+        ))
+        f.write("\n")
     f.write("\n\n")
     print("Buttons written.")
 

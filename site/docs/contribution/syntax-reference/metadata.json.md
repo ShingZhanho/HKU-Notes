@@ -8,9 +8,15 @@ The `metadata.json` file is used to define the metadata for each build target in
 This file is required for each build target as it contains information about how the target should be built,
 how it should be displayed and presented on the website.
 
-## Schema (v1)
+!!! info "Version Detection"
 
-The current latest schema version is `1`. It has only one required field, which is the version number. All other fields are optional.
+    The build pipeline automatically detects the schema version of each `metadata.json` file using the following priority:
+
+    1. **`$schema` field** - If present and contains `schemas/v2.json`, the file is treated as v2
+    2. **`@metadata_file_version` field** - Legacy method for both v1 and v2
+    3. **Error** - If neither field is present, the build will fail
+
+    For new files, use the `$schema` field (v2 format). Existing files with `@metadata_file_version` will continue to work.
 
 !!! note "Key Naming Conventions"
 
@@ -38,10 +44,136 @@ The current latest schema version is `1`. It has only one required field, which 
         }
         ```
 
+    An arbitrary object of an array is denoted using `[i]`. The keys of the object are enclosed
+    within curly braces `{}`.
+
+    ??? example
+
+        The key `static_site.buttons[i].{text}` would mean:
+
+        ```json
+        {
+            "static_site": {
+                "buttons": [
+                    {
+                        "text": "Button 1"
+                    },
+                    {
+                        "text": "Button 2"
+                    }
+                ]
+            }
+        }
+        ```
+
+## Schema (v2)
+
+The current latest schema version is `2`. It has only one required field: `$schema`. All other fields are optional.
+All keys and their behaviours remain unchanged as in version `1`, except for those listed below.
+
+### Changes from `v1` to `v2`
+
+- `static_site.primary_button` and `static_site.secondary_button` have been replaced with `static_site.buttons`, an array of button objects.
+- Version is now specified using the `$schema` field instead of `@metadata_file_version`.
+
+!!! note "Recommendation and Compatibility"
+
+    For new build targets, it is recommended to use the `v2` schema with the `$schema` field.
+
+    The build pipeline will automatically parse v1 formats and convert them to v2 internally,
+    so existing build targets using v1 schema will continue to work without any changes.
+
+### `$schema`
+
+- **Required**: Yes
+- **Description**: Reference to the JSON schema for validation and IDE support. Must be set to the v2 schema URL.
+- **Type**: `string`
+- **Value**: `"https://hku.jacobshing.com/statics/schemas/v2.json"`
+
+### ~~`@metadata_file_version`~~ **[Deprecated]**
+
+!!! warning "Deprecated Field"
+
+    The `@metadata_file_version` field is deprecated in v2 and replaced by the `$schema` field.
+    
+    For backward compatibility, you may still include this field (set to `"2"`), but it is no longer
+    required or recommended for new files. The build pipeline will prioritize `$schema` for version detection.
+
+- **Required**: No (deprecated)
+- **Description**: Legacy field for specifying metadata schema version. Replaced by `$schema` in v2.
+- **Type**: `string`
+- **Value**: `"2"` (if present)
+
+### `static_site.buttons`
+
+- **Description**: An array of button objects that define the buttons to be displayed on the static site.
+Each button object must conform the structure described below.
+- **Type**: `array` of `object`
+- **Default**: `null`
+
+!!! note "Default Value Behaviour"
+
+    If the `static_site.buttons` key has the default value of `null`, the build pipeline will
+    automatically create two buttons: a primary "Download" button and a secondary "View Source" button,
+    with the same properties as in the v1 schema.
+
+    However, if you wish to display no buttons, you must explicitly set `static_site.buttons` to an empty array `[]`.
+
+### `static_site.buttons[i].{index}`
+
+- **Description**: The index of the button in the array. Used to determine the order of buttons.
+- **Type**: `integer`
+- **Default**: `0`
+
+!!! warning "Default Index Undefined Behaviour"
+
+    By default, all buttons have an index of `0`, which means their order can be inconsistent between builds.
+    You should explicitly set **distinct** indices for each button to ensure a consistent order.
+
+### `static_site.buttons[i].{is_primary}`
+
+- **Description**: Whether the button is a primary button or not.
+- **Type**: `boolean`
+- **Default**: `false`
+
+!!! note "Multiple Primary Buttons and Ordering"
+
+    It is allowed to have multiple primary buttons.
+    
+    The order of buttons is soley determined by their `index` values, regardless of whether they are primary or secondary.
+    Buttons with lower index values are displayed before buttons with higher index values.
+
+### `static_site.buttons[i].{text}`
+
+- **Required**: Yes
+- **Description**: The text to be displayed on the button. You must explicitly set this value for each button.
+- **Type**: `string`
+
+### `static_site.buttons[i].{icon}`
+
+- **Description**: Defines the icon and href of the button.
+- **Type**: `string`
+- **Default**: `null` (no icon)
+- **Accepted Values**: Any valid icon name specified in the [Material for MkDocs documentation](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/),
+
+### `static_site.buttons[i].{href}`
+
+- **Required**: Yes
+- **Description**: The URL to be linked to when the button is clicked. You must explicitly set this value for each button.
+- **Type**: `string`
+
+### Other Keys
+
+Refer to the next section for the keys carried over from v1 without changes.
+
+## Schema (v1)
+
+The following sections describe the keys available in the `metadata.json` file for schema version `1`.
+
 ### `@metadata_file_version`
 
 - **Required**: Yes
-- **Description**: The version of the metadata file schema. Must be set to `"1"`.
+- **Description**: The version of the metadata file schema. Set to `"1"` for this version.
 - **Type**: `string`
 
 ### `build.root_file`
@@ -112,6 +244,11 @@ This command is executed in the source directory of the build target, i.e., `/sr
 
     Although TeX packages are now automatically resolved, it is still a **mandatory code practice**
     to separate all `\usepackage` commands into a single file named `packages.tex` in the source directory.
+
+!!! failure "Not Applicable to v2 Schema"
+
+    This key is not applicable to the v2 schema and should not be used in `metadata.json` files
+    that use the v2 schema.
 
 - ~~**Description**: Specifies the `.tex` file that contains all the `\usepackage` commands for the target.~~
 ~~This file is used to generate a hash for retrieving the cached LaTeX packages for saving build time.~~
@@ -222,7 +359,7 @@ A disabled button will not be displayed on the static site.
 - **Description**: The icon to be displayed on the primary/secondary button.
 - **Type**: `string`
 - **Default**: `"material-download"` for primary button, and `"material-github"` for secondary button.
-- **Accepted Values**: Any valid icon name specified in the [Material for MkDocs documentation](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis.html),
+- **Accepted Values**: Any valid icon name specified in the [Material for MkDocs documentation](https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/),
 or empty string for no icon.
 
 ### `static_site.{primary_button, secondary_button}.href`

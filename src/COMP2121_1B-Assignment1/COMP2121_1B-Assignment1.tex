@@ -1,0 +1,646 @@
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preamble.tex}
+
+\begin{document}
+
+\begin{center}
+    \textbf
+    {\Large{COMP2121 Discrete Mathematics} \\
+    \large{25/26 Semester 1} \\
+    \large{Assignment 1 (Proposed Solutions)}}\\
+    SHING, Zhan Ho Jacob \qquad 3036228892
+\end{center}
+
+\textit{
+    To distinguish, tautologies are represented as a bold T ($\ltrue$),
+    and contradictions a bold F ($\lfalse$).
+}
+
+\begin{questions}
+    
+    \question Let $C$ be the statement ``Lady Furina has clues'', $M$ be the statement ``Lady Furina has a motive'', $S$ be
+    the statement ``Lady Furina solves the case'' and $T$ be the statement ``The truth is revealed''.
+
+    \begin{parts}
+
+        \part Translate $(C \land \neg M) \limp \neg S$ into English.
+        \begin{solution}
+            The statement translates to ``If Lady Furina has clues and does not have motive,
+            then she does not solve the case.''
+        \end{solution}
+
+        \part Rewrite the following sentence using logical operators: ``The truth is revealed only if Lady Furina
+        solves the case and has clues.''
+        \begin{solution}
+            The required logical expression is $T \limp (S\land C)$.
+        \end{solution}
+
+        \part Determine whether the argument
+        \begin{quote}
+            ``If Lady Furina solves the case, then she has clues. The truth is not revealed unless she
+            has clues. Therefore, if she solves the case, the truth is revealed.''
+        \end{quote}
+        is valid. Justify your answer. 
+        \begin{solution}
+            If we rewrite the argument in logical expressions, we have:
+            \begin{enumerate}
+                \item $S \limp C$ \label{q1c:stm1}
+                \item $\neg C \limp \neg T$ \label{q1c:stm2}
+                \item Therefore, from propositions \ref{q1c:stm1} and \ref{q1c:stm2}, $S \limp T$ \label{q1c:stm3}
+            \end{enumerate}
+            For the argument to be valid, we require the conclusion (Proposition \ref{q1c:stm3})
+            is never false while all the premises (Propositions \ref{q1c:stm1} and \ref{q1c:stm2}) are true.
+            It can be verified by trying to find a counterexample, i.e., combinations of $S$, $C$, and $T$
+            such that the conclusion is $\lfalse$ while all its premises are $\ltrue$.
+
+            For the conclusion to be $\lfalse$, the only possible case is when $S$ is $\ltrue$ and
+            $T$ is $\lfalse$.
+
+            For Proposition \ref{q1c:stm1} to be $\ltrue$ when $S$ is $\ltrue$, $C$ can only be
+            $\ltrue$.
+            
+            When $C$ is $\ltrue$ and $T$ is $\lfalse$, Proposition \ref{q1c:stm2} is $\ltrue$.
+
+            Therefore, when $S$ is $\ltrue$, $C$ is $\ltrue$, and $T$ is $\lfalse$, all premises
+            are $\ltrue$ but the conclusion is $\lfalse$, i.e., the argument is \textbf{invalid}.
+        \end{solution}
+
+    \end{parts}
+
+    \question In a town live three types of people: knights, who always tell the truth, knaves, who always lie, and spies,
+    who sometimes tell the truth and sometimes lie. You meet three individuals on the road and you know
+    one of them is a knight, one is a knave and one is a spy. However, the three persons are foreigners. They
+    can understand English, but they can only say in their own language, namely ``Ja'' and ``Da''. You know
+    they mean either ``yes'' or ``no'', but you don’t know which means ``yes'' and which means ``no''.
+
+    You ask A ``If I asked you if B is the spy, would you say Ja?'' A answers ``Ja''.
+
+    Then you ask C “If I asked you if you were the knave, would you say Ja?” C answers ``Ja''.
+
+    Finally, you ask C again ``If I asked you if A is the spy, would you say Ja?'' C answers ``Da''.
+
+    According to the above information, can you determine who is the knight, who is the knave and who is
+    the spy?
+    \begin{solution}
+        \textit{The originally proposed solution was incorrect and is hence deleted.
+        For copyright reasons, official solutions cannot be provided here.}
+    \end{solution}
+
+    \question You are an experienced engineer who wants to design a new computer. A computer is composed of many
+    logical gates, each implements a logical operator. Therefore, your task is to implement every logical
+    operator to realize universal computation. You ask your assistant to buy some chips that integrates
+    the basic logical gates inside, so that you can combine them to realize every possible logical operator.
+    Unfortunately, your assistant only bought you chips for \texttt{NAND} gate, which implements $\neg(A\land B)$ for
+    two arbitrary inputs $A$ and $B$. This troubles you a lot, because you’ll have to implement other logical
+    operators by yourself.
+
+    \begin{parts}
+        
+        \part Since you want to realize universal computation, first you have to decide how many different logical
+        operators you have to implement. For example, a 1-to-1 logical operator takes a 1-bit binary number
+        $A \in\set{0, 1}$ as input and 1-bit binary number $B \in\set{0, 1}$ as output. There are four 1-to-1 logical
+        operators in total. Two examples are \texttt{IDENTITY} $(B= A)$ and \texttt{NOT} $(B= \neg A)$.
+        
+        A 2-to-1 logical operator takes two 1-bit binary numbers $A, B \in\set{0, 1}$as input and outputs $C \in
+        \set{0, 1}$. Determine the total number of possible 2-to-1 logical operators. 
+        \begin{solution}
+            Note that for two inputs $A$ and $B$, there are four possible combinations,
+            i.e., $(A, B) \in \{(0,0), (0, 1), (1, 0), (1, 1)\}$. A logical operator
+            is a function $f$ that maps the combinations of inputs to an output, i.e.,
+            $f: \{0, 1\}^2 \to \{0, 1\}$. Consider the truth table of $f$:
+            \begin{center}
+                \begin{tabular}{ccc}
+                    $\bm{A}$ & $\bm{B}$ & $\bm{C = f(A, B)}$ \\
+                    \hline
+                    0 & 0 & $f(0, 0)$ \\
+                    0 & 1 & $f(0, 1)$ \\
+                    1 & 0 & $f(1, 0)$ \\
+                    1 & 1 & $f(1, 1)$ 
+                \end{tabular}
+            \end{center}
+            Two logical operators $f$ and $g$ are said to be the same if and only if
+            for all combinations of inputs, $f(A, B) = g(A, B)$. Therefore, the problem
+            reduces to counting the number of different ways to fill the truth table,
+            which is given by $2^4 = 16$.
+
+            Therefore, there are \fbox{\textbf{16}} possible 2-to-1 logical operators.
+        \end{solution}
+
+        \part Even though there are many different logical operators, you found that you can implement all of
+        them using only \texttt{NAND} operators. Please implement \texttt{NOT}, \texttt{OR}, \texttt{AND}, \texttt{XOR}, \texttt{IMPLIES} operators
+        using \texttt{NAND} only. For simplicity, you may write, e.g., $\neg(A\land B)$ as $\texttt{NAND}(A, B)$.
+        
+        [Hint: here’s an example of using \texttt{NOR} to implement \texttt{NOT}: $\texttt{NOT}(A)\equiv \texttt{NOR}(A, A)$, since $(A\lor A) \equiv A$.]
+        \begin{solution}
+            \begin{itemize}
+                \item \textbf{\texttt{NOT} operator}
+                
+                Note that $\texttt{NAND}(A, A) \equiv \neg (A \land A) \equiv \neg A \lor \neg A \equiv \neg A$.
+                
+                Therefore, the \texttt{NOT} operator is implemented as $\boxed{\texttt{NOT}(A) = \texttt{NAND}(A, A)}$.
+
+                \item \textbf{\texttt{OR} operator}
+                
+                Note that $\neg(\neg A \land \neg B) \equiv A \lor B$,
+                which means $\texttt{OR}(A, B)=\texttt{NAND}(\texttt{NOT}(A), \texttt{NOT}(B))$.
+                
+                Further expand the $\texttt{NOT}$ operators as implemented before, we have:
+                $\boxed{\texttt{OR}(A, B)=\texttt{NAND}\left[\texttt{NAND}(A, A), \texttt{NAND}(B,B)\right]}$.
+
+                \item \textbf{\texttt{AND} operator}
+                
+                Note that if we apply \texttt{NAND} on the result of $\texttt{NAND}(A, B)$, we have:
+                $$\neg\left[\neg\left(A\land B\right)\land\neg\left(A\land B\right)\right]
+                \equiv \left(A\land B\right)\lor\left(A \land B\right)
+                \equiv A \land \left(B \lor B\right)
+                \equiv A \land B$$
+
+                Therefore, the \texttt{AND} operator is implemented as
+                \fbox{$\topr{AND}{A}{B}=\topr{NAND}{\topr{NAND}{A}{B}}{\topr{NAND}{A}{B}}$}.
+
+                \item \textbf{\texttt{XOR} operator}
+                
+                Recall that $A\lxor B
+                \equiv (A\lor B)\land\neg(A\land B)$. From this expression, we continue to derive:
+                \begin{align*}
+                    (A\lor B)\land\neg(A\land B)
+                    &\equiv (A\land\neg(A\land B))\lor(B\land\neg(A\land B)) \qquad\text{(Distributive Law)}\\
+                    &\equiv \neg[\neg(A\land\neg(A\land B))\land\neg(B\land\neg(A\land B))] \qquad\text{(De Morgan's Law)}\\
+                    &\equiv \topr{NAND}{
+                        \topr{NAND}{A}{\topr{NAND}{A}{B}}
+                    }{
+                        \topr{NAND}{B}{\topr{NAND}{A}{B}}
+                    }
+                \end{align*}
+
+                Therefore, \texttt{XOR} is implemented as \fbox{$\topr{XOR}{A}{B}
+                =\topr{NAND}{
+                        \topr{NAND}{A}{\topr{NAND}{A}{B}}
+                    }{
+                        \topr{NAND}{B}{\topr{NAND}{A}{B}}
+                    }$}.
+
+                \item \textbf{\texttt{IMPLIES} operator}
+                
+                By logical equivalence, we have $A \limp B \equiv \neg A \lor B$.
+
+                Expand the expression, we have:
+                \begin{align*}
+                    \neg A\lor B
+                    &\equiv \topr{OR}{\tnot{A}}{B} \\
+                    &\equiv \topr{NAND}{A}{\tnot{B}} \\
+                    &\equiv \topr{NAND}{A}{\topr{NAND}{B}{B}}
+                \end{align*}
+
+                Therefore, \texttt{IMPLIES} is as \fbox{$
+                \topr{IMPLIES}{A}{B} = 
+                \topr{NAND}{A}{\topr{NAND}{B}{B}}
+                $}.
+            \end{itemize}
+        \end{solution}
+    \end{parts}
+
+    \question Quantifiers and Predicates
+
+    \begin{parts}
+        
+        \part Rewrite expression
+        $\neg(\exists y\neg(\forall x(P(x)\land Q(y)))\limp\exists z R(z))$ so that all the negation signs immediately precedes predicates.
+        \begin{solution}
+            \begin{align*}
+                \neg[\exists y\neg\{\forall x[P(x)\land Q(y)]\}\limp\exists zR(z)]
+                &\equiv \neg[\exists y{\exists x[\neg P(x)\lor\neg Q(y)]}\limp\exists zR(z)]\\
+                &\equiv \neg[\neg\{\exists x\exists y[\neg P(x)\lor\neg Q(y)]\}\lor\exists zR(z)]\\
+                &\equiv \neg[\forall x\forall y[P(x)\land Q(y)]\lor\exists zR(z)]\\
+                &\equiv \neg[(\forall xP(x)\land\forall yQ(y))\lor\exists zR(z)]\\
+                &\equiv \neg(\forall xP(x)\land\forall yQ(y))\land\forall z\neg R(z)\\
+                &\equiv \boxed{[\exists x\neg P(x)\lor\exists y\neg Q(y)]\land\forall z\neg R(z)}
+            \end{align*}
+        \end{solution}
+
+        \part Consider the two predicates $P(x)$ and $Q(x)$ with the same universe of discourse.
+
+        Prove that $\forall xP(x)\land\exists xQ(x) \equiv \forall x \exists y (P(x)\land Q(y))$.
+        \begin{psol}
+            Rename the variable on the left-hand side, we have:
+            $$\forall xP(x)\land\exists yQ(y) \equiv \forall x\exists y(P(x)\land Q(y))$$
+            To prove equivalence, we prove both the sufficiency and necessity.
+            \begin{enumerate}
+                \item \textbf{Sufficiency:} $\forall xP(x)\land\exists yQ(y) \Rightarrow \forall x\exists y(P(x)\land Q(y))$
+                
+                Assume that the L.H.S. is true, then for all $x$, $P(x)$ must hold.
+                Also, there must exist at least one $y$, say $y_0$, such that $Q(y_0)$ holds.
+                Therefore, for all $x$, we can always find a $y$, which is $y_0$, such that
+                $P(x)\land Q(y)$ holds. We have displayed that the R.H.S. must be true if
+                the L.H.S. is true.
+
+                \item \textbf{Necessity:} $\forall xP(x)\land\exists yQ(y) \Leftarrow \forall x\exists y(P(x)\land Q(y))$
+                
+                Assume that the R.H.S. (i.e., $\forall x\exists y(P(x)\land Q(y))$) is true,
+                then for all $x$, we can always find a $y$, say $y_0$, such that $P(x)\land Q(y_0)$
+                holds. Therefore, for all $x$, $P(x)$ must hold, and there must exist at least one $y$,
+                which is $y_0$, such that $Q(y_0)$ holds. We have displayed that the L.H.S. must be true if
+                the R.H.S. is true.
+            \end{enumerate}
+            Since both the sufficiency and necessity have been proved, we conclude that
+            $\forall xP(x)\land\exists xQ(x) \liff \forall x \exists y (P(x)\land Q(y))$
+            is a tautology, i.e., the two statements are logically equivalent.
+        \end{psol}
+
+        \part Justify whether $\exists x \forall y P(x, y) \limp \forall y \exists x P(x, y)$
+        is always a tautology for any predicate $P(x, y)$.
+        \begin{solution}
+            We propose that the given proposition is not always a tautology, and we attempt
+            to find an example, such that the proposition is a contradiction.
+
+            $\exists x \forall y P(x,y) \limp \forall y \exists x P(x,y)$ is a contradiction
+            iff $\exists x \forall y P(x,y)$ is $\ltrue$ and $\forall y \exists x P(x,y)$ is
+            $\lfalse$.
+
+            If the antecedent is true, then, for at least one $x$, say $x_0$, $P(x_0, y)$
+            holds for all $y$.
+
+            If the consequent is false, then, for at least one $y$, say $y_0$, there does not
+            exist any $x$ such that $P(x, y_0)$ holds.
+
+            However, if $P(x_0, y)$ holds for all $y$, then $P(x_0, y_0)$ must also hold.
+            Therefore, such $y_0$ does not exist, and the consequent can never be false if
+            the antecedent is true.
+
+            Therefore, we cannot find a counterexample such that the antecedent is true
+            while the consequent is false. Hence, the given proposition is always a tautology.
+        \end{solution}
+
+    \end{parts}
+
+    \question Proofs
+
+    \begin{parts}
+        
+        \part Consider the following proof that uses logical equivalence/implication:
+        \begin{align}
+            \forall x(\neg P(x)\limp Q(x))\land\forall y\neg Q(y)
+            &\equiv \forall x(P(x)\lor Q(x))\land\forall y\neg Q(y) \\
+            &\equiv \forall x[(P(x)\land Q(x))\lor\neg Q(x)] \\
+            &\equiv \forall x[P(x)\land\neg Q(x)] \\
+            &\Rightarrow \forall xP(x) \\
+            &\Rightarrow \exists xP(x).
+        \end{align}
+        Determine whether the proof is corrct.
+        \begin{solution}
+            Step 1: Valid. This is implication law ($P \limp Q \equiv \neg P \lor Q$).
+
+            Step 2: Valid. Renaming the variable $x$ to $y$ does not change the meaning of
+            the statement. This is also the distribution law of $\forall$ over $\land$ --
+            $\forall x P(x) \land \forall y Q(y) \equiv \forall x (P(x) \land Q(x))$.
+
+            Step 3: Valid. This step combines application of several laws:
+            \begin{align*}
+                &\equiv \forall x[(P(x)\land\neg Q(x)) \lor (Q(x)\land\neg Q(x))] \qquad\text{(Distribution law)}\\
+                &\equiv \forall x[(P(x)\land\neg Q(x)) \lor \lfalse] \qquad\text{(Contradiction law)}\\
+                &\equiv \forall x[P(x)\land\neg Q(x)] \qquad\text{(Identity law)}
+            \end{align*}
+
+            Step 4: Valid. This is the simplification (i.e., $P\land Q \limp P$).
+
+            Step 5: Valid. First, since $\forall x P(x)$ is true, then $P(c)$ must be true
+            for any $c$ in the universe of dicourse. Then, since there exists at least one
+            $x$, $c$ in this case, such that $P(x)$ is true, then $\exists x P(x)$ is true.
+
+            Therefore, the proof is sound and valid.
+        \end{solution}
+
+        \part Proof by induction that
+        \[
+            \sum_{k=1}^n \cos(kx) = \frac{1}{2}\left(\frac{\sin\left[\left(n+\frac{1}{2}\right)x\right]}{\sin\left(\frac{1}{2}x\right)}-1\right)
+        \]
+        holds for all integers $n\geq 1$.
+        \begin{psol}
+            Denote $P(n) : \ds{\sum_{k=1}^n \cos(kx) = \frac{1}{2}\left(\frac{\sin\left[\left(n+\frac{1}{2}\right)x\right]}{\sin\left(\frac{1}{2}x\right)}-1\right)}$.
+
+            \textbf{Base Case:} $n=1$.
+            \begin{equation*}
+                \text{L.H.S.} = \sum_{k=1}^1 \cos(kx) = \cos(x)
+            \end{equation*}
+            \begin{align*}
+                \text{R.H.S.} &= \frac{1}{2}\left(\frac{\sin\frac{3}{2}x}{\sin\frac{1}{2}x}-1\right)\\
+                &= \frac{1}{2} \left(\frac{\sin\frac{3}{2}x-\sin\frac{1}{2}x}{\sin\frac{1}{2}x}\right)\\
+                &= \frac{1}{2} \left(\frac{2\cos x\sin\frac{1}{2}x}{\sin\frac{1}{2}x}\right)\\
+                &= \cos x \\
+                &= \text{L.H.S.}
+            \end{align*}
+            Therefore, $P(1)$ holds.
+
+            \textbf{Inductive Step:} Assume that $P(n)$ holds for $n\geq 1$. We show that $P(n+1)$ also holds.
+            \begin{align*}
+                \text{L.H.S.} &= \sum_{k=1}^{n+1} \cos(kx) \\
+                &= \sum_{k=1}^n \cos(kx) + \cos\left((n+1)x\right) \\
+                &= P(n) + \cos\left((n+1)x\right) \\
+                &= \frac{1}{2}\left(\frac{\sin\left[\left(n+\frac{1}{2}\right)x\right]}{\sin\frac{1}{2}x}-1\right) + \cos\left((n+1)x\right) \\
+                &= \frac{1}{2}\left(\frac{\sin\left[\left(n+\frac{1}{2}\right)x\right]-\sin\frac{1}{2}x}{\sin\frac{1}{2}x}\right) + \cos\left((n+1)x\right) \\
+                &= \frac{1}{2}\left(\frac{2\cos\left[\frac{n+1}{2}x\right]\sin\left[\frac{n}{2}x\right]}{\sin\frac{1}{2}x}\right) + \cos\left((n+1)x\right) \\
+                &= \frac{\cos\left[\frac{n+1}{2}x\right]\sin\left[\frac{n}{2}x\right] + \cos\left((n+1)x\right)\sin\frac{1}{2}x}{\sin\frac{1}{2}x} \\
+                &= \frac{\sin\left[\frac{2n+1}{2}x\right]-\sin\frac{1}{2}x+\sin\left[\frac{2n+3}{2}x\right]-\sin\left[\frac{2n+1}{2}x\right]}{2\sin\frac{1}{2}x} \\
+                &= \frac{1}{2}\left(\frac{\sin\left[\frac{2n+3}{2}x\right]}{\sin\frac{1}{2}x}-1\right) \\
+                &= \frac{1}{2}\left(\frac{\sin\left[\left(\left(n+1\right)+\frac{1}{2}\right)x\right]}{\sin\frac{1}{2}x}-1\right) \\
+                &= \text{R.H.S.}
+            \end{align*}
+            Therefore, $P(n) \Rightarrow P(n+1)$.
+
+            By the principle of mathematical induction, $P(n)$ holds for all $n\geq 1$.
+        \end{psol}
+
+        \newpage
+
+        \part One day you are playing a card game with one friend. Suppose there are 191 cards in total. You
+        and your friend take turns to draw 1 to 5 cards once. The one who draws the last card will lose the
+        game. Suppose you always draw the cards first, and your friend is wise enough. Design a winning
+        strategy and proof that you can always win.
+        \begin{solution}
+            We may consider different cases at the end of the game. When 2 cards remain, and it
+            is my turn to take cards, I can take 1, and the opponent is left with 1 card,
+            therefore losing the game. Similarly, when 3 cards remain, I can take 2 and leave
+            1. This winning position goes on until there are 7 remaining cards, where, no
+            matter how many cards I take, he will be in the winning position as the case
+            reduces to 1 to 6 remaining cards. Therefore, when the party who is left with 7
+            cards to draw must lose the game. When there are 8 cards remaining, I can take 1
+            card to reduce it to 7 and force my opponent on the losing position. Similarly,
+            when there are 9 remaining, I take 2, ..., until there are 12 remaining for me and
+            I take 5 to make it 7. Again, if I am left with 13 cards, no matter how many I take,
+            it will reduce to 8 to 12 remaining cards, and my opponent can always make sure that
+            I am left with 7 cards, thus losing.
+
+            From the above discussion, we can observe that if we can ensure the opponent is
+            left with $6n+1$ cards to take where $n\in\Z^+$, we can always win. Therefore, we
+            can come up with this strategy:
+
+            \textbf{Strategy:} I first take 4 cards, so that the opponent is left with 
+            $191-4=187=6\times31+1$ cards. Suppose the opponent then take $p\in[1,5]$ cards
+            in each round, I take $(6 - p)$ cards, and repeat until the game ends.
+
+            Now we formally prove this strategy.
+
+            \begin{psol}
+                Denote $P(n):$ ``When there are $(6n+1)$ cards remaining, the player who make
+                a step from this state by taking $p$ cards must lose if the opponent
+                takes $(6-p)$ cards.'' We prove $\forall n\geq1:P(n)$.
+
+                \textbf{Base case:} $P(1)$ (i.e. 7 remaining cards).
+                In the table below, the columns $P$ record number of cards taken by the player
+                making a move from the state of $(6n+1)$ cards, columns $O$ record the opponent.
+                The numbers in the brackets denote the cards remaining.
+                \begin{center}
+                    \begin{tabular}{|c||c|c|c||c|}
+                        \hline
+                                                        & \textbf{P}    & \textbf{O}    & \textbf{P}    & \textbf{Result of P} \\
+                        \hline
+                        $\bm{P(1):}$ \textbf{Case 1}    & 1 (6)         & 5 (1)         & 1 (0)         & \textbf{Lose} \\
+                        $\bm{P(1):}$ \textbf{Case 2}    & 2 (5)         & 4 (1)         & 1 (0)         & \textbf{Lose} \\
+                        $\bm{P(1):}$ \textbf{Case 3}    & 3 (4)         & 3 (1)         & 1 (0)         & \textbf{Lose} \\
+                        $\bm{P(1):}$ \textbf{Case 4}    & 4 (3)         & 2 (1)         & 1 (0)         & \textbf{Lose} \\
+                        $\bm{P(1):}$ \textbf{Case 5}    & 5 (2)         & 1 (1)         & 1 (0)         & \textbf{Lose} \\
+                        \hline
+                    \end{tabular}
+                \end{center}
+                Therefore, regardless how many cards the player takes, he will always lose if the
+                opponent is playing optimally.
+
+                Therefore, $P(1)$ holds.
+
+                \textbf{Inductive Step}: Assume that for some $k\geq1$, $P(k)$ holds. Consider
+                $P(k+1)$, that is, we have $[6(k+1)+1]$ cards remaining. When compared with
+                $P(k)$, we have $[6(k+1)+1]-(6k+1)=6k+7-6k-1=6$ more cards.
+
+                Observe that in each round, the player takes $p$ cards, and the opponent takes
+                $(6-p)$ cards, removing a total of $p+(6-p)=6$ cards. Then, after one round from
+                $P(k+1)$, the number of remaining cards reduces by 6, reducing the case back to
+                $P(k)$, which is assumed to hold.
+
+                Therefore, we have $P(k)\Rightarrow P(k+1)$.
+
+                By the principle of mathematical induction, $P(n)$ holds for all $n\geq1$.
+
+                Now, integrate this $P(n)$ with our strategy. We first take away 4 cards, leaving
+                187 remaining cards, which corresponds to the $P(31)$ case. Since we have shown
+                $\forall n\geq 1 P(n)$, then $P(31)$ must hold. And notice that after we take the
+                initial 4 cards, it is the opponent who starts to make a move from this state,
+                therefore, the opponent must lose, i.e., I must win.
+            \end{psol}
+        \end{solution}
+
+    \end{parts}
+    
+    \newpage 
+
+    \question Basics on Sets
+
+    \begin{parts}
+        
+        \part Determine the cardinality of the following sets:
+        \begin{enumerate}[label=(\roman*)]
+            \item $A = \set{\set{0, 1}, 2, 3, \mtset}$
+            \item The power set $\pwset{B}$ of $B = \set{1, 2, \mtset, |x|=2}$
+            \item The set $C=\set{x\in\N\mid x^2\leq 100}$ (Note that the set of natural numbers $\N$ includes zero).
+            \item The set $D = \set{x\text{ is a letter}\mid x\text{ does not appear in the word ``artificial''}}$.
+        \end{enumerate}
+        \begin{solution}
+            \begin{enumerate}[label=(\roman*)]
+                \item $\card{A} = \boxed{4}$
+                \item $\card{\pwset{B}} = 2^{\card{B}} = 2^4 = \boxed{16}$,
+                provided that the set $B$ has two integers, one empty set, and one proposition.
+                \item Note that $C = [0, 10]$. Therefore, $\card{C} = \boxed{11}$.
+                \item Assuming that capital and small letters are the same, then
+                $\card{D} = 26-7 =\boxed{19}$.
+            \end{enumerate}
+        \end{solution}
+
+        \part For $A,B,C$ in part \ref{part@6@1}, determine the cardinalities of the following sets:
+        \begin{enumerate}[label=(\roman*)]
+            \item $A \cap B$
+            \item $B \cup (C\cap\mtset) - A$
+            \item $(A\cap B)\times(B\cap C)$
+        \end{enumerate}
+        \begin{solution}
+            \begin{enumerate}[label=(\roman*)]
+                \item $A \cap B = \set{2, \mtset} \Rightarrow \card{A\cap B} = \boxed{2}$.
+                \item Consider:\begin{align*}
+                    B \cup (C\cap\mtset) - A 
+                    &= B\cup\mtset - A \\
+                    &= B-A \\
+                    &= \set{1, 2, \mtset, |x|=2} - \set{\set{0, 1}, 2, 3, \mtset} \\
+                    &= \set{1, |x|=2} \\
+                    &\Rightarrow \card{B \cup (C\cap\mtset) - A} = \boxed{2}
+                \end{align*}
+                \item Consider:\begin{align*}
+                    (A\cap B)\times(B\cap C)
+                    &= \set{2, \mtset} \times \set{1, 2} \\
+                    &= \set{(2, 1), (2, 2), (\mtset, 1), (\mtset, 2)} \\
+                    &\Rightarrow \card{(A\cap B)\times(B\cap C)} = \boxed{4}
+                \end{align*}
+            \end{enumerate}
+        \end{solution}
+
+    \end{parts}
+
+    \newpage
+
+    \question Venn Diagrams
+
+    \begin{parts}
+        
+        \part Identify the set represented in the following figure:
+        \begin{center}
+            \begin{venndiagram3sets}
+                \fillACapC
+                \fillBCapC
+            \end{venndiagram3sets}
+        \end{center}
+        \begin{solution}
+            The set represented in the figure is $(A\cup B)\cap C$.
+        \end{solution}
+
+        \part Draw Venn diagram for $(A\cup B) - (\overline{A\cap C})$.
+        \begin{solution}
+            \begin{center}
+                \begin{venndiagram3sets}[labelNotABC=$U$,shade=cyan!40]
+                    \fillACapC
+                \end{venndiagram3sets}
+            \end{center}
+        \end{solution}
+
+    \end{parts}
+
+    \newpage
+
+    \question Set Theory and Logic
+
+    \begin{parts}
+        
+        \part Determine whether $\forall\text{ sets }A,B,C,D:(A\cap B)\times(C\cap D)
+        =(A\times C)\cap(B\times D)$.
+        \begin{solution}
+            To show that the two sets are equal, we show that whenever an element
+            is in the L.H.S. set, it must also be in the R.H.S. set, and vice versa.
+            
+            Recall that $x\in (A\cap B) \equiv (x\in A) \land (x\in B)$
+            and $(x, y) \in (A\times B) \equiv (x\in A) \land (y\in B)$.
+            Therefore, for L.H.S., we have:
+            \begin{align*}
+                (x,y)\in(A\cap B)\times(C\cap D)
+                &\equiv (x\in A\cap B)\land(y\in C\cap D) \\
+                &\equiv (x\in A\land x\in B) \land (y \in C \land y \in D) \\
+                &\equiv x\in A \land y \in C \land x \in B \land y \in D \qquad\text{(Associative Law)}\\
+                &\equiv (x\in A \land y \in C) \land (x \in B \land y \in D) \\
+                &\equiv (x,y)\in(A\times C) \land (x,y)\in(B\times D) \qquad\text{(Definition of Cartesian Product)}\\
+                &\equiv (x,y)\in(A\times C)\cap(B\times D)
+            \end{align*}
+            Therefore, whenever we have $(x,y)\in(A\cap B)\times(C\cap D)$, we must also have
+            $(x,y)\in(A\times C)\cap(B\times D)$, i.e., the two sets are equal, and the given
+            proposition holds for all sets $A, B, C, D$.
+        \end{solution}
+
+        \part Prove $\forall\text{ arbitrary sets }A,B,C: (A\cup B)-C = (A-C)\cup(B-C)$.
+        \begin{psol}
+            To proof the equality of two sets, we show that whenever an element
+            is in the L.H.S. set, it must also be in the R.H.S. set, and vice versa.
+
+            Recall the definitions that
+            $x\in(A\cup B) \equiv (x\in A) \lor (x\in B)$ and
+            $x\in(A-B) \equiv (x\in A) \land \neg(x\in B)$. Then, for L.H.S., we have
+            \begin{align*}
+                x\in\left[(A\cup B)-C\right]
+                &\equiv x\in(A\cup B)\land \neg(x\in C) \\
+                &\equiv (x\in A \lor x\in B) \land (x\notin C)\\
+                &\equiv (x\in A \land x\notin C) \lor (x\in B \land x\notin C)\\
+                &\equiv [x\in(A-C)] \lor [x\in(B-C)]\\
+                &\equiv x\in[(A-C)\cup (B-C)]
+            \end{align*}
+            Hence, we have shown that the sets on L.H.S. and R.H.S. are equal. Since $A,B,$
+            and $C$ are chosen to be arbitrary, therefore the proposition also holds for any
+            arbitrary sets.
+        \end{psol}
+
+    \end{parts}
+
+    \newpage
+
+    \question Relations
+
+    \begin{parts}
+        
+        \part For the relation $R_1=\{(x, y)\in\Z\times\Z\mid x+2y\text{ is an even number}\}$,
+        prove or disprove that $R_1$ is
+
+        \begin{subparts}
+
+            \subpart reflexive
+            \begin{psol}
+                To verify reflexivity, we need to check whether $xR_1x$, i.e., whether
+                $x+2x=3x$ is an even number. Note that any arbitrary even number can be
+                expressed in the form of $2n$ for some $n\in\Z$.
+
+                \textbf{Case 1:} when $x$ is an even number, i.e., $x=2n$.
+                Then, we have $3x=3(2n)=6n=2(3n)$, which is an even number. Therefore,
+                $xR_1x$ holds when $x$ is an even number.
+
+                \textbf{Case 2:} when $x$ is an odd number, i.e., $x=2n+1$.
+                Then, we have $3x=3(2n+1)=6n+3=2(3n+1)+1$, which is an odd number.
+                Therefore, $x{R_1}x$ does not hold when $x$ is an odd number.
+
+                Having exhausted all the cases and shown that $\exists x:(x,x)\notin R_1$,
+                we conclude that \fbox{$R_1$ is not reflexive}.
+            \end{psol}
+
+            \subpart symmetric
+            \begin{psol}
+                To verify symmetry, we need to check whether $yR_1x$ whenever $yR_1x$ for all
+                $x,y\in\Z$.
+
+                Let $x$ be an arbitrary even number, i.e., $x=2n$ for some $n\in\Z$,
+                and $y$ be an arbitrary odd number, i.e., $y=2m+1$ for some $m\in\Z$.
+                
+                Then, for $xR_1y$, we have $x+2y=2n+2(2m+1)=2(n+2m+1)$, which is an even number,
+                so $xR_1y$ holds.
+
+                However, for $yR_1x$, we have $y+2x=(2m+1)+2(2n)=2(m+2n)+1$, which is an odd number,
+                so $yR_1x$ does not hold.
+
+                Having found a counterexample such that $(x,y)\in R_1$ but $(y, x)\in R_1$,
+                we conclude that \fbox{$R_1$ is not symmetric}.
+            \end{psol}
+
+            \subpart transitive
+            \begin{psol}
+                To verify transitivity, we need to check whether $xR_1z$ whenever
+                $xR_1y$ and $yR_1z$ for all $x,y,z\in\Z$.
+                
+                We can show this by contradiction. Assume that $xR_1y$ and $yR_1z$ hold,
+                but $xR_1z$ does not hold.
+                It implies that $x+2z$ is an odd number. Note that since $2z$ must be even,
+                then $x$ must be an odd number. For $xR_1y$ to hold, $x+2y$ must be even,
+                and when $x$ is odd, $2y$ must also be odd, which is impossible as $2y$ must
+                be even for any integer $y$.
+
+                Therefore, our assumption is wrong, and we have shown that whenever $xR_1y$
+                and $yR_1z$ hold, $xR_1z$ must also hold. Hence, we conclude that
+                \fbox{$R_1$ is transitive}.
+            \end{psol}
+
+        \end{subparts}
+
+        \part Determine correctness of a statement.
+        \begin{solution}
+            The statement is not correct.
+
+            The logical fallacy is at the statement ``Take an arbitrary $b$ such that $aRb$.''
+            The statement assumes that such $b$ exists, which is not necessarily true.
+            Symmetry only ensures that if $aRb$ holds, then $bRa$ must also hold, but it does not
+            ensure that $aRb$ alone must hold.
+        \end{solution}
+
+    \end{parts}
+
+\end{questions}
+
+\end{document}

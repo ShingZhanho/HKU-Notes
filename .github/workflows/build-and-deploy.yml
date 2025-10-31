@@ -8,6 +8,9 @@ on:
     branches:
       - 'master'
       - 'targets/**'
+  pull_request:
+    branches:
+      - 'master'
 jobs:
 
   configure-matrix:
@@ -235,7 +238,7 @@ jobs:
 
       - name: Generate PDF preview png (for PDF targets) (cache miss)
         if: env.DYENV_IS_PDF == 'true' && env.DYENV_ABORT_WORKFLOW == 'false'
-        run: pdftoppm -png -r 150 -forcenum -progress ../${{ env.DYENV_OUTPUT_FILE }} ${{ matrix.target }}_preview
+        run: pdftoppm -png -r 200 -forcenum -progress ../${{ env.DYENV_OUTPUT_FILE }} ${{ matrix.target }}_preview
         working-directory: src/${{ matrix.target }}/~preview
 
       - name: Generate files for deployment (non-alias LaTeX targets)
@@ -274,6 +277,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
+        # Deploy iff we are on master branch and the event is a push (not a PR)
     env:
       DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
     steps:
@@ -288,7 +292,7 @@ jobs:
         with:
           python-version: '3.13'
           cache: 'pip'
-          cache-dependency-path: ./build/python-requirement-lists/*.txt
+          cache-dependency-path: ./build/python-requirement-lists/mkdocs-material-pkgs.txt
 
       # --- DOWNLOAD COMPILED ARTIFACTS ---
       - name: Install mkdocs-material
@@ -361,6 +365,18 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      # --- POST-DEPLOY NOTIFICATIONS ---
+      - name: Write Google API key
+        run: |
+          mkdir -p ./secrets
+          echo '${{ secrets.GOOGLE_INDEXING_API_JSON_KEY }}' > ./secrets/google_indexing_api_key.json
+
+      - name: Copy IndexNow key
+        run: cp ./gh-out/indexnowkey33fe8f8f945.txt ./secrets/
+
+      - name: Request indexing from Google and IndexNow
+        run: python3 ./build/request_indexing.py
+
   test-deploy-scripts:
     # +---
     # | This job is identical to deploy-pages, but is only run for branch validation.
@@ -368,7 +384,8 @@ jobs:
     # +---
     runs-on: ubuntu-22.04 # Jammy
     needs: build-target
-    if: ${{ startsWith(github.ref, 'refs/heads/targets/') }}
+    if: ${{ github.ref != 'refs/heads/master' || github.event_name != 'push' }}
+        # Only run this job if we are NOT on master branch or the event is a PR (negation of deploy-pages job condition)
     env:
       DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
     steps:
@@ -383,7 +400,7 @@ jobs:
         with:
           python-version: '3.13'
           cache: 'pip'
-          cache-dependency-path: ./build/python-requirement-lists/*.txt
+          cache-dependency-path: ./build/python-requirement-lists/mkdocs-material-pkgs.txt
 
       # --- DOWNLOAD COMPILED ARTIFACTS ---
       - name: Install mkdocs-material
