@@ -353,7 +353,7 @@ jobs:
 
       # --- CONFIGURE INDEXNOW KEY ---
       - name: Copy IndexNow key file
-        run: cp ./build/seo/indexnowkey33fe8f8f945.txt ./gh-out
+        run: cp ./build/seo/33fe8f8f94504b19ac2625348c5a31d5.txt ./gh-out
 
       # --- DEPLOY TO GITHUB PAGES ---
       - name: Upload static files as artifact
@@ -461,7 +461,7 @@ jobs:
 
       # --- CONFIGURE INDEXNOW KEY ---
       - name: Copy IndexNow key file
-        run: cp ./build/seo/indexnowkey33fe8f8f945.txt ./gh-out
+        run: cp ./build/seo/33fe8f8f94504b19ac2625348c5a31d5.txt ./gh-out
 
       # --- UPLOAD TO ARTIFACT (NO DEPLOYMENT) ---
       - name: Upload static files as artifact
