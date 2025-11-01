@@ -54,6 +54,8 @@ extra:
 extra_css:
   - stylesheets/extra.css
   - stylesheets/preview.css
+extra_javascript:
+  - javascripts/glightbox_events.js
 use_directory_urls: false
 plugins: 
   - glightbox:
