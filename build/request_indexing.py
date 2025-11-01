@@ -33,10 +33,10 @@ def get_indexnow_key() -> str:
         str: The IndexNow key.
     """
     try:
-        with open("./secrets/indexnowkey33fe8f8f945.txt", "r", encoding="utf-8") as f:
+        with open("./secrets/indexnow_key.txt", "r", encoding="utf-8") as f:
             return f.read().strip()
     except FileNotFoundError:
-        print("WARNING: IndexNow key file not found at ./secrets/indexnowkey33fe8f8f945.txt")
+        print("WARNING: IndexNow key file not found at ./secrets/indexnow_key.txt")
         return ""
     except Exception as e:
         print(f"WARNING: Error reading IndexNow key: {str(e)}")
@@ -92,7 +92,7 @@ def submit_to_indexnow(urls: list[str], api_key: str) -> None:
     payload = {
         "host": "hku.jacobshing.com",
         "key": api_key,
-        "keyLocation": f"https://hku.jacobshing.com/indexnowkey33fe8f8f945.txt",
+        "keyLocation": f"https://hku.jacobshing.com/{api_key}.txt",
         "urlList": urls
     }
     

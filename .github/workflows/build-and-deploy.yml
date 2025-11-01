@@ -374,8 +374,8 @@ jobs:
           mkdir -p ./secrets
           echo '${{ secrets.GOOGLE_INDEXING_API_JSON_KEY }}' > ./secrets/google_indexing_api_key.json
 
-      - name: Copy IndexNow key
-        run: cp ./gh-out/indexnowkey33fe8f8f945.txt ./secrets/
+      - name: Write IndexNow key
+        run: cat ./gh-out/33fe8f8f94504b19ac2625348c5a31d5.txt > ./secrets/indexnow_key.txt
 
       - name: Request indexing from Google and IndexNow
         run: python3 ./build/request_indexing.py
