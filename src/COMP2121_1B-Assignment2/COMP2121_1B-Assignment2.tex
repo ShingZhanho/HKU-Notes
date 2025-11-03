@@ -728,7 +728,11 @@
         unoccupied seats. Determine the probability that the last passenger sits in the assigned seat.
 
         \begin{solution}
-            Denote $E^m_n$ as the event that the $n$-th passenger sits in the seat numbered $m$.
+            Note that when there is only 1 passenger, they will always sit in their assigned seat.
+            Therefore, the probability is 1.
+
+            For $n\geq2$,
+            denote $E^m_n$ as the event that the $n$-th passenger sits in the seat numbered $m$.
             We are required to find $P(E^n_n)$.
 
             Note that there are three cases:
@@ -759,8 +763,13 @@
                 &= 1\cdot\frac{1}{n} + 0\cdot\frac{1}{n} + \frac{1}{2}\cdot\frac{n-2}{n} \\
                 &= \frac{1}{n} + \frac{n-2}{2n} \\
                 &= \frac{n}{2n} \\
-                &= \boxed{\frac{1}{2}}.
+                &= \frac{1}{2}.
             \end{align*}
+
+            Thus, we have $\boxed{P(E^n_n)=\begin{cases}
+                \frac{1}{2} & \text{if } n \geq 2 \\
+                1 & \text{if } n = 1
+            \end{cases}}$.
         \end{solution}
 
         \part[4] A family has two children. It is known that at least one of them is a girl born on
