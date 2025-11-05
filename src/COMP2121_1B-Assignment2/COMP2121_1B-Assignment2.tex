@@ -630,56 +630,36 @@
         randomly selected from the dataset.
 
         \begin{solution}
-            From the given information, we have $P(\text{label}=\text{spam})=0.1$ and
-            $P(\text{label}=\text{non-spam})=0.9$. We are required to find
-            $P(\text{correct prediction})=
-            P(\text{label}=\text{spam}\cap\text{output}=\text{spam}) +
-            P(\text{label}=\text{non-spam}\cap\text{output}=\text{non-spam})$.
-            
-            By the property of conditional probability, we have
-            \[
-                P(A\cap B) = P(A) P(B\mid A).
-            \]
+            Let $L$ be the event that the mail is labelled as spam, $\overline{L}$ be the event that the mail
+            is labelled as non-spam, $O$ be the event that the model outputs spam for the mail, and 
+            $\overline{O}$ be the event that the model outputs non-spam for the mail.
 
-            Therefore,
+            From the given information, we have
             \begin{align*}
-                P(\text{correct prediction}) &=
-                P(\text{label}=\text{spam}\cap\text{output}=\text{spam}) + P(\text{label}=\text{non-spam}\cap\text{output}=\text{non-spam}) \\
-                &= P(\text{label}=\text{spam}) P(\text{output}=\text{spam}\mid\text{label}=\text{spam}) \\
-                &\qquad+ P(\text{label}=\text{non-spam}) P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam}) \\
-                &= 0.1 \cdot 0.8 + 0.9 \cdot 0.9 \\
-                &= 0.08 + 0.81 \\
-                &= \boxed{0.89}
+                P(L) = 0.1, &\quad P(\overline{L}) = 0.9, \\
+                P(O\mid L) = 0.8, &\quad P(\overline{O}\mid \overline{L}) = 0.9.
             \end{align*}
-        \end{solution}
+
+            We need to find $P(L\cap O)+P(\overline{L}\cap \overline{O})$.
+
+            By conditional probabilities, we have $P(O\mid L) = \frac{P(L\cap O)}{P(L)} \Leftrightarrow P(L\cap O) = P(O\mid L) \cdot P(L) = 0.8 \cdot 0.1 = 0.08$.
+            Similarly, we have $P(\overline{O}\cap\overline{L}) = P(\overline{O}\mid\overline{L})\cdot P(\overline{L}) = 0.9 \cdot 0.9 = 0.81$.
+
+            Therefore, the required probability is $P(\text{output matches label})=0.08 + 0.81 = \boxed{0.89}$.
+      \end{solution}
 
         \part[4] Continuing from part (\ref{part@8@1}), calculate the probability that the
         true label is spam given that the model predicts spam.
 
         \begin{solution}
-            The required probability is $P(\text{label}=\text{spam}\mid\text{output}=\text{spam})$,
-            which is given by:
-            \begin{align*}
-                P(\text{label}=\text{spam}\mid\text{output}=\text{spam}) &=
-                \frac{P(\text{label}=\text{spam}\cap\text{output}=\text{spam})}{P(\text{output}=\text{spam})}\\
-                &=\frac{0.08}{P(\text{output}=\text{spam})}
-            \end{align*}
+            We need to find $P(L\mid O)=\frac{P(L\cap O)}{P(O)}$.
 
-            To find $P(\text{output}=\text{spam})$, we use the law of total probability:
-            \begin{align*}
-                P(\text{output}=\text{spam}) &=
-                P(\text{label}=\text{spam}) P(\text{output}=\text{spam}\mid\text{label}=\text{spam}) \\
-                &\qquad+ P(\text{label}=\text{non-spam}) P(\text{output}=\text{spam}\mid\text{label}=\text{non-spam}) \\
-                &= 0.1 \cdot 0.8 + 0.9 \cdot (1-P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam})) \\
-                &= 0.1 \cdot 0.8 + 0.9 \cdot 0.1 \\
-                &= 0.08 + 0.09 \\
-                &= 0.17
-            \end{align*}
+            By the law of total probability, we have $P(O)=P(O\mid L)P(L)+P(O\mid\overline{L})P(\overline{L})
+            =0.8\cdot0.1+\left[1-P(\overline{O}\mid\overline{L})\right]\cdot0.9
+            =0.08+(1-0.9)\cdot0.9=0.08+0.1\cdot0.9=0.08+0.09=0.17$.
 
-            Therefore, the required probability is $\frac{0.08}{0.17}=\boxed{\textstyle\frac{8}{17}}$.
+            Therefore, $P(L\mid O)=0.08/0.17=\boxed{\frac{8}{17}}$.
         \end{solution}
-
-        \newpage
 
         \part[4] Suppose the labels are manually provided by users, introducing noise in the dataset. 
         This means some emails have incorrect labels (i.e., the label has been flipped from spam to
@@ -688,34 +668,23 @@
         a random email from the dataset correctly, regardless of whether the label is accurate.
 
         \begin{solution}
-            We are given:
-            \[
-                P(\text{label}=\text{truth})=0.95,\quad
-                P(\text{label}\neq\text{truth})=0.05,
-            \]
-            and $P(\text{truth}=\text{spam})$ is now given by:
-            \begin{align*}
-                P(\text{label}=\text{spam}) &=
-                P(\text{truth}=\text{spam}\mid\text{label}=\text{truth}) P(\text{label}=\text{truth}) \\
-                &\qquad+ P(\text{truth}=\text{spam}\mid\text{label}\neq\text{truth}) P(\text{label}\neq\text{truth}) \\
-                0.1 &= P(\text{truth}=\text{spam})\cdot0.95 + (1-P(\text{truth}=\text{spam}))\cdot0.05 \\
-                0.05 &= 0.9 P(\text{truth}=\text{spam}) \\
-                P(\text{truth}=\text{spam}) &= \frac{1}{18}
-            \end{align*}
-            and $P(\text{truth}=\text{non-spam})=1-\displaystyle\frac{1}{18}=\frac{17}{18}$.
+            Let $C$ be the event that the label is correct, and $\overline{C}$ be the event that the label is flipped.
+            We have $P(C)=0.95$ and $P(\overline{C})=0.05$.
 
-            We need to find $P(\text{output}=\text{label})$. By the law of total probability, we have
+            When the label is correct ($C$), from part (\ref{part@8@1}), we know the probability that the model's
+            output matches the label is 0.89. Since the label is correct, this is also the probability that the
+            model categorizes the email correctly.
+
+            When the label is flipped ($\overline{C}$), the model's output matches the (incorrect) label with
+            the same probability 0.89. Therefore, the model categorizes the email correctly (i.e., matches the
+            true label) with probability $1-0.89=0.11$.
+
+            By the law of total probability, the probability that the model categorizes a random email correctly is
             \begin{align*}
-                P(\text{output}=\text{label}) &=
-                P(\text{output}=\text{label}\mid\text{label}=\text{truth}) P(\text{label}=\text{truth}) \\
-                &\qquad+ P(\text{output}=\text{label}\mid\text{label}\neq\text{truth}) P(\text{label}\neq\text{truth}) \\
-                &=\left[P(\text{output}=\text{spam}\mid\text{label}=\text{spam}) P(\text{truth}=\text{spam})\right.\\
-                        &\qquad\qquad+ \left.P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam}) P(\text{truth}=\text{non-spam})\right]\cdot 0.95 \\
-                    &\qquad+\left[P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam}) P(\text{truth}=\text{spam})\right.\\
-                        &\qquad\qquad+ \left.P(\text{output}=\text{spam}\mid\text{label}=\text{spam}) P(\text{truth}=\text{non-spam})\right] \cdot 0.05 \\
-                &=\left[0.8\cdot\frac{1}{18} + 0.9\cdot\frac{17}{18}\right]\cdot0.95 + \left[0.9\cdot\frac{1}{18} + 0.8\cdot\frac{17}{18}\right]\cdot0.05 \\
-                &=\frac{3059}{3600}+\frac{29}{720} \\
-                &= \boxed{\frac{89}{100}}.
+                P(\text{correct}) &= P(\text{correct}\mid C)P(C) + P(\text{correct}\mid\overline{C})P(\overline{C})\\
+                &= 0.89\cdot0.95 + 0.11\cdot0.05\\
+                &= 0.8455 + 0.0055\\
+                &= \boxed{0.851}.
             \end{align*}
         \end{solution}
 
