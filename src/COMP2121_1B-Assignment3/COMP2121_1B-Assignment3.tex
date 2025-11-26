@@ -358,7 +358,25 @@
             Then, we have a graph with 10 vertices, each of degree 2.
             We count the number of distinct graphs possible.
 
+            A graph where every vertex has degree 2 must consist of disjoint cycles.
+            By Handshaking, $\sum \deg(v) = 2|E| \Rightarrow |E| = \frac{1}{2}(10 \cdot 2) = 10$.
             
+            We partition 10 vertices into disjoint cycles. Consider the possible cycle structures:
+            \begin{enumerate}[label=(\arabic*)]
+                \item One cycle $C_{10}$: There are $\frac{1}{2}(10-1)! = \frac{9!}{2}$ ways to arrange 10 vertices in a cycle.
+                \item One $C_9$ and one $C_1$: Impossible since $C_1$ requires a self-loop, which is not allowed in simple graphs.
+                \item One $C_8$ and one $C_2$: Impossible since $C_2$ is not a valid simple cycle.
+                \item One $C_7$ and one $C_3$: $\binom{10}{7} \cdot \frac{1}{2}(7-1)! \cdot \frac{1}{2}(3-1)! = \binom{10}{7} \cdot \frac{6!}{2} \cdot \frac{2!}{2} = 120 \cdot 360 \cdot 1 = 43200$.
+                \item One $C_6$ and one $C_4$: $\binom{10}{6} \cdot \frac{1}{2}(6-1)! \cdot \frac{1}{2}(4-1)! = \binom{10}{6} \cdot \frac{5!}{2} \cdot \frac{3!}{2} = 210 \cdot 60 \cdot 3 = 37800$.
+                \item One $C_5$ and one $C_5$: $\frac{1}{2!}\binom{10}{5} \cdot \frac{1}{2}(5-1)! \cdot \frac{1}{2}(5-1)! = \frac{1}{2} \cdot 252 \cdot 12 \cdot 12 = 18144$.
+                \item Two $C_3$ and one $C_4$: $\frac{1}{2!}\binom{10}{3}\binom{7}{3} \cdot \left(\frac{1}{2}(3-1)!\right)^2 \cdot \frac{1}{2}(4-1)! = \frac{1}{2} \cdot 120 \cdot 35 \cdot 1 \cdot 1 \cdot 3 = 6300$.
+                \item One $C_3$, one $C_3$, one $C_3$, and one $C_1$: Impossible since $C_1$ is invalid.
+            \end{enumerate}
+
+            Therefore, the total number of distinct records is 
+            \[
+                \boxed{\frac{9!}{2} + 43200 + 37800 + 18144 + 6300 = 181440 + 43200 + 37800 + 18144 + 6300 = 286884}.
+            \]
         \end{solution}
     \end{parts}
 
