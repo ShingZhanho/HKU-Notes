@@ -1,0 +1,774 @@
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preambles.tex}
+
+\begin{document}
+
+\begin{center}
+    \textbf
+    {\Large{COMP2121 Discrete Mathematics} \\
+    \large{25/26 Semester 1} \\
+    \large{Assignment 2}}\\
+    SHING, Zhan Ho Jacob \qquad 3036228892
+\end{center}
+
+\begin{questions}
+    
+    \question Basics on Functions
+
+    \begin{parts}
+        
+        \part[4] For the function $h:\Z\to\Z$, \[
+            h(n)=\begin{cases}
+                \frac{1}{3}n,\quad&\text{if }n\text{ is divisible by 3},\\
+                3n,\quad&\text{if }n\text{ is not divisible by 3},
+            \end{cases}
+        \]
+        identify its \begin{enumerate*}[label=(\arabic*)]
+            \item range,
+            and whether it is 
+            \item injective,
+            \item surjective,
+            \item bijective;
+            if your answer is no, explain why.
+        \end{enumerate*}
+
+        \begin{solution}
+            \begin{enumerate}[label=(\arabic*)]
+                \item \textbf{Case 1:} $n$ is divisible by 3, i.e., $ \forall k\in\Z :n=3k$.
+                Then, $h(n)=\frac{1}{3}(3k)=k$, which may or may not be divisible by 3.
+
+                \textbf{Case 2:} $n$ is not divisible by 3 and $n=3k+1$ for some $k\in\Z$.
+                Then, $h(n)=3(3k+1)=9k+3$, which is divisible by 3.
+
+                \textbf{Case 3:} $n$ is not divisible by 3 and $n=3k+2$ for some $k\in\Z$.
+                Then, $h(n)=3(3k+2)=9k+6$, which is also divisible by 3.
+
+                Thus, $h(n)$ is either divisible by 3 or not divisible by 3.
+                \fbox{Therefore, the range of $h$ is $\Z$.}
+
+                \item We can easily find a counterexample, e.g., $h(1)=h(9)=3$.
+                Thus, \fbox{$h$ is not injective}.
+
+                \item By sub-problem (1), we have shown that the range of $h$ is $\Z$,
+                which is the same as the codomain of $h$. By definition, \fbox{$h$ is surjective}.
+
+                \item Since $h$ is not injective, by definition, \fbox{$h$ is not bijective}.
+            \end{enumerate}
+        \end{solution}
+
+        \newpage
+
+        \part[6] Functions $f:\R\to\R$ and $g:\R\to\R$ are defined as follows.
+        Determine by formulas the compositions $f\circ g$ and $g\circ g$.
+        \[
+            f(x)=(x+2)^2\quad\text{and}\quad g(x)=\begin{cases}
+                2x-6,&\text{if }x\geq1,\\
+                -x-1,&\text{if }x<1.
+            \end{cases}
+        \]
+
+        \begin{solution}
+            \begin{enumerate}[label=(\arabic*)]
+                \item $\bm{f\circ g}$\textbf{:}
+                \[
+                    (f\circ g)(x)=\boxed{
+                        \begin{cases}
+                            (2x-4)^2,&\text{if }x\geq1,\\
+                            (-x+1)^2,&\text{if }x<1.
+                        \end{cases}
+                    }
+                \]
+
+                \item $\bm{g\circ g}$\textbf{:}
+                
+                Note that $g(x)\geq1$ when $2x-6\geq1\Rightarrow x\geq\frac{7}{2}\geq1$
+                and when $-x-1\geq1\Rightarrow x\leq-2$.
+
+                Also, $g(x)<1$ when $2x-6<1\Rightarrow 1\leq x<\frac{7}{2}$
+                and when $-x-1<1\Rightarrow 1>x> -2$.
+
+                Thus, the piecewise function $g\circ g$ has cases: $x\in(-\infty, -2]$,
+                $x\in(-2, 1)$, $x\in[1, \frac{7}{2})$, and $x\in[\frac{7}{2}, +\infty)$.
+
+                \textbf{Case 1:} $x\in(-\infty, -2]$. We have $g(x)\geq1$, so
+                $g(g(x))=2(-x-1)-6=-2x-8$.
+
+                \textbf{Case 2:} $x\in(-2, 1)$, We have $g(x)<1$, so
+                $g(g(x))=-(-x-1)-1=x$.
+
+                \textbf{Case 3:} $x\in[1,\frac{7}{2})$. We have $g(x)<1$, so
+                $g(g(x))=-(2x-6)-1=-2x+5$.
+
+                \textbf{Case 4:} $x\in[\frac{7}{2}, +\infty)$. We have $g(x)\geq1$, so
+                $g(g(x))=2(2x-6)-6=4x-18$.
+
+                Putting all cases together, we have \[
+                    (g\circ g)(x) = \boxed{
+                        \begin{cases}
+                            -2x-8,\quad&\text{if }x\leq-2,\\
+                            x,\quad&\text{if }-2<x<1,\\
+                            -2x+5,\quad&\text{if }1\leq x<\frac{7}{2},\\
+                            4x-18,\quad&\text{if }x\geq\frac{7}{2}.
+                        \end{cases}
+                    }
+                \]
+            \end{enumerate}
+        \end{solution}
+
+    \end{parts}
+
+    \newpage
+
+    \question Relations and Functions
+
+    Prove or disprove the following statements.
+
+    \begin{parts}
+        
+        \part[4] For arbitrary function $f:\Z\to\Z$, the relation defined by \[
+            R=\set{(x,y)\in\Z\times\Z\mid f(x)-f(y)\text{ is even}}
+        \] is reflexive and transitive.
+
+        \begin{solution}
+            \textbf{Reflexivity:} Recall one of the properties of a function $f:A\to B$ defined by a relation $R_0$ is that
+            $\forall x\in A, y_1,y_2\in B:[(x\rel[R_0] y_1)\land(x\rel[R_0] y_2)\rightarrow (y_1=y_2)]$.
+            Therefore, for any pair $(x,y)$ where $x,y\in\Z$ and $x=y$, we must have
+            $f(x)=f(y) \Rightarrow f(x)-f(y)=0$, which is even. Thus, $x\rel x$ for all $x\in\Z$.
+            By definition, \fbox{$R$ is reflexive}.
+
+            \textbf{Transitivity:} Let $a,b,c\in\Z$ be arbitrary. Note that for $x\rel y$ to hold,
+            $f(x)$ and $f(y)$ must either be both even or both odd. Also note that the image of $f:\Z\to\Z$
+            must be integers, which must either be even or odd. Then, when $a\rel b$ holds, we must have
+            that the parity of $f(a)$ and $f(b)$ are the same. Similarly, when $b\rel c$ holds,
+            we must have that the parity of $f(b)$ and $f(c)$ are the same. Thus, the parity of $f(a)$ and $f(c)$
+            must also be the same, which implies that $a\rel c$ holds. By definition, \fbox{$R$ is transitive}.
+
+            \textbf{Conclusion:} Since $R$ is both reflexive and transitive, \fbox{the statement is true}.
+        \end{solution}
+
+        \part[4] For arbitrary function $f:\Z\to\Z$, the relation defined by \[
+            R=\set{(x,y)\in\Z\times\Z\mid f(x)\cdot f(y)\in\set{-1, 0, 1}}
+        \] is symmetric and transitive.
+
+        \begin{solution}
+            Observe that for $f(x)\cdot f(y)=1$ to hold, $f(x)$ and $f(y)$ must both have the magnitude of 1
+            and the same sign. Similarly, for $f(x)\cdot f(y)=-1$ to hold, $f(x)$ and $f(y)$ must both have
+            the magnitude of 1 but different signs. Finally, for $f(x)\cdot f(y)=0$ to hold, at least one of
+            $f(x)$ and $f(y)$ must be 0. That is,
+            $f(x), f(y)\in\set{-1,0,1}\leftrightarrow f(x)\cdot f(y)\in\set{-1,1}$, and
+            $[(f(x)=0)\lor(f(y)=0)]\leftrightarrow f(x)\cdot f(y)=0$.
+
+            \textbf{Symmetry:} We need to show that $x\rel y\rightarrow y\rel x$ holds for all $x,y\in\Z$.
+            We try to prove by contradiction. Suppose $x\rel y$ holds but we have $y\notrel x$.
+            For the case when $f(x)\cdot f(y)\in\set{-1,1}$, from $x\rel y$, we have
+            $f(x), f(y)\in\set{-1,1}$. Then, $f(y)\cdot f(x)\in\set{-1,1}$, which implies that
+            $y\rel x$ must hold. Then, for the case when $f(x)\cdot f(y)=0$, from $x\rel y$, we have
+            either or both of $f(x)$ and $f(y)$ equal to 0. Without loss of generality, suppose $f(x)=0$.
+            Then, $f(y)\cdot f(x)=f(y)\cdot 0=0$, which implies that $y\rel x$ must hold.
+            Then, we have shown that in both cases, $y\rel x$ must hold. This contradicts our assumption
+            that $y\notrel x$. Therefore, \fbox{$R$ is symmetric}.
+
+            \textbf{Transitivity:} The transitivity can be easily disproved by a counterexample.
+            Define $f_0:\Z\to\Z$ as: \[
+                f_0(x) = \begin{cases}
+                    5,\quad&\text{if }x\neq0,\\
+                    0,\quad&\text{if }x=0.
+                \end{cases}
+            \]
+            Then, we have $f_0(-1)\cdot f_0(0)=0\in\set{-1,0,1}$ and $f_0(0)\cdot f_0(1)=0\in\set{-1,0,1}$,
+            so $-1\rel 0$ and $0\rel 1$ hold. However, $f_0(-1)\cdot f_0(1)=5\cdot5=25\notin\set{-1,0,1}$,
+            so $-1\notrel 1$. Therefore, \fbox{$R$ is not transitive}.
+
+            \textbf{Conclusion:} Since $R$ is symmetric but not transitive, \fbox{the statement is false}.
+        \end{solution}
+
+    \end{parts}
+
+    \newpage
+
+    \question Image of a Set
+
+    Let $f:A\to B$ be a function. Consider an arbitrary set $A'\subseteq A$.
+    The image of set $A'$ is defined to be the set \[
+        f(A')=\set{y\in B\mid \exists x\in A'\text{ such that }y=f(x)}.
+    \]
+
+    \begin{parts}
+        
+        \part[4] Let $A=\set{1,2,3}$, $B=\set{a,b,c}$, $A_1=\set{1,2}$, and $A_2=\set{2,3}$.
+        Prove or disprove the statement: $f(A_1\cap A_2)=f(A_1)\cap f(A_2)$ holds for any function
+        $f:A\to B$.
+
+        \begin{solution}
+            Consider the function $f:A\to B$ defined as: \[
+                f(x)=\begin{cases}
+                    a,\quad&x\in\set{1,3},\\
+                    c,\quad&x=2.
+                \end{cases}
+            \]
+            Then, the image of $A_1\cap A_2=\set{2}$ is \[
+                f(A_1\cap A_2)=f(\set{2})=\set{c},
+            \] and the intersection of the images of $A_1$ and $A_2$ is \[
+                f(A_1)\cap f(A_2)=f(\set{1,2})\cap f(\set{2,3})=\set{a,c}\cap\set{c,a}=\set{a,c}.
+            \]
+            Therefore, we have found a counterexample such that the statement does not hold.
+            Thus, \fbox{the statement is false}.
+        \end{solution}
+
+        \part[6] Prove that for any subsets $A_1, A_2$ of $A$, $f(A_1\cap A_2) = f(A_1)\cap f(A_2)$
+        if $f$ is injective.
+
+        \begin{psol}
+            If $f$ is injective, then for any $x_1,x_2\in A$ where $x_1\neq x_2$,
+            we must have $f(x_1)\neq f(x_2)$. For any arbitrary set $A=\set{a_1,a_2,\ldots}$,
+            we have $A'=f(A)=\set{f(a_1),f(a_2),\ldots}$ and $\card{A}=\card{A'}$,
+            and for any $A_i\subseteq A$, we also have $A_i'=f(A_i)\subseteq A'$
+            and $\card{A_i}=\card{A_i'}$.
+
+            \textbf{Case 1:} $A_1\cap A_2=\mtset$. Then, $f(A_1\cap A_2)=f(\mtset)=\mtset$.
+            Also, $f(A_1)\cap f(A_2)=A_1'\cap A_2'=\mtset$ since $A_1\cap A_2=\mtset$.
+            Thus, $f(A_1\cap A_2)=f(A_1)\cap f(A_2)$ holds.
+
+            \textbf{Case 2:} $A_1\cap A_2\neq\mtset$. Suppose $A_1$ and $A_2$ has some arbitrary common
+            elements $c_1,c_2,\ldots,c_k$ where $k\in[1,\max(\card{A_1},\card{A_2})]$. Then,
+            $f(A_1\cap A_2)=\set{f(c_1),f(c_2),\ldots,f(c_k)}$. Also, suppose $A_1$ has some arbitrary
+            unique elements $a_{11}, a_{12},\ldots,a_{1m}$ where $m\in[0,\card{A_1}-k]$, and the same for
+            $A_2$ with unique elements $a_{21}, a_{22},\ldots,a_{2n}$ where $n\in[0,\card{A_2}-k]$.
+            Then, $f(A_1)=\set{f(c_1),f(c_2),\ldots,f(c_k),f(a_{11}),f(a_{12}),\ldots,f(a_{1m})}$ and
+            $f(A_2)=\set{f(c_1),f(c_2),\ldots,f(c_k),f(a_{21}),f(a_{22}),\ldots,f(a_{2n})}$.
+            Thus, $f(A_1)\cap f(A_2)=\set{f(c_1),f(c_2),\ldots,f(c_k)}=f(A_1\cap A_2)$.
+            Therefore, $f(A_1\cap A_2)=f(A_1)\cap f(A_2)$ also holds. 
+
+            \textbf{Conclusion:} Since $f(A_1\cap A_2)=f(A_1)\cap f(A_2)$ holds in both cases,
+            \fbox{the statement is true}.
+        \end{psol}
+
+    \end{parts}
+
+    \newpage
+
+    \question Asymptotics of Functions
+
+    \begin{parts}
+        
+        \part[8] For the following functions $f$, $g$, determine whether $f=\bigO(g)$, $f=\Omega(g)$,
+        or $f=\Theta(g)$. Justify your answers.
+
+        \begin{subparts}
+            
+            \subpart $f(n)=2n^2+3n+1$ and $g(n)=n^2$.
+
+            \begin{solution}
+                Note that $\forall n\geq0$, we always trivially have $f(n)\geq g(n)$.
+                That is, we can choose $c=1$ and $n_0=0$, then $\forall n\geq n_0:f(n)\geq cg(n)$ holds.
+                This gives us $f\in\bigOmg(g)$.
+
+                Also note that $\forall n\geq4$, we have $f(n)\leq3g(n)$,
+                Then, we can also choose $c=3$ and $n_0=4$, then $\forall n\geq n_0:f(n)\leq cg(n)$ holds.
+                This gives us $f\in\bigO(g)$.
+
+                Having shown that $f\in\bigO(g)$ and $f\in\bigOmg(g)$, by definition,
+                \fbox{we have $f\in\bigTh(g)$}.
+            \end{solution}
+
+            \subpart $f(n)=\log_4 n$ and $g(n)=\log_2 (\log_2 n)$.
+
+            \begin{solution}
+                Note that we can transform $f(n)$ as \[
+                    f(n)=\frac{\log_2 n}{\log_2 4}=\frac{1}{2}\log_2 n.
+                \]
+
+                Then, we examine the growth rates of $f(n)$ and $g(n)$ as $n\to+\infty$:
+                \begin{align*}
+                    \lim_{n\to+\infty} \frac{f(n)}{g(n)} &=
+                    \lim_{n\to+\infty} \frac{\frac{1}{2}\log_2 n}{\log_2(\log_2 n)}\\
+                    &= \frac{1}{2} \cdot \lim_{n\to+\infty} \frac{\log_2 n}{\log_2(\log_2 n)}\\
+                    &= \frac{1}{2} \cdot \lim_{n\to+\infty} \frac{\frac{\ln n}{\ln 2}}{\frac{\ln(\log_2 n)}{\ln 2}}\\
+                    &= \frac{1}{2} \cdot \lim_{n\to+\infty} \frac{\ln n}{\ln(\log_2 n)}\\
+                    &= \frac{1}{2} \cdot \lim_{n\to+\infty} \frac{\ln n}{\ln(\frac{\ln n}{\ln 2})}\\
+                    &= \frac{1}{2} \cdot \lim_{n\to+\infty} \frac{\ln n}{\ln(\ln n) - \ln(\ln 2)}\\
+                    &= +\infty
+                \end{align*}
+
+                Therefore, we have $f(n)$ grows asymptotically faster than $g(n)$, i.e., $f\in\bigOmg(g)$.
+                We can verify this by choosing $c=1$ and $n_0=16$. Then, $\forall n\geq n_0$,
+                we have $f(n)\geq g(n)$. Thus, \fbox{$f\in\bigOmg(g)$}.
+            \end{solution}
+
+            \subpart $f(n)=n!$ and $g(n)=100^n$. [Hint: Consider Stirling's formula.]
+
+            \begin{solution}
+                By Stirling's formula, we have $
+                    n! \approx \sqrt{2\pi n}\left(\frac{n}{e}\right)^n
+                $. Then, the limit evaluates as
+                $
+                    \limninf \frac{f(n)}{g(n)} \approx
+                    \limninf \frac{\sqrt{2\pi}n^{n+\frac{1}{2}}e^{-n}}{100^n}
+                $.
+                We can identify the dominant term being $n^{n+\frac{1}{2}}$, which grows faster than all
+                other terms. Thus, the ratio $\frac{f(n)}{g(n)}\to+\infty$ as $n\to+\infty$.
+
+                Therefore, we have $f(n)$ grows asymptotically faster than $g(n)$, 
+                i.e., $\boxed{f\in\bigOmg(g)}$.
+            \end{solution}
+
+        \end{subparts}
+
+        \newpage
+
+        \part[8] For any function $g:\N\to\N$, define $f_g:\N\to\N$ to be the function \[
+            f_g(n)=\underbrace{g\circ\cdots\circ g}_{n\text{ times}}(n-1).
+        \]
+
+        Let $g_1$ be the function defined by $g_1(n)=2n+1$ for any $n\in\N$ and $g_2$ be the function
+        defined by $g_2(n)=n^2$ for any $n\in\N$. Find a function $h:\N\to\N$ such that all the following
+        requirements are satisfied:
+        \begin{itemize}
+            \item $h\in\bigOmg(f_{g_1})$ but $h\notin\bigO(f_{g_1})$;
+            \item $h\in\bigO(f_{g_2})$ but $h\notin\bigOmg(f_{g_2})$.
+        \end{itemize}
+        Justify your answer.
+
+        \begin{solution}
+            First, we observe the behaviour of $f_{g_1}$:
+            \begin{align*}
+                f_{g_1}(0) &= 0,\\
+                f_{g_1}(1) &= g_1(n-1)\big|_{n=1} = 2n-1\big|_{n=1} = 1,\\
+                f_{g_1}(2) &= g_1(2n-1)\big|_{n=2} = 4n-1\big|_{n=2} = 7,\\
+                f_{g_1}(3) &= g_1(4n-1)\big|_{n=3} = 8n-1\big|_{n=3} = 23,\\
+                f_{g_1}(4) &= g_1(8n-1)\big|_{n=4} = 16n-1\big|_{n=4} = 63,\\
+                &\cdots
+            \end{align*}
+            We can see the coefficient of the dominant term $n$ is $2^n$. Also, in each iteration,
+            the coefficient is multiplied by $n$ and some abitrary number is added. Then, we can identify
+            the dominant term of $f_{g_1}(n)$ being $2^n n$.
+
+            Similarly, we observe the behaviour of $f_{g_2}$:
+            \begin{align*}
+                f_{g_2}(0) &= 0,\\
+                f_{g_2}(1) &= g_2(n-1)\big|_{n=1} = (n-1)^2\big|_{n=1} = 0,\\
+                f_{g_2}(2) &= g_2((n-1)^2)\big|_{n=2} = (n-1)^4\big|_{n=2} = 1,\\
+                f_{g_2}(3) &= g_2((n-1)^4)\big|_{n=3} = (n-1)^8\big|_{n=3} = 256,\\
+                f_{g_2}(4) &= g_2((n-1)^8)\big|_{n=4} = (n-1)^{16}\big|_{n=4} = 43,046,721,\\
+                &\cdots
+            \end{align*}
+            The exponent of the dominant term $n$ is $2^n$. Then, the dominant term of $f_{g_2}(n)$
+            is $n^{2^n}$.
+
+            We would like to find a function $h:\N\to\N$ such that at large $n$, $h$ grows asymptotically
+            faster than $f_{g_1}$ but slower than $f_{g_2}$. We choose $h(n)=n^n$.
+
+            Consider the ratio $\frac{h(n)}{f_{g_1}(n)} = \frac{n^n}{2^n n} = \frac{n^{n-1}}{2^n}$
+            as $n\to+\infty$. It is clear that $n^{n-1}$ grows much faster than $2^n$.
+            Thus, $\limninf \frac{h(n)}{f_{g_1}(n)} = +\infty$, which implies that
+            $h\in\bigOmg(f_{g_1})$ but $h\notin\bigO(f_{g_1})$.
+
+            Now, consider the ratio $\frac{h(n)}{f_{g_2}(n)} = \frac{n^n}{n^{2^n}} = \frac{1}{n^{2^n-n}}$
+            as $n\to+\infty$. It is trivial to show that $\limninf \frac{h(n)}{f_{g_2}(n)} = 0$,
+            which implies that $h\in\bigO(f_{g_2})$ but $h\notin\bigOmg(f_{g_2})$.
+
+            Therefore, we have found a function $\boxed{h(n)=n^n}$ that satisfies all the requirements.
+        \end{solution}
+
+    \end{parts}
+
+    \newpage
+
+    \question Basic Counting
+
+    \begin{parts}
+        
+        \part[4] Among all positive numbers that devide 4050 exactly, how many are multiples of 45?
+
+        \begin{solution}
+            Observe the prime factorisation of $4050=2\cdot3^4\cdot5^2$.
+            Also note the fact that an integer $d\leq n$ divides $n$ exactly iff every prime factor of $d$
+            is also a prime factor of $n$, i.e., the multiples of at least one prime factor of $n$ divide
+            $n$ exactly.
+
+            Then, the divisors of $4050$ must have the form $2^a\cdot3^b\cdot5^c$ where $a\in[0,1]\cap\Z$,
+            $b\in[0,4]\cap\Z$, and $c\in[0,2]\cap\Z$. We have $2$ ways to choose $a$, $5$ ways to choose $b$,
+            and $3$ ways to choose $c$. Thus, the total number of divisors of $4050$ is $2\cdot5\cdot3=30$.
+
+            Now, we denote $S_n$ as the set of multiples of $n$ with $\forall x\in S_n: 1\leq x\leq 4050$.
+            Then, $\card{S_{45}} = \floor*{\frac{4050}{45}}=90$. Note that every multiple of $45$ must have
+            the form $C\cdot3^2\cdot5$, where $C\in\Z^+$ such that $C\cdot3^2\cdot5\leq4050$.
+            Then, for the multiples of $45$ to also be divisors of $4050$, $C$ must be in the form
+            $2^a\cdot3^b\cdot5^c$ where $a\in[0,1]\cap\Z$, $b\in[0,2]\cap\Z$, and $c\in[0,1]\cap\Z$.
+            We have $2$ ways to choose $a$, $3$ ways to choose $b$, and $2$ ways to choose $c$.
+            Thus, the total number of multiples of $45$ that are also divisors of $4050$ is
+            $2\cdot3\cdot2=12$.
+
+            Therefore, \fbox{there are 12 such numbers}.
+        \end{solution}
+
+        \part[4] There are 2 identical red balls and 3 identical black balls.
+        You are going to put them into 5 different boxes.
+        If each box can contain at most 2 balls, how many ways are there to put the balls in the boxes?
+
+        \begin{solution}
+            Consider the distribution of balls, we can solve the problem by cases.
+
+            \textbf{Case 1:} Every box contains exactly 1 ball. This is the same as the number of
+            5-permutations of 2 red balls and 3 black balls, which is $\displaystyle\frac{5!}{2!3!}=10$.
+
+            \textbf{Case 2:} One box contains 2 balls, another box contains no balls, and the remaining
+            3 boxes contain 1 ball each. We can choose 1 box out of 5 to contain 2 balls (label it as $B_2$),
+            and then choose 1 box out of 4 to contain no balls ($B_0$). The remaining 3 boxes will contain
+            1 ball each ($B_{1i}$, $i=1,2,3$). There are $5\cdot4=20$ ways to choose the boxes.
+            In each of these choices, $B_2$ can either contain 2 red balls, 2 black balls, or 1 of each colour.
+            For the two red balls case, $B_{1i}$ must contain 1 black ball each, which is 1 way.
+            For the two black balls case, we have 3 ways to choose one of $B_{1i}$ to contain the remaining
+            black ball, and the other two boxes will contain 1 red ball each.
+            For the 1 red and 1 black balls case, we have 3 ways to choose one of $B_{1i}$ to contain
+            the remaining red ball, and the other two boxes will contain 1 black ball each.
+            Thus, there are $1+3+3=7$ ways to distribute the balls in each choice of boxes.
+            Therefore, there are $20\cdot7=140$ ways in this case.
+
+            \textbf{Case 3:} Two boxes contain 2 balls each, and one box contains 1 ball, and the remaining
+            2 boxes contain no balls. We first choose 1 box to hold 1 ball ($B_1$), there are 5 ways.
+            $B_1$ can either hold a black ball or a red ball (2 ways). If $B_1$ holds a black ball,
+            then we either choose 1 box out of 4 to hold 2 red balls (4 ways) and 1 box out of 3 to hold
+            2 black balls (3 ways), or we choose 2 boxes out of 4, each holding the same colour (6 ways)
+            This gives us $4\cdot3+6=18$ ways.
+            If $B_1$ holds a red ball, then we must choose 1 box out of 4 to hold 2 black balls (4 ways)
+            and 1 box out of 3 to hold 1 red and 1 black balls (3 ways). This gives us $4\cdot3=12$ ways.
+            Therefore, there are $5\cdot(18+12)=150$ ways in this case.
+
+            Putting all cases together, we have \fbox{$10+140+150=300$ ways in total}.
+        \end{solution}
+
+        \part[4] In a game, the player needs to move from the point $(0,0)$ to the point $(a,b)$ where
+        $a\geq b>0$ are integers. At each point $(x,y)$, the player can either move right to $(x+1,y)$
+        or move up to $(x,y+1)$. It is forbidden to move up for two successive times.
+        How many different ways are there for the player to reach $(a,b)$?
+
+        \begin{solution}
+            Note that since the player can move only one unit to the right or upwards, regardless of the
+            path the player chooses, exactly $(a+b)$ steps are required to reach $(a,b)$ from $(0,0)$,
+            with $a$ steps to reach the line $x=a$ and $b$ steps to reach the line $y=b$.
+
+            The path is a $(a+b)$-sequence of the set $\{U,R\}$, where $U$ denotes moving upwards
+            and $R$ denotes moving to the right. In addition, we must have no pairs of $U$'s that are adjacent
+            to each other. The sequence must have $a$ $R$'s and $b$ $U$'s.
+            
+            Consider a sequence of $a$ $R$'s and $(a+1)$ gaps between each pair of $R$'s, including the head and
+            the tail. We need to choose $b$ gaps to put the $b$ $U$'s, that is $\binom{a+1}{b}$ ways.
+            Thus, \fbox{there are $\binom{a+1}{b}$ ways in total}.
+        \end{solution}
+
+    \end{parts}
+
+    \newpage
+
+    \question Counting Sets and Relations
+
+    \begin{parts}
+        
+        \part[4] In a group of 15 computer scientists, each scientist has collaborated with at least 8
+        other members of the group. Prove that there exist 3 members, such that each one of them has
+        collaborated with the other two members.
+
+        \begin{psol}
+            Let $A$ be the set of the 15 computer scientists,
+            $x\rel y: \text{``}x\text{ has collaborated with }y\text{''}$. Note that $R$ is symmetric.
+            Also define the set $C_x=\set{y\in A-\set{x}\mid x\rel y}$ as the set of collaborators of $x$.
+            Then, we have $\forall x\in A:\card{C_x}\geq8$.
+
+            Assume, for contradiction, that no 3 members have mutually collaborated.
+
+            For any arbitrary $x\in A$, and for some arbitrary $y\in C_x$, since $x$ and $y$ have collaborated,
+            we also have $x\in C_y$. Since no 3 members have mutually collaborated, we have 
+            $\centernot\exists z: (z\in C_x \land z\in C_y)$, where $x,y,z$ are distinct.
+
+            Note that $\card{C_x-\set{y}}\geq7$ and $\card{C_y-\set{x}}\geq7$.
+            Since $C_x-\set{y}$ and $C_y-\set{x}$ are disjoint, we have $\card{C_x-\set{y}}+\card{C_y-\set{x}}\geq14$.
+            However, since $A-\set{x,y}$ has only 13 members, and $(C_x-\set{y})\cup(C_y-\set{x})\subseteq A-\set{x,y}$,
+            we must have $\card{(C_x-\set{y})\cup(C_y-\set{x})}\leq13$.
+            This contradicts the fact that $\card{C_x-\set{y}}+\card{C_y-\set{x}}\geq14$.
+            
+            Therefore, our assumption is false, and \fbox{there exist 3 members who have mutually collaborated}.
+        \end{psol}
+
+        \part[6] Let $A$, $B$, $C$ be sets with $\card{A}=\card{B}=\card{C}=n$ and
+        $\card{A\cup B\cup C}=m$. Find the minimal value of $\card{A\cap B\cap C}$.
+
+        \begin{solution}
+            Recall that $\card{A\cup B\cup C}= \card{A}+\card{B}+\card{C}
+                                            -\card{A\cap B}-\card{A\cap C}-\card{B\cap C}
+                                            +\card{A\cap B\cap C}$,
+            substitue the given values, we have
+            \begin{align}
+                m &= 3n-\card{A\cap B}-\card{A\cap C}-\card{B\cap C}+\card{A\cap B\cap C} \nonumber \label{eq:1}\\
+                \card{A\cap B\cap C} &= m-3n+\card{A\cap B}+\card{A\cap C}+\card{B\cap C}
+            \end{align}
+            
+            Since $\card{A\cup B}=\card{A}+\card{B}-\card{A\cap B}$,
+            and $\card{A\cup B}\leq\card{A\cup B\cup C}=m$,
+            we have
+            \begin{align*}
+                \card{A}+\card{B}-\card{A\cap B} &\leq m \\
+                2n-\card{A\cap B} &\leq m \\
+                \card{A\cap B} &\geq 2n - m
+            \end{align*}
+            Similarly, we find the lower bounds for $\card{A\cap C}$ and $\card{B\cap C}$
+            to also be $2n - m$.
+
+            Then, equation \eqref{eq:1} becomes
+            \begin{align*}
+                \card{A\cup B\cup C} &\geq m - 3n + 3(2n - m) \\
+                &= 3n - 2m
+            \end{align*}
+
+            Moreover, since $\card{A\cap B\cap C}\geq0$, we have that
+            $\min\card{A\cup B\cup C}=\boxed{\max(0,3n-2m)}$.
+        \end{solution}
+
+        \newpage
+
+        \part[6] Let $A$ be a set with $\card{A}=5$. Count the number of distinct
+        \begin{enumerate*}[label=(\roman*)]
+            \item symmetric relations and
+            \item asymmetric relations
+        \end{enumerate*} that can be constructed on $A$.
+        An asymmetric relation $R$ is a relation such that, for every pair of distinct $x$ and $y$,
+        $x\rel y\Rightarrow\neg(y\rel x)$.
+
+        \begin{solution}
+            Express a relation on $A$ as a 5-by-5 matrix, where each entry $r_{ij}=\begin{cases}
+                1,&\text{if }x_i\rel x_j,\\
+                0,&\text{if }x_i\notrel x_j
+            \end{cases}$, and $x\in A$.
+
+            \begin{enumerate}[label=(\roman*)]
+                \item \textbf{Symmetric Relations:}
+                
+                If $R$ is symmetric, then its matrix representation must also be a symmetric matrix.
+                Since the main diagonal of a symmetric matrix is arbitrary, for each entry, we can
+                freely choose between 1 and 0. Then, we have $2^5=32$ choices. For the off-diagonals,
+                we must have $r_{ij}=r_{ji}$, where $i\neq j$. Then, for $r_{ij}$ where $i\in[2,5]$
+                and $j\in[1,i-1]$, i.e., the lower triangular part of the matrix excluding the main diagonal,
+                we can freely choose between 1 and 0, and the corresponding 
+                $r_{ji}$ is constrained. We have $2^4\cdot2^3\cdot2^2\cdot2^1=1024$ choices.
+
+                Therefore, in total, there are $32\cdot1024=\boxed{32,768}$ distinct symmetric relations.
+
+                \item \textbf{Asymmetric Relations:}
+                
+                Note that the requirement of asymmetry implies that whenever $r_{ij}=1$, its
+                corresponding $r_{ji}$ must be 0, and vice versa, but if $r_{ij}=r_{ji}=0$, 
+                the requirement is still satisfied. Also, the main diagonal must be all 0's
+                as asymmetry requires irreflexivity. Then, for each of the off-diagonal pairs
+                $(r_{ij},r_{ji})$ where $i\in[2,5]$ and $j\in[1,i-1]$, there are 3 possibilities:
+                $(1,0)$, $(0,1)$, and $(0,0)$. Note that there are $4+3+2+1=10$ such pairs.
+                Thus, we have $3^{10}=59,049$ choices.
+
+                Therefore, in total, there are $\boxed{59,049}$ distinct asymmetric relations.
+            \end{enumerate}
+        \end{solution}
+
+    \end{parts}
+
+    \question Pigeonhole Principle
+
+    \begin{parts}
+        
+        \part[4] Show that if you have a set $A$ of 5 points $(x_i, y_i)\in\Z^2$, there must exist
+        distinct $j, k$ such that, for $(x_j, y_j),(x_k,y_k)\in A$, the midpoint
+        $\displaystyle\left(\frac{x_j+x_k}{2},\frac{y_j+y_k}{2}\right)$ also lies in $\Z^2$.
+
+        \begin{psol}
+            For the midpoint of $(x_j, y_j),(x_k,y_k)\in A$ to lie in $\Z^2$, we require both the
+            of their $x$- and $y$-coordinates to have the same parity, such that the sums of their
+            $x$- and $y$-coordinates are even, hence divisible by 2. There can be 4 possible parity
+            cases, namely $\set{(\text{even}, \text{even}),(\text{even}, \text{odd}),
+            (\text{odd}, \text{even}),(\text{odd}, \text{odd})}$. We have 5 points distributed
+            among the 4 cases, by the Pigeonhole Principle, at least two of them are in the same
+            parity case. Therefore, there are at least 2 distinct points in $A$ whose sums of $x$- and
+            $y$-coordinates are of the same parity, and their midpoint lies in $\Z^2$.
+
+            We have shown that \fbox{such distinct $j,k$ exist}.
+        \end{psol}
+
+        \part[4] For any $n\in\N$, prove that for any collection of $n+1$ distinct numbers drawn
+        from $\set{1,2,\ldots,2n}$, there must be at least one pair of numbers such that one of them
+        is a multiple of the other.
+
+        \begin{psol}
+            Note that every positive integer $x$ can be written in the form of $x=2^k\cdot m$, where $m$ is
+            odd and $k\geq 0$. Then, each $x\in \set{1,2,\ldots,2n}$ corresponds to a unique odd factor
+            $m\in\set{1,3,5,\ldots,2n-1}$. There are $n$ such odd factors in total.
+            Since we are drawing $n+1$ distinct numbers, by the Pigeonhole Principle, at least two of them
+            must correspond to the same odd factor. Let $a=2^s\cdot m$ and $b=2^t\cdot m$ be the two numbers,
+            where $s,t\geq0$. Without loss of generality, assume $s<t$, then we have
+            \[
+                \frac{b}{a} = \frac{2^t\cdot m}{2^s\cdot m} = 2^{t-s},
+            \]
+            which is an integer. Thus, $b$ is a multiple of $a$.
+
+            We have shown that \fbox{such a pair of numbers exist}.
+        \end{psol}
+
+    \end{parts}
+
+    \newpage
+
+    \question Conditional Probability
+
+    You are training a classifier for spam detection using machine learning. Each data point $(x,y)$ in the
+    dataset represents an email, which can be categorized as either spam or non-spam, with the content of
+    the email denoted as $x$ and a label $y\in{\text{spam},\text{non-spam}}$.
+
+    \begin{parts}
+        
+        \part[4] Given that 10\% of the data in the dataset is labelled as spam and 90\% is labelled
+        as non-spam, and that the model's output satisfies the following conditions: \[
+            P(\text{output}=\text{spam}\mid\text{label}=\text{spam})=0.8,\quad
+            P(\text{output}=\text{non-spam}\mid\text{label}=\text{non-spam})=0.9,
+        \] determine the probability that the model's output matches the true label when the input is
+        randomly selected from the dataset.
+
+        \begin{solution}
+            Let $L$ be the event that the mail is labelled as spam, $\overline{L}$ be the event that the mail
+            is labelled as non-spam, $O$ be the event that the model outputs spam for the mail, and 
+            $\overline{O}$ be the event that the model outputs non-spam for the mail.
+
+            From the given information, we have
+            \begin{align*}
+                P(L) = 0.1, &\quad P(\overline{L}) = 0.9, \\
+                P(O\mid L) = 0.8, &\quad P(\overline{O}\mid \overline{L}) = 0.9.
+            \end{align*}
+
+            We need to find $P(L\cap O)+P(\overline{L}\cap \overline{O})$.
+
+            By conditional probabilities, we have $P(O\mid L) = \frac{P(L\cap O)}{P(L)} \Leftrightarrow P(L\cap O) = P(O\mid L) \cdot P(L) = 0.8 \cdot 0.1 = 0.08$.
+            Similarly, we have $P(\overline{O}\cap\overline{L}) = P(\overline{O}\mid\overline{L})\cdot P(\overline{L}) = 0.9 \cdot 0.9 = 0.81$.
+
+            Therefore, the required probability is $P(\text{output matches label})=0.08 + 0.81 = \boxed{0.89}$.
+      \end{solution}
+
+        \part[4] Continuing from part (\ref{part@8@1}), calculate the probability that the
+        true label is spam given that the model predicts spam.
+
+        \begin{solution}
+            We need to find $P(L\mid O)=\frac{P(L\cap O)}{P(O)}$.
+
+            By the law of total probability, we have $P(O)=P(O\mid L)P(L)+P(O\mid\overline{L})P(\overline{L})
+            =0.8\cdot0.1+\left[1-P(\overline{O}\mid\overline{L})\right]\cdot0.9
+            =0.08+(1-0.9)\cdot0.9=0.08+0.1\cdot0.9=0.08+0.09=0.17$.
+
+            Therefore, $P(L\mid O)=0.08/0.17=\boxed{\frac{8}{17}}$.
+        \end{solution}
+
+        \part[4] Suppose the labels are manually provided by users, introducing noise in the dataset. 
+        This means some emails have incorrect labels (i.e., the label has been flipped from spam to
+        non-spam or vice versa). With the same conditions as in part (\ref{part@8@1}), and given that
+        5\% of the emails have incorrect labels, determine the probability that the model categorizes
+        a random email from the dataset correctly, regardless of whether the label is accurate.
+
+        \begin{solution}
+            Let $C$ be the event that the label is correct, and $\overline{C}$ be the event that the label is flipped.
+            We have $P(C)=0.95$ and $P(\overline{C})=0.05$.
+
+            When the label is correct ($C$), from part (\ref{part@8@1}), we know the probability that the model's
+            output matches the label is 0.89. Since the label is correct, this is also the probability that the
+            model categorizes the email correctly.
+
+            When the label is flipped ($\overline{C}$), the model's output matches the (incorrect) label with
+            the same probability 0.89. Therefore, the model categorizes the email correctly (i.e., matches the
+            true label) with probability $1-0.89=0.11$.
+
+            By the law of total probability, the probability that the model categorizes a random email correctly is
+            \begin{align*}
+                P(\text{correct}) &= P(\text{correct}\mid C)P(C) + P(\text{correct}\mid\overline{C})P(\overline{C})\\
+                &= 0.89\cdot0.95 + 0.11\cdot0.05\\
+                &= 0.8455 + 0.0055\\
+                &= \boxed{0.851}.
+            \end{align*}
+        \end{solution}
+
+        \newpage
+
+        \part[4] There are $n$ passengers queuing to board a bus one by one.
+        Each passenger has an assigned seat. However, the first passenger does not follow the seating
+        arrangement and chooses a seat at random. Subsequently, each passenger takes their assigned
+        seat if it is available; otherwise, they select a seat uniformly at random from the remaining
+        unoccupied seats. Determine the probability that the last passenger sits in the assigned seat.
+
+        \begin{solution}
+            Note that when there is only 1 passenger, they will always sit in their assigned seat.
+            Therefore, the probability is 1.
+
+            For $n\geq2$,
+            denote $E^m_n$ as the event that the $n$-th passenger sits in the seat numbered $m$.
+            We are required to find $P(E^n_n)$.
+
+            Note that there are three cases:
+            \begin{itemize}
+                \item \textbf{Case 1 -- }$\bm{E^1_1}$: The first passenger chooses seat 1. In this case, all subsequent
+                passengers will find their assigned seats unoccupied and sit in them. Thus,
+                $P(E^n_n\mid E^1_1)=1$.
+
+                \item \textbf{Case 2 -- }$\bm{E^n_1}$: The first passenger chooses seat $n$. In this case,
+                the last passenger will find their assigned seat occupied and must choose to sit somewhere
+                else. Thus, $P(E^n_n\mid E^n_1)=0$.
+
+                \item \textbf{Case 3 -- }$\bm{E^x_1}$\textbf{, where }$\bm{x\in\set{2,3,4,\ldots,n-1}}$:
+                $P(E^x_1)=\frac{n-2}{n}$. Now, assume the 1st passenger chooses some seat, say seat $x_0$.
+                Then, passengers $2,3,\ldots,x_0-1$ will find their assigned seats unoccupied and sit in them.
+                When passenger $x_0$ boards the bus, the problem reduces to as if the $x_0$-th passenger
+                were the first to board the bus with $n-x_0+1$ seats remaining. The passenger, can either
+                sit in seat 1, allowing all subsequent passengers to sit in their assigned seats,
+                or sit in seat $n$, so that the last passenger cannot sit in their assigned seat,
+                or sit in some other seat, until the problem reduces to only two passengers remaining.
+                That is, the $(n-1)$-th passenger either sits in seat 1 or seat $n$.
+                Therefore, we have $P(E^n_n\mid E^x_1)=P(E^{n-x+1}_{n-x+1})=\frac{1}{2}$.
+            \end{itemize}
+
+            Therefore, by the law of total probability, we have
+            \begin{align*}
+                P(E^n_n) &= P(E^n_n\mid E^1_1) P(E^1_1) + P(E^n_n\mid E^n_1) P(E^n_1) + P(E^n_n\mid E^x_1) P(E^x_1) \\
+                &= 1\cdot\frac{1}{n} + 0\cdot\frac{1}{n} + \frac{1}{2}\cdot\frac{n-2}{n} \\
+                &= \frac{1}{n} + \frac{n-2}{2n} \\
+                &= \frac{n}{2n} \\
+                &= \frac{1}{2}.
+            \end{align*}
+
+            Thus, we have $\boxed{P(E^n_n)=\begin{cases}
+                \frac{1}{2} & \text{if } n \geq 2 \\
+                1 & \text{if } n = 1
+            \end{cases}}$.
+        \end{solution}
+
+        \part[4] A family has two children. It is known that at least one of them is a girl born on
+        a Monday. What is the probability that both children are girls?
+
+        \begin{solution}
+            Let $G=\set{M, F}$ be the set of genders, and 
+            $D=\set{\text{Mon}, \text{Tue}, \text{Wed}, \text{Thu}, \text{Fri}, \text{Sat}, \text{Sun}}$
+            be the set of days in a week. Then, the sample space $S$ is given by
+            $S=(G\times D)\times(G\times D)$ and $\card{S}=2\cdot7\cdot2\cdot7=196$.
+
+            Denote $A$ as the event that at least one girl was born on a Monday, and $B$ as the event
+            that both children are girls. We are required to find $P(B\mid A)$.
+
+            To find $\card{A}$, we consider the complement $\overline{A}$, which is that there is no
+            girl, or if there is a girl, she was not born on a Monday. For two children, there are
+            $13\cdot13=169$ such outcomes in total. Thus, $\card{A} = \card{S}-\card{\overline{A}} = 196-169=27$.
+
+            To find $\card{A\cap B}$, first consider $B$, whose cardinality is $\card{B}=7\cdot7=49$.
+            Then, count the number of outcomes in $B$ that none of the girls was born on a Monday.
+            There are $6\cdot6=36$ such outcomes. Thus, $\card{A\cap B} = \card{B}-36=49-36=13$.
+
+            Therefore, by conditional probability, we have
+            \[
+                P(B\mid A) = \frac{P(A\cap B)}{P(A)} = \boxed{\frac{13}{27}}.
+            \]
+        \end{solution}
+
+    \end{parts}
+
+\end{questions}
+
+\end{document}
