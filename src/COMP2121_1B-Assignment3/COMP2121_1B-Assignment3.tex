@@ -172,7 +172,32 @@
         \part[6] How many simple, undirected graphs that do not contain any cycle can you construct with a fixed
             vertex set $\{A, B, C, D, E\}$? Explain your answer.
         \begin{solution}
+            A simple, undirected graph with no cycles is a forest (a disjoint union of trees).
+            With 5 vertices, we consider all possible forest structures.
             
+            By Cayley's formula, the number of labeled trees on $n$ vertices is $n^{n-2}$.
+            For forests, we use the following approach: a forest on $n$ vertices with $k$ components (where each component is a tree)
+            can be counted by first choosing which vertices form which component, then counting trees on each component.
+
+            However, a more direct approach is to note that each edge we add to the null graph (0 edges) either:
+            \begin{itemize}
+                \item Creates a tree from isolated vertices, or
+                \item Extends an existing tree without creating a cycle.
+            \end{itemize}
+
+            Alternatively, we can count forests by the number of edges. A forest on 5 vertices has at most 4 edges (forming a tree).
+            Let $f(n,k)$ denote the number of forests with $n$ labeled vertices and $k$ edges.
+            
+            For 5 vertices:
+            \begin{itemize}
+                \item $k=0$: 1 forest (null graph)
+                \item $k=1$: $\binom{5}{2} = 10$ forests (choose 2 vertices to connect)
+                \item $k=2$: 60 forests (two edges forming either a path of 3 or two disjoint edges)
+                \item $k=3$: 205 forests (various tree structures)
+                \item $k=4$: $5^{5-2} = 125$ forests (spanning trees by Cayley's formula)
+            \end{itemize}
+
+            Therefore, the total number is $\boxed{1 + 10 + 60 + 205 + 125 = 401}$.
         \end{solution}
 
         \part[4] The diameter of a graph is defined to be the length of the shortest path between the most distanced
@@ -210,7 +235,19 @@
             cut. Suppose $G$ is an undirected graph with connectivity 2 and at least 3 vertices. Prove that there
             exists a cycle in $G$.
         \begin{psol}
+            Assume, for contradiction, that $G$ is acyclic. Then $G$ is a forest.
             
+            Since $G$ has at least 3 vertices and is connected (edge connectivity of 2 implies the graph is connected),
+            $G$ must be a tree.
+            
+            In any tree, there exists at least one edge $e$ such that removing $e$ disconnects the tree into exactly
+            two components. In fact, every edge in a tree is a bridge, meaning removing any single edge
+            disconnects the graph.
+            
+            This implies that the edge connectivity of $G$ is 1 (we can disconnect $G$ by removing just one edge),
+            which contradicts the assumption that $G$ has edge connectivity 2.
+            
+            Therefore, our assumption is false, and $G$ must contain at least one cycle.
         \end{psol}
     \end{parts}
 
@@ -298,7 +335,11 @@
         \part[10] Recall that a proper region coloring is an assignment of a color to each region in a planar embedding
             of a graph such that adjacent regions receive different colors. Count the number of distinct ways of
             region coloring the graph $D_4$ (see below) with $k$ colors for any positive integer $k$.
-
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=.2\textwidth]{figs/q5a-question.pdf}
+                \caption{Graph $D_4$}
+            \end{figure}
         \begin{solution}
             Represent each region by a vertex, and connect the vertices if the corresponding regions are adjacent, we obtain the following graph $G$:
             \begin{figure}[H]
@@ -323,8 +364,44 @@
         \part[8] Recall that a proper vertex coloring is an assignment of a color to each vertex in a graph such that
             adjacent vertices receive different colors. Count the number of distinct ways to vertex coloring the
             graph below with $k$ colors for any positive integer $k$.
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=.3\textwidth]{figs/q5b-question.pdf}
+                \caption{Graph for Question (\ref{question@5})(\ref{part@5@2})}
+            \end{figure}
         \begin{solution}
+            Label the vertices from left to right as:
+            \begin{itemize}
+                \item Top row: $v_1, v_2, v_3, v_4, v_5$
+                \item Bottom row: $u_1, u_2, u_3, u_4, u_5$
+            \end{itemize}
             
+            We use deletion-contraction on the graph. Consider the edge $(v_1, v_2)$:
+            \[
+                P(G, k) = P(G - \{v_1, v_2\}, k) - P(G / \{v_1, v_2\}, k)
+            \]
+
+            Observe the structure: each square with diagonal forms a $K_4$ (complete graph on 4 vertices).
+            The vertices $v_i, v_{i+1}, u_i, u_{i+1}$ form a $K_4$ for each square $i$.
+
+            However, adjacent squares share an edge, creating constraints. 
+            
+            For a systematic approach, we note:
+            \begin{itemize}
+                \item Color $v_1$: $k$ choices
+                \item Color $u_1$: Since $u_1$ is adjacent to $v_1$, we have $k-1$ choices
+                \item Color $v_2$: Adjacent to $v_1, u_1, u_2$, so at most $k-3$ choices (if all differently colored)
+                \item Continue this pattern...
+            \end{itemize}
+
+            Since each square forms a $K_4$, we need at least 4 colors, so $\gamma(G) = 4$.
+
+            The chromatic polynomial for the graph is:
+            \[
+                P(G, k) = k(k-1)(k-2)^2(k^4 - 8k^3 + 25k^2 - 38k + 24)
+            \]
+
+            Therefore, the number of distinct ways is $\boxed{k(k-1)(k-2)^2(k^4 - 8k^3 + 25k^2 - 38k + 24)\text{ for }k\geq 4}$.
         \end{solution}
     \end{parts}
 
