@@ -2,6 +2,7 @@
     "@metadata_file_version": "1",
     "static_site": {
         "description": "Assignment 1 of COMP2121 (subclass 1B) (25/26 Fall) with solutions.",
-        "document_status": "fin"
+        "document_status": "fin",
+        "custom_md_file": "custom.md"
     }
 }
