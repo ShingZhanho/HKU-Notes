@@ -1,0 +1,9 @@
+{
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "static_site": {
+        "document_status": "fin",
+        "description": "Assignment 2 of COMP2121 (subclass 1B) (25/26 Fall) with solutions.",
+        "meta_description": "Access the questions and (proposed) solutions of COMP2121 Discrete Mathematics. Real assignment of 2025/26 fall semester.",
+        "custom_md_file": "custom.md"
+    }
+}
