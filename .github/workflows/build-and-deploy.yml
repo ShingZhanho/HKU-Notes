@@ -273,6 +273,15 @@ jobs:
             ./src/${{ matrix.target }}/~preview/*
           retention-days: 1
 
+      - name: On failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-failure-.miktex-dir-${{ matrix.target }}
+          path: ~/.miktex
+          retention-days: 1
+        # Upload the entire .miktex installation for inspection
+
   deploy-pages:
     runs-on: ubuntu-22.04 # Jammy
     needs: build-target
