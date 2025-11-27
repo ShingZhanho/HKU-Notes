@@ -35,7 +35,7 @@ jobs:
         run: python ./build/resolve_targets.py ${{ env.TARGET_BRANCH_NAME }} >> $GITHUB_OUTPUT
 
   build-target:
-    runs-on: ubuntu-22.04 # Jammy
+    runs-on: ubuntu-24.04 # Noble
     needs: configure-matrix
     strategy:
       matrix: 
@@ -158,7 +158,7 @@ jobs:
         if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
         run: |
           curl -fsSL https://miktex.org/download/key | gpg --dearmor | sudo tee /usr/share/keyrings/miktex-keyring.gpg > /dev/null
-          echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.gpg] https://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
+          echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.gpg] https://miktex.org/download/ubuntu noble universe" | sudo tee /etc/apt/sources.list.d/miktex.list
           sudo apt-get update
 
       - name: Install MiKTeX and dependencies
@@ -286,7 +286,7 @@ jobs:
         # Upload the entire .miktex installation for inspection
 
   deploy-pages:
-    runs-on: ubuntu-22.04 # Jammy
+    runs-on: ubuntu-24.04 # Noble
     needs: build-target
     environment:
       name: github-pages
@@ -397,7 +397,7 @@ jobs:
     # | This job is identical to deploy-pages, but is only run for branch validation.
     # | No actual deployment occurs in this job.
     # +---
-    runs-on: ubuntu-22.04 # Jammy
+    runs-on: ubuntu-24.04 # Noble
     needs: build-target
     if: ${{ github.ref != 'refs/heads/master' || github.event_name != 'push' }}
         # Only run this job if we are NOT on master branch or the event is a PR (negation of deploy-pages job condition)
