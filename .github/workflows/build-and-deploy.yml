@@ -183,8 +183,14 @@ jobs:
           initexmf --enable-installer
           initexmf --update-fndb
           initexmf --mkmaps
+          miktex packages check-update
           miktex packages update
           echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
+          # temporary fix: some MiKTeX packages are not auto-installed, manually install:
+          miktex packages install xkeyval || true
+          miktex packages install kvsetkeys || true
+          miktex packages install iftex || true
+          miktex packages install kvoptions || true
         
       # --- CONFIGURE TOOLSETS ---
         # toolset for minted
