@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block tabs %}
+  <!-- Include mourning banner before the tabs -->
+  {% include "partials/mourning-banner.html" %}
+  
+  <!-- Original tabs content -->
+  {{ super() }}
+{% endblock %}

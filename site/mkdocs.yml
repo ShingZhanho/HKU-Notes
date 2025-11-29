@@ -54,9 +54,13 @@ extra:
 extra_css:
   - stylesheets/extra.css
   - stylesheets/preview.css
+  - stylesheets/mourning.css
 extra_javascript:
+  - javascripts/mourning.js
   - javascripts/glightbox_events.js
 use_directory_urls: false
+not_in_nav: |
+  special-2025-fire.md
 plugins: 
   - glightbox:
       auto_themed: true
