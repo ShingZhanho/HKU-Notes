@@ -2,10 +2,10 @@
 
     The course ENGG1340 Computer Programming II has been discontinued and is migrated to COMP2113 Programming Technologies.
     As of today (7 August 2025), the course syllabus has not changed and this cheatsheet is still applicable to those who
-    are taking COMP2113.
+    are taking ENGG1340.
 
-This is a cheatsheet that the author used for the final examination of ENGG1340 Computer Programming II (or aliased
-COMP2113 Programming Technologies for non-BEng students) at the University of Hong Kong.
+This is a cheatsheet that the author used for the final examination of COMP2113 Programming Technologies (or aliased
+ENGG1340 Computer Programming II for BEng students) at the University of Hong Kong.
 
 Some of the content in this cheatsheet is based on [Jax Tam](https://github.com/EnhancedJax)'s version of the cheatsheet
 (provided [here](https://jaxtam.dev/notes/ENGG1340-Sheet)). The author would like to thank Jax for his work

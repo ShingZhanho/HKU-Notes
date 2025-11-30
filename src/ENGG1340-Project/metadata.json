@@ -1,24 +1,6 @@
 {
     "@metadata_file_version": "1",
-    "build": {
-        "output_file": "NON_FILE_TARGET",
-        "build_command": "true",
-        "miktex_package_file": "NON_FILE_TARGET",
-        "no_latex": true
-    },
     "static_site": {
-        "description": "The GitHub repository of the group project.",
-        "custom_md_file": "index.md",
-        "primary_button": {
-            "text": "View on GitHub",
-            "icon": "material-github",
-            "href": "https://github.com/ShingZhanho/ENGG1340-Project-25Spring"
-        },
-        "secondary_button": {
-            "disabled": true
-        }
-    },
-    "authors": [
-        "!jacob_shing", "yucheng_xin", "ho_nam_chan", "ming_ngai_leung", "sizhe_song"
-    ]
+        "alias_to": "COMP2113-Project"
+    }
 }

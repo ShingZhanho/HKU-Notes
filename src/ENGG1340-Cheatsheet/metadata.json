@@ -1,14 +1,6 @@
 {
     "@metadata_file_version": "1",
-    "build": {
-        "requires": [
-            "python-minted-pkgs"
-        ],
-        "build_command": "latexmk -shell-escape -pdf -f -interaction=nonstopmode -cd -outdir=. ./ENGG1340-Cheatsheet.tex"
-    },
     "static_site": {
-        "description": "An A4 double-sided cheatsheet for the ENGG1340 final exam.",
-        "custom_md_file": "custom.md",
-        "document_status": "sre"
+        "alias_to": "COMP2113-Cheatsheet"
     }
 }
