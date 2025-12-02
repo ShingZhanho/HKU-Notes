@@ -1,0 +1,136 @@
+\question Let $A$ be a $4\times4$ real symmetric matrix.
+Suppose $\bvec{v}_1=\begin{bmatrix}
+    1 \\ 0 \\ 0 \\ 1
+\end{bmatrix}$ is an eigenvector corresponding to the eigenvalue 1 of $A$.
+And $A$ has another eigenvalue 2 whose geometri multiplicity is 3.
+
+\begin{parts}
+
+    \part Find an orthonormal basis for the eigenspace of eigenvalue 2.
+        \textit{(Hint: Eigenspaces of distinct eigenvalues of a symmetric matrix are orthogonal.)}
+    \begin{solution}
+        Let $\bvec{v}_2=\trans{\begin{bmatrix}
+            x_1 & x_2 & x_3 & x_4
+        \end{bmatrix}}$ be an eigenvector of $A$ corresponding to eigenvalue 2.
+        Then we have
+        \[
+            \trans{\bvec{v}_1}\bvec{v}_2 = \trans{\bvec{v}_2}\bvec{v}_1 = 0 \quad\Leftrightarrow\quad
+            \begin{bmatrix}
+                1 & 0 & 0 & 1
+            \end{bmatrix}
+            \begin{bmatrix}
+                x_1 \\ x_2 \\ x_3 \\ x_4
+            \end{bmatrix} = 0 \quad\Leftrightarrow\quad
+            x_1 + x_4 = 0.
+        \]
+        Any vector satisfying $x_1 + x_4 = 0$ is an eigenvector corresponding to eigenvalue 2.
+        Thus, we take:
+        \[
+            \bvec{v}_2 = \begin{bmatrix}
+                0 \\ 1 \\ 1 \\ 0
+            \end{bmatrix},\quad
+            \bvec{v}_3 = \begin{bmatrix}
+                1 \\ 0 \\ 0 \\ -1
+            \end{bmatrix},\quad
+            \bvec{v}_4 = \begin{bmatrix}
+                0 \\ -1 \\ 1 \\ 0
+            \end{bmatrix}.
+        \]
+        Consider $\begin{augmatrix}{3}{\left[}{\right]}
+            \bvec{v}_2 & \bvec{v}_3 & \bvec{v}_4 & \bvec{0}
+        \end{augmatrix}$, we can easily verify that the three vectors are linearly independent.
+
+        Now we apply Gram-Schmidt process to orthonormalise the basis.
+        Let $\hat{\bvec{u}}_1 = \frac{\bvec{v}_2}{\|\bvec{v}_2\|}$ be a unit vector of the eigenspace ($\lambda=2$),
+        we get $\hat{\bvec{u}}_1 = \frac{1}{\sqrt{2}}\trans{\begin{bmatrix}
+            0 & 1 & 1 & 0
+        \end{bmatrix}}$.
+
+        Then, $\bvec{u}_2 = \bvec{v}_3 - \frac{\trans{\bvec{v}_3}\hat{\bvec{u}}_1}{\|\hat{\bvec{u}}_1\|}\hat{\bvec{u}}_1
+        =\begin{bmatrix}
+            1 \\ 0 \\ 0 \\ -1
+        \end{bmatrix} - \bvec{0} = \begin{bmatrix}
+            1 \\ 0 \\ 0 \\ -1
+        \end{bmatrix} \Rightarrow \hat{\bvec{u}}_2 = \frac{1}{\sqrt{2}}\begin{bmatrix}
+            1 \\ 0 \\ 0 \\ -1
+        \end{bmatrix}$.
+
+        Similarly, $\bvec{u}_3 = \bvec{v}_4 - \frac{\trans{\bvec{v}_4}\hat{\bvec{u}}_1}{\|\hat{\bvec{u}}_1\|}\hat{\bvec{u}}_1
+        - \frac{\trans{\bvec{v}_4}\hat{\bvec{u}}_2}{\|\hat{\bvec{u}}_2\|}\hat{\bvec{u}}_2
+        = \begin{bmatrix}
+            0 \\ -1 \\ 1 \\ 0
+        \end{bmatrix} - \bvec{0} - \bvec{0} = \begin{bmatrix}
+            0 \\ -1 \\ 1 \\ 0
+        \end{bmatrix} \Rightarrow \hat{\bvec{u}}_3 = \frac{1}{\sqrt{2}}\begin{bmatrix}
+            0 \\ -1 \\ 1 \\ 0
+        \end{bmatrix}$.
+
+        Therefore, the orthonormal basis for the eigenspace of eigenvalue 2 is
+        \[
+            \boxed{\left\{
+                \frac{1}{\sqrt{2}}\begin{bmatrix}
+                    0 \\ 1 \\ 1 \\ 0
+                \end{bmatrix},\quad
+                \frac{1}{\sqrt{2}}\begin{bmatrix}
+                    1 \\ 0 \\ 0 \\ -1
+                \end{bmatrix},\quad
+                \frac{1}{\sqrt{2}}\begin{bmatrix}
+                    0 \\ -1 \\ 1 \\ 0
+                \end{bmatrix}
+            \right\}}.
+        \]
+    \end{solution}
+
+    \newpage
+
+    \part Find the matrix $A$.
+    \begin{solution}
+        Normalise $\bvec{v}_1$ to get the unit eigenvector $\hat{\bvec{u}}_1 = \frac{1}{\sqrt{2}}\begin{bmatrix}
+            1 \\ 0 \\ 0 \\ 1
+        \end{bmatrix}$.
+
+        Construct the orthonormal matrix $U=\begin{bmatrix}
+            \hat{\bvec{u}}_1 & \hat{\bvec{u}}_2 & \hat{\bvec{u}}_3 & \hat{\bvec{u}}_4
+        \end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix}
+            1 & 0 & 1 & 0 \\
+            0 & 1 & 0 & -1 \\
+            0 & 1 & 0 & 1 \\
+            1 & 0 & -1 & 0
+        \end{bmatrix}$.
+        
+        Also construct $D = \begin{bmatrix}
+            1 & 0 & 0 & 0 \\
+            0 & 2 & 0 & 0 \\
+            0 & 0 & 2 & 0 \\
+            0 & 0 & 0 & 2
+        \end{bmatrix}$.
+
+        Then, $A=UD\trans{U}=\left(\frac{1}{\sqrt{2}}\right)^2
+        \begin{bmatrix}
+            1 & 0 & 1 & 0 \\
+            0 & 1 & 0 & -1 \\
+            0 & 1 & 0 & 1 \\
+            1 & 0 & -1 & 0
+        \end{bmatrix}
+        \begin{bmatrix}
+            1 & 0 & 0 & 0 \\
+            0 & 2 & 0 & 0 \\
+            0 & 0 & 2 & 0 \\
+            0 & 0 & 0 & 2
+        \end{bmatrix}
+        \begin{bmatrix}
+            1 & 0 & 0 & 1 \\
+            0 & 1 & 1 & 0 \\
+            1 & 0 & 0 & -1 \\
+            0 & -1 & 1 & 0
+        \end{bmatrix} = \boxed{
+            \begin{bmatrix}
+                \frac{3}{2} & 0 & 0 & -\frac{1}{2} \\
+                0 & 2 & 0 & 0 \\
+                0 & 0 & 2 & 0 \\
+                -\frac{1}{2} & 0 & 0 & \frac{3}{2}
+            \end{bmatrix}
+        }$
+    \end{solution}
+
+\end{parts}
