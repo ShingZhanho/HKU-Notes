@@ -49,7 +49,8 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
             button.is_primary.get(),
             button.text.get(),
             button.href.get(),
-            button.icon.get()
+            button.icon.get(),
+            button.message.get()
         ))
         f.write("\n")
     f.write("\n\n")
@@ -100,11 +101,13 @@ def __write_target_info(file_obj, target: str, metadata: Metadata):
     f.write(f"**Document status:** {get_badge_str(metadata.static_site.document_status.get(), True)}\n\n")
     f.write(f"**Last modified:** {get_last_modified_time_hkt(target)}\n\n")
 
-def __generate_button_md(primary: bool, text: str, href: str, icon: str | None = None) -> str:
+def __generate_button_md(primary: bool, text: str, href: str, icon: str | None = None, message: str | None = None) -> str:
     return "".join((
         f"[{text}",
         f" :{icon}:" if icon else "",
-        f"]({href})",
+        f"]({href}",
+        f' "{message}"' if message else "",
+        ")",
         "{.md-button ",
         ".md-button--primary" if primary else "",
         "}",

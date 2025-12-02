@@ -132,6 +132,11 @@
                     "description": "The URL to be linked to when the button is clicked.",
                     "minLength": 1,
                     "format": "uri-reference"
+                  },
+                  "message": {
+                    "type": ["string", "null"],
+                    "description": "The message to be displayed when hovering over the button. Use null or omit for no hover message.",
+                    "default": null
                   }
                 }
               }

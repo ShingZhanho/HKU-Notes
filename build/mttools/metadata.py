@@ -56,6 +56,7 @@ class ButtonKeyNode(KeyNode):
         self.text: StrValue = StrValue(None)
         self.icon: StrValue = StrValue(None)
         self.href: StrValue = StrValue(None)
+        self.message: StrValue = StrValue(None)
 
 class ComputedKeyNode(KeyNode):
     def __init__(self, parent_node: Metadata):

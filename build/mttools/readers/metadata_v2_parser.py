@@ -166,6 +166,7 @@ class MetadataV2Parser(MetadataParserBase):
             if not button_dict.get("href"):
                 raise ValueError("You must provide 'href' for each button.")
             button_node.href.set(button_dict.get("href"))
+            button_node.message.set(button_dict.get("message")) # message can be None
             return button_node
         
         button_nodes = [create_button_node(b_dict) for b_dict in buttons_dicts]
