@@ -3,7 +3,7 @@
     "build": {
         "output_file": "CCST9064-VideoEssay_IndividualResearchLog.pdf",
         "build_command": "latexmk -shell-escape -pdf -f -interaction=nonstopmode -cd -outdir=. ./individual_report.tex",
-        "postbuild_command": "rm ./individual_report.pdf ./CCST9064-VideoEssay_IndividualResearchLog.pdf",
+        "postbuild_command": "mv ./individual_report.pdf ./CCST9064-VideoEssay_IndividualResearchLog.pdf",
         "root_file": "individual_report.tex",
         "requires": [
             "python-minted-pkgs"
