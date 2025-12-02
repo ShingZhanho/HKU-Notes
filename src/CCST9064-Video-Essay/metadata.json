@@ -1,0 +1,48 @@
+{
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "build": {
+        "output_file": "CCST9064-VideoEssay_IndividualResearchLog.pdf",
+        "build_command": "latexmk -shell-escape -pdf -f -interaction=nonstopmode -cd -outdir=. ./individual_report.tex",
+        "postbuild_command": "rm ./individual_report.pdf ./CCST9064-VideoEssay_IndividualResearchLog.pdf",
+        "root_file": "individual_report.tex",
+        "requires": [
+            "python-minted-pkgs"
+        ]
+    },
+    "static_site": {
+        "description": "The final video essay submitted for CCST9064 group project. Python code for Manim included.",
+        "meta_description": "View the video essay of the CCST9064 group project. Access the Python source code for the Manim animations.",
+        "custom_md_file": "index.md",
+        "pdf_viewer": "at_tag",
+        "buttons": [
+            {
+                "index": 0,
+                "text": "Watch on YouTube",
+                "href": "https://www.youtube.com/watch?v=7meTbcns6Tg",
+                "icon": "material-youtube",
+                "is_primary": true
+            },
+            {
+                "index": 10,
+                "text": "Download Source Code",
+                "href": "https://hku.jacobshing.com/files/CCST9064-Video-Essay/MANIM_SOURCE_CODE.zip",
+                "icon": "material-file-code"
+            },
+            {
+                "index": 20,
+                "text": "Download Video Project Files",
+                "href": "https://drive.google.com/file/d/1F-Q-OYhvjrhyiE85qdCTWBLoKWBZr9Zt/view?usp=sharing",
+                "icon": "material-download"
+            },
+            {
+                "index": 30,
+                "text": "Download Individual Research Log PDF",
+                "href": "https://hku.jacobshing.com/files/CCST9064-Video-Essay/CCST9064-VideoEssay_IndividualResearchLog.pdf",
+                "icon": "fontawesome-solid-file-pdf"
+            }
+        ]
+    },
+    "authors": [
+        "!jacob_shing", "wai_ching_chu", "qiao_yao_xian", "stephanie_t_pratistha", "jialu_xu"
+    ]
+}

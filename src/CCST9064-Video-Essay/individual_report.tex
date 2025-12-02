@@ -1,0 +1,182 @@
+% !TEX program = latexmk
+% !TEX options = --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./individual_report.tex
+
+% Individual Component for the Group Project
+% Course: CCST9064 - The World Changed by DNA
+
+\documentclass[10pt]{article}
+
+\usepackage[top=2.5cm,bottom=2.5cm,left=2cm,right=2cm,a4paper]{geometry}
+\usepackage[hidelinks,allcolors=blue,colorlinks]{hyperref}
+\usepackage{minted}
+\usepackage{multicol}
+
+% Global minted settings
+\setminted{
+    linenos=true,           % Enable line numbers
+    breaklines=true,        % Automatic line breaking
+    breakanywhere=true,     % Break lines anywhere if needed
+    style=manni,         % Consistent color scheme (alternatives: default, emacs, friendly, colorful, autumn, murphy, manni, material, monokai, perldoc, pastie, borland, trac, native, fruity, bw, vim, vs, tango, rrt, xcode, igor, paraiso-light, paraiso-dark, lovelace, algol, algol_nu, arduino, rainbow_dash, abap, solarized-dark, solarized-light, sas, stata, stata-light, stata-dark)
+    bgcolor=lightgray!10,   % Light background color
+    fontsize=\small,        % Slightly smaller font
+    frame=lines,            % Frame around code
+    framesep=2mm,           % Spacing around frame
+    tabsize=4               % Tab size
+}
+
+\newcommand{\pdbID}[1]{\texttt{\bfseries[#1]}}
+\newcommand{\pdbName}[1]{\textit{#1}}
+\newcommand{\pdbURL}[1]{https://www.rcsb.org/structure/#1}
+\newcommand{\pdbEntry}[2]{\href{\pdbURL{#1}}{\pdbID{#1}} \quad \pdbName{#2}}
+
+\newcommand{\videoEntry}[2]{\textit{#1}\quad(\url{#2})}
+
+\begin{document}
+
+\begin{center}
+    \Large\textbf{CCST9064 Group L -- Video Essay}\\
+    \large\textbf{Individual Research Log}
+\end{center}
+
+\noindent\textbf{Student Information}
+\begin{multicols}{2}
+    \noindent \textbf{Name:} \hfill SHING, Zhan Ho Jacob\\
+    \textbf{Student ID:} \hfill 3036228892
+    \columnbreak
+
+    \noindent \textbf{Group Number:} \hfill L\\
+    \textbf{Topic:} \hfill Somatic Gene Therapy
+\end{multicols}
+
+\section{Research Approach and Methodology}
+
+For this group project, I am not responsible for the research part.
+However, for video production purposes, research was still an essential part to obtain contents and ensure my content's accuracy.
+
+The sources that I have consulted, as will be listed in the later sections, are mainly from credible scientific database -- the Protein Data Bank (PDB) -- and educational videos from reputable channels on YouTube.
+The research methodology mainly involves keyword searching within PDB and YouTube.
+The keywords are taken from the video script written by the scriptwriters and from the storyboard.
+
+\section{Key Sources Consulted}
+
+As our video essay is about highly specialised scientific topic -- somatic gene therapy -- there are many credible sources that can be used to explain the concepts clearly visually.
+Using existing materials also saves the production time and reduces the need for creating complicated animations \textit{de novo}.
+I have researched and collected the following materials:
+
+\subsection{3D Models of Protein Structures}
+
+Many of the protein structures are already determined through experimental methods and are available in the Protein Data Bank (PDB, \url{https://www.rcsb.org/}).
+Further, for dynamically showing the structures, the molecular data downloaded from PDB can be fed into the software ChimeraX (\url{https://www.cgl.ucsf.edu/chimerax/}), colour-coded, and exported as a 3D object file, that can be further animated with After Effects.
+
+In our video essay, the following protein structures were (adapted and) used:
+\begin{itemize}
+    \item \pdbEntry{1APL}{Crystal Structure of a MAT-$\alpha$2 Homeodomain-Operator Complex Suggests a General Model for Homeodomain-DNA Interactions} -- the double helix DNA structure was extracted for the opening scene.
+    \item \pdbEntry{2HHB}{The Crystal Structure of Human Deoxyhaemoglobin at 1.74 Angstroms Resolution} -- the normal human haemoglobin structure, used along with \texttt{2HBS}.
+    \item \pdbEntry{2HBS}{The High Resolution Crystal Structure of Deoxyhemoglobin S} -- the sickle-cell haemoglobin structure, used along with \texttt{2HHB} to illustrate the molecular basis of sickle-cell anaemia.
+    \item \pdbEntry{3FSN}{Crystal Structure of RPE65 at 2.14 Angstrom Resolution} -- to illustrate the protein involved in gene therapy for Leber's Congenital Amaurosis (LCA).
+    \item \pdbEntry{4QQ6}{Crystal Structure of tudor domain of SMN1 in complex with a small organic molecule} -- to illustrate the protein involved in gene therapy for Spinal Muscular Atrophy (SMA).
+\end{itemize}
+
+Apart from the models provided by PDB, there was also one double helix DNA model created by the software ChimeraX, using a randomly generated DNA sequence, for animating the rotating double helix DNA in the video.
+
+\subsection{Video/Animation Clips}
+
+To illustrate the complex biological processes involved in somatic gene therapy, I have searched for existing video/animation clips that can be used directly or adapted for our video essay.
+The following clips were used:
+\begin{itemize}
+    \item \videoEntry{3D Animation of a Clogged Blood Vessel Due to a Sickle Cell Disease}{https://youtu.be/BmnfR-D8ewE} -- to illustrate the effect of sickle-cell anaemia blocking blood vessels.
+    \item \videoEntry{Gene Therapy Basics (2022 Update)}{https://www.youtube.com/watch?v=kAtd9X29SdQ} -- to illustrate ``delivering a healthy gene into a cell as compensation''.
+    \item \videoEntry{Breast Cancer}{https://vimeo.com/871843858} -- to illustrate the idea of uncontrolled cell growth in cancer.
+    \item \videoEntry{Introduction to CRISPR-Cas9 Genome Editing}{https://www.youtube.com/watch?v=iEA-NleJoqY} -- to illustrate the CRISPR-Cas9 gene editing mechanism.
+    \item \videoEntry{A Look at How CAR-T Cell Therapy Works}{https://www.youtube.com/watch?v=mXADrg_ckhI} -- to illustrate the CAR-T cell therapy mechanism.
+\end{itemize}
+
+\section{Major Insights and Discovery}
+
+As opposed to my original expectation that all of the protein structures in our body can be found on PDB as long as their genetic sequences are known, during the research process, I have discovered this to be false.
+Many of the protein structures cannot be found on PDB.
+Later investigations on this issue revealed that the structure of a protein cannot be determined simply through mathematical or computer simulations even if the exact amino acid chain is known.
+This is because protein folding is a complex process and is affected by many factors.
+
+The truth is, many of the existing protein structures in PDB, except for those simple peptides, are determined through experimental methods.
+This can be verified because many of the PDB entries are actually a protein in complex with other molecules, such as ligands, inhibitors, or is a protein dissolved in a solvent, not the pure protein alone.
+
+\section{Personal Contribution to the Project}
+
+My responsibilities in this group project is to realise the storyboard designed by Jialiu Xu by assembling the video clips, animations, voiceovers together into the final video.
+
+\subsection{My Workflow for Contributing to the Video Essay}
+
+After receiving the storyboard from Jialiu Xu, I started creating the animation clips that were implementable using Python with the Manim library.
+The more complex animations, such as the sickle cell anaemia animations, were looked up online and directly used in our video with proper in-video citation.
+Those videos were not created because the complexity is beyond the requirement of this course.
+
+With Manim, a total of 26 scenes were created (of which only 25 were used as one of them was no longer applicable after some modifications).
+Some of the designs in the original storyboard were not adopted due to technical limitations and time constraints.
+
+As for the protein structure models, I fetched them from PDB into ChimeraX.
+With the built-in functions of ChimeraX, I colour-coded the structures (mainly by chain) and exported them as \texttt{.glb} 3D object files.
+These files were then imported into Adobe After Effects for simple animating (mainly rotation and zooming).
+
+The animation clips, B-roll footages, 3D animations, and voiceover recordings were assembled together in Adobe Premiere Pro.
+Some simple video effects, such as zooming in/out, panning, and fading transitions were also applied in Premiere Pro to enhance the visual experience.
+
+\subsection{Animations Created with Python}
+
+Various animation clips were created using Python with the library Manim. The source codes are attached at the end of this document.
+For the sake of academic integrity, it is declared that large language models were involved in writing the following code files.
+The use of LLMs was mainly for handling complex mathematical expressions to save up time for actually producing the animations.
+
+\subsection{Leadership Role in the Group}
+
+Initially, two members were assigned the role as video production.
+This is impractical as the video editing software cannot be used collaboratively and only one person can work on the project files at a time.
+Uploading the project files to a cloud storage for sharing was also not an option as the files can get very large (several gigabytes) and the upload/download time would be too long.
+
+Therefore, for easier task delegation, I took the initiative to offer the other video production member to focus on creating the storyboard from the script.
+This is effective since I, as a Computer Science student, find it difficult to come up with creative visual designs from scratch on top of the script.
+However, with my previous experience in video editing, I can effectively realise the storyboard into the final video.
+Therefore, we agreed on this division of labour, which greatly improved our productivity and was a successful collaboration.
+
+\section{Reflection on Learning}
+
+\subsection{Understanding of Genetics}
+
+As I was previously enrolled as an MBBS student, I already have some foundational knowledge of genetics through trainings from the IASM block.
+This has equipped me with the necessary background and skills to understand the complex concepts involved in somatic gene therapy.
+On the science side, through this project, I have additional knowledge about the specific applications of somatic gene therapy, such as Luxturna for LCA, Nusinersen for SMA, etc.
+On the moral side, I have also learned about more ethical considerations from more aspects, such as public opinion and fair access to treatment.
+
+\subsection{Skills Acquired}
+
+By working on this project, I have deepened my skills in professional video production.
+I have also learned new skills in 3D molecular visualisation and animation using ChimeraX and Adobe After Effects.
+Further, in 2D animation creation, I have improved my skills in using Python with the Manim library to create mathematical and scientific animations programmatically.
+
+\section*{Annex: Python Source Codes for Creating Animations}
+
+\subsection*{\texttt{intro\_scenes.py}}
+This file contains code for creating animations used in the introduction section of the video.
+\inputminted{python}{python_codes/intro_scenes.py}
+
+\subsection*{\texttt{application\_eyes.py}}
+This file contains code for creating animations about gene therapy applications for eye diseases, specifically Luxturna treatment for Leber's Congenital Amaurosis (LCA).
+\inputminted{python}{python_codes/application_eyes.py}
+
+\subsection*{\texttt{application\_blood\_disorder.py}}
+This file contains code for creating animations about gene therapy applications for blood disorders, specifically CRISPR treatment for sickle cell disease.
+\inputminted{python}{python_codes/application_blood_disorder.py}
+
+\subsection*{\texttt{application\_blood\_cancer.py}}
+This file contains code for creating animations about gene therapy applications for blood cancer, specifically CAR-T cell therapy for leukemia and its side effects.
+\inputminted{python}{python_codes/application_blood_cancer.py}
+
+\subsection*{\texttt{application\_neuromuscular.py}}
+This file contains code for creating animations about gene therapy applications for neuromuscular diseases, specifically Nusinersen therapy for Spinal Muscular Atrophy (SMA).
+\inputminted{python}{python_codes/application_neuromuscular.py}
+
+\subsection*{\texttt{ethics.py}}
+This file contains code for creating animations about ethical considerations in gene therapy, including historical cases, public opinion, and regulatory concerns.
+\inputminted{python}{python_codes/ethics.py}
+
+\end{document}
