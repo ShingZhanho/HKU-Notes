@@ -33,7 +33,7 @@ def start(targets: list[str], out_dir: str | None = None):
             os.makedirs(f"./site/docs/downloads/{target}", exist_ok=True)
             shutil.copytree(
                 f"./src/{target}/.COPY",
-                f"./site/docs/downloads/{target}",
+                f"./site/docs/downloads/details/{target}",
                 dirs_exist_ok=True,
                 copy_function=shutil.copy2,
                 symlinks=False
