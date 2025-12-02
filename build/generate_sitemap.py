@@ -22,7 +22,9 @@ STATIC_PATHS = [
     "/index.html",                                              # Home page
     "/contribution/index.html",                                 # Contribution pages
     "/contribution/syntax-reference/authors.json.html",
-    "/contribution/syntax-reference/metadata.json.html",
+    "/contribution/syntax-reference/metadata.json/index.html",
+    "/contribution/syntax-reference/metadata.json/v1.html",
+    "/contribution/syntax-reference/metadata.json/v2.html",
     "/contribution/syntax-reference/build-targets.txt.html",
     "/downloads/index.html",                                    # Course catalogue page
     "/downloads/document-status.html",                          # Document status page

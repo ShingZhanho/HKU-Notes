@@ -38,7 +38,7 @@ Most importantly, it specifies the commands to run before, for, and after buildi
 to build PDF documents from LaTeX source code, but with the customisable commands, you can also use this pipeline to include
 other types of files.
 
-You should refer to the [syntax reference for `metadata.json`](./syntax-reference/metadata.json.md) for the details about
+You should refer to the [syntax reference for `metadata.json`](./syntax-reference/metadata.json/index.md) for the details about
 what information can you include in the file.
 
 ### 3. Source Code Checksum
@@ -70,7 +70,7 @@ Now that you have a basic understanding of how the pipeline works, here are the 
 2. **Create the Source Directory**: Create a new directory under `/src/[NEW_BUILD_TARGET]` for your new material.
     The directory name must match the build target name you defined in the previous step.
 3. **Create `metadata.json`**: Create a `metadata.json` file in the new source directory.
-   - Use the syntax defined in the [syntax reference for `metadata.json`](./syntax-reference/metadata.json.md).
+   - Use the syntax defined in the [syntax reference for `metadata.json`](./syntax-reference/metadata.json/index.md).
 4. **Add Source Files**: Add the source files for your new material in the new source directory.
     Most importantly, if you are adding a LaTeX document, you MUST separate all the `\usepackage` commands into a separate file
     called `packages.tex` in the source directory.
@@ -100,6 +100,6 @@ set up GitHub Actions in your fork and change all the URLs in the scripts to poi
 
 If you are contributing to this project, we would like to attribute your contributions.
 To do so, please refer to the [syntax reference for `authors.json`](./syntax-reference/authors.json.md) to add your information,
-and then refer to the [`authors` field in `metadata.json`](./syntax-reference/metadata.json.md#authors) to add your name to the build target.
+and then refer to the [`authors` field in `metadata.json`](./syntax-reference/metadata.json/v2.md#authors) to add your name to the build target.
 
 Of course, whether you want to remain anonymous or not is entirely up to you.
