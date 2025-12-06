@@ -4,6 +4,8 @@ description: This document provides a syntax reference for the `authors.json` fi
 
 # Syntax Reference for `authors.json`
 
+## Keys
+
 The `authors.json` file is found under the `/site/docs/statics/authors/` directory.
 It contains information about the authors of the documents in the HKU Notes project.
 
@@ -17,13 +19,13 @@ Each author is represented as a JSON object, with its unique identifier as the k
 
 Each author object must define all of the following fields:
 
-## `display_name`
+### `display_name`
 
 - **Description**: The name of the author as it should be displayed.
 - **Type**: `string`
 - **Example**: `"John Appleseed"`
 
-## `avatar`
+### `avatar`
 
 - **Description**: The URL of the author's avatar image.
 - **Type**: `string` or `null`
@@ -33,13 +35,13 @@ Authors without a hosted avatar can place their avatar image in the `/site/docs/
 and reference it using `https://hku.jacobshing.com/statics/authors/[avatar_filename]`. Or,
 if they wish, leave this field as `null` to use the default avatar.
 
-## `href`
+### `href`
 
 - **Description**: A URL to the author's profile or homepage. Leave this field as `null` if the author does not wish to provide a link.
 - **Type**: `string` or `null`
 - **Example**: `"https://example.com/profile"`
 
-# Example
+## Example
 
 ```json
 {
