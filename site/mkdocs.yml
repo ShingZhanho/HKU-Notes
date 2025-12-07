@@ -62,3 +62,6 @@ plugins:
       auto_themed: true
       manual: true
       height: 90%
+  - search:
+      lang: en
+      enabled: true
