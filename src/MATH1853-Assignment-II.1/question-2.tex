@@ -1,0 +1,19 @@
+\question
+Use complex exponentials to prove the trigonometric identity.  
+
+\[
+\sin A \sin B = \frac{1}{2} [\cos (A - B) - \cos (A + B)]
+\]
+
+\begin{psol}
+    Using Euler's formula, we show that:
+    \begin{align*}
+        \text{L.H.S.} &=
+        \left(\frac{e^{iA}-e^{-iA}}{2i}\right)\left(\frac{e^{iB}-e^{-iB}}{2i}\right)\\
+        &= \frac{1}{4i^2} \left( e^{i(A+B)} - e^{i(A-B)} - e^{i(-A+B)} + e^{-i(A+B)} \right) \\
+        &= -\frac{1}{4} \left( e^{i(A+B)} + e^{-i(A+B)} - e^{i(A-B)} - e^{-i(A-B)} \right) \\
+        &= -\frac{1}{2} \left( \frac{e^{i(A+B)} + e^{-i(A+B)}}{2} - \frac{e^{i(A-B)} + e^{-i(A-B)}}{2} \right) \\
+        &= \frac{1}{2} [\cos (A - B) - \cos (A + B)] \\
+        &= \text{R.H.S.}
+    \end{align*}
+\end{psol}

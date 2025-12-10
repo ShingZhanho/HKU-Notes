@@ -1,0 +1,13 @@
+{
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "static_site": {
+        "description": "Proposed solutions to MATH1853 Part II Assignment 1 (25/26 Semester 1)",
+        "meta_description": "Access the questions and solutions for HKU MATH1853 Linear Algebra Assignment 1 (25/26 Sem 1) here. Detailed step-bystep solutions provided.",
+        "custom_md_file": "custom.md",
+        "document_status": "fin",
+        "pdf_viewer": "at_footer"
+    },
+    "build": {
+        "prebuild_command": "./render_figs.sh"
+    }
+}

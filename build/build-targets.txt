@@ -71,10 +71,10 @@ CCST9064-Video-Essay
 FREN2001-Grammaire
 
 # MATH1853 - Linear Algebra, Probability and Statistics
-MATH1853-
-	Assignment-
-		I.
-			1
-			2
-			3
-	Notes
+MATH1853-Assignment-
+	I.
+		1
+		2
+		3
+	II.
+		1

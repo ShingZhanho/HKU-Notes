@@ -1,0 +1,22 @@
+\newpage
+\question
+Let \( z = x + yi \). Compute \(\text{Im}(e^{z^2})\) as an elementary function of \(x\) and \(y\).
+
+\begin{solution}
+    Evaluate $z^2$ first:
+    \[
+        z^2 = (x + yi)^2 = x^2 + 2xyi + (yi)^2 = (x^2 - y^2) + 2xyi
+    \]
+    Then:
+    \begin{align*}
+        e^{z^2} &= e^{(x^2 - y^2) + 2xyi} \\
+        &= e^{x^2 - y^2} \cdot e^{2xyi} \\
+        &= e^{x^2 - y^2} \left( \cos(2xy) + i\sin(2xy) \right) \\
+        &= e^{x^2 - y^2} \cos(2xy) + i e^{x^2 - y^2} \sin(2xy)
+    \end{align*}
+
+    Thus, the imaginary part is:
+    \[
+        \text{Im}(e^{z^2}) = \boxed{e^{x^2 - y^2} \sin(2xy)}
+    \]
+\end{solution}

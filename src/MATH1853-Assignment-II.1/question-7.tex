@@ -1,0 +1,36 @@
+\newpage
+\question Solve the complex equations. Write your answer in set notation.
+
+\begin{parts}
+    \part $z^2+(1-2i)z-(1+i)=0$
+    \begin{solution}
+        We use the quadratic formula to solve for $z$:
+        \begin{align*}
+            z
+            & =\frac{-(1-2i)\pm\sqrt{(1-2i)^2-4\cdot 1\cdot (-(1+i))}}{2\cdot 1} \\
+            & =\frac{-1+2i\pm\sqrt{1-4i-4+4+4i}}{2} \\
+            &= \frac{-1+2i\pm1}{2}
+        \end{align*}
+        Therefore, the solution set is
+        \[
+            \boxed{\{i, -1+i\}}
+        \]
+    \end{solution}
+
+    \part $z^2=\overline{z}^2$
+    \begin{solution}
+        Let $z=x+yi$ where $x,y\in\mathbb{R}$. Then, we have
+        \begin{align*}
+            (x+yi)^2 &= (x-yi)^2 \\
+            x^2+2xyi-y^2 &= x^2-2xyi+y^2 \\
+            xyi &= -xyi \\
+            2xyi &= 0 \\
+            xyi &= 0 \\
+            xy &= 0
+        \end{align*}
+        Therefore, we have the solution set:
+        \[
+            \boxed{\{x+yi \mid xy=0\}}
+        \]
+    \end{solution}
+\end{parts}

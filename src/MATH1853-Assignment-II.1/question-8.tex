@@ -1,0 +1,32 @@
+\question
+Let $D=\{z\in\mathbb{C}\mid\text{Re}(z)=4\}$ and define
+\[
+    f:D\to\mathbb{C} \quad\text{by}\quad f(z)=\sqrt{z}, \quad\text{the principal square root of }z.
+\]
+Find the image set $f(D)$ defined by a well-known conic section.
+
+\begin{solution}
+    Let $z=r(\cos\theta+i\sin\theta)=re^{i\theta}$ where $r\geq0$ and $\theta\in(-\pi,\pi]$.
+
+    $\text{Re}(z)=4 \implies r\cos\theta=4$.
+
+    $f(z)=z^{\frac{1}{2}}=r^{\frac{1}{2}}e^{i\frac{\theta}{2}}$.
+
+    Note that since $\text{Re}(z)=4>0$, $z$ must lie in the quadrants I or IV, so $\theta\in(-\frac{\pi}{2},\frac{\pi}{2})$, and $\arg(f(z))\in(-\frac{\pi}{4},\frac{\pi}{4})$.
+
+    Let $z=4+yi$, $y\in\mathbb{R}$, and $f(z)=a+bi$, $a,b\in\mathbb{R}$.
+
+    Then,
+    $\sqrt{4+yi}=a+bi \Rightarrow 4+yi=a^2-b^2+2abi \Rightarrow \begin{cases}
+        a^2-b^2=4 \\
+        2ab=y
+    \end{cases}$.
+
+    Also, $a>0$ since $\arg(f(z))\in(-\frac{\pi}{4},\frac{\pi}{4})$.
+
+    Therefore,
+    \[
+        \boxed{f(D)={a+bi\mid a^2-b^2=4, a>0, a,b\in\mathbb{R}}}.
+    \]
+    The image set is \fbox{the right branch of the hyperbola $x^2-y^2=4$}.
+\end{solution}
