@@ -44,6 +44,8 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     print("Authors section written.")
 
     # Writ buttons
+    f.write('\n<div class="author-card-container">\n')
+    f.write('<span>Action(s):</span>\n')
     for button in metadata.static_site.buttons.get():
         f.write(__generate_button_md(
             button.is_primary.get(),
@@ -53,7 +55,7 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
             button.message.get()
         ))
         f.write("\n")
-    f.write("\n\n")
+    f.write("\n</div>\n\n")
     print("Buttons written.")
 
     # Move PDF preview pngs (if any) - MUST be done before generating PDF viewer HTML
