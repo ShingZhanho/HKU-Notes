@@ -1,0 +1,44 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\begin{document}
+
+\begin{tikzpicture}[every node/.style={circle, draw, minimum size=8mm}]
+
+% a graph with 1 vertex of degree 1, 2 vertices of degree 2,
+% 3 vertices of degree 3, and 4 vertices of degree 4
+
+% the graph is planar, simple, connected, undirected
+
+% Define the vertices
+\node (a) at (0,0) {a:1}; % degree 1
+\node (b) at (-2,0) {b:2}; % degree 2
+\node (c) at (-4,0) {c:4}; % degree 4
+\node (d) at (-2,4) {d:4}; % degree 4
+\node (e) at (-6,6) {e:3}; % degree 3
+\node (f) at (-8,4) {f:4}; % degree 4
+\node (g) at (-6,2) {g:3}; % degree 3
+\node (h) at (-6,-2) {h:4}; % degree 4
+\node (i) at (-4,-4) {i:2}; % degree 2
+\node (j) at (-2,-2) {j:3}; % degree 3
+% Draw the edges
+\draw (a) -- (b);
+\draw (b) -- (c);
+\draw (c) -- (d);
+\draw (c) -- (h);
+\draw (c) -- (j);
+\draw (d) -- (e);
+\draw (d) -- (g);
+\draw (e) -- (f);
+\draw (e) -- (g);
+\draw (f) -- (g);
+\draw (f) -- (h);
+\draw (h) -- (i);
+\draw (h) -- (j);
+\draw (i) -- (j);
+
+% a curved edge from d to f
+\draw (f) .. controls +(-1,3) and +(-2,4) .. (d);
+
+\end{tikzpicture}
+
+\end{document}

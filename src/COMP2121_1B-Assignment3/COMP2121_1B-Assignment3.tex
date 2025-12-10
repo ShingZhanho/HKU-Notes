@@ -1,0 +1,370 @@
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preambles.tex}
+
+\begin{document}
+
+\begin{center}
+    \textbf
+    {\Large{COMP2121 Discrete Mathematics} \\
+    \large{25/26 Semester 1} \\
+    \large{Assignment 3}}\\
+    SHING, Zhan Ho Jacob \qquad 3036228892
+\end{center}
+
+\begin{questions}
+    
+    \question Basics Probabilities and Random Variables
+
+    \begin{parts}
+
+        \part[4] There are 5 boxes, 3 of which contain 10 HKD each, and 2 of which are empty. Bob will randomly
+            select 3 boxes, and he will win the total amount of money in the selected boxes. What is the
+            probability that he will win at least 20 HKD?
+        \begin{solution}
+            Let $X$ be the total amount of money Bob wins.
+            $P(X\geq20)=1-P(X=0)-P(X=10)=1-0-\frac{\binom{3}{2}}{\binom{5}{3}}=1-\frac{3}{10}=\boxed{\frac{7}{10}}$.
+        \end{solution}
+
+        \part[4] Suppose you toss a fair coin for multiple times. Define $L$ to be the number of tosses you have to
+            make until either of the following is satisfied:
+        \begin{enumerate}[label=(\arabic*)]
+            \item The number of ``head'' has reached 3.
+            \item The total number of tosses reaches 5.
+        \end{enumerate}
+        Determine $\E(L)$.
+        \begin{solution}
+            \allbold{If $L=3$:} $P(L=3) = (0.5)^3 = 0.125$.
+            
+            \allbold{If $L=4$:} $P(L=4) = \binom{3}{2}(0.5)^3 (0.5) = 0.1875$.
+
+            \allbold{If $L=5$:} The 5th toss is irrelevant.
+                $P(L=5)=(0.5)^4+\binom{4}{1}(0.5)^3(0.5)+\binom{4}{2}(0.5)^2(0.5)^2=0.6875$
+            
+            \[
+                \E(L)=3\cdot P(L=3)+4\cdot P(L=4)+5\cdot P(L=5)=\boxed{4.5625}
+            \]
+        \end{solution}
+
+        \part[4] The joint distribution $P(X,Y)$ of two random variables $X$ and $Y$ is shown in the following table:
+        \begin{center}
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                \diagbox{$X$}{$Y$} & 0 & 1 & 2 \\
+                \hline
+                -1 & 0 & 1/6 & 1/6 \\ \hline
+                0 & 1/6 & 1/6 & 0 \\ \hline
+                1 & 0 & 1/6 & 1/6 \\ \hline
+            \end{tabular}
+        \end{center}
+        Show that $X$ and $Y$ are uncorrelated but not independent.
+        \begin{solution}
+            Marginal probabilities:
+            \[
+                P_X(x)=\sum_{\text{all }y} P(X=x, Y=y)=\begin{cases}
+                    \frac{2}{6}, & x=-1\\
+                    \frac{2}{6}, & x=0 \\
+                    \frac{2}{6}, & x=1
+                \end{cases}=\frac{1}{3}
+            \]
+            and
+            \[
+                P_Y(y)=\sum_{\text{all }x} P(X=x, Y=y)=\begin{cases}
+                    \frac{1}{6}, & y=0\\
+                    \frac{1}{2}, & y=1\\
+                    \frac{1}{3}, & y=2
+                \end{cases}.
+            \]
+            Then,
+            \[
+                \E(X) = \sum_{\text{all }x} x\cdot P_X(x) = 0 \qquad
+                \E(Y) = \sum_{\text{all }y} y\cdot P_Y(y) = \frac{1}{2} + 2\cdot\frac{1}{3}=\frac{7}{6} \qquad
+                \E(XY) = \sum_{\text{all }x} \sum_{\text{all }y} xy\cdot P(x, y)=0.
+            \]
+            Also,
+            \[
+                \cov(XY)=\E(XY)-\E(X)\E(Y)=0
+            \]
+            Hence, \fbox{$X$ and $Y$ are not correlated}.
+
+            However, $P(-1, 0)=0\neq\frac{1}{18}=P_X(-1)P_Y(0)$. Therefore, \fbox{$X$ and $Y$ are not independent}.
+        \end{solution}
+
+        \part[4] Alice and Bob are playing a game. At the start, Alice randomly chooses a real number $x \in[0, 5]$.
+            The game consists of $n$ rounds. In each round, Alice secretly tosses a fair coin. If the outcome is
+            ``head'', she tells Bob $X_i = x + 1$, otherwise, she tells him $X_i = x - 1$. At the end, Bob computes
+            the estimate
+            \[
+                \hat{x}=\frac{1}{n}\sum_{i=1}^{n} X_i.
+            \]
+            Determine how large $n$ should be to ensure that $|\hat{x}-x|<\frac{1}{2}$ with a probability of at least 0.9.
+        \begin{solution}
+            Let $Y_i = X_i - x$. Since $X_i = x \pm 1$ with probability $0.5$, $Y_i$ takes values $\pm 1$ with probability $0.5$.
+            \[
+                \E(Y_i) = 1(0.5) + (-1)(0.5) = 0, \quad \var(Y_i) = \E(Y_i^2) - (\E(Y_i))^2 = 1 - 0 = 1.
+            \]
+            Let $\overline{Y} = \hat{x} - x = \frac{1}{n}\sum_{i=1}^n (X_i - x) = \frac{1}{n}\sum_{i=1}^n Y_i$. Then
+            \[
+                \E(\overline{Y}) = 0, \quad \var(\overline{Y}) = \frac{1}{n^2}\sum_{i=1}^n \var(Y_i) = \frac{n}{n^2} = \frac{1}{n}.
+            \]
+            We want to find $n$ such that
+            \begin{align*}
+                P\left(|\hat{x}-x|<\frac{1}{2}\right) \geq 0.9 &\iff 1 - P\left(|\hat{x}-x| \geq \frac{1}{2}\right) \geq 0.9 \\
+                &\iff P\left(|\overline{Y}| \geq \frac{1}{2}\right) \leq 0.1.
+            \end{align*}
+            Using Chebyshev's inequality,
+            \[
+                P\left(|\overline{Y}| \geq \frac{1}{2}\right) \leq \frac{\var(\overline{Y})}{(1/2)^2} = \frac{1/n}{1/4} = \frac{4}{n}.
+            \]
+            To ensure the condition holds, we require
+            \[
+                \frac{4}{n} \leq 0.1 \implies n \geq 40.
+            \]
+            Thus, $n$ should be at least \fbox{40}.
+        \end{solution}
+    \end{parts}
+
+    \question Basics on Graphs
+
+    \begin{parts}
+        \part[6] Let $V = \{a, b, c, d\}$ and $E = \{(a, b), (a, c), (a, d), (d, c)\}$. Count the number of subgraphs of the
+            graph $G = (V, E)$.
+        \begin{solution}
+            By cases:
+            \begin{multicols}{2}
+                \begin{enumerate}[label=\textbf{(\arabic*)}]
+                    \item Null graph: 1 subgraph.
+                    \item $V'=\{a,b,c,d\}\subseteq V$: $2^{\left|E\right|}=2^4=16$ subgraphs.
+                    \item $V'=\{a,b,c\}\subset V$: $2^2=4$ subgraphs.
+                    \item $V'=\{a,b,d\}\subset V$: $2^2=4$ subgraphs.
+                    \item $V'=\{a,c,d\}\subset V$: $2^3=8$ subgraphs.
+                    \item $V'=\{b,c,d\}\subset V$: $2^1=2$ subgraphs.
+                    \item $V'=\{a,b\},\{a,c\},\{a,d\}\subset V$: $2\cdot3=6$ subgraphs.
+                    \item $V'=\{b,c\},\{b,d\}\subset V$: $1\cdot2=2$ subgraphs.
+                    \item $V'=\{c,d\}\subset V$: $2^1=2$ subgraphs.
+                    \item $V'=\{a\},\{b\},\{c\},\{d\}\subset V$: $1\cdot4=4$ subgraphs.
+                \end{enumerate}
+            \end{multicols}
+            Therefore, there are \fbox{49} subgraphs.
+        \end{solution}
+
+        \part[4] Draw a simple, connected, undirected graph consisting of 1 vertex of degree 1, 2 vertices of degree
+            2, 3 vertices of degree 3, and 4 vertices of degree 4. Is the graph you draw planar or not? Justify
+            your answer.
+        \begin{solution}
+            \begin{multicols}{2}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.5\textwidth]{figs/q2b.pdf}
+                    \caption{Graph for Question (\ref{question@2})(\ref{part@2@2})}
+                \end{figure}
+
+                \columnbreak
+
+                The required graph is shown on the left.
+                As visually presented, the graph satisfies all the requirements and has no crossing edges.
+
+                Also, we find that $v=|V|=10$, $e=|E|=15$, and $r=7$. By Euler's formula, $v+r-e=2$ holds.
+                Therefore, the graph is \fbox{planar}.
+            \end{multicols}
+        \end{solution}
+
+        \part[6] How many simple, undirected graphs that do not contain any cycle can you construct with a fixed
+            vertex set $\{A, B, C, D, E\}$? Explain your answer.
+        \begin{solution}
+            \textit{
+                The original solution proposed by the author was incorrect/incomplete (graded 4/6).
+                It is removed in this document.
+            }
+        \end{solution}
+
+        \part[4] The diameter of a graph is defined to be the length of the shortest path between the most distanced
+            vertices. What is the diameter of the graph you drew in Question (\ref{question@2})(\ref{part@2@2})?
+        \begin{solution}
+            We start from vertex $a$ (degree 1) and perform Breadth-First Search (BFS) to find the furthest vertex.
+            Then, we have:
+            \begin{center}
+                \begin{tabular}{|r|c|c|c|c|}
+                    \hline
+                    \bfseries Distance & 1 & 2 & 3 & 4 \\ \hline
+                    \bfseries Vertices & $b$ & $c$ & $d,g,h,j$ & $e,f,g,i$ \\ \hline
+                \end{tabular}
+            \end{center}
+            The furthest vertices from $a$ are $e,f,g,i$ with distance 4.
+            Also, to get to $a$ from any vertex other than $b$, at least 2 edges are needed.
+            Therefore, the diameter of the graph is \fbox{4}.
+        \end{solution}
+    \end{parts}
+
+    \question Proofs with Graphs
+
+    \begin{parts}
+        \part[6] Let $G$ be a simple, undirected graph with at least two vertices. If $G$ has exactly one vertex of degree
+            1, show that there exists a cycle in $G$.
+        \begin{psol}
+            Assume, for contradiction, that $G$ is acyclic. Then, $G$ is a tree.
+            In a tree, there are at least two vertices of degree 1 (the leaves).
+            This contradicts the assumption that $G$ has exactly one vertex of degree 1.
+            Therefore, our assumption is false, and $G$ must contain at least one cycle.
+        \end{psol}
+
+        \part[8] A subset set of edges $E'$ is called an edge cut of a graph $G = (V, E)$ if the subgraph $(V, E - E')$ of
+            $G$ is disconnected. The edge connectivity of a graph is the minimum number of edges in an edge
+            cut. Suppose $G$ is an undirected graph with connectivity 2 and at least 3 vertices. Prove that there
+            exists a cycle in $G$.
+        \begin{psol}
+            Assume, for contradiction, that $G$ is acyclic. Then $G$ is a forest.
+            
+            Since $G$ has at least 3 vertices and is connected (edge connectivity of 2 implies the graph is connected),
+            $G$ must be a tree.
+            
+            In any tree, there exists at least one edge $e$ such that removing $e$ disconnects the tree into exactly
+            two components. In fact, every edge in a tree is a bridge, meaning removing any single edge
+            disconnects the graph.
+            
+            This implies that the edge connectivity of $G$ is 1 (we can disconnect $G$ by removing just one edge),
+            which contradicts the assumption that $G$ has edge connectivity 2.
+            
+            Therefore, our assumption is false, and $G$ must contain at least one cycle.
+        \end{psol}
+    \end{parts}
+
+    \question Generalized Square Graphs
+
+    Consider the family of simple, undirected graphs $G_{m,n} = (V_{m,n}, E_{m,n})$, where $m, n$ are positive integers.
+    The set of vertices is defined by $V_{m,n} = \{(i, j) \in \mathbb{Z}^2 : 1 \leq i \leq m, 1 \leq j \leq n\}$, and the set of edges is defined
+    by the following property: for any two distinct vertices $v_1 = (i_1, j_1), v_2 = (i_2, j_2) \in V_{m,n}$, $\{v_1, v_2\} \in E_{m,n}$
+    if and only if $i_1 = i_2$ or $j_1 = j_2$.
+
+    \begin{parts}
+        \part[4] Determine the number of edges in $G_{m,n}$ for generic $m, n$.
+        \begin{solution}
+            On the $i$-th row, there are vertices $(i,1), (i,2), \ldots, (i,n)$, totalling $n$ vertices.
+            On the $j$-th column, there are vertices $(1,j), (2,j), \ldots, (m,j)$, totalling $m$ vertices.
+            In any row, each vertex connects to $n-1$ other vertices; in each column, each vertex connects to $m-1$ other vertices.
+            Therefore, $\deg(v)=m+n-2$ for any vertex $v\in V_{m,n}$.
+
+            By Handshaking, $\displaystyle\sum \deg(v) = 2|E_{m,n}| \Rightarrow |E_{m,n}| = \frac{1}{2} \displaystyle\sum \deg(v) = \boxed{\frac{1}{2} mn(m+n-2)}$.
+        \end{solution}
+
+        \part[6] Is $G_{3,3}$ planar? Prove your statement.
+        \begin{psol}
+            Consider the following arrangement of $G_{3,3}$:
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=.3\textwidth]{figs/q4b.pdf}
+                \caption{An arrangement of $G_{3,3}$}
+            \end{figure}
+
+            Choose two sets of vertices: $\{A,E,I\}$ and $\{B,D,F\}$.
+            We can directly make connections: $AB, AD, EB, ED, EF, IF$.
+            Other connections can be made via intermediate vertices: $AI=AC\rightarrow CI, IB=IH\rightarrow HB, ID=IG\rightarrow GD$.
+            Then, we have found a subdivision of $K_{3,3}$ in $G_{3,3}$.
+            By Kuratowski's Theorem, \fbox{$G_{3,3}$ is non-planar}.
+        \end{psol}
+
+        \part[6] Find all $(m,n)$ such that $G_{m,n}$ is planar.
+        \begin{solution}
+            \textit{
+                The original solution proposed by the author was incorrect/incomplete (graded 4/6).
+                It is removed in this document.
+            }
+        \end{solution}
+
+        \part[4] Find the necessary and sufficient condition for $G_{m,n}$ to have an Eulerian circuit.
+        \begin{solution}
+            For $G_{m,n}$ to have an Eulerian circuit, all vertices must have even degree, i.e., $(m+n-2)$ is even and is an integer.
+            Note that subtracting 2 does not change the parity of a number.
+            Therefore, the necessary and sufficient condition is that \fbox{$m+n$ is even, i.e., $m$ and $n$ have the same parity}.
+        \end{solution}
+    \end{parts}
+
+    \question Graph Coloring
+
+    \begin{parts}
+        \part[10] Recall that a proper region coloring is an assignment of a color to each region in a planar embedding
+            of a graph such that adjacent regions receive different colors. Count the number of distinct ways of
+            region coloring the graph $D_4$ (see below) with $k$ colors for any positive integer $k$.
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=.2\textwidth]{figs/q5a-question.pdf}
+                \caption{Graph $D_4$}
+            \end{figure}
+        \begin{solution}
+            \textit{
+                The original solution proposed by the author was incorrect/incomplete (graded 5/10).
+                It is removed in this document.
+            }
+        \end{solution}
+
+        \part[8] Recall that a proper vertex coloring is an assignment of a color to each vertex in a graph such that
+            adjacent vertices receive different colors. Count the number of distinct ways to vertex coloring the
+            graph below with $k$ colors for any positive integer $k$.
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=.3\textwidth]{figs/q5b-question.pdf}
+                \caption{Graph for Question (\ref{question@5})(\ref{part@5@2})}
+            \end{figure}
+        \begin{solution}
+            \textit{
+                The original solution proposed by the author was incorrect/incomplete (graded 4/8).
+                It is removed in this document.
+            }
+        \end{solution}
+    \end{parts}
+
+    \question Applications of Graph Theory
+
+    \begin{parts}
+        \part[4] Seven people that assist to a conference want to have lunch together at a roundtable during the
+            three days that the conference lasts. In order to get to know each other better, they decide to sit
+            in such a way that two people are next to each other at most once. Can they achieve their goal?
+            And what happens if the congress lasts 5 days? 
+        \begin{solution}
+            Represent each person by a vertex, and connect two vertices if the corresponding people sit next to each other.
+            Then, each lunch arrangement corresponds to a $C_7$ in the graph.
+            Also, each edge can appear in at most one $C_7$.
+
+            Note that $K_7$ has $\binom{7}{2}=21$ edges, and each $C_7$ contains 7 edges.
+            Therefore, at most $\lfloor\frac{21}{7}\rfloor=3$ different lunch arrangements can be made such that
+            two people are next to each other at most once.
+
+            If the congress lasts 3 days, \fbox{they can achieve their goal}.
+            
+            However, if the congress lasts 5 days, \fbox{they cannot achieve their goal}.
+        \end{solution}
+
+        \part[8] At a dancing party, 10 participants form pairs to dance at each round. Suppose after many rounds,
+            it is found that everyone has danced with exactly 2 other participants. How many different records
+            could there be, if one is to record all pairs of participants who have danced? (Note that the records
+            are not required to contain information on in which order have the participants danced.) 
+        \begin{solution}
+            Represent each participant by a vertex, connect two vertices if the corresponding participants have danced together.
+            Then, we have a graph with 10 vertices, each of degree 2.
+            We count the number of distinct graphs possible.
+
+            A graph where every vertex has degree 2 must consist of disjoint cycles.
+            By Handshaking, $\sum \deg(v) = 2|E| \Rightarrow |E| = \frac{1}{2}(10 \cdot 2) = 10$.
+            
+            We partition 10 vertices into disjoint cycles. Consider the possible cycle structures:
+            \begin{enumerate}[label=(\arabic*)]
+                \item One cycle $C_{10}$: There are $\frac{1}{2}(10-1)! = \frac{9!}{2}$ ways to arrange 10 vertices in a cycle.
+                \item One $C_9$ and one $C_1$: Impossible since $C_1$ requires a self-loop, which is not allowed in simple graphs.
+                \item One $C_8$ and one $C_2$: Impossible since $C_2$ is not a valid simple cycle.
+                \item One $C_7$ and one $C_3$: $\binom{10}{7} \cdot \frac{1}{2}(7-1)! \cdot \frac{1}{2}(3-1)! = \binom{10}{7} \cdot \frac{6!}{2} \cdot \frac{2!}{2} = 120 \cdot 360 \cdot 1 = 43200$.
+                \item One $C_6$ and one $C_4$: $\binom{10}{6} \cdot \frac{1}{2}(6-1)! \cdot \frac{1}{2}(4-1)! = \binom{10}{6} \cdot \frac{5!}{2} \cdot \frac{3!}{2} = 210 \cdot 60 \cdot 3 = 37800$.
+                \item One $C_5$ and one $C_5$: $\frac{1}{2!}\binom{10}{5} \cdot \frac{1}{2}(5-1)! \cdot \frac{1}{2}(5-1)! = \frac{1}{2} \cdot 252 \cdot 12 \cdot 12 = 18144$.
+                \item Two $C_3$ and one $C_4$: $\frac{1}{2!}\binom{10}{3}\binom{7}{3} \cdot \left(\frac{1}{2}(3-1)!\right)^2 \cdot \frac{1}{2}(4-1)! = \frac{1}{2} \cdot 120 \cdot 35 \cdot 1 \cdot 1 \cdot 3 = 6300$.
+                \item One $C_3$, one $C_3$, one $C_3$, and one $C_1$: Impossible since $C_1$ is invalid.
+            \end{enumerate}
+
+            Therefore, the total number of distinct records is 
+            \[
+                \boxed{\frac{9!}{2} + 43200 + 37800 + 18144 + 6300 = 181440 + 43200 + 37800 + 18144 + 6300 = 286884}.
+            \]
+        \end{solution}
+    \end{parts}
+
+\end{questions}
+
+\end{document}
