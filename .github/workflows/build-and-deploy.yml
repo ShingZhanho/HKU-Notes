@@ -363,6 +363,7 @@ jobs:
           cd beta
           zensical build
           mkdir ../../gh-out/beta
+          cd ..
           cp -r beta/site/* ../../gh-out/beta
 
       # --- GENERATE AND REPLACE SITEMAP.XML ---
