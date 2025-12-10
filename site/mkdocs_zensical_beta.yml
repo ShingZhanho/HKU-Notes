@@ -1,0 +1,73 @@
+# For transitioning to Zensical
+site_name: HKU-Notes (Beta)
+site_url: https://hku.jacobshing.com/beta
+theme:
+  name: material
+  # Comment system disabled for beta site
+  # custom_dir: overrides
+  language: en
+  palette:
+    - media: "(prefers-color-scheme)"
+      accent: teal
+      primary: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      accent: teal
+      primary: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+    - scheme: slate
+      media: "(prefers-color-scheme: dark)"
+      accent: teal
+      primary: teal
+      toggle:
+        icon: material/cog
+        name: Follow system theme
+
+  features: 
+    - content.tooltips
+    - navigation.path
+    - navigation.tabs
+    - navigation.top
+repo_url: https://github.com/ShingZhanho/HKU-Notes
+repo_name: ShingZhanho/HKU-Notes
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tilde
+extra:
+  analytics:
+    provider: google
+    property: G-DCVVW9HRJ5
+extra_css:
+  - stylesheets/extra.css
+  - stylesheets/preview.css
+extra_javascript:
+  - javascripts/glightbox_events.js
+use_directory_urls: false
+plugins: 
+  - glightbox:
+      auto_themed: true
+      manual: true
+      height: 90%
+  - search:
+      lang: en
+      enabled: true
+nav:
+  - Home: index.md
+  - Downloads: downloads/index.md
+  - Contribution: contribution/index.md

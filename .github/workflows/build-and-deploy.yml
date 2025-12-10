@@ -354,6 +354,17 @@ jobs:
         run: mkdocs build -d ../gh-out
         working-directory: ./site
 
+      - name: Build Zensical site
+        working-directory: ./site
+        run: |
+          mkdir beta
+          cp -r docs beta
+          mv mkdocs_zensical_beta.yml beta/mkdocs.yml
+          cd beta
+          zensical build
+          mkdir ../../gh-out/beta
+          cp -r beta/site/* ../../gh-out/beta
+
       # --- GENERATE AND REPLACE SITEMAP.XML ---
       - name: Remove generated sitemap.xml
         run: rm -f ./gh-out/sitemap.xml && rm -f ./gh-out/sitemap.xml.gz
