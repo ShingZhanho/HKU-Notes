@@ -364,7 +364,7 @@ jobs:
           zensical build
           mkdir ../../gh-out/beta
           cd ..
-          cp -r beta/site/* ../../gh-out/beta
+          cp -r beta/site/* ../gh-out/beta
 
       # --- GENERATE AND REPLACE SITEMAP.XML ---
       - name: Remove generated sitemap.xml
