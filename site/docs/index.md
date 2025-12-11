@@ -9,6 +9,15 @@ description: |
 Welcome to the repository! This is a collection of notes, examination cheatsheets, and other resources
 for courses provided by the University of Hong Kong (mainly for the Bachelor of Engineering in Computer Science "_BEng(CompSc)_" programme).
 
+!!! example "Website New Look"
+
+    We are introducing a brand new look for the website by switching from [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) to the new generation engine [Zensical](https://zensical.org/docs/).
+    We are still testing out the new engine, you can switch between the two versions below:
+
+    [Legacy Version](https://hku.jacobshing.com/) { .md-button .md-button--primary } | [New Version](https://hku.jacobshing.com/beta/) { .md-button .md-button--primary }
+
+    The two versions are identical in terms of content, but the new version has the comment system disabled for now.
+
 ## Downloads
 
 Head to the course catalogue page to browse all the available course materials.
