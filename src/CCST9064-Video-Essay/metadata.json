@@ -32,7 +32,8 @@
                 "index": 20,
                 "text": "Download Video Project Files",
                 "href": "https://drive.google.com/file/d/1F-Q-OYhvjrhyiE85qdCTWBLoKWBZr9Zt/view?usp=sharing",
-                "icon": "material-download"
+                "icon": "material-download",
+                "message": "You will be redirected to Google Drive for downloading."
             },
             {
                 "index": 30,
