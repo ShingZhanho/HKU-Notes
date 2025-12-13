@@ -1,0 +1,36 @@
+\pagestyle{foot}
+\cfoot{Page \thepage\ of \numpages}
+\renewcommand{\solutiontitle}{\noindent\textbf{Solution:}\par\noindent}
+
+\renewcommand{\thesubpart}{(\arabic{subpart})}
+\renewcommand{\subpartlabel}{\thesubpart}
+
+% maths commands and symbols
+\newcommand{\bvec}[1]{\bm{\mathrm{#1}}} % bold vector
+
+% augmented matrix environment
+% #1: number of columns after the vertical line (default: 1)
+% #2: number of columns before the vertical line
+% #3: brace before the matrix (e.g. \left[ )
+% #4: brace after the matrix (e.g. \right] )
+\newenvironment{augmatrix}[4][1]{%
+    \def\endbrace{#4}
+    #3 \begin{array}{@{}*{#2}{c}|*{#1}{c}@{}}
+}{%
+    \end{array} \endbrace
+}
+
+% \dfrac is overridden to produce a diagonal fraction
+\renewcommand{\dfrac}[2]{\nicefrac{#1}{#2}}
+
+% \trans for transpose
+\newcommand{\trans}[1]{#1^{\mathrm{T}}}
+
+\newenvironment{psol}{
+    \renewcommand{\solutiontitle}{\noindent\textbf{Proof:}\par\noindent}
+    \begin{solution}
+}{
+    \par\hfill\textbf{Q.E.D.}
+    \end{solution}
+    \renewcommand{\solutiontitle}{\noindent\textbf{Answers:}\par\noindent}
+}

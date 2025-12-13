@@ -1,0 +1,27 @@
+\newpage
+\question
+Consider the following experiment.
+\begin{enumerate}
+    \item Pick a random integer from 1 to 10 (inclusive).
+    \item Toss a fair coin and record the outcome.
+\end{enumerate}
+Let $A$ be the event the integer chosen is prime.
+Let $B$ be the event the coin lands on tails.
+
+Are $A$ and $B$ independent? Mutually exclusive? Justify your answers.
+
+\begin{solution}
+    The sample space of the experiment is
+    \[
+        \{(a, b)\mid a\in[1,10]\cap\mathbb{Z}, b\in\{H, T\}\}
+    \]
+    Then, $A = \{(p, H), (p, T) \mid p \in \{2, 3, 5, 7\}\}$ and
+    $B = \{(a, T) \mid a \in [1, 10] \cap \mathbb{Z}\}$.
+    We have $P(A) = \frac{8}{20} = \frac{2}{5}$,
+    $P(B) = \frac{10}{20} = \frac{1}{2}$, and
+    $P(A \cap B) = \frac{4}{20} = \frac{1}{5}$.
+    Since $P(A \cap B) = P(A)P(B)$, $A$ and $B$ are \fbox{independent}.
+    
+    Also, since, for example, $(2, T) \in A$ and $(2, T) \in B$, i.e.,
+    $A \cap B \neq \emptyset$, $A$ and $B$ are \fbox{not mutually exclusive}.
+\end{solution}

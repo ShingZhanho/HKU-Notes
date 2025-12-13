@@ -1,0 +1,30 @@
+\newpage
+\question
+Suppose a random variable $X$ has the moment generating function given by:
+\[
+    M_X(t)=\frac{1}{(1-5t)^3}, \quad t<\frac{1}{5}.
+\]
+
+\begin{parts}
+    \part Compute $\mathbb{E}(X)$.
+    \begin{solution}
+        We have:
+        \[
+            M_X'(t) = \frac{15}{(1-5t)^4} \implies M_X'(0) = 15.
+        \]
+        Therefore, $\mathbb{E}(X) = \boxed{15}$.
+    \end{solution}
+
+    \part Compute $\mathrm{Var}(X)$.
+    \begin{solution}
+        We have:
+        \[
+            M_X''(t) = \frac{300}{(1-5t)^5} \implies M_X''(0) = 300.
+        \]
+        Therefore,
+        \[
+            \mathrm{Var}(X) = M_X''(0) - (M_X'(0))^2 = 300 - 15^2 = 75.
+        \]
+        Thus, $\mathrm{Var}(X) = \boxed{75}$.
+    \end{solution}
+\end{parts}

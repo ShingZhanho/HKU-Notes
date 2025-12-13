@@ -1,0 +1,19 @@
+\question
+A university reports that 30\% of its students use the library's online study resources on a daily basis.
+If 200 students are randomly selected, what is the probability that more than 70 of them use the library's online resources daily?
+State the underlying distribution and parameters, and use a normal distribution to approximate the desired probability.
+
+\begin{solution}
+    Let $R\sim\mathrm{Binomial}(200,0.3)$ count the number of students using the online resources daily.
+
+    Check: $np=200\times 0.3=60\geq 5$ and $n(1-p)=200\times 0.7=140\geq 5$. So we can use normal approximation.
+
+    Let $\overline{R}=\frac{R}{200}$. Then, by Central Limit Theorem, $\overline{R}\overset{\text{approx}}{\sim}\mathrm{Normal}(60, 42)$.
+    Let $Z=\frac{\overline{R}-60}{\sqrt{42}}\overset{\text{approx}}{\sim}\mathrm{Normal}(0,1)$.
+
+    Then, \begin{align*}
+        P(R\geq 71)&\approx P(\overline{R}\geq 70.5) = P\left(Z\geq \frac{70.5-60}{\sqrt{42}}\right) \\
+        &\approx P(Z\geq 1.62) = 1 - P(Z\leq 1.62) \\
+        &\approx 1 - 0.9474 = \boxed{0.0526}.
+    \end{align*}
+\end{solution}

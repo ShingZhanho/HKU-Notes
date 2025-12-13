@@ -1,0 +1,40 @@
+\question
+In a survey of student skills in a coding bootcamp, it was found that:
+\begin{itemize}
+    \item 65\% of students are proficient in Python
+    \item 60\% of students are proficient in SQL
+    \item 35\% of students are proficient in JavaScript
+    \item 10\% of students are proficient in all three languages
+    \item 30\% of students are proficient in both Python and SQL
+    \item 25\% of students are proficient in both SQL and JavaScript
+    \item 20\% of students are proficient in both Python and JavaScript
+\end{itemize}
+A student is selected at random. What is the probability they are proficient in exactly one of these three languages?
+
+\begin{solution}
+    Let $Y$, $S$, and $J$ denote the events that a student is proficient in Python, SQL, and JavaScript respectively.
+    We can draw the Venn diagram:
+    \begin{figure}[H]
+        \centering
+        \begin{venndiagram3sets}[
+            labelA=$Y$,
+            labelB=$S$,
+            labelC=$J$,
+            labelOnlyA=$25\%$,
+            labelOnlyB=$15\%$,
+            labelOnlyC=$0\%$,
+            labelOnlyAB=$20\%$,
+            labelOnlyBC=$15\%$,
+            labelOnlyAC=$10\%$,
+            labelABC=$10\%$,
+            labelNotABC=$5\%$,
+            radius=1.5cm,
+            overlap=1.3cm
+        ]
+        \end{venndiagram3sets}
+    \end{figure}
+    By the diagram, the required probability is
+    \[
+        P(Y\text{ only}) + P(S\text{ only}) + P(J\text{ only}) = 25\% + 15\% + 0\% = \boxed{40\%}.
+    \]
+\end{solution}

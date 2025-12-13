@@ -1,0 +1,26 @@
+\question A study on student wellness during exam season is conducted. In a random
+sample of 64 university students, the sample mean sleep duration in the last
+24 hours is found to be 5.2 hours with a sample standard deviation of 1.8
+hours. Construct a 97\% conﬁdence interval for the true mean sleep duration
+of all university students during exam season. An inﬂuencer claims, ``During
+exams, university students get less than 5 hours of sleep on average.'' Does
+your conﬁdence interval support this claim?
+
+\begin{solution}
+    \[\alpha=1-0.97=0.03 \Rightarrow z_{\alpha / 2}=z_{0.015}\]
+
+    Then, \begin{align*}
+        P(Z< z_{0.015}) - P(Z< -z_{0.015}) &= 0.97 \\
+        -1 + 2P(Z< z_{0.015}) &= 0.97 \\
+        \Phi(z_{0.015}) &= 0.985 \\
+        z_{0.015} &= 2.17
+    \end{align*}
+
+    The 97\% confidence interval is given by 
+    \[
+        \mu=5.2 \pm z_{\alpha / 2} \frac{\sigma}{\sqrt{n}} = 5.2 \pm 2.17 \frac{1.8}{\sqrt{64}} = 5.2 \pm 0.48825 = \boxed{(4.712, 5.688)}
+    \]
+
+    Since 5 is contained in the confidence interval, we do not have enough evidence to support the claim that university students get less than 5 hours of sleep on average during exam season.
+    Therefore, \fbox{not} supported.
+\end{solution}

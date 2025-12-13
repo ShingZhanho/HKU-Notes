@@ -79,3 +79,5 @@ MATH1853-Assignment-
 		3
 	II.
 		1
+		2
+		3
