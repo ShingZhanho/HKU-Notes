@@ -1,0 +1,28 @@
+\newpage
+\question
+The lifespan of a laptop battery in years is exponentially distributed.
+The expected lifespan of such a battery is 4 years.
+Given that a laptop battery lasts 4 years, what is the probability that it will last at least 6 years?
+
+\begin{solution}
+    Let $X$ be the lifespan of a laptop battery in years.
+    Then, $X\sim\mathrm{Exponential}(\lambda)$.
+    Since the expected lifespan is 4 years, we have
+    \[
+        \mathbb{E}(X) = \frac{1}{\lambda} = 4 \Rightarrow \lambda = \frac{1}{4}.
+    \]
+    Then, the PDF is given by:
+    \[
+        f(x)=\begin{cases}
+            \frac{1}{4}e^{-\dfrac{1}{4}x}, & x\geq 0, \\
+            0, & \text{otherwise}.
+        \end{cases}
+    \]
+    By the memoryless property, we have
+    \begin{align*}
+        P(X\geq 6 | X\geq 4) &= P(X\geq 2)\\
+        &= \int_{2}^{\infty} \frac{1}{4}e^{-\frac{1}{4}x} \, dx \\
+        &= \lim_{t\to\infty} \left[-e^{-\dfrac{x}{4}}\right]_{2}^{t} \\
+        &= \boxed{e^{-\frac{1}{2}}}.
+    \end{align*}
+\end{solution}

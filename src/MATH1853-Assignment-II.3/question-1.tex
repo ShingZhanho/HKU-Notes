@@ -1,0 +1,32 @@
+\question
+At dusk, and on average, one porcupine is spotted on the Peak Circle Walk.
+State the distribution and parameter(s) you applied to compute the probabilities.
+
+\begin{parts}
+    \part Find the probability that no porcupine are spotted on a given day.
+    \begin{solution}
+        Let $X$ be the number of porcupines spotted on a day, then $\boxed{X\sim\text{Poisson}(\lambda=1)}$.
+        The PMF is given by \[
+            p(x)=\frac{e^{-1}(1)^x}{x!},\quad x=0,1,2,\ldots
+        \]
+
+        Then, \[
+            P(X=0)=p(0)=\frac{e^{-1}(1)^0}{0!}=\boxed{e^{-1}}.
+        \]
+    \end{solution}
+
+    \part Find the probability that at no porcupines will be spotted on 3 days this week.
+    \begin{solution}
+        Assumeing independence, let $Y=Y_1+Y_2+\cdots+Y_7$ be the number of days in which no porcupines are spotted, where $Y_i=\begin{cases}
+            1,&\text{no porcupine spotted on day }i\\
+            0,&\text{otherwise}
+        \end{cases}$, $i\in\{1,2,\ldots,7\}$.
+        Then, $Y_i\sim\text{Bernoulli}(p=e^{-1})$ and $\boxed{Y\sim\text{Binomial}(n=7,p=e^{-1})}$.
+        For $Y$, the PMF is given by \[
+            p(y)=\binom{7}{y}(e^{-1})^y(1-e^{-1})^{7-y},\quad y=0,1,2,\ldots,7.
+        \]
+        Then, \[
+            P(Y=3)=p(3)=\binom{7}{3}(e^{-1})^3(1-e^{-1})^{4}=\boxed{35e^{-3}(1-e^{-1})^{4}}\approx0.2782.
+        \]
+    \end{solution}
+\end{parts}

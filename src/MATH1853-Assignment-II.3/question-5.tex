@@ -1,0 +1,18 @@
+\question
+The processing time $X$ (in minutes) for a single student's course registration on the university portal is a random variable with mean $\mu=4.5$ minutes and standard deviation $\sigma=1.8$ minutes.
+The distribution of $X$ is unknown.
+What is the approximate probability that the average processing time for 50 students is more than 5 minutes?
+
+\begin{solution}
+    Let $\overline{X}$ be the mean of a random sample of size $n=50$.
+    As $n=50\geq30$, by the Central Limit Theorem, $\overline{X}\overset{\text{approx}}{\sim}\text{Normal}(4.5, \frac{1.8^2}{50})$.
+    Let $Z=\frac{\overline{X}-4.5}{\dfrac{1.8}{\sqrt{50}}}\overset{\text{approx}}{\sim}\text{Normal}(0,1)$.
+    
+    Then,\begin{align*}
+        P(\overline{X}>5) &\approx P\left(Z>1.964\right)
+        = 1-P\left(Z\leq1.964\right)
+        = 1-\Phi(1.964)\\
+        &\approx 1-0.9750
+        = \boxed{0.0250}.
+    \end{align*}
+\end{solution}

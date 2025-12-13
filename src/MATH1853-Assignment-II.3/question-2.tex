@@ -1,0 +1,22 @@
+\question
+In Major League Baseball, the World Series determines the champion team.
+The team that wins four games in a series of up to seven games wins the World Series.
+This year, the defending champion Los Angeles Dodgers faced the Toronto Blue Jays.
+What was the probability that Shohei Otani leads the Dodgers to back-to-back championships?
+Assume thae probability that the Dodgers win a game against the Blue Jays is 0.55.
+
+\begin{solution}
+    Let $X$ count the number of gams until 4 wins by Dodgers.
+    Then $X\sim\text{NegativeBinomial}(n=4,p=0.55)$.
+    The PMF is given by
+    \[
+        p(x)=\binom{x-1}{3}(0.55)^4(0.45)^{x-4},\quad x=4,5,6,7.
+    \]
+    Then, \begin{align*}
+        P(\text{champion}) &= \sum_{i=4}^{7} p(i)
+        = p(4) + p(5) + p(6) + p(7) \\
+        &= \binom{3}{3}(0.55)^4(0.45)^0 + \binom{4}{3}(0.55)^4(0.45)^1 + \binom{5}{3}(0.55)^4(0.45)^2 + \binom{6}{3}(0.55)^4(0.45)^3 \\
+        &\approx 0.09151 + 0.1647 + 0.1853 + 0.1668
+        = \boxed{0.60831}.
+    \end{align*}
+\end{solution}

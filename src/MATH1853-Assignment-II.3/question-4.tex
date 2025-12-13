@@ -1,0 +1,18 @@
+\question
+Assume the weights of Siamese cats are normally distributed with mean 5.5 kg and standard deviation 0.8 kg.
+Find the probability a randomly selected Siamese cat weights between 5 kg and 6.2 kg.
+
+\begin{solution}
+    Let $X$ be the weight. Then $X\sim\mathrm{Normal}(\mu=5.5,\sigma=0.8^2)$.
+    Let $Z=\frac{X-5.5}{0.8}$, then $Z\sim\mathrm{Normal}(0,1)$.
+
+    \begin{align*}
+        P(5<X<6.2) &= P\left(\frac{5-5.5}{0.8}<Z<\frac{6.2-5.5}{0.8}\right) \\
+        &= P(-0.625<Z<0.875) \\
+        &= P(Z<0.875)-P(Z<-0.625) \\
+        &= P(Z<0.875)-[1-P(Z<0.625)] \\
+        &= \Phi(0.875)-1+\Phi(0.625) \\
+        &\approx 0.8078-1+0.7324 \\
+        &= \boxed{0.5402}
+    \end{align*}
+\end{solution}
