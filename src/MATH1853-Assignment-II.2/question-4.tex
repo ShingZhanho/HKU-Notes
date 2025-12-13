@@ -1,0 +1,20 @@
+\question
+A fair six-sided die is rolled 5 times, and the number faced up is recorded for each roll.
+What is the probability that the first and last rolls are even numbers, given that exactly three even numbers were rolled in total?
+
+\begin{solution}
+    Denote the events: $F:$ ``first roll is even'', $L:$ ``last roll is even'', and $T:$ ``exactly three rolls are even''.
+    \[
+        P(T)=\binom{5}{3}\cdot\left(\frac{1}{2}\right)^5=\frac{5}{16},
+    \]
+    \[
+        P(F)=P(L)=\frac{1}{2}.
+    \]
+    By independence, $\displaystyle P(F\cap L)=P(F)P(L)=\frac{1}{4}$.
+
+    Then, $\displaystyle P(F\cap L \mid T)=\frac{P(F\cap L\cap T)}{P(T)}=\frac{16}{5}P(F\cap L\cap T)$.
+
+    Note that $\displaystyle P(F\cap L\cap T)=\left(\frac{1}{2}\right)\cdot\binom{3}{1}\cdot\left(\frac{1}{2}\right)^3\cdot\left(\frac{1}{2}\right)=\frac{3}{32}$.
+
+    Therefore, $\displaystyle P(F\cap L \mid T)=\frac{16}{5}\cdot\frac{3}{32}=\boxed{\frac{3}{10}}$.
+\end{solution}

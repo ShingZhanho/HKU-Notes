@@ -1,0 +1,46 @@
+\newpage
+\question
+Roll a faire four-sided die twice.
+Let $X$ be the number faced up on the first roll.
+Let $Y$ be the maximum of the two rolls.
+
+\begin{parts}
+    \part Complete the joint distribution table for $x,y\in\{1,2,3,4\}$.
+    \begin{solution}
+        We draw the table of outcomes first.
+        \begin{center}
+            \begin{tabular}{|c|cccc|}
+                \hline
+                \diagbox{2nd}{1st} & 1 & 2 & 3 & 4 \\
+                \hline
+                1 & (1,1) & (1,2) & (1,3) & (1,4) \\
+                2 & (2,1) & (2,2) & (2,3) & (2,4) \\
+                3 & (3,1) & (3,2) & (3,3) & (3,4) \\
+                4 & (4,1) & (4,2) & (4,3) & (4,4) \\
+                \hline
+            \end{tabular}
+        \end{center}
+        Then, counting the occurrences, we obtain the joint distribution table as follows.
+        \begin{center}
+            \begin{tabular}{|c|cccc|}
+                \hline
+                \diagbox{$Y$}{$X$} & 1 & 2 & 3 & 4 \\
+                \hline
+                1 & $\dfrac{1}{16}$ & $0$ & $0$ & $0$ \\
+                2 & $\dfrac{1}{16}$ & $\dfrac{2}{16}$ & $0$ & $0$ \\
+                3 & $\dfrac{1}{16}$ & $\dfrac{2}{16}$ & $\dfrac{3}{16}$ & $0$ \\
+                4 & $\dfrac{1}{16}$ & $\dfrac{2}{16}$ & $\dfrac{3}{16}$ & $\dfrac{4}{16}$ \\
+                \hline
+            \end{tabular}
+        \end{center}
+    \end{solution}
+
+    \part Compute $\mathbb{E}(XY)$.
+    \begin{solution}
+        \begin{align*}
+            \mathbb{E}(XY) &= \sum_x \sum_y xy\cdot p(x,y) \\
+            &= \frac{1}{16}\cdot(1 + 2 + 3 + 4 + 8 + 6 +8 +27 +12 +64) \\
+            &= \boxed{\frac{135}{16}}.
+        \end{align*}
+    \end{solution}
+\end{parts}

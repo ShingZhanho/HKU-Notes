@@ -1,0 +1,38 @@
+\newpage
+\question
+A city's taxis are Red, Green, or Blue. 
+The fleet consists of 84\% Red taxis, 15\% Green taxis, and 1\% Blue taxis.
+A witness reports a taxi in a hit-and-run as being Green.
+Tests show that under similar conditions:
+\begin{itemize}
+    \item If the taxi is Red, the witness says ``Green'' 10\% of the time.
+    \item If the taxi is Green, the witness says ``Green'' 80\% of the time.
+    \item If the taxi is Blue, the witness says ``Green'' 15\% of the time.
+\end{itemize}
+What is the probability that the taxi was actually Red, given the witness identified it as Green?
+
+\begin{solution}
+    Let $I$ be the event that the witness identifies the taxi as Green.
+    Let $R$, $G$, and $B$ be the events that the taxi is Red, Green, and Blue respectively.
+
+    We have:\[
+        P(R) = 0.84, \quad P(G) = 0.15, \quad P(B) = 0.01,
+    \]\[
+        P(I|R) = 0.10, \quad P(I|G) = 0.80, \quad P(I|B) = 0.15.
+    \]
+
+    By law of total probability:
+    \begin{align*}
+        P(I) &= P(R)P(I|R) + P(G)P(I|G) + P(B)P(I|B) \\
+        &= 0.84 \times 0.10 + 0.15 \times 0.80 + 0.01 \times 0.15 \\
+        &= 0.084 + 0.12 + 0.0015\\
+        &= 0.2055.
+    \end{align*}
+
+    By Bayes' theorem:
+    \begin{align*}
+        P(R|I) &= \frac{P(R)P(I|R)}{P(I)} \\
+        &= \frac{0.84 \times 0.10}{0.2055} \\
+        &= \boxed{\frac{56}{137}}.
+    \end{align*}
+\end{solution}
