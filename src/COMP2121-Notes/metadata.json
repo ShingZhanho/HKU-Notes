@@ -1,9 +1,0 @@
-{
-    "@metadata_file_version": "1",
-    "static_site": {
-        "description": "Revision notes for COMP2121.",
-        "document_status": "wip",
-        "custom_md_file": "custom.md",
-        "pdf_viewer": "at_tag"
-    }
-}
