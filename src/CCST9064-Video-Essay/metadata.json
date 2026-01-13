@@ -38,7 +38,7 @@
             {
                 "index": 30,
                 "text": "Download Individual Research Log PDF",
-                "href": "/files/CCST9064-Video-Essay/CCST9064-VideoEssay_IndividualResearchLog.pdf",
+                "href": "../../files/CCST9064-Video-Essay/CCST9064-VideoEssay_IndividualResearchLog.pdf",
                 "icon": "fontawesome-solid-file-pdf"
             }
         ]
