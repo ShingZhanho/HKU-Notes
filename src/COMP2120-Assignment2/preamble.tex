@@ -45,3 +45,14 @@
 
 \renewcommand{\thesubpart}{(\arabic{subpart})}
 \renewcommand{\subpartlabel}{\thesubpart}
+
+\setminted{
+    linenos=true,           % Enable line numbers
+    breaklines=true,        % Automatic line breaking
+    breakanywhere=true,     % Break lines anywhere if needed
+    style=manni,         % Consistent color scheme (alternatives: default, emacs, friendly, colorful, autumn, murphy, manni, material, monokai, perldoc, pastie, borland, trac, native, fruity, bw, vim, vs, tango, rrt, xcode, igor, paraiso-light, paraiso-dark, lovelace, algol, algol_nu, arduino, rainbow_dash, abap, solarized-dark, solarized-light, sas, stata, stata-light, stata-dark)
+    bgcolor=lightgray!10,   % Light background color
+    fontsize=\small,        % Slightly smaller font
+    frame=lines,            % Frame around code
+    tabsize=4               % Tab size
+}

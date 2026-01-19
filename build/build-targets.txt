@@ -49,6 +49,7 @@ COMP2120-
 	Cheatsheet
 	Assignment
 		1
+		2
 		3
 
 # COMP2121 - Discrete Mathematics
