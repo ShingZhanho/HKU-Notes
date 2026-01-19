@@ -1,0 +1,91 @@
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preamble.tex}
+
+\begin{document}
+
+\begin{center}
+    \textbf
+    {\Large{COMP2120 Computer Organisation} \\
+    \large{24/25 Semester 2} \\
+    \large{Assignment 2}}
+\end{center}
+
+\begin{questions}
+
+    \question Consider a simple 32-bit processor with the data path as shown in fig. 1. The
+        processor has 32 general purpose registers. There are 3 buses, S1-bus, S2-bus and D-bus
+        connecting the registers for data movement. The register files has 2 read ports and 1
+        write port (i.e. it can perform 2 read and 1 write at the same time).
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{figure.pdf}
+        \caption{A simplified CPU}
+    \end{figure}
+
+    The processor has instructions which specifies 3 operands explicitly (namely, 2 source
+    and 1 destination operands). The leftmost byte of the instruction represents the oper-
+    ation to be performed, such as \texttt{ADD}, \texttt{SUB} etc. For arithmetic and logic operations, the
+    operands must be in registers. Hence the 3 bytes will give the addresses of operands in
+    the register file. There will be a direct path connecting these 3 bytes in the \texttt{IR}
+    (Instruction Register) to the address of the register file, so that when you perform read/write
+    on register file, the register specified in these bytes will be accessed.
+    
+    If the instruction is \texttt{LOAD} or \texttt{STORE} to load a word from memory to register, and
+    vice versa, the source operand (\texttt{LOAD}) or destination operand (\texttt{STORE}) refer to a memory
+    address. How to find this address is specified by Addressing Mode. In this machine, for
+    simiplicity, the memory operand byte (source/destination) will always be \texttt{1111 1111} (or
+    in hex \texttt{0xff}), which means that the actual 32-bit memory address will be given in the
+    word following the instruction (see example program below).
+    
+    The \texttt{ALU} has the following operations: \texttt{ADD}, \texttt{SUB}, bitwise \texttt{AND}, \texttt{OR}, and \texttt{NOT}. For
+    operations with only one operand (e.g. \texttt{NOT}), source operand 1 is used, and source
+    operand 2 is empty.
+    
+    Finally, there is a branch instruction, which performs conditional or unconditional
+    branch as specified in the cc field of the instruction. The branch address is specified in
+    the word following the instruction, the same as in \texttt{LOAD}/\texttt{STORE} instruction.
+
+    \section*{Instruction Format}
+
+    \subsection*{Arithmetic/Logic Instruction}
+
+    The instruction format of the machine (except \texttt{LOAD}/\texttt{STORE}/\texttt{BRANCH}):
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            Opcode & Source Operand 1 & Source Operand 2 & Destination Operand \\
+            \hline
+        \end{tabular}
+    \end{table}
+    The instructions can be categorized into the following types:
+    \begin{itemize}
+        \item \textbf{Arithmetic Operations}
+        \begin{verbatim}
+ADD     R1, R2, R3  ; R3 <- R1 + R2
+SUB     R1, R2, R3  ; R3 <- R1 - R2
+        \end{verbatim}
+        \item \textbf{Logic Operations}
+        \begin{verbatim}
+AND     R1, R2, R3  ; R3 <- R1 AND R2
+OR      R1, R2, R3  ; R3 <- R1 OR R2
+NOT     R1, R3      ; R3 <- NOT R1
+        \end{verbatim}
+        \item \textbf{Data Movement Instruction}
+        \begin{verbatim}
+MOV     R1, R3      ; R3 <- R1
+        \end{verbatim}
+    \end{itemize}
+    Note that in the \texttt{NOT} and \texttt{MOV} operations, source operand 2 field is not used and will be set as \texttt{0000 0000}.
+
+    \subsection*{Load/Store Instruction}
+
+    \begin{solution}
+        
+    \end{solution}
+    
+\end{questions}
+
+\end{document}

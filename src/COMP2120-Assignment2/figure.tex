@@ -1,0 +1,123 @@
+\documentclass[tikz,border=6pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+
+\begin{document}
+\begin{tikzpicture}[
+  font=\sffamily,
+  box/.style={draw,rounded corners=0pt,minimum width=2.5cm,minimum height=1.1cm,align=center},
+  sbox/.style={draw,rounded corners=0pt,minimum width=1.0cm,minimum height=0.8cm,align=center},
+  dot/.style={circle,fill,inner sep=1.8pt},
+  bus/.style={line width=0.6pt},
+  ->-/.style={-Latex},
+  <-/.style={Latex-},
+  ->/.style={-Latex},
+  <->/.style={Latex-Latex},
+  lab/.style={font=\sffamily}
+]
+
+% Canvas size guides
+\path (0,0) rectangle (12,19.0);
+
+% Vertical buses
+\draw[bus] (1,4.0) -- (1,18.0);                % D-Bus (left)
+\draw[bus] (11.2,4.0) -- (11.2,18.0);           % S1-Bus (right)
+\draw[bus] (12.2,4.0) -- (12.2,18.0);           % S2-Bus (far right)
+
+% Bus labels
+\node[lab,anchor=west] at (0.6,18.5) {D-Bus};
+\node[lab,anchor=west] at (10.2,18.5) {S1-Bus};
+\node[lab,anchor=west] at (11.5,18.5) {S2-Bus};
+
+% Top section: ALU and A B C
+\node[box] (ALU) at (6.0,15.6) {\texttt{ALU}};
+\node[sbox] (A)   at (9.2,16.5) {A};
+\node[sbox] (B)   at (9.2,14.7) {B};
+\node[sbox] (C)   at (3.0,15.6) {C};
+
+% Register File
+\node[box] (RF) at (6.0,13.0) {Register\\File};
+\node[sbox,anchor=west] (RF1) at ($(RF.east)+(1.3,0.45)$) {\texttt{RFOUT1}};
+\node[sbox,anchor=west] (RF2) at ($(RF.east)+(1.3,-0.45)$) {\texttt{RFOUT2}};
+\node[sbox,anchor=east] (RFIN) at ($(RF.west)+(-1.3,0)$) {\texttt{RFIN}};
+
+% PC + IncPC frame
+\node[box] (PC) at (6.0,11.0) {\texttt{PC}};
+\node[box,minimum width=2.0cm] (INC) at (6.0,9.5) {\texttt{IncPC}};
+
+% MAR / MBR
+\node[box] (MAR) at (6.0,8.0) {\texttt{MAR}};
+\node[box] (MBR) at (6.0,6.5) {\texttt{MBR}};
+
+% IR (four fields)
+\coordinate (irBL) at (1.6,3.6);
+\def\wIR{0.95}
+\def\hIR{0.9}
+\foreach \i in {0,...,3}{
+  \draw ($(irBL)+(\i*\wIR,0)$) rectangle ++(\wIR,\hIR);
+}
+\node[anchor=east] at ($(irBL)+(0.8,1.2)$) {\texttt{IR}};
+
+% External Memory and dashed separation
+\draw[dashed] (0.6,3.0) -- (11.8,3.0);
+\node[box,minimum width=4.6cm,minimum height=1.6cm,anchor=north] (EXT) at (6.0,2.0) {External\\Memory};
+
+% Dots on buses
+\coordinate (dTop) at (1,15.6) {};
+\node[dot] (dRF)  at (1,13.0) {};
+\node[dot] (dPC)  at (1,11.2) {};
+\node[dot] (dMAR) at (1,8.0) {};
+\node[dot] (dMBR) at (1,6.5) {};
+
+\node[dot] (s1A)  at (11.2,16.5) {};
+\node[dot] (s2B)  at (12.2,14.7) {};
+\coordinate (s1RF1) at (11.2,13.45) {};
+\coordinate (s2RF2) at (12.2,12.55) {};
+\coordinate (s1PC)  at (11.2,11.2) {};
+\coordinate (s1MAR) at (11.2,8.0) {};
+\coordinate (s1MBR) at (11.2,6.5) {};
+
+\node[dot] (MAREXT) at ($(s1MAR)+(-2.0,0)$) {};
+\node[dot] (MBREXT) at ($(MBR.south)+(0.5,-1.8)$) {};
+
+% Connections around ALU/A/B/C
+\draw[->-] (A.west) -- ++(-0.6,0) |- (ALU.east);
+\draw[->-] (B.west) -- ++(-0.6,0) |- (ALU.east);
+\draw[<-] (A.east) -- (s1A);
+\draw[<-] (B.east) -- (s2B);
+\draw[<-] (C.east) -- (ALU.west);
+\draw[<-] (dTop) -- (C.west);
+
+% % Register File connections
+\draw[<-] (RFIN.west) -- (dRF);
+\draw[<-] (RF.west) -- (RFIN.east);
+\draw[<-] (8.6,13.45) -- ($(RF.east)+(0.0,0.44)$);
+\draw[<-] (8.6,12.55) -- ($(RF.east)+(0.0,-0.44)$);
+\draw[<-] (s1RF1) -- (RF1.east);
+\draw[<-] (s2RF2) -- (RF2.east);
+
+% PC / IncPC
+\draw[<-] ($(PC.west)+(0,0.2)$) -- (dPC);
+\draw[<-] (s1PC) -- ($(PC.east)+(0,0.2)$);
+\draw[->-] ($(PC.east)+(0,-0.2)$) -- ++(0.3,0) |- (INC.east);
+\draw[->-] (INC.west) -- ++(-0.6,0) |- ($(PC.west)+(0,-0.2)$);
+
+% MAR / MBR to buses
+\draw[<-] (MAR.west) -- (dMAR);
+\draw[<-] (s1MAR) -- (MAR.east);
+\draw[<-] (MBR.west) -- (dMBR);
+\draw[<-] (s1MBR) -- (MBR.east);
+
+% IR to Register File
+\draw[->-] ($(irBL)+(1.4,0.9)$) -- ++(0,7.5) -- ++(3,0) -- ++(0,0.1) -| (RF.south);
+
+% MAR dot to External Memory
+\draw[->-] (MAREXT) -- ($(EXT.east)+(1.0,0)$) -- (EXT.east);
+
+% MBR dot to External Memory and IR
+\draw[<-] ($(MBR.south)+(0.5,0)$) -- (MBREXT);
+\draw[->] (MBREXT) -- ++(0,-2.17);
+\draw[->] (MBREXT) -- ++(-1.1,0);
+
+\end{tikzpicture}
+\end{document}
