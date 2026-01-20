@@ -2,11 +2,35 @@
     "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "static_site": {
         "description": "Assignment 2 of COMP2120 (24/25 Spring) with solutions.",
-        "document_status": "lts"
+        "document_status": "lts",
+        "buttons": [
+            {
+                "text": "Download",
+                "href": "/files/COMP2120-Assignment2/COMP2120-Assignment2.pdf",
+                "icon": "material-download",
+                "is_primary": true
+            },
+            {
+                "text": "Download Attachments",
+                "href": "./COMP2120-Assignment2/COMP2120-Assignment2_Attachments.zip",
+                "icon": "material-file-code",
+                "is_primary": true,
+                "message": "The example program needs to be run with Python 3.9."
+            },
+            {
+                "text": "View Source",
+                "href": "https://github.com/ShingZhanho/HKU-Notes/tree/master/src/COMP2120-Assignment2",
+                "icon": "material-github",
+                "is_primary": false
+            }
+        ],
+        "custom_md_file": "custom.md",
+        "pdf_viewer": "at_footer"
     },
     "build": {
         "prebuild_command": "latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./figure.tex",
         "build_command": "latexmk --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./COMP2120-Assignment2.tex",
+        "postbuild_command": "cd ./.COPY && zip -r ../COMP2120-Assignment2_Attachments.zip . && rm -rf ./* && cd .. && mv COMP2120-Assignment2_Attachments.zip ./.COPY/",
         "requires": [
             "python-minted-pkgs"
         ]
