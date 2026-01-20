@@ -5,7 +5,6 @@
         "document_status": "lts"
     },
     "build": {
-        "prebuild_command": "latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./figure.tex",
         "build_command": "latexmk --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./COMP2120-Assignment5.tex",
         "requires": [
             "python-minted-pkgs"
