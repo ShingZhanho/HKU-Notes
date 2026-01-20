@@ -11,7 +11,7 @@ ls -la
 echo "Zipping..."
 zip -r ../COMP2120-Assignment2_Attachments.zip .
 echo "File created."
-echo "$(ls -la .. | grep \".zip\")"
+echo "$(ls -la .. | grep ".zip")"
 
 echo "Cleaning up..."
 rm -rf ./*
