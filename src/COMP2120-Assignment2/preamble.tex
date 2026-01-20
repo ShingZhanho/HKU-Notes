@@ -1,0 +1,58 @@
+% for long multiplications
+\makeatletter
+    \providecommand\text\mbox
+    \newenvironment{arithmetic}[1][]{\begin{tabular}[#1]{Al}}{\end{tabular}}
+    \newcolumntype{A}{>{\bgroup\def~{\phantom{0}}$\@testOptor}r<{\@gobble\\$\egroup}}
+    \def\@testOptor\ignorespaces#1#2\\{%
+    \ifx#1\times
+        \@OperatorRow{#1}{#2}\@tempa%
+    \else\ifx#1+
+        \@OperatorRow+{#2}\@tempa%
+    \else\ifx#1\discretionary% detects the soft hyphen, \-
+        \@ShortSubtractRow{#2}\@tempa%
+    \else\ifx#1-
+        \@OperatorRow-{#2}\@tempa%
+    \else
+        \@NormalRow{#1#2}\@tempa%
+    \fi\fi\fi\fi
+    \@tempa}
+    \def\@OperatorRow#1#2#3{%
+    \@IfEndRow#2\@gobble\\{%
+        \def#3{\underline{{}#1 #2}\\}%
+    }{%
+        \def#3{\underline{{}#1 #2{}}}%
+    }}
+
+\def\@NormalRow#1#2{%
+    \@IfEndRow#1\@gobble\\{%
+        \def#2{#1\\}%
+    }{%
+        \def#2{#1{}}%
+    }}
+
+\def\@IfEndRow#1\@gobble#2\\#3#4{%
+    \ifx#2\@gobble
+        #4%
+    \else
+        #3%
+    \fi}
+
+\makeatother
+
+\pagestyle{foot}
+\cfoot{Page \thepage\ of \numpages}
+\shadedsolutions
+
+\renewcommand{\thesubpart}{(\arabic{subpart})}
+\renewcommand{\subpartlabel}{\thesubpart}
+
+\setminted{
+    linenos=true,           % Enable line numbers
+    breaklines=true,        % Automatic line breaking
+    breakanywhere=true,     % Break lines anywhere if needed
+    style=manni,         % Consistent color scheme (alternatives: default, emacs, friendly, colorful, autumn, murphy, manni, material, monokai, perldoc, pastie, borland, trac, native, fruity, bw, vim, vs, tango, rrt, xcode, igor, paraiso-light, paraiso-dark, lovelace, algol, algol_nu, arduino, rainbow_dash, abap, solarized-dark, solarized-light, sas, stata, stata-light, stata-dark)
+    bgcolor=lightgray!10,   % Light background color
+    fontsize=\small,        % Slightly smaller font
+    frame=lines,            % Frame around code
+    tabsize=4               % Tab size
+}
