@@ -30,7 +30,7 @@
     "build": {
         "prebuild_command": "latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./figure.tex",
         "build_command": "latexmk --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./COMP2120-Assignment2.tex",
-        "postbuild_command": "(cd ./.COPY && zip -r ../COMP2120-Assignment2_Attachments.zip . && rm -rf ./* && cd .. && mv COMP2120-Assignment2_Attachments.zip ./.COPY/)",
+        "postbuild_command": "chmod u+x ./prepare_attachments.sh && ./prepare_attachments.sh",
         "requires": [
             "python-minted-pkgs"
         ]
