@@ -20,6 +20,102 @@
         two Buffer Registers , Input and Output Buffer Register, residing in memory location
         \texttt{SCSR}, \texttt{SBRI} and \texttt{SBRO},
         The \texttt{SCSR} has the following format:
+
+    \begin{verbatim}
+        Bit 0       =1 if Device Error
+        Bit 1       =1 if Device Ready
+        Bit 2       =0 if next operation is Write, 1, Read
+        Bit 3-5     =000 if speed = 4800 bps
+                    =001 if speed = 9600 bps
+                    =010 if speed = 19200 bps
+                    =011 if speed = 57600 bps
+                    =100 if spped = 115200 bps
+        Bit 6       =0 if odd parity, 1 if even parity
+    \end{verbatim}
+
+    Write an assembly program, using any instructions set (you may invent your own
+    instructions) to output an array of 10 characters by Program I/O, to the serial port,
+    using a speed of 115200 bps and even parity.
+    
+    To simplify the problem, you may assume that the array of characters is stored in
+    memory location \texttt{LINE}, with one character in one word.
+    
+    Only source program is needed.
+
+    \begin{solution}
+        In the following program, hexadecimal decimals are supported by prefixing with ``\texttt{0x}''.
+\begin{minted}{asm}
+                .data
+    base:       .word   0x0
+    arrsize:    .word   0xa
+                .text
+    main:                                   ; entry point of the program
+                ld      base, R1            ; R1 = 0, used as ctr
+                ld      arrsize, R2         ; R2 = 10
+                ld      0x1, R3             ; const int r3 = 1;
+    dev_rdy:    ld      SCSR, R3
+                and     R3, 0x2, R3         ; check if device ready
+                bz      dev_rdy             ; branch to dev_rdy if R3=0 (bit 1 =0, not rdy)
+    loop:       ld      LINE(R1), R4        ; load char from array
+                st      R4, SBRO            ; R4 = LINE[R1] (displacement addressing mode)
+                add     R3, R1, R1          ; R1++
+                st      0x60, SCSR          ; set speed and parity
+                st      R4, SBRO            ; output char to serial port
+                sub     R2, R1, R5          ; R5 = R2 - R1
+                bnz     loop                ; branch to loop if R5 != 0
+                rtn
+\end{minted}
+    \end{solution}
+
+    \pagebreak
+    
+    \question Given the data path of a CPU as in Assignment 4 with the modification that the
+        \texttt{MBR} provides data to both \texttt{S1-Bus} and \texttt{S2-Bus}. Consider another instruction set,
+        which allows memory operands, and the addressing mode information is stored in the
+        same byte as the register operand. Describe the data transfer/transformation for the
+        following 2-word instruction:
+        \vspace*{-0.2cm}\begin{verbatim}
+            ADD OFF(R1), R2, R3
+        \end{verbatim}\vspace*{-0.6cm}
+        which will get the first operand from memory whose address is given by \texttt{OFF+R1}
+        (displacement addressing mode), add it to \texttt{R2} and put the result in \texttt{R3}. \texttt{OFF} is stored in
+        the word following the instruction:
+        \begin{center}
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                \texttt{ADD} & \texttt{R1} (Disp mode) & \texttt{R2} & \texttt{R3} \\
+                \hline 
+                \multicolumn{4}{c}{} \\
+                \hline
+                \multicolumn{4}{|c|}{\texttt{OFF}} \\
+                \hline
+            \end{tabular}
+        \end{center}
+
+        \begin{solution}
+\begin{verbatim}
+MAR <- PC                               ; (IF)
+PC <- PC + 4                            ; PC points to OFF
+MBR <- mem[MAR]
+IR <- MBR
+...                                     ; (DI)
+Read Register File for R1 at RFOUT1     ; (OF)
+ALU_A <- RFOUT1
+MAR <- PC                               ; MAR has address of 2nd word
+PC <- PC + 4                            ; PC points to next instruction
+MBR <- mem[MAR]                         ; MBR has value of 2nd word
+ALU_B <- MBR
+ALU_C <-(via ALU)- ALU_A + ALU_B        ; calculate R1 + OFF
+MAR <- ALU_C
+MBR <- mem[MAR]                         ; MBR has value at address R1 + OFF
+ALU_A <- MBR
+Read Register File for R2 at RFOUT2
+ALU_B <- RFOUT2
+ALU_C <-(via ALU)- ALU_A + ALU_B        ; calculate mem[R1+OFF] + (R2)
+RFIN <- ALU_C
+Write Register File to R3 with value in RFIN
+\end{verbatim}
+        \end{solution}
     
 \end{questions}
 
