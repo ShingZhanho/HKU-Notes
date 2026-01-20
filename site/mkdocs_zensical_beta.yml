@@ -67,7 +67,3 @@ plugins:
   - search:
       lang: en
       enabled: true
-nav:
-  - Home: index.md
-  - Downloads: downloads/index.md
-  - Contribution: contribution/index.md
