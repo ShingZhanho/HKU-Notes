@@ -250,6 +250,80 @@ def set_ST():
 
     \begin{solution}
         The program computes the sum of integers from 1 to 9.
+
+        \textbf{Explanation:} After the first four lines, the registers are initialized as follows:
+        \begin{itemize}
+            \item \texttt{R4} = 0 (loaded from memory address \texttt{P0 - 0x3C})
+            \item \texttt{R1} = 1 (loaded from memory address \texttt{P1 - 0x40})
+            \item \texttt{R2} = 1 (copied from \texttt{R1}, this is a constant as no operations use it as destination)
+            \item \texttt{R3} = 10 (loaded from memory address \texttt{P2 - 0x44}, also a constant)
+        \end{itemize}
+        In every iteration of the loop labeled \texttt{L:}, the following operations occur:
+        \begin{itemize}
+            \item \texttt{R4} is incremented by the value in \texttt{R1}
+            \item \texttt{R1} is incremented by the constant 1 (from \texttt{R2})
+            \item \texttt{R5} is set to be \texttt{R3 (10) - R1}
+            \item If the previous operation results in non-zero, i.e., \texttt{R1} $\neq$ 10, branch back to \texttt{L:}
+        \end{itemize}
+        When \texttt{R1} reaches 10, \texttt{R4} will have accumulated the sum of integers from 1 to 9.
+        Finally, the value in \texttt{R4} is stored back to memory address \texttt{P - 0x48}, and the program halts.
+    \end{solution}
+
+    \section*{Part II: Hand Assemble}
+
+    Translate the following program into hexadecimal form, and put it in a file named prog2
+    with the same format as the file prog. Run the simulator by
+    \vspace*{-0.2cm}\begin{verbatim}
+        [python3] sim.py [-d] prog2
+    \end{verbatim}\vspace*{-0.6cm}
+    Write down the final result stored in P. What does the program do?
+    \begin{verbatim}
+            LD P0, R4
+            LD P1, R1
+            LD P2, R2
+            LD P3, R3
+        L:  ADD R4, R2, R4
+            SUB R3, R1, R3
+            BNZ L
+            ST R4, P
+            HLT
+        P0: .WORD 0
+        P1: .WORD 1
+        P2: .WORD 5
+        P3: .WORD 4
+        P:  .WORD
+    \end{verbatim}
+
+    A working simulator (executable \texttt{.pyc} file only, without source code) is given to you, so
+    that you can complete this part using this program, if your simulator in Part I is not
+    working.
+
+    \begin{solution}
+        The program is hand assembled as follows:
+        \begin{verbatim}
+            0600ff04
+            0000003c
+            0600ff01
+            00000040
+            0600ff02
+            00000044
+            0600ff03
+            00000048
+            00040204
+            01030103
+            0802ff00
+            00000020
+            0704ff00
+            0000004C
+            09000000
+            00000000
+            00000001
+            00000005
+            00000004
+            00000000
+        \end{verbatim}
+        The purpose of this program is to compute the sum of $5+5+5+5=20$.
+        The final result stored in memory address \texttt{P} is \texttt{0x00000014}.
     \end{solution}
     
 \end{questions}
