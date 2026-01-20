@@ -1,6 +1,6 @@
 #!/bin/bash
-# Working directory: src/COMP2120-Assignment2
-# Prepare attachments for COMP2120 Assignment 2
+# Working directory: src/COMP2120-Assignment4
+# Prepare attachments for COMP2120 Assignment 4
 
 echo "Preparing attachments..."
 
@@ -9,7 +9,7 @@ echo "Current directory: $(pwd)"
 ls -la
 
 echo "Zipping..."
-zip -r ../COMP2120-Assignment2_Attachments.zip .
+zip -r ../COMP2120-Assignment4_Attachments.zip .
 echo "File created."
 echo "$(ls -la .. | grep ".zip")"
 
@@ -19,6 +19,6 @@ rm -rf ./*
 cd ..
 echo "Current directory: $(pwd)"
 echo "Moving zip file to .COPY/ directory..."
-mv COMP2120-Assignment2_Attachments.zip ./.COPY/
+mv COMP2120-Assignment4_Attachments.zip ./.COPY/
 echo "Done."
 echo "$(ls -la .COPY/)"
