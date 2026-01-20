@@ -1,0 +1,83 @@
+% !TEX program = latexmk
+% !TEX options = --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./COMP2120-Assignment4.tex
+
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preamble.tex}
+
+\begin{document}
+
+\begin{center}
+    \textbf
+    {\Large{COMP2120 Computer Organisation} \\
+    \large{24/25 Semester 2} \\
+    \large{Assignment 4}}
+\end{center}
+
+This assignment is based on the CPU and simulator in Assignment 2.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{figure.pdf}
+    \caption{A simplified CPU}
+\end{figure}
+
+In this assignment, extra instructions are added. They are the \texttt{PUSH}, \texttt{POP}, \texttt{CALL}
+and \texttt{RET} instruction. In order to implement these instructions, the CPU is modified as
+follows:
+
+\begin{enumerate}
+    \item A new register (\texttt{SP}, the stack pointer) is included. \texttt{SP} provides output to S1-bus,
+        and receives input from D-bus. Also, the \texttt{SP} has special hardware to increase and
+        decrease its value by 4 (similar to \texttt{PC}). This is provided by the special function
+        \texttt{do\_incSP()}, and \texttt{do\_decSP()}, which is in turn controlled by the flag \texttt{incSP} and
+        \texttt{decSP}.
+    \item A new register (\texttt{TEMP}) is included, which is directly connected to the \texttt{MAR} only,
+        via a dedicated data path. Again you can move data between \texttt{MAR} and \texttt{TEMP} and
+        special function \texttt{do\_MAR\_to\_TEMP()} and \texttt{do\_TEMP\_to\_MAR()} are provided, which are
+        controlled by the \texttt{MAR\_to\_TEMP} and \texttt{TEMP\_to\_MAR} flag.
+    \item A new flag \texttt{push\_pop} is included, which will move the \texttt{SP} to \texttt{MAR}. Otherwise, the
+        CPU remains the same.
+\end{enumerate}
+
+New instructions provided include:
+\begin{center}
+    \begin{tabular}{cccc}
+        \multicolumn{4}{l}{\texttt{PUSH Rn : SP $\leftarrow$ SP-4; mem[SP] $\leftarrow$ Rn}} \\ \hline
+        \multicolumn{1}{|c|}{\texttt{00001010}} & \multicolumn{1}{c|}{\texttt{n}} & \multicolumn{1}{c|}{\texttt{00000000}} & \multicolumn{1}{c|}{\texttt{00000000}}\\ \hline
+            &     &     &    \\
+        \multicolumn{4}{l}{\texttt{POP Rn : Rn $\leftarrow$ mem[SP]; SP $\leftarrow$ SP+4}} \\ \hline
+        \multicolumn{1}{|c|}{\texttt{00001011}} & \multicolumn{1}{c|}{\texttt{00000000}} & \multicolumn{1}{c|}{\texttt{00000000}} & \multicolumn{1}{c|}{\texttt{n}}\\ \hline
+            &     &     &    \\
+        \multicolumn{4}{l}{\texttt{CALL proc :}} \\ \hline
+        \multicolumn{1}{|c|}{\texttt{00001100}} & \multicolumn{1}{c|}{\texttt{00000000}} & \multicolumn{1}{c|}{\texttt{11111111}} & \multicolumn{1}{c|}{\texttt{00000000}}\\ \hline
+            &     &     &    \\
+        \multicolumn{4}{l}{\texttt{RET :}} \\ \hline
+        \multicolumn{1}{|c|}{\texttt{00001101}} & \multicolumn{1}{c|}{\texttt{00000000}} & \multicolumn{1}{c|}{\texttt{00000000}} & \multicolumn{1}{c|}{\texttt{00000000}}\\ \hline 
+        \end{tabular}
+\end{center}
+
+Summary Opcode:
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Instruction & Opcode & Instruction & Opcode & Instruction & Opcode \\ \hline
+        \texttt{ADD} & \texttt{00000000} & \texttt{MOV} & \texttt{00000101} & \texttt{PUSH} & \texttt{00001010} \\ \hline
+        \texttt{SUB} & \texttt{00000001} & \texttt{LD} & \texttt{00000110} & \texttt{POP} & \texttt{00001011} \\ \hline
+        \texttt{NOT} & \texttt{00000010} & \texttt{ST} & \texttt{00000111} & \texttt{CALL} & \texttt{00001100} \\ \hline
+        \texttt{AND} & \texttt{00000011} & \texttt{Bcc} & \texttt{00001000} & \texttt{RET} & \texttt{00001101} \\ \hline
+        \texttt{OR} & \texttt{00000100} & \texttt{HLT} & \texttt{00001001} &  &  \\ \hline
+    \end{tabular}
+\end{center}
+
+\subsection*{The Program}
+
+The revised simulator program is given in sim2.py. Study the simulator code carefully.
+
+\begin{questions}
+
+    \question 
+    
+\end{questions}
+
+\end{document}

@@ -1,0 +1,23 @@
+01040404
+0600ff01
+00000078
+05010002
+0600ff03
+0000007c
+0501000a
+0c00ff00
+00000044
+00040b04
+00010201
+01030105
+0802ff00
+00000018
+0704ff00
+00000080
+09000000
+....		# insert your program here
+....		# the number of lines here may not be the actual number
+....		# remember to remove the comments afterwards
+00000001
+0000000a
+00000000
