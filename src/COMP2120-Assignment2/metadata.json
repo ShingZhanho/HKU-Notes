@@ -6,7 +6,7 @@
         "buttons": [
             {
                 "text": "Download",
-                "href": "/files/COMP2120-Assignment2/COMP2120-Assignment2.pdf",
+                "href": "../../files/COMP2120-Assignment2/COMP2120-Assignment2.pdf",
                 "icon": "material-download",
                 "is_primary": true
             },

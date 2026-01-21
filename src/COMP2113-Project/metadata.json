@@ -1,22 +1,30 @@
 {
-    "@metadata_file_version": "1",
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "build": {
-        "output_file": "NON_FILE_TARGET",
-        "build_command": "true",
-        "miktex_package_file": "NON_FILE_TARGET",
+        "output_file": "shoot-v1.0.0-ubuntu_24.04-x86_64.zip",
+        "build_command": "chmod u+x ./build.sh && ./build.sh",
         "no_latex": true
     },
     "static_site": {
         "description": "The GitHub repository of the group project.",
         "custom_md_file": "index.md",
-        "primary_button": {
-            "text": "View on GitHub",
-            "icon": "material-github",
-            "href": "https://github.com/ShingZhanho/ENGG1340-Project-25Spring"
-        },
-        "secondary_button": {
-            "disabled": true
-        }
+        "buttons": [
+            {
+                "text": "View GitHub Repo",
+                "icon": "material-github",
+                "href": "https://github.com/ShingZhanho/ENGG1340-Project-25Spring",
+                "is_primary": true,
+                "index": 0
+            },
+            {
+                "text": "Download Build",
+                "icon": "material-download",
+                "href": "../../files/COMP2113-Project/shoot-v1.0.0-ubuntu_24.04-x86_64.zip",
+                "message": "Built for Ubuntu 24.04. Other platforms also supported. See below for more info.",
+                "is_primary": false,
+                "index": 1
+            }
+        ]
     },
     "authors": [
         "!jacob_shing", "yucheng_xin", "ho_nam_chan", "ming_ngai_leung", "sizhe_song"
