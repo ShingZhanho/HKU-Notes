@@ -51,14 +51,14 @@ The group project has received a grade of 19.3 out of 20.
 4. Build the project (please follow the instructions in the `README.md` file).
 Ensure you are reading the `README.md` file in the `v1.0.0` tag for the correct build instructions.
 
-## Binaries for Release v1.0.0
+## Binaries for Release `v1.0.0`
 
-You can download the pre-compiled binary file for Release v1.0.0 directly, using the button above.
-The binaries were built for Ubuntu 24.04 x86_64 systems.
+You can download the pre-compiled binary file for Release `v1.0.0` directly, using the button above.
+The binaries were built for `Ubuntu 24.04 x86_64` systems.
 Other Linux/Unix distributions or macOS should have no issues running the binaries as well.
 Refer to the above section on how to build from source.
 
 !!! failure "Support for Microsoft Windows"
 
-   Due to unknown reasons, the programme does not work properly on Microsoft Windows.
-   Currently, there is no plan to fix this issue as the project requirements did not ask for Windows support.
+      Due to unknown reasons, the programme does not work properly on Microsoft Windows.
+      Currently, there is no plan to fix this issue as the project requirements did not ask for Windows support.
