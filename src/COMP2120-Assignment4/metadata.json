@@ -28,7 +28,6 @@
         "pdf_viewer": "at_footer"
     },
     "build": {
-        "prebuild_command": "latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./figure.tex",
-        "postbuild_command": "chmod u+x ./prepare_attachments.sh && ./prepare_attachments.sh"
-    }
+        "prebuild_command": "latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./figure.tex"
+	}
 }
