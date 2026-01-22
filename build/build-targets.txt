@@ -43,6 +43,9 @@ COMP2113-
 	Cheatsheet
 	Project
 
+# COMP2119 - Data Structures and Algorithms
+COMP2119-Notes
+
 # COMP2120 - Computer Organisation
 COMP2120-
 	Notes
