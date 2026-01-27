@@ -24,13 +24,24 @@ Head to the course catalogue page to browse all the available course materials.
 
 [Downloads Page :material-download:](downloads/index.md){ .md-button .md-button--primary }
 
-## Other Helpful Resources
+## Other Useful Resources
 
 ### Jax Tam's HKU CS Notes Series
 
 [Jax Tam](https://jaxtam.dev) has created an awesome series of notes for the Computer Science courses at the University of Hong Kong.
 You can find his notes at [here](https://jaxtam.dev/notes) (the legacy PDF notes) or [here](https://notes.jaxtam.dev) (a modern web-based version).
 The author of this project highly recommends checking out Jax's notes.
+
+### HKU Course Auto Planner
+
+HKU Course Auto Planner is a web application that helps you calculate all the possible combinations of courses you want to take in one year.
+Major features include:
+
+- Select more than one sub-classes for each course.
+- Add custom constraints (e.g., "no classes from 12:00 to 14:00 on Fridays").
+- Export the timetable to your calendar apps (in `.ics` format).
+
+Check out the planner at [planner.jacobshing.com](https://planner.jacobshing.com/).
 
 ## Important Information
 
