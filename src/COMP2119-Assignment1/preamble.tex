@@ -1,0 +1,35 @@
+% Set fonts
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\rmdefault}{\sfdefault}
+
+% Customise exam package
+\renewcommand{\thequestion}{\arabic{question}}
+\renewcommand{\questionlabel}{\thequestion)}
+\renewcommand{\thesubpart}{\roman{subpart}}
+\renewcommand{\subpartlabel}{(\thesubpart)}
+% psol (proof-solution) environment
+\newenvironment{psol}[1]{
+    \renewcommand{\solutiontitle}{\noindent\textbf{\itshape Proof:} {\itshape #1}\par\noindent}
+    \begin{solution}
+}{
+    \hfill\textbf{QED}
+    \end{solution}
+    \renewcommand{\solutiontitle}{\noindent\textbf{Answers:}\par\noindent}
+}
+% override default solution title
+\renewcommand{\solutiontitle}{\noindent\textbf{Answers:}\par\noindent}
+
+% Page configuration
+\pagestyle{foot}
+\cfoot{\small Page \thepage\ of \numpages}
+
+% Growth-rate notations
+\newcommand{\bo}{O}
+\newcommand{\bt}{\Theta}
+\newcommand{\bom}{\Omega}
+\newcommand{\lo}{o}
+\newcommand{\lt}{\omega}
+
+% Shortcuts for math
+\newcommand{\di}{\displaystyle}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}

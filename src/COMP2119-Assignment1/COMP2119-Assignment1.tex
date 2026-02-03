@@ -1,0 +1,103 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preamble.tex}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{COMP2119 Assignment 1}}\\[0.5em]
+    {\large SHING, Zhan Ho Jacob 3036228892}
+\end{center}
+
+\begin{questions}
+    
+    \question[20] \phantom{.}
+    \begin{parts}
+        
+        \part[5] \phantom{.}
+        \begin{solution}
+            Result of array \texttt{A=[1, 6, 8, 20, 30, 43, 50, 90]}.
+            \texttt{F()} sorts the array in ascending order.
+        \end{solution}
+
+        \part[15] \phantom{.}
+        \begin{subparts}
+            
+            \subpart \phantom{.}
+            \begin{solution}
+                Statement \texttt{S1} will be executed $n-1=8-1=7$ times, so will statement \texttt{S3}.
+
+                For statement \texttt{S2}, the number of times it is executed is the distance between the number at \texttt{A[j]} and its correct position (number of swaps required).
+                For this array, \texttt{S2} will be executed $1+2+0+3+3+1+2=12$ times (\texttt{A[1]} will not be handled).
+
+                Therefore, the total number of times the statements are executed is $7 + 12 + 7 = 26$.
+            \end{solution}
+
+            \subpart \phantom{.}
+            \begin{solution}
+                \textbf{Best-case:} occurs when the array is already sorted.
+                In this case, \texttt{S2} will not be executed, so the total number of executions is $7 + 0 + 7 = 14$.
+
+                \textbf{Worst-case:} occurs when the array is sorted in descending order.
+                In this case, \texttt{S2} will be executed for $1+2+3+4+5+6+7=28$ times, so the total number of executions is $7 + 28 + 7 = 42$.
+            \end{solution}
+
+            \subpart \phantom{.}
+            \begin{solution}
+                
+            \end{solution}
+
+        \end{subparts}
+
+    \end{parts}
+
+    \question[60] \phantom{.}
+    \begin{parts}
+        
+        \part \phantom{.}
+        \begin{psol}{$\mathit{3n^{1.9}+n \notin \bt(n^2)}$}
+            Consider the limit:
+            $\di
+                \lim_{n \to +\infty} \frac{3n^{1.9}+n}{n^2}
+                    = \lim_{n\to+\infty} \left(\frac{3}{n^{0.1}} + \frac{1}{n}\right) 
+                    = 0
+            $ which is not a non-zero constant.
+
+            Thus, $\bm{3n^{1.9}+n \notin \bt(n^2)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{2n^3 \notin \bom(10n^{3.1})}$}
+            Assume for contradiction that $2n^3 \in \bom(10n^{3.1})$.
+            Then, $\di \exists c, n_0 > 0 : \forall n \geq n_0, 2n^3 \geq 10cn^{3.1} \Rightarrow \frac{1}{n^{0.1}} \geq 5c \qquad [1]$.
+
+            Pick $n = \max\left((5c)^{10}, n_0\right)$.
+            Then, $\di \frac{1}{n^{0.1}} \leq \frac{1}{5c} < 5c$, which contradicts $[1]$.
+            
+            Thus, $\bm{2n^3 \notin \bom(10n^{3.1})}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{6n^{1.3}\notin\bo(n^{1.1})}$}
+            Assume for contradiction that $6n^{1.3} \in \bo(n^{1.1})$.
+            Then, $\di \exists c, n_0 >0 : \forall n \geq n_0, 6n^{1.3}\leq cn^{1.1} \Rightarrow n^{0.2}\leq\frac{c}{6} \qquad[1]$.
+
+            Pick any $\di n > \ceil{\max\left(\left(\frac{c}{6}\right)^5, n_0\right)}$.
+            Then, $\di n^{0.2} > \frac{c}{6}$, which contradicts $[1]$.
+
+            Thus, $\bm{6n^{1.3}\notin\bo(n^{1.1})}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\bo(\log^2 n)+\bo(2n) \in \bo(n)}$}
+            
+        \end{psol}
+
+    \end{parts}
+
+\end{questions}
+
+\end{document}
