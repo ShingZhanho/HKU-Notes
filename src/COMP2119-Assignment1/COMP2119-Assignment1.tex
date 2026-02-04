@@ -1,4 +1,6 @@
 %!TEX TS-program = xelatex
+%!TEX root = COMP2119-Assignment1.tex
+%!TEX options = -shell-escape -synctex=1 -interaction=nonstopmode -file-line-error ./COMP2119-Assignment1.tex
 %!TEX encoding = UTF-8 Unicode
 
 \documentclass[answers]{exam}
@@ -58,7 +60,7 @@
     \begin{parts}
         
         \part \phantom{.}
-        \begin{psol}{$\mathit{3n^{1.9}+n \notin \bt(n^2)}$}
+        \begin{psol}{$\mathit{3n^{1.9}+n = \bt(n^2)}$ is false.}
             Consider the limit:
             $\di
                 \lim_{n \to +\infty} \frac{3n^{1.9}+n}{n^2}
@@ -66,35 +68,274 @@
                     = 0
             $ which is not a non-zero constant.
 
-            Thus, $\bm{3n^{1.9}+n \notin \bt(n^2)}$.
+            Thus, $\bm{3n^{1.9}+n \neq \bt(n^2)}$.
         \end{psol}
 
         \part \phantom{.}
-        \begin{psol}{$\mathit{2n^3 \notin \bom(10n^{3.1})}$}
-            Assume for contradiction that $2n^3 \in \bom(10n^{3.1})$.
+        \begin{psol}{$\mathit{2n^3 = \bom(10n^{3.1})}$ is false.}
+            Assume for contradiction that $2n^3 = \bom(10n^{3.1})$.
             Then, $\di \exists c, n_0 > 0 : \forall n \geq n_0, 2n^3 \geq 10cn^{3.1} \Rightarrow \frac{1}{n^{0.1}} \geq 5c \qquad [1]$.
 
             Pick $n = \max\left((5c)^{10}, n_0\right)$.
             Then, $\di \frac{1}{n^{0.1}} \leq \frac{1}{5c} < 5c$, which contradicts $[1]$.
             
-            Thus, $\bm{2n^3 \notin \bom(10n^{3.1})}$.
+            Thus, $\bm{2n^3 \neq \bom(10n^{3.1})}$.
         \end{psol}
 
         \part \phantom{.}
-        \begin{psol}{$\mathit{6n^{1.3}\notin\bo(n^{1.1})}$}
-            Assume for contradiction that $6n^{1.3} \in \bo(n^{1.1})$.
+        \begin{psol}{$\mathit{6n^{1.3}=\bo(n^{1.1})}$ is false.}
+            Assume for contradiction that $6n^{1.3} = \bo(n^{1.1})$.
             Then, $\di \exists c, n_0 >0 : \forall n \geq n_0, 6n^{1.3}\leq cn^{1.1} \Rightarrow n^{0.2}\leq\frac{c}{6} \qquad[1]$.
 
             Pick any $\di n > \ceil{\max\left(\left(\frac{c}{6}\right)^5, n_0\right)}$.
             Then, $\di n^{0.2} > \frac{c}{6}$, which contradicts $[1]$.
 
-            Thus, $\bm{6n^{1.3}\notin\bo(n^{1.1})}$.
+            Thus, $\bm{6n^{1.3}\neq\bo(n^{1.1})}$.
         \end{psol}
 
         \part \phantom{.}
-        \begin{psol}{$\mathit{\bo(\log^2 n)+\bo(2n) \in \bo(n)}$}
+        \begin{psol}{$\mathit{\bo(\log^2 n)+\bo(2n) = \bo(n)}$}
             
         \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\bo(\log n)=\bo(0.01+10n)}$ is true.}
+            Let $f(n)=\bo(\log n)$, then $\exists c_1, n_1 >0 : \forall n\geq n_1, f(n)\leq c_1\log n\qquad[1]$.
+
+            Observe that $\forall n\geq 1, \log n \leq n$.
+            Also, $\di 10n\leq 0.01+10n \Rightarrow n\leq\frac{1}{10}(0.01+10n)\qquad[2]$.
+
+            From $[1]$ and $[2]$, we have $\di \forall n \geq \max(n_1, 1): f(n)\leq\frac{c_1}{10}(0.01+10n)$.
+
+            Take $n_2=\max(n_1, 1)$ and $\di c_2=\frac{c_1}{10}$, we have $\di \forall n\geq n_2 : f(n)\leq c_2(0.01+10n)$.
+
+            Thus, $\bm{\bo(\log n)=\bo(0.01+10n)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\underbrace{\bo(1)+\bo{2}+\bo(3)+\cdots+\bo(100)}_{100\textit{ terms}}=\bt(0.1)}$ is false.}
+            We prove by counterexample. Let $f_i(n) = \bo(i) \,\forall i\in[1,100]\cap\mathbb{Z}$, then $\exists c_i, n_i >0: \forall n\geq n_i, f_i(n) \leq c_i i$.
+            We choose $f_i(n)=\di \frac{1}{n}$ for every $i$.
+            We should see that $\di \forall n\geq n_1=1, \frac{1}{n}\leq c_i\cdot i$ holds for $c_i = 1$, therefore, $f_i(n)=\bo(i)$.
+
+            Assume for contradiction that $\di\sum_{i=1}^{100} f_i(n) =\bt(0.1)$.
+            Then, $\di \exists C_1, C_2, n_0 >0: \forall n\geq n_0, 0\leq C_1\cdot 0.1 \leq \frac{100}{n} \leq C_2\cdot 0.1$.
+
+            From the left-hand inequality, we have $\di n\leq\frac{1000}{C_1} \qquad[1]$.
+
+            When $n>\di\max\left(n_0, \frac{1000}{C_1}\right), [1]$ is impossible, i.e., such $C_1$ does not exist, leading to a contradiction.
+
+            Thus, $\bm{\underbrace{\bo(1)+\bo{2}+\bo(3)+\cdots+\bo(100)}_{100\textbf{ terms}}\neq\bt(0.1)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``$\mathit{\min\{f(n),g(n)\}=\bo(f(n)+g(n))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions'' is true.}
+            Let $h(n) = \min\{f(n), g(n)\}$, then, we have $h(n)\leq f(n)$ and $h(n) \leq g(n)$.
+            Note that this always holds $\forall n$ whether $f(n)\leq g(n)$ or $g(n) \leq f(n)$.
+
+            Thus, $\di 2h(n)\leq f(n)+g(n) \Rightarrow h(n) \leq \frac{1}{2}[f(n)+g(n)]$. Then, we can see that for $\di c=\frac{1}{2}, n_0=1$, $\forall n\geq n_0, h(n)\leq c[f(n)+g(n)]$,
+            satisfying the definition of big-O notation.
+
+            Thus, \textbf{``}$\bm{\min\{f(n),g(n)\}=\bo(f(n)+g(n))}$, \textbf{where} $\bm{f(n)}$ \textbf{and} $\bm{g(n)}$ \textbf{are positive functions''.}
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``$\mathit{\max\{f(n),g(n)\}=\bt(f(n)+g(n))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions'' is true.}
+            Let $h(n)=\max\{f(n),g(n)\}$, then, we have $h(n)\geq f(n)$ and $h(n)\geq g(n)$.
+            Note that this always holds $\forall n$ whether $f(n)\geq g(n)$ or $g(n) \geq f(n)$.
+            This implies that $\di 2h(n)\geq f(n)+g(n) \Rightarrow h(n)\geq \frac{1}{2}[f(n)+g(n)]\qquad[1]$.
+
+            Also, we have $\forall n:h(n)\leq f(n)+g(n)$.
+
+            Thus, we have shown that for $\di c_1=\frac{1}{2}, c_2=1, n_0=1:\forall n\geq n_0, 0\leq c_1[f(n)+g(n)]\leq \max\{f(n),g(n)\}\leq c_2[f(n)+g(n)]$.
+
+            Thus, \textbf{``}$\bm{\max\{f(n),g(n)\}=\bt(f(n)+g(n))}$\textbf{, where} $\bm{f(n)}$ \textbf{and }$\bm{g(n)}$ \textbf{are positive functions''}.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\bt(1)+\bo(1)=\bom(1)}$ is false.}
+            
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{f(n)=\bo(f(n)+\sqrt{n})}$ is true.}
+            We attempt to find constants $c, n_0>0$ such that $\forall n\geq n_0, f(n)\leq c[f(n)+\sqrt{n}]$.
+
+            Let $c=1$, then the inequality is true for all $n\geq n_0>0$.
+            Thus, we have found such constants $c=1, n_0=1$.
+
+            Thus, $\bm{f(n)=\bo(f(n)+\sqrt{n})}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\bo(n)+\lo(n)=\bom(4\log^3 n)}$}
+            
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{n+\bo(n^{2.1})=\bom(n^2)}$ is false.}
+            We can prove by counterexample.
+            It suffices to find one $f(n)=\bo(n^{2.1})$ such that $n+f(n)\notin\bom(n^2)$.
+            Let $f(n)=n$, then we can verify, for $c=1, n_0=1:\forall n\geq n_0, f(n)\leq cn^{2.1}$, so $f(n)=\bo(n^{2.1})$.
+
+            Assume for contradiction, that $n+f(n)=\bom(n^2)$.
+            Then, $\di \exists C, N>0:\forall n\geq N, 2n\geq Cn^2 \Rightarrow n\leq\frac{2}{C}\qquad[1]$.
+
+            Pick $\di n = \max\left(\ceil{\frac{2}{C}}+1, N\right)$, then $[1]$ is impossible, leading to a contradiction.
+
+            Thus, $\bm{n+\bo(n^{2.1})\neq\bom(n^2)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``If $\mathit{f(n)=\bo(n)}$, then $\mathit{2^{f(n)}=\bo(2^n)}$, where $\mathit{f(n)}$ is a positive function'' is false.}
+            We prove by counterexample.
+            Let $f(n)=2n$, then one can verify, for $c=3, n_0=1:\forall n\geq n_0, f(n)\leq cn$, so $f(n)=2n=\bo(n)$.
+
+            Assume for contradiction that $2^{f(n)}=\bo(2^n)$.
+            Then, $\di \exists C, N>0:\forall n\geq N, 2^{2n}\leq C2^n \Rightarrow 2^n\leq C \qquad[1]$.
+
+            Pick $\di n=\max(\ceil{\log_2 C}+1, N)$, then $2^n>C$, which contradicts $[1]$.
+
+            Thus, the statement \textbf{``if} $\bm{f(n)=\bo(n)}$\textbf{, then} $\bm{2^{f(n)}=\bo(2^n)}$\textbf{'' is false.}
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{n=\lo(0.1n)}$ is false.}
+            Assume for contradiction that $n=\lo(0.1n)$.
+            Then, $\di \forall c>0, \exists n_0>0: \forall n\geq n_0, n<0.1cn \Rightarrow 1<0.1c\qquad[1]$.
+
+            However, pick $c=10$, then we have $0.1c=1$, contradicting $[1]$.
+
+            Thus, $\bm{n\neq\lo(0.1n)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{100\log_4 n=\lo(\log_2 n)}$ is false.}
+            Consider the limit:
+            $\di
+                \lim_{n\to+\infty} \frac{100\log_4 n}{\log_2 n}
+                    = 100\lim_{n\to+\infty} \left(\frac{\log_2 n}{\log_2 4}\cdot\frac{1}{\log_2 n}\right)
+                    = 50
+                    \neq 0
+            $
+
+            Thus, by definition, $\bm{100\log_4 n \neq \lo(\log_2 n)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``If $\mathit{f(n)=\lom(g(n))}$, then $\mathit{\log_2(f(n))=\lom(\log_2(g(n)))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions'' is false.}
+            We prove by counterexample.
+            Let $f(n)=n^2$ and $g(n)=n$, then, consider:
+            $\di
+                \lim_{n\to+\infty} \frac{f(n)}{g(n)}
+                    = \lim_{n\to+\infty} \frac{n^2}{n}
+                    = +\infty
+            $
+            Thus, by definition, $f(n)=\lom(g(n))$.
+
+            However, consider:
+            $\di
+                \lim_{n\to+\infty} \frac{\log_2 n^2}{\log_2 n}
+                    = \lim_{n\to+\infty} \frac{2\log_2 n}{\log_2 n}
+                    = 2
+                    \neq +\infty
+            $
+            Thus, by definition, $\log_2(f(n))\neq\lom(\log_2(g(n)))$.
+
+            Thus, the statement \textbf{``if} $\bm{f(n)=\lom(g(n))}$\textbf{, then} $\bm{\log_2(f(n))=\lom(\log_2(g(n)))}$\textbf{'' is false.}
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\lom(n^3)+\lom(2n^2)=\bt(n)}$ is false.}
+            We prove by counterexample.
+            Let $f(n)=n^4$ and $g(n)=n^3$, then, consider:
+            $\di
+                \lim_{n\to+\infty} \frac{f(n)}{n^3}
+                    = \lim_{n\to+\infty} \frac{n^4}{n^3}
+                    = +\infty
+            $
+            and
+            $\di
+                \lim_{n\to+\infty} \frac{g(n)}{2n^2}
+                    = \lim_{n\to+\infty} \frac{n^3}{2n^2}
+                    = +\infty
+            $
+            Thus, by definition, $f(n)=\lom(n^3)$ and $g(n)=\lom(2n^2)$.
+
+            However, consider:
+            $\di
+                \lim_{n\to+\infty} \frac{n^4+n^3}{n}
+                    = \lim_{n\to+\infty} \left(n^3 + n^2\right)
+                    = +\infty
+                    \neq C\quad (\text{where }C\text{ is a non-zero constant})
+            $.
+            Thus, by definition, $\lom(n^3)+\lom(2n^2)\neq\bt(n)$.
+
+            Thus, $\bm{\lom(n^3)+\lom(2n^2)\neq\bt(n)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``$\mathit{f(n)g(n)=\lo(f(n))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions'' is false.}
+            We prove by counterexample.
+            Let $f(n)=n$ and $g(n)=1$.
+            Then, consider:
+            $\di
+                \lim_{n\to+\infty} \frac{n}{n}
+                    = 1
+                    \neq 0
+            $.
+
+            Thus, by definition, the statement \textbf{``}$\bm{f(n)g(n)=\lo(f(n))}$\textbf{, where} $\bm{f(n)}$ \textbf{and} $\bm{g(n)}$ \textbf{are positive functions'' is false.}
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``If $\mathit{f(n)=\bt(g(n))}$, then $\mathit{f(n)=\bom(c g(n))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions and $\mathit{c}$ is a positive constant'' is true.}
+            When $f(n)=\bt(g(n))$, then $\exists c_1, c_2, n_0>0:\forall n\geq n_0, c_1 g(n)\leq f(n)\leq c_2 g(n)\qquad [1]$.
+
+            Now, we need to show that $\exists C, N>0:\forall n\geq N, Ccg(n)\leq f(n)\qquad[2]$.
+
+            Pick $\di C=\frac{c_1}{c}$ and $N=n_0$, then $[2]$ reduces to the left-hand inequality in $[1]$, which is true.
+
+            Thus, the statement \textbf{``if} $\bm{f(n)=\bt(g(n))}$\textbf{, then} $\bm{f(n)=\bom(c g(n))}$\textbf{, where} $\bm{f(n)}$ \textbf{and} $\bm{g(n)}$ \textbf{are positive functions and} $\bm{c}$ \textbf{is a positive constant'' is true.}
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``If there are constant number of values of $\mathit{n}$ for which $\mathit{f(n)>g(n)}$, then $\mathit{f(n)=\bo(g(n))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions'' is true.}
+            We discuss two cases.
+            
+            \textbf{Case 1: There are 0 values of $\bm{n}$ for which $\bm{f(n)>g(n)}$.}
+
+            Then, $\forall n, f(n)\leq g(n)$. Take $c=1, n_0=1$, then $\forall n\geq n_0, f(n)\leq cg(n)$, which proves $f(n)=\bo(g(n))$.
+
+            \textbf{Case 2: There are $\bm{a\in[1,+\infty)\cap\mathbb{Z}}$ (finite) values of $\bm{n}$ for which $\bm{f(n)>g(n)}$.}
+
+            Let these values be $n_1, n_2, \ldots, n_a$, where $n_i < n_{i+1} \,\forall i\in[1,a-1]\cap\mathbb{Z}$.
+            Then, for some $n_0=\max(n_1, n_2, \ldots, n_a)+1$, we have $\forall n\geq n_0, f(n)\leq g(n)$.
+            Take $c=1$, then $\forall n\geq n_0, f(n)\leq cg(n)$, which proves $f(n)=\bo(g(n))$.
+
+            Thus, the statement \textbf{``if there are constant number of values of} $\bm{n}$ \textbf{for which} $\bm{f(n)>g(n)}$\textbf{, then} $\bm{f(n)=\bo(g(n))}$\textbf{, where} $\bm{f(n)}$ \textbf{and} $\bm{g(n)}$ \textbf{are positive functions'' is true.}
+        \end{psol}
+
+    \end{parts}
+
+    \question[15] \phantom{.}
+    \begin{parts}
+        
+        \part \phantom{.}
+        \begin{solution}
+            The algorithm is as follows:
+        \end{solution}
+
+    \end{parts}
+
+    \question[5] \phantom{.}
+    \begin{parts}
+            
+        \part Too difficult.
+        \part 5 -- 20 hours.
+        \part Not 100\% sure.
+            I understand the definitions and the basic concepts of the topic, but I struggle with forming formal proofs.
+        \part Nil.
 
     \end{parts}
 
