@@ -32,7 +32,7 @@
             \begin{solution}
                 Statement \texttt{S1} will be executed $n-1=8-1=7$ times, so will statement \texttt{S3}.
 
-                For statement \texttt{S2}, the number of times it is executed is the distance between the number at \texttt{A[j]} and its correct position (number of swaps required).
+                For statement \texttt{S2}, the number of times it is executed is the distance between the number at \texttt{A[$j$]} and its correct position (number of swaps required).
                 For this array, \texttt{S2} will be executed $1+2+0+3+3+1+2=12$ times (\texttt{A[1]} will not be handled).
 
                 Therefore, the total number of times the statements are executed is $7 + 12 + 7 = 26$.
@@ -49,7 +49,15 @@
 
             \subpart \phantom{.}
             \begin{solution}
-                
+                At the time of execution for \texttt{$x=$A[$j$]}, the subarray \texttt{A[1], A[2], $\ldots$, A[$j-1$]} is already sorted.
+                Suppose \texttt{A[$j$]} is the $k$-th largest among \texttt{A[1], A[2], $\ldots$, A[$j$]}, for $k=1, 2, \ldots$, $j$.
+                There are $k-1$ numbers larger than $x$, and $j-k$ numbers smaller than $x$.
+                Note that the inner \texttt{while} loop shifts numbers larger than $x$ to the right.
+                Therefore, for each $x$, \texttt{S2} will be executed $k-1$ times.
+                Let the $t$ be the random variable denoting the number of executions for \texttt{S2}, and $t\sim\text{Uniform}(1, j)$.
+                Then, $\di\mathbb{E}(t)=\sum_{k=1}^j \frac{1}{j}(k-1)=\frac{j-1}{2}$.
+                As the loop containing \texttt{S2} runs for $j\in[2,n]$, the average number of executions for \texttt{S2} is $\di \sum_{j=2}^n\mathbb{E}(t)=\frac{n(n-1)}{4}$.
+                The average number of executions for \texttt{S1}, \texttt{S2}, and \texttt{S3} altogether is $\di \frac{n(n-1)}{4} + 2(n-1) = \frac{(n-1)(n+8)}{4}$.
             \end{solution}
 
         \end{subparts}
@@ -712,6 +720,12 @@ func findCounterfeitAmong39(coins[39]) -> (coin, boolean) {
     }
 }
 \end{verbatim}\end{small}
+
+            \textbf{\itshape References}
+
+            \begin{hangparas}{2em}{1}
+            J. Dominguez-Montes, ``Solution to the counterfeit coin problem and its generalization,'' \textit{arXiv (Cornell University)}, May 2010, doi: 10.48550/arxiv.1005.1391.
+            \end{hangparas}
         \end{solution}
 
     \end{parts}
@@ -723,7 +737,7 @@ func findCounterfeitAmong39(coins[39]) -> (coin, boolean) {
         \part 5 -- 20 hours.
         \part Not 100\% sure.
             I understand the definitions and the basic concepts of the topic, but I struggle with forming formal proofs.
-        \part Nil.
+        \part The wording and phrasing of some of the questions can be ambiguous.
 
     \end{parts}
 
