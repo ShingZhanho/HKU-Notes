@@ -30,6 +30,9 @@ CV
 # ENGG1300 - Fundamental Mechanics
 ENGG1300-Practical-Work-Report
 
+# ENGG1310 - Electricity and Electronics
+ENGG1310-Past-Paper-Solutions
+
 # ENGG1330 - Computer Programming I
 ENGG1330-Project
 

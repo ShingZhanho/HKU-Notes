@@ -1,0 +1,46 @@
+% =============================================================
+% Title formats
+% =============================================================
+\titleformat{\section}
+	{\Large\sffamily\bfseries}
+	{}
+	{0em}
+	{{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\thesection.\space#1}}}
+	[]
+
+\titleformat{name=\section,numberless}
+	{\Large\sffamily\bfseries}
+	{}
+	{0em}
+	{{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}}
+	[]
+
+\titleformat{\subsection}
+	{\sffamily\bfseries}
+	{\thesubsection}
+	{0em}
+	{{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}}
+	[]
+
+\titleformat{name=\subsection,numberless}
+    {\sffamily\bfseries}
+    {}
+    {0em}
+    {{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}}
+    []
+
+\titleformat{\subsubsection}
+	{\sffamily\bfseries}
+	{\thesubsubsection}
+	{0.5em}
+	{#1}
+	[]
+
+% =============================================================
+% Exam package
+% =============================================================
+\bracketedpoints
+\pointname{\%}
+\pointsinmargin
+
+\newcommand{\mcqAns}[1]{\fbox{\bfseries\sffamily #1}}
