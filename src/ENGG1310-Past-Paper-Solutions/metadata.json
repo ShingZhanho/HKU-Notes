@@ -1,6 +1,7 @@
 {
     "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "static_site": {
-        "description": "A set of suggested solutions for ENGG1310 Past Papers."
+        "description": "A set of suggested solutions for ENGG1310 Past Papers.",
+        "document_status": "wip"
     }
 }
