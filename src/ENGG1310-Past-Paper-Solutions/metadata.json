@@ -3,5 +3,8 @@
     "static_site": {
         "description": "A set of suggested solutions for ENGG1310 Past Papers.",
         "document_status": "wip"
+    },
+    "build": {
+        "prebuild_command": "chmod +x pre_build.sh && ./pre_build.sh"
     }
 }
