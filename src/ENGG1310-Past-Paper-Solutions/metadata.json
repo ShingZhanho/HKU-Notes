@@ -2,7 +2,10 @@
     "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "static_site": {
         "description": "A set of suggested solutions for ENGG1310 Past Papers.",
-        "document_status": "wip"
+        "meta_description": "Explore latest collection of ENGG1310 past paper solutions, organised by year and by topic.",
+        "document_status": "wip",
+        "custom_md_file": "info.md",
+        "pdf_viewer": "at_tag"
     },
     "build": {
         "prebuild_command": "chmod +x pre_build.sh && ./pre_build.sh"

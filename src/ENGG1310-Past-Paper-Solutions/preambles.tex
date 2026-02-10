@@ -82,7 +82,7 @@
 	{\bfseries\sffamily\large}
 	{\contentslabel[\thecontentslabel]{\tocsep}}
 	{}
-	{\hfill\thecontentspage}
+	{\dotfill\thecontentspage}
 	[]
 
 \titlecontents*{subsection}[2\tocsep]
@@ -123,14 +123,14 @@
 	\label{#1}
 }
 \newcommand{\startQuestion}[3]{ % #1: year, #2: month, #3: question number
-	\renewcommand{\currentQRef}{#1#2#3}
+	\renewcommand{\currentQRef}{#1 #2 #3}
 	\renewcommand{\currentQLabel}{#1-#2-#3}
 	\titledquestion{#1 #2 #3}
 	\addcontentsline{toc}{subsection}{#3}
 	\label{#1-#2-#3}
 }
 \newcommand{\startQwTags}[4]{ % #1: year, #2: month, #3: question number, #4: tags
-	\renewcommand{\currentQRef}{#1#2#3}
+	\renewcommand{\currentQRef}{#1-#2-#3}
 	\renewcommand{\currentQLabel}{#1-#2-#3}
 	\titledquestion{#1 #2 #3}
 	\addcontentsline{toc}{subsection}{#3}
