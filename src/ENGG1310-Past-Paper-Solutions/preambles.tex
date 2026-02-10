@@ -48,3 +48,13 @@
 \unframedsolutions
 \qformat{\bfseries\sffamily \thequestiontitle \newline}
 \newcommand{\mcqAns}[1]{\fbox{\bfseries\sffamily #1}}
+
+% =============================================================
+% Enumerate package
+% =============================================================
+\setlist{nosep}
+\newenvironment{enumroman}{
+	\begin{enumerate}[label=(\roman*)]
+}{
+	\end{enumerate}
+}
