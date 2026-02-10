@@ -93,13 +93,42 @@
 	[\ \textbullet\ ]
 
 % =============================================================
+% Tcolorbox package
+% =============================================================
+\tcbuselibrary{skins}
+\tcbset{skin=enhanced}
+\newtcbox{\tcPrimaryTag}{enhanced,nobeforeafter,tcbox raise base,boxrule=0.5pt,top=0mm,bottom=0mm,
+  right=0mm,left=2.5mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+  colframe=green!50!black,coltext=green!10!black,colback=green!40!white,
+  overlay={\begin{tcbclipinterior}\fill[green!75!blue!80!white] (frame.south west)
+    rectangle node[text=white,font=\sffamily\bfseries\footnotesize] {\kern.2ex\#} ([xshift=3mm]frame.north west);\end{tcbclipinterior}}}
+\newtcbox{\tcSecondaryTag}{enhanced,nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm,
+  right=0mm,left=2.5mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+  colframe=green!50!black,coltext=green!25!black,colback=green!10!white,
+  overlay={\begin{tcbclipinterior}\fill[green!75!blue!50!white] (frame.south west)
+    rectangle node[text=white,font=\sffamily\bfseries\footnotesize] {\kern.2ex\#} ([xshift=3mm]frame.north west);\end{tcbclipinterior}}}
+
+% =============================================================
 % Commands for handling By-topic Index
 % =============================================================
+\newcommand{\primaryTag}[2]{\tcPrimaryTag{\footnotesize\bfseries\sffamily\raisebox{-0.1ex}{#1}}\index{#2}}
+\newcommand{\secondaryTag}[3]{\tcSecondaryTag{\footnotesize\sffamily\raisebox{-0.1ex}{#1}}\index{#2!#3}}
 \newcommand{\startYear}[1]{
 	\section*{#1}
 	\addcontentsline{toc}{section}{#1}
+	\label{#1}
 }
 \newcommand{\startQuestion}[3]{ % #1: year, #2: month, #3: question number
 	\titledquestion{#1 #2 #3}
 	\addcontentsline{toc}{subsection}{#3}
+	\label{#1-#2-#3}
 }
+\newcommand{\startQwTags}[4]{ % #1: year, #2: month, #3: question number, #4: tags
+	\titledquestion{#1 #2 #3}
+	\addcontentsline{toc}{subsection}{#3}
+	\label{#1-#2-#3}
+	\begin{flushright}
+		#4
+	\end{flushright}
+}
+\makeindex[title=By-topic Index,columns=1]

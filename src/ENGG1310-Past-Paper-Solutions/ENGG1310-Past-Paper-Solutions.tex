@@ -1,6 +1,7 @@
 \documentclass[answers]{exam}
 \input{packages.tex}
 \input{preambles.tex}
+\input{tags.tex}
 
 \begin{document}
 
@@ -21,8 +22,14 @@
     Due to copyright issues, the questions are not included in this document but can be accessed through ExamBase.
 }
 
-\tableofcontents
-
 \input{solutions/solutions.tex}
+
+\begin{multicols}{2}
+    \tableofcontents
+\end{multicols}
+
+\begin{multicols}{2}
+    \printindex
+\end{multicols}
 
 \end{document}
