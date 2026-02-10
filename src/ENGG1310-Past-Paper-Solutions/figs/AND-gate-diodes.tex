@@ -1,0 +1,25 @@
+\documentclass{standalone}
+
+\usepackage{circuitikz}
+
+\begin{document}
+\begin{tikzpicture}
+	% Paths, nodes and wires:
+	\draw (22, -10) to[empty diode] (20, -10);
+	\node[circ] at (20, -10){};
+	\node[shape=rectangle, minimum width=0.965cm, minimum height=0.465cm] at (19.5, -10){} node[anchor=center, align=center, text width=0.577cm, inner sep=6pt] at (19.5, -10){A};
+	\draw (22, -11) to[empty diode] (20, -11);
+	\node[circ] at (20, -11){};
+	\node[shape=rectangle, minimum width=0.965cm, minimum height=0.465cm] at (19.5, -11){} node[anchor=center, align=center, text width=0.577cm, inner sep=6pt] at (19.5, -11){B};
+	\draw (22, -11) -- (22, -10) -- (22, -9);
+	\node[circ] at (22, -11){};
+	\node[circ] at (23, -11){};
+	\draw (22, -11) -- (23, -11);
+	\draw (22, -9) to[american resistor] (22, -7.75);
+	\draw (22, -7.75) -- (22, -7);
+	\node[circ] at (22, -7){};
+	\node[shape=rectangle, minimum width=0.965cm, minimum height=0.465cm] at (23.5, -11){} node[anchor=center, align=center, text width=0.577cm, inner sep=6pt] at (23.5, -11){X};
+	\node[shape=rectangle, minimum width=0.965cm, minimum height=0.465cm] at (22, -6.75){} node[anchor=center, align=center, text width=0.577cm, inner sep=6pt] at (22, -6.75){5V};
+	\node[shape=rectangle, minimum width=0.715cm, minimum height=0.715cm](N1) at (22.625, -8.375){} node[anchor=east] at ([xshift=0.12cm]N1.text){$R$};
+\end{tikzpicture}
+\end{document}
