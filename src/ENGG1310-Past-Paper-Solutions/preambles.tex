@@ -69,3 +69,37 @@
 		\includegraphics[#2]{#1}
 	\end{figure}
 }
+
+% =============================================================
+% Configures ToC
+% =============================================================
+\renewcommand*\contentsname{By-year Index}
+\newlength{\tocsep}
+\setlength{\tocsep}{1.5pc}
+\setcounter{tocdepth}{2}
+\contentsmargin{0pt}
+\titlecontents{section}[\tocsep]
+	{\bfseries\sffamily\large}
+	{\contentslabel[\thecontentslabel]{\tocsep}}
+	{}
+	{\hfill\thecontentspage}
+	[]
+
+\titlecontents*{subsection}[2\tocsep]
+	{\sffamily}
+	{}
+	{}
+	{}
+	[\ \textbullet\ ]
+
+% =============================================================
+% Commands for handling By-topic Index
+% =============================================================
+\newcommand{\startYear}[1]{
+	\section*{#1}
+	\addcontentsline{toc}{section}{#1}
+}
+\newcommand{\startQuestion}[3]{ % #1: year, #2: month, #3: question number
+	\titledquestion{#1 #2 #3}
+	\addcontentsline{toc}{subsection}{#3}
+}
