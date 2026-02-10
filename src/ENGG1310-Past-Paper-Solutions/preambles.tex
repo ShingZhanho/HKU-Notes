@@ -16,14 +16,14 @@
 	[]
 
 \titleformat{\subsection}
-	{\sffamily\bfseries}
+	{\sffamily\bfseries\large}
 	{\thesubsection}
 	{0em}
 	{{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}}
 	[]
 
 \titleformat{name=\subsection,numberless}
-    {\sffamily\bfseries}
+    {\sffamily\bfseries\large}
     {}
     {0em}
     {{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}}
@@ -36,11 +36,15 @@
 	{#1}
 	[]
 
+\makeatletter
+\titlespacing*{\section}{0pc}{3ex \@plus4pt \@minus3pt}{5pt}
+\makeatother
+
 % =============================================================
 % Exam package
 % =============================================================
 \bracketedpoints
 \pointname{\%}
-\pointsinmargin
-
+\unframedsolutions
+\qformat{\bfseries\sffamily \thequestiontitle \newline}
 \newcommand{\mcqAns}[1]{\fbox{\bfseries\sffamily #1}}
