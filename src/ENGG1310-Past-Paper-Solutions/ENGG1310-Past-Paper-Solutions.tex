@@ -22,14 +22,23 @@
     Due to copyright issues, the questions are not included in this document but can be accessed through ExamBase.
 }
 
+{
+    {\bfseries\sffamily Hint:}
+    To navigate the solutions more efficiently, you can refer to the \hyperref[index:by-year]{By-year Index}, which organises questions by their respective examination dates (latest first), or the \hyperref[index:by-topic]{By-topic Index}, which categorises questions based on their topics.
+    Both indices are located at the end of this document.
+}
+
 \input{solutions/solutions.tex}
 
-\begin{multicols}{2}
-    \tableofcontents
+\makeatletter
+\clearpage
+\begin{multicols}{2}[\section*{\contentsname}]
+    \label{index:by-year}
+    \@starttoc{toc}
 \end{multicols}
+\makeatother
 
-\begin{multicols}{2}
-    \printindex
-\end{multicols}
+\label{index:by-topic}
+\printindex
 
 \end{document}

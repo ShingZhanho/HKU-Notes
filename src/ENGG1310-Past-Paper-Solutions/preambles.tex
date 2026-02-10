@@ -111,19 +111,27 @@
 % =============================================================
 % Commands for handling By-topic Index
 % =============================================================
-\newcommand{\primaryTag}[2]{\tcPrimaryTag{\footnotesize\bfseries\sffamily\raisebox{-0.1ex}{#1}}\index{#2}}
-\newcommand{\secondaryTag}[3]{\tcSecondaryTag{\footnotesize\sffamily\raisebox{-0.1ex}{#1}}\index{#2!#3}}
+\indexsetup{othercode=\sffamily}
+\newcommand{\currentQLabel}{}
+\newcommand{\currentQRef}{}
+\newcommand{\qref}[3]{\hyperref[#1]{#2}}
+\newcommand{\primaryTag}[2]{\tcPrimaryTag{\footnotesize\bfseries\sffamily\raisebox{-0.1ex}{#1}}\expanded{\noexpand\index{#2|qref{\currentQLabel}{\currentQRef}}}}
+\newcommand{\secondaryTag}[3]{\tcSecondaryTag{\footnotesize\sffamily\raisebox{-0.1ex}{#1}}\expanded{\noexpand\index{#2!#3|qref{\currentQLabel}{\currentQRef}}}}
 \newcommand{\startYear}[1]{
 	\section*{#1}
 	\addcontentsline{toc}{section}{#1}
 	\label{#1}
 }
 \newcommand{\startQuestion}[3]{ % #1: year, #2: month, #3: question number
+	\renewcommand{\currentQRef}{#1#2#3}
+	\renewcommand{\currentQLabel}{#1-#2-#3}
 	\titledquestion{#1 #2 #3}
 	\addcontentsline{toc}{subsection}{#3}
 	\label{#1-#2-#3}
 }
 \newcommand{\startQwTags}[4]{ % #1: year, #2: month, #3: question number, #4: tags
+	\renewcommand{\currentQRef}{#1#2#3}
+	\renewcommand{\currentQLabel}{#1-#2-#3}
 	\titledquestion{#1 #2 #3}
 	\addcontentsline{toc}{subsection}{#3}
 	\label{#1-#2-#3}
@@ -131,4 +139,4 @@
 		#4
 	\end{flushright}
 }
-\makeindex[title=By-topic Index,columns=1]
+\makeindex[title=By-topic Index,columns=2]
