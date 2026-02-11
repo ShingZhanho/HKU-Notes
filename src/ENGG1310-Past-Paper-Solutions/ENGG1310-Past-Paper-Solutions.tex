@@ -1,3 +1,6 @@
+% !TEX program = latexmk
+% !TEX options = --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./ENGG1310-Past-Paper-Solutions.tex
+
 \documentclass[answers]{exam}
 \input{packages.tex}
 \input{preambles.tex}
@@ -30,13 +33,14 @@
 
 \input{solutions/solutions.tex}
 
-\makeatletter
-\clearpage
+
 \begin{multicols}{2}[\section*{\contentsname}]
     \label{index:by-year}
+    \makeatletter
     \@starttoc{toc}
+    \makeatother
 \end{multicols}
-\makeatother
+
 
 \label{index:by-topic}
 \printindex

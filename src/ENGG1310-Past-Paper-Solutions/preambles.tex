@@ -47,6 +47,10 @@
 \pointname{\%}
 \unframedsolutions
 \qformat{\bfseries\sffamily \thequestiontitle \newline}
+\renewcommand{\questionshook}{%
+	\setlength{\leftmargin}{0pt}%
+	\setlength{\labelwidth}{-\labelsep}%
+}
 \newcommand{\mcqAns}[1]{\fbox{\bfseries\sffamily #1}}
 
 % =============================================================
@@ -54,7 +58,7 @@
 % =============================================================
 \setlist{nosep}
 \newenvironment{enumroman}{
-	\begin{enumerate}[label=(\roman*)]
+	\begin{enumerate}[label=(\roman*),labelwidth=*,leftmargin=*]
 }{
 	\end{enumerate}
 }
@@ -140,3 +144,6 @@
 	\end{flushright}
 }
 \makeindex[title=By-topic Index,columns=2]
+% Remove theindex newpage
+\patchcmd{\theindex}{\clearpage}{}{}{}
+\patchcmd{\theindex}{\cleardoublepage}{}{}{}
