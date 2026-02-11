@@ -32,14 +32,12 @@ To start a new set of exam paper, create a new file under `solutions/` with the 
 \subsection*{Section A -- Multiple-choice Questions}
 \begin{multicols*}{2}
 
-\begin{questions}
-    % questions go here
-\end{questions}
+% questions go here
 
 \end{multicols*}
 ```
 
-Then, for each question, put them inside the `questions` environment, and start with:
+Then, for each question, do:
 
 ```latex
 \startQwTags{year}{month}{question number}{tags}
@@ -60,6 +58,12 @@ If a question does not need to be tagged, do this instead:
     % e.g., \startQuestion{2024}{May}{Q1}
 ```
 
+!!! info "`question` environment"
+
+    You do not need to wrap the questions in the `question` environment.
+    The entire file is already wrapped in a `question` environment in `solutions/solutions.tex`.
+    Nested `question` environments will mess up the indexing and layout.
+
 Then, write the solution inside the `solution` environment, right after the question:
 
 ```latex
@@ -77,8 +81,10 @@ For non-MCQs, you can write the solution as you normally would.
 Finally, import this file in `solutions/solutions.tex` by adding the line:
 
 ```latex
-% ... other imports
-\input{solutions/2024-may.tex}
+\begin{questions}
+    % ... other imports
+    \input{solutions/2024-may.tex}
+\end{questions}
 ```
 
 Please arrange the imports in chronological order, with the most recent exam paper at the top.
