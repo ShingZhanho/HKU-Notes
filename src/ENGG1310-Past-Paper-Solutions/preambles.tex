@@ -52,6 +52,7 @@
 	\setlength{\labelwidth}{-\labelsep}%
 }
 \newcommand{\mcqAns}[1]{\fbox{\bfseries\sffamily #1}}
+\AfterEndEnvironment{solution}{\vspace*{-1.5em}\dotfill}
 
 % =============================================================
 % Enumerate package
@@ -59,6 +60,16 @@
 \setlist{nosep}
 \newenvironment{enumroman}{
 	\begin{enumerate}[label=(\roman*),labelwidth=*,leftmargin=*]
+}{
+	\end{enumerate}
+}
+\newenvironment{enumlalpha}{
+	\begin{enumerate}[label=(\alph*),labelwidth=*,leftmargin=*]
+}{
+	\end{enumerate}
+}
+\newenvironment{enumualpha}{
+	\begin{enumerate}[label=(\Alph*),labelwidth=*,leftmargin=*]
 }{
 	\end{enumerate}
 }

@@ -1,8 +1,8 @@
 %
 % This file predefines topic tags for questions.
 % All tags should be defined here.
-% Use of \primaryTag{<Tag>}{<index entry>} for primary tags,
-% and \secondaryTag{<Tag>}{<index entry>}{<sub-entry>} for secondary tags
+% Use of \primaryTag{<Tag Display Name>}{<index entry display name>} for primary tags,
+% and \secondaryTag{<Tag Display Name>}{<parent entry display name>}{<sub-entry display name>} for secondary tags
 % is limited to this file only.
 %
 % Name the tags according to the following conventions:
@@ -12,9 +12,12 @@
 %
 
 \newcommand{\tgElectronics}{\primaryTag{Electronics}{electronics}\ }
-    \newcommand{\tgElectronicsBJT}{\secondaryTag{BJT}{electronics}{BJT}\ }
+    \newcommand{\tgElectronicsBJT}{\secondaryTag{BJT}{electronics}{bipolar junction transistor (BJT)}\ }
     \newcommand{\tgElectronicsDiodes}{\secondaryTag{Diodes}{electronics}{diodes}\ }
     \newcommand{\tgElectronicsEM}{\secondaryTag{Electromagnetics}{electronics}{electromagnetics}\ }
-    \newcommand{\tgElectronicsMOSFET}{\secondaryTag{MOSFET}{electronics}{MOSFET}\ }
+    \newcommand{\tgElectronicsMOSFET}{\secondaryTag{MOSFET}{electronics}{metal-oxide-semiconductor field-effect transistor (MOSFET)}\ }
     \newcommand{\tgElectronicsOptoelectronics}{\secondaryTag{Optoelectronics}{electronics}{optoelectronics}\ }
     \newcommand{\tgElectronicsSemiconductor}{\secondaryTag{Semiconductor}{electronics}{semiconductor}\ }
+
+% Special tags
+\newcommand{\tgOutSyl}{\tcPrimaryTag{\bfseries\sffamily\footnotesize OutSyl}\ }
