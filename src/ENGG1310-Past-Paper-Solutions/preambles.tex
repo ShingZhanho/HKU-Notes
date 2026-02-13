@@ -52,6 +52,7 @@
 	\setlength{\labelwidth}{-\labelsep}%
 }
 \newcommand{\mcqAns}[1]{\fbox{\bfseries\sffamily #1}}
+\AfterEndEnvironment{solution}{\vspace*{-1.5em}\dotfill}
 
 % =============================================================
 % Enumerate package
@@ -59,6 +60,16 @@
 \setlist{nosep}
 \newenvironment{enumroman}{
 	\begin{enumerate}[label=(\roman*),labelwidth=*,leftmargin=*]
+}{
+	\end{enumerate}
+}
+\newenvironment{enumlalpha}{
+	\begin{enumerate}[label=(\alph*),labelwidth=*,leftmargin=*]
+}{
+	\end{enumerate}
+}
+\newenvironment{enumualpha}{
+	\begin{enumerate}[label=(\Alph*),labelwidth=*,leftmargin=*]
 }{
 	\end{enumerate}
 }
@@ -119,8 +130,8 @@
 \newcommand{\currentQLabel}{}
 \newcommand{\currentQRef}{}
 \newcommand{\qref}[3]{\hyperref[#1]{#2}}
-\newcommand{\primaryTag}[2]{\tcPrimaryTag{\footnotesize\bfseries\sffamily\raisebox{-0.1ex}{#1}}\expanded{\noexpand\index{#2|qref{\currentQLabel}{\currentQRef}}}}
-\newcommand{\secondaryTag}[3]{\tcSecondaryTag{\footnotesize\sffamily\raisebox{-0.1ex}{#1}}\expanded{\noexpand\index{#2!#3|qref{\currentQLabel}{\currentQRef}}}}
+\newcommand{\primaryTag}[2]{\tcPrimaryTag{\footnotesize\bfseries\sffamily\raisebox{-0.15ex}{#1}}\expanded{\noexpand\index{#2|qref{\currentQLabel}{\currentQRef}}}}
+\newcommand{\secondaryTag}[3]{\tcSecondaryTag{\footnotesize\sffamily\raisebox{-0.15ex}{#1}}\expanded{\noexpand\index{#2!#3|qref{\currentQLabel}{\currentQRef}}}}
 \newcommand{\startYear}[1]{
 	\section*{#1}
 	\addcontentsline{toc}{section}{#1}
@@ -139,8 +150,6 @@
 	\titledquestion{#1 #2 #3}
 	\addcontentsline{toc}{subsection}{#3}
 	\label{#1-#2-#3}
-	\begin{flushright}
-		#4
-	\end{flushright}
+	#4
 }
 \makeindex[title=By-topic Index,columns=2]
