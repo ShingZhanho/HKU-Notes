@@ -6,8 +6,5 @@
         "document_status": "wip",
         "custom_md_file": "info.md",
         "pdf_viewer": "at_tag"
-    },
-    "build": {
-        "prebuild_command": "chmod +x pre_build.sh && ./pre_build.sh"
     }
 }

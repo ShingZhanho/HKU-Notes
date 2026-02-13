@@ -1,6 +1,9 @@
 % !TEX program = latexmk
 % !TEX options = --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./ENGG1310-Past-Paper-Solutions.tex
 
+% Pre-build hook: compile all standalone figures in the `figs` directory
+\immediate\write18{ chmod +x ./pre_build.sh && ./pre_build.sh }
+
 \documentclass[answers]{exam}
 \input{packages.tex}
 \input{preambles.tex}
