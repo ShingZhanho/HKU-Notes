@@ -130,7 +130,8 @@
 \newcommand{\currentQLabel}{}
 \newcommand{\currentQRef}{}
 \newcommand{\qref}[3]{\hyperref[#1]{#2}}
-\newcommand{\primaryTag}[2]{\tcPrimaryTag{\footnotesize\bfseries\sffamily\raisebox{-0.15ex}{#1}}\expanded{\noexpand\index{#2|qref{\currentQLabel}{\currentQRef}}}}
+\newcommand{\ignorePageNum}[1]{}
+\newcommand{\primaryTag}[2]{\tcPrimaryTag{\footnotesize\bfseries\sffamily\raisebox{-0.15ex}{#1}}\expanded{\noexpand\index{#2|ignorePageNum}}}
 \newcommand{\secondaryTag}[3]{\tcSecondaryTag{\footnotesize\sffamily\raisebox{-0.15ex}{#1}}\expanded{\noexpand\index{#2!#3|qref{\currentQLabel}{\currentQRef}}}}
 \newcommand{\startYear}[1]{
 	\section*{#1}
