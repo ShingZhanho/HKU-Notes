@@ -38,14 +38,16 @@
 \input{solutions/solutions.tex}
 
 
-\begin{multicols}{2}[\section*{\contentsname}]
-    \label{index:by-year}\pdfbookmark[1]{By-year Index}{index:by-year}
+\section*{\contentsname}
+\phantomsection
+\label{index:by-year}\pdfbookmark[1]{By-year Index}{index:by-year}
+\begin{multicols}{2}
     \makeatletter
     \@starttoc{toc}
     \makeatother
 \end{multicols}
 
-
+\phantomsection
 \label{index:by-topic}\pdfbookmark[1]{By-topic Index}{index:by-topic}
 \printindex
 
