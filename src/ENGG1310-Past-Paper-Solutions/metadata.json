@@ -6,5 +6,8 @@
         "document_status": "wip",
         "custom_md_file": "info.md",
         "pdf_viewer": "at_tag"
+    },
+    "build": {
+        "build_command": "latexmk --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./ENGG1310-Past-Paper-Solutions.tex"
     }
 }
