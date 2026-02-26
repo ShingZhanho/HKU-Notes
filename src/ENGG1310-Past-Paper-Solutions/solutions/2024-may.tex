@@ -97,3 +97,43 @@
 \end{solution}
 
 \end{multicols*}
+
+\subsection*{Section B -- Long Questions (Electronics)}
+\begin{multicols}{2}
+
+\startQwTags{2024}{May}{Q31}{\tgElectronics \tgElectronicsDiodes}
+\begin{solution}
+    The two diodes are connected in series, the current flowing through them is the same and the voltage across them divides equally.
+    Denote the voltage across each diode as $V$, we have:
+    \[
+        V=\frac{1.3}{2}=0.65\text{ V}
+    \]
+    The current flowing through the diodes $I$ is given by:
+    \begin{align*}
+        I &= I_S\left(e^{\frac{V}{V_T}}-1\right) \\
+        &= 10^{-12}\left(e^{\frac{0.65}{0.026}}-1\right)\quad (I_S=10^{-12}\text{ A}, V_T=0.026\text{ V}) \\
+        &= 0.072\text{ A} = \boxed{72\text{ mA}}
+    \end{align*}
+\end{solution}
+
+\columnbreak
+
+\startQwTags{2024}{May}{Q32}{\tgElectronics \tgElectronicsBJT}
+\begin{solution}
+    Consider the base-emitter loop, the $I_{B}$ can be obtained by:
+    \[
+        I_B = \frac{5-V_{BE}}{68000} = \frac{5-0.7}{68000} = 63.235\text{ }\mu\text{A}
+    \]
+    Then, consider the collector-emitter loop, the $I_C$ can be obtained by:
+    \[
+        I_C = \frac{9-V_{CE}}{3300} = \frac{9-3.2}{3300} = 1757.576\text{ }\mu\text{A}
+    \]
+    Thus, the current gain $\beta$ can be obtained by:
+    \[
+        \beta = \frac{I_C}{I_B} = \frac{1757.576}{63.235} = \boxed{27.80}
+    \]
+\end{solution}
+
+\end{multicols}
+
+\subsection*{Section C -- Long Questions ()}
