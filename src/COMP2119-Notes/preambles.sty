@@ -1,0 +1,363 @@
+\ProvidesPackage{preambles}[2025/12/30 v1.0 Custom style for book]
+
+\raggedbottom
+
+%-----------------------------------------------------%
+%%%% Some basic packages
+\usepackage{amsmath, amsthm, ltxcmds, adjustbox, graphicx, stmaryrd}
+
+\usepackage{import} % for \import
+
+% Tools
+\usepackage{etoolbox} % for \BeforeBeginEnvironment
+\usepackage{calc} % for \widthof
+
+%-----------------------------------------------------%
+%%%% Hyperref
+\usepackage[usenames,dvipsnames]{xcolor}
+\definecolor{cite}{HTML}{11871E}
+\definecolor{url}{HTML}{698996}
+\definecolor{link}{HTML}{912F1B}
+
+\usepackage[pdfencoding=unicode, colorlinks=true, linkcolor=link, citecolor=cite, urlcolor=url, linktocpage]{hyperref}
+
+%%%% Footnote mark formatting
+\makeatletter
+\renewcommand{\@makefnmark}{\hbox{\@textsuperscript{\tiny{\@thefnmark}}}}
+\makeatother
+
+%-----------------------------------------------------%
+%%%% Colors
+
+\definecolor{hkublue}{RGB}{64,151,219}
+\definecolor{hkugreen}{RGB}{78,188,136}
+\definecolor{hkuyellow}{RGB}{255,232,2}
+\definecolor{hkublack}{RGB}{59,30,14}
+\definecolor{hkured}{RGB}{229,72,45}
+
+%-----------------------------------------------------%
+%%%% Tikz
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usetikzlibrary{cd}
+\usetikzlibrary{arrows, arrows.meta, positioning, calc, decorations.pathreplacing, decorations.markings}
+\tikzstyle{arrow} = [-{Straight Barb[scale=0.8]}, line width=0.2mm]
+\tikzstyle{myarrow} = [-Stealth, shorten >=5pt]
+
+\tikzset{
+  set arrow inside/.code={\pgfqkeys{/tikz/arrow inside}{#1}},
+  set arrow inside={end/.initial=>, opt/.initial=},
+  /pgf/decoration/Mark/.style={
+      mark/.expanded=at position #1 with
+        {
+          \noexpand\arrow[\pgfkeysvalueof{/tikz/arrow inside/opt}]{\pgfkeysvalueof{/tikz/arrow inside/end}}
+        }
+    },
+  arrow inside/.style 2 args={
+      set arrow inside={#1},
+      postaction={
+          decorate,decoration={
+              markings,Mark/.list={#2}
+            }
+        }
+    },
+}
+
+\tikzcdset{
+arrow style=tikz,
+diagrams={>={Straight Barb[scale=0.8]}},
+/tikz/commutative diagrams/every diagram/.append style={
+    row sep=huge,
+    column sep=huge
+  },
+labels=description,
+}
+
+\newcommand{\point}[2]{\tikz[remember picture]{\node[inner sep=0, anchor=base](#1){$#2$};}}
+
+%-----------------------------------------------------%
+%%%% Enumerate
+\usepackage{enumitem}
+\setlist[itemize,1]{label=--}
+\setlist[itemize,2]{label=+}
+\setlist[itemize,3]{label=$\bullet$}
+\setlist[itemize,4]{label=$\circ$}
+
+\setlist[enumerate,1]{label = (\alph*)}
+
+\setlist{leftmargin=*, itemsep=0.5\baselineskip, topsep=0.5\baselineskip}
+
+%-----------------------------------------------------%
+%%%% Subfigures
+\usepackage{subcaption} % for subcaption
+
+%-----------------------------------------------------%
+%%%% Epigraph
+\usepackage{epigraph}
+
+%-----------------------------------------------------%
+%%%% Graphics
+\usepackage{graphicx}
+\graphicspath{{images/}} % set images path
+
+%-----------------------------------------------------%
+%%%% Tabularx
+\usepackage{tabularx}
+\usepackage{booktabs}
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+% Automatically add \noindent before every tabularx environment
+\BeforeBeginEnvironment{tabularx}{\noindent}
+
+%-----------------------------------------------------%
+%%%% Self-defined functions
+
+%-----------------------------------------------------%
+%%%% Page setup
+\usepackage[
+  % a4paper,
+  twoside=true,
+  textheight=22cm,
+  textwidth=15cm,
+  marginparsep=0.75cm,
+  marginparwidth=2.5cm,
+  heightrounded,
+  centering
+]{geometry}
+
+%-----------------------------------------------------%
+%%%% Fonts
+% \usepackage[protrusion=true]{microtype}
+
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[T1]{fontenc}
+\usepackage{biolinum}
+\renewcommand{\mathsf}[1]{\text{\normalfont\sffamily#1}}
+\newcommand{\mathsfbf}[1]{\text{\normalfont\bf\sffamily#1}}
+
+\DeclareMathAlphabet{\eur}{U}{zeus}{m}{n}
+\renewcommand{\mathcal}[1]{\eur{#1}}
+
+%-----------------------------------------------------%
+%%%% bibliography
+% \usepackage[
+%   backend=biber, % Use the biber engine for compiling the bibliography
+%   bibstyle=numeric, % Main bibliography style
+%   citestyle=numeric, % In-text citation style
+%   sorting=nyt, % Sort references in the bibliography by name, then year, then title
+%   sortcites=true, % If multiple citekeys are passed to a citation command, sort them in the citation
+%   abbreviate=false, % Suppress abbreviations such as "Ed." for Editor
+%   backref=true, % List the page where references were cited in the bibliography
+%   defernumbers=true,
+% ]{biblatex}
+% \addbibresource{reference.bib}
+
+%-----------------------------------------------------%
+%%%% Templating commands
+
+\renewcommand\thesection{\thechapter.\arabic{section}}
+
+\usepackage{keytheorems}
+\usepackage[breakable,skins]{tcolorbox}
+
+\newkeytheoremstyle{colorbarbox}
+{
+  bodyfont=\sffamily,
+  headfont=\color{hkublue}\bfseries\sffamily,
+  headpunct={.\vspace{\topsep}\newline},
+  notebraces={}{},
+  noteseparator={\ ---\ },
+  spaceabove=\baselineskip,
+  spacebelow=\baselineskip,
+  tcolorbox-no-titlebar={
+      blanker,
+      breakable,
+      borderline west={2.5pt}{-10pt}{hkublue},
+      top=6pt,
+      bottom=6pt,
+      overlay={
+          \fill[hkublue!5!white] ([xshift=-7.5pt]frame.north west) -- ([xshift=7.5pt]frame.north east)
+          -- ([xshift=7.5pt]frame.south east) -- ([xshift=-7.5pt]frame.south west) -- cycle;
+        }
+    }
+}
+\newkeytheoremstyle{colorfullbarbox}
+{
+  bodyfont=\sffamily,
+  headfont=\color{hkublue}\bfseries\sffamily,
+  headpunct={.\vspace{\topsep}\newline},
+  notebraces={}{},
+  noteseparator={\ ---\ },
+  spaceabove=\baselineskip,
+  spacebelow=\baselineskip,
+  tcolorbox-no-titlebar={
+      blanker,
+      top=6pt,
+      bottom=6pt,
+      overlay={
+          \filldraw[draw=hkublue, fill=hkublue!5!white, line width=0.625pt] ([xshift=-7.5pt]frame.north west) -- ([xshift=7.5pt]frame.north east) -- ([xshift=7.5pt]frame.south east) -- ([xshift=-7.5pt]frame.south west) -- cycle;
+        }
+    }
+}
+
+\newkeytheoremstyle{colorbox}
+{
+  bodyfont=\sffamily,
+  headfont=\color{hkublue}\bfseries\sffamily,
+  headpunct={.\vspace{\topsep}\newline},
+  notebraces={}{},
+  noteseparator={\ ---\ },
+  spaceabove=\baselineskip,
+  spacebelow=\baselineskip,
+  tcolorbox-no-titlebar={
+      blanker,
+      top=6pt,
+      bottom=6pt,
+      overlay={
+          \draw[draw=hkublue, line width=0.625pt] ([xshift=-7.5pt]frame.north west) -- ([xshift=7.5pt]frame.north east) -- ([xshift=7.5pt]frame.south east) -- ([xshift=-7.5pt]frame.south west) -- cycle;
+        }
+    }
+}
+
+\newkeytheoremstyle{goldbar}
+{
+  bodyfont=\normalfont,
+  headfont=\color{hkugreen}\bfseries\sffamily,
+  notebraces={}{},
+  noteseparator={\ ---\ },
+  spaceabove=\baselineskip,
+  spacebelow=\baselineskip,
+  tcolorbox-no-titlebar={
+      blanker,
+      breakable,
+      borderline west={2.5pt}{-10pt}{hkugreen},
+      top=3pt,
+      bottom=3pt
+    }
+}
+
+\newkeytheoremstyle{goldonly}
+{
+  bodyfont=\normalfont,
+  headfont=\color{hkugreen}\bfseries\sffamily,
+  notebraces={}{},
+  noteseparator={\ ---\ },
+  spaceabove=\baselineskip,
+  spacebelow=\baselineskip,
+  tcolorbox-no-titlebar={
+      blanker,
+      breakable,
+      % borderline west={2.5pt}{-10pt}{hkugreen},
+      % top=3pt,
+      % bottom=3pt
+    }
+}
+
+\newkeytheoremstyle{redfullbox}
+{
+  bodyfont=\sffamily,
+  headfont=\color{hkured}\bfseries\sffamily,
+  notebraces={}{},
+  noteseparator={\ ---\ },
+  spaceabove=\baselineskip,
+  spacebelow=0.625pt,
+  tcolorbox-no-titlebar={
+      blanker,
+      top=6pt,
+      bottom=6pt,
+      overlay={
+          \filldraw[draw=hkured, fill=hkured!5!white, line width=0.625pt] ([xshift=-7.5pt]frame.north west) -- ([xshift=7.5pt]frame.north east) -- ([xshift=7.5pt]frame.south east) -- ([xshift=-7.5pt]frame.south west) -- cycle;
+        }
+    }
+}
+
+\newkeytheoremstyle{redbar}
+{
+  bodyfont=\sffamily,
+  headfont=\color{hkured}\bfseries\sffamily,
+  notebraces={}{},
+  noteseparator={\ ---\ },
+  spaceabove=0pt,
+  spacebelow=\baselineskip,
+  tcolorbox-no-titlebar={
+      blanker,
+      breakable,
+      % borderline west={2.5pt}{-10pt}{hkured},
+      top=6pt,
+      bottom=6pt,
+      overlay={
+          \fill[hkured!5!white] ([xshift=-7.5pt]frame.north west) -- ([xshift=7.5pt]frame.north east)
+          -- ([xshift=7.5pt]frame.south east) -- ([xshift=-7.5pt]frame.south west) -- cycle;
+        }
+    }
+}
+
+\newkeytheoremstyle{yellowbar}
+{
+  bodyfont=\normalfont,
+  headfont=\color{hkuyellow}\bfseries\sffamily,
+  notebraces={}{},
+  noteseparator={\ ---\ },
+  spaceabove=\baselineskip,
+  spacebelow=\baselineskip,
+  tcolorbox-no-titlebar={
+      blanker,
+      breakable,
+      borderline west={2.5pt}{-10pt}{hkuyellow},
+      top=3pt,
+      bottom=3pt
+    }
+}
+
+\newkeytheoremstyle{graybar}
+{
+  bodyfont=\normalfont,
+  headfont=\color{hkublack}\bfseries\sffamily,
+  spaceabove=\baselineskip,
+  spacebelow=\baselineskip,
+  tcolorbox-no-titlebar={
+      blanker,
+      breakable,
+      borderline west={2.5pt}{-10pt}{hkublack},
+      top=3pt,
+      bottom=3pt
+    }
+}
+
+\newkeytheorem{definition}[style=colorbarbox,parent=chapter,preheadhook={
+      \setlist[description]{leftmargin=!, font=\color{hkublue}, topsep=\baselineskip}
+    }]
+\newkeytheorem{definition*}[style=colorbarbox,numbered=false,name=Definition]
+
+\newkeytheorem{theorem}[style=colorfullbarbox,parent=chapter,preheadhook={
+      \setlist[enumerate,1]{label = (\arabic*)}
+    }]
+
+\newkeytheorem{lemma}[style=colorbox,parent=chapter]
+\newkeytheorem{corollary}[style=colorbox,parent=chapter]
+
+\newkeytheorem{example}[style=goldbar,parent=section]
+
+\newkeytheorem{proposition}[style=redfullbox,parent=section,preheadhook={
+      \setlist[enumerate,1]{label = (\arabic*)}
+    }]
+\renewkeytheorem{proof}[style=redbar,numbered=false,qed,preheadhook={
+      \setlist[description]{leftmargin=!, font=\color{hkublue}, topsep=\baselineskip}
+      \setlist[enumerate,1]{label = (\arabic*)}
+    }]
+\newkeytheorem{problem}[style=goldonly,parent=chapter]
+\newkeytheorem{exercise}[style=goldonly,parent=section,preheadhook={
+      \setlist[enumerate,1]{label = (\arabic*)}
+    }]
+
+\newkeytheorem{remark}[style=graybar,numbered=false]
+
+\usepackage{caption}
+
+\counterwithout{figure}{chapter}
+
+\captionsetup[figure]{
+  labelfont={color=hkuyellow, bf, sf},
+  labelsep=period % Optional: adjust space after the label
+}

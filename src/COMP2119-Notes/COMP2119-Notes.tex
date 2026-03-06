@@ -1,0 +1,36 @@
+\documentclass[noamsfonts,notitlepage,a4paper,openany]{amsbook}
+
+\usepackage{preambles}
+\usepackage{shortcuts}
+\usepackage{bm}
+
+% --- Custom preambles -------------------------------------------
+\patchcmd{\frontmatter}{\cleardoublepage}{\vspace*{2cm}}{}{}
+\patchcmd{\mainmatter}{\cleardoublepage}{\vspace*{2cm}}{}{}
+\patchcmd{\endtitlepage}{\newpage}{}{}{}
+\makeatletter
+\def\chapter{%
+  \thispagestyle{plain}\global\@topnum\z@
+  \@afterindenttrue \secdef\@chapter\@schapter}
+\def\backmatter{\let\chaptername\relax}
+\patchcmd{\@maketitle}{\newpage}{}{}{}
+\patchcmd{\@starttoc}{\newpage}{\vspace*{2cm}}{}{}
+\makeatother
+% \renewcommand{\cleardoublepage}{}
+\setcounter{tocdepth}{3}
+
+\begin{document}
+
+\begin{center}
+    \LARGE\textbf{\color{hkublack}Introduction to Data Structures and Algorithms} \\
+    \large\textbf{COMP2119} \\
+    \textbf{Revision Notes}
+\end{center}
+
+\frontmatter{}
+\tableofcontents
+
+\mainmatter{}\newpage
+\import{./chapters/}{chap-1_maths-foundations.tex}
+
+\end{document}

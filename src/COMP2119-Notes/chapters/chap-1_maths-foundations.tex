@@ -1,0 +1,233 @@
+\chapter{Mathematics Foundations}
+
+Essential mathematical tools will be introduced in this chapter to understand the time and space complexity analysis of an algorithm.
+In this course, unless otherwise specified, all functions $f(n)$ being analysed are defined as $f: \N \to (0, \infty)$.
+Logarithmic functions are base-2, i.e., $\log n = \log_2 n$.
+
+\section{Asymptotic Notation}
+
+\begin{definition}[Asymptotic Notation]\label{def:asymptotic-notation}
+    Let $S(g(n))$ be the set of functions $f(n)$ which satisfy certain conditions with respect to $g(n)$, then, we can write \[
+        f(n) \in S(g(n))
+    \]
+\end{definition}
+
+\begin{remark}
+    In the context of algorithm analysis, we often write $f(n) = S(g(n))$ to denote $f(n) \in S(g(n))$ for simplicity.
+\end{remark}
+
+\begin{definition}[Big Theta ($\Theta$) Notation]\label{def:big-theta-notation}
+    When $f(n)$ has the same asymptotic growth rate as $g(n)$, we say that $f(n)\in\Theta(g(n))$, where
+    \[
+        \Theta(g(n)) = \{f(n) \mid \exists c_1, c_2, n_0 > 0,\, s.t.\, \forall n\geq n_0 : 0 \leq c_1g(n)\leq f(n) \leq c_2g(n)\}
+    \]
+    Alternatively, we can define:
+    \[
+        f(n)\in\Theta(g(n)) \Longleftrightarrow \lim_{n\to\infty} \frac{f(n)}{g(n)} = c, \quad\text{where } c \text{ is a constant and } c \neq 0
+    \]
+\end{definition}
+
+\begin{remark}
+    Big Theta notation is a symmetric notation, $f(n)\in\Theta(g(n)) \Longleftrightarrow g(n)\in\Theta(f(n))$.
+\end{remark}
+
+\begin{example}
+    $n^2 + 3n + 2 \in \Theta(n^2)$; \quad
+    $100000n^2 \in \Theta(n^2)$; \quad
+    $10^{100}n \notin \Theta(n^2)$;
+
+    We should demonstrate how to prove or disprove these statements in the \hyperref[subsec:proof-techniques]{proof techniques} section.
+\end{example}
+
+\begin{definition}[Big O ($O$) Notation]\label{def:big-o-notation}
+    When $f(n)$ has an asymptotic growth rate that is at most that of $g(n)$, we say that $f(n)\in O(g(n))$, where
+    \[
+        O(g(n)) = \{f(n) \mid \exists c, n_0 > 0,\, s.t.\, \forall n\geq n_0 : 0 \leq f(n) \leq cg(n)\}
+    \]
+\end{definition}
+
+\begin{example}
+    $n + 2 \in O(n^2)$; \quad
+    $n + 2 \in O(n)$; \quad
+    $13n^3 - 5n \notin O(n^2)$.
+\end{example}
+
+\begin{definition}[Big Omega ($\Omega$) Notation]\label{def:big-omega-notation}
+    When $f(n)$ has an asymptotic growth rate that is at least that of $g(n)$, we say that $f(n)\in \Omega(g(n))$, where
+    \[
+        \Omega(g(n)) = \{f(n) \mid \exists c, n_0 > 0,\, s.t.\, \forall n\geq n_0 : 0 \leq cg(n) \leq f(n)\}
+    \]
+\end{definition}
+
+\begin{remark}
+    From the definitions, we can see that $f(n)\in\Theta(g(n))$ iff $f(n)\in O(g(n)) \text{ and } f(n)\in\Omega(g(n))$.
+\end{remark}
+
+\begin{definition}[Small O ($o$) Notation]\label{def:small-o-notation}
+    When $f(n)$ has an asymptotic growth rate that is strictly less than that of $g(n)$, we say that $f(n)\in o(g(n))$, where
+    \[
+        o(g(n)) = \{f(n) \mid \forall c > 0,\, \exists n_0 > 0,\, s.t.\, \forall n\geq n_0 : 0 \leq f(n) < cg(n)\}
+    \]
+    Alternatively, we can define:
+    \[
+        f(n)\in o(g(n)) \Longleftrightarrow \lim_{n\to\infty} \frac{f(n)}{g(n)} = 0
+    \]
+\end{definition}
+
+\begin{example}
+    $n \in o(n^2)$; \quad
+    $n \notin o(n)$;
+\end{example}
+
+\begin{definition}[Small Omega ($\omega$) Notation]\label{def:small-omega-notation}
+    When $f(n)$ has an asymptotic growth rate that is strictly greater than that of $g(n)$, we say that $f(n)\in \omega(g(n))$, where
+    \[
+        \omega(g(n)) = \{f(n) \mid \forall c > 0,\, \exists n_0 > 0,\, s.t.\, \forall n\geq n_0 : 0 \leq cg(n) < f(n)\}
+    \]
+    Alternatively, we can define:
+    \[
+        f(n)\in \omega(g(n)) \Longleftrightarrow \lim_{n\to\infty} \frac{f(n)}{g(n)} = \infty
+    \]
+\end{definition}
+
+\subsection{Proof Techniques}\label{subsec:proof-techniques}
+
+When handling proofs involving asymptotic notations, different notations require different techniques.
+The techniques mainly depend on the quantifiers of their definitions and whether you are proving or disproving a statement.
+
+To \textbf{prove} a statement about \hyperref[def:big-theta-notation]{Big Theta}, \hyperref[def:big-o-notation]{Big O}, or \hyperref[def:big-omega-notation]{Big Omega} notations, we \textbf{show the existence of the constants} in their definitions.
+
+\begin{proposition}
+    $5n^3 + 8n^2 + 7 \in \Theta(n^3)$
+\end{proposition}
+
+\begin{proof}
+    We will \textbf{prove} this statement by showing the existence of constants.
+
+    Assume $5n^3 + 8n^2 + 7 \in \Theta(n^3)$, then by definition, $\exists c_1, c_2, n_0 > 0$ such that $\forall n\geq n_0 : 0 \leq c_1n^3 \leq 5n^3 + 8n^2 + 7 \leq c_2n^3$.
+
+    For the left inequality, choose $c_1=5$, then $5n^3 \leq 5n^3 + 8n^2 + 7$ trivially holds for all $n\geq 0$.
+    For the right inequality, choose $c_2=5+8+7=20$, then we have:
+    \begin{align*}
+        20n^3 &= 5n^3 + 8n^3 + 7n^3 \\
+        &\geq 5n^3 + 8n^2 + 7 \quad\text{for all } n\geq 1
+    \end{align*}
+    Therefore, there exist constants $c_1=5$, $c_2=20$, and $n_0=1$ such that $\forall n\geq n_0 : 0 \leq c_1n^3 \leq 5n^3 + 8n^2 + 7 \leq c_2n^3$.
+    Hence, $5n^3 + 8n^2 + 7 \in \Theta(n^3)$.
+\end{proof}
+
+To \textbf{disprove} a statement about Big Theta, Big O, or Big Omega notations, showing merely a counterexample \textbf{does not suffice}.
+We must show non-existence, typically through \textbf{prove by contradiction}.
+
+\begin{proposition}
+    $2n^{3} \in \Omega(10n^{3.1})$
+\end{proposition}
+
+\begin{proof}
+    We will \textbf{disprove} this statement by \textbf{contradiction}.
+
+    Assume, for contradiction, that $2n^{3} \in \Omega(10n^{3.1})$, then by definition, $\exists c, n_0 > 0$ such that $\displaystyle \forall n\geq n_0 : 0 \leq 10cn^{3.1} \leq 2n^{3} \Rightarrow n\leq \left(\frac{1}{5c}\right)^{10}$.
+
+    However, when $\displaystyle n > \max\left\{n_0, \left(\frac{1}{5c}\right)^{10}\right\}$, we have $n > \left(\frac{1}{5c}\right)^{10}$, which contradicts the previous inequality.
+
+    Therefore, our assumption is false, and $2n^{3} \notin \Omega(10n^{3.1})$.
+\end{proof}
+
+To \textbf{prove} a statement about \hyperref[def:small-o-notation]{Small O} or \hyperref[def:small-omega-notation]{Small Omega} notations, however, merely showing the existence of constants \textbf{does not suffice} as the definitions require the conditions to hold for \textbf{all} constants.
+Thus, we need to show the conditions hold for any arbitrary constant.
+
+\begin{proposition}
+    $2n \in o(n^2)$
+\end{proposition}
+\begin{proof}
+    Assume $2n \in o(n^2)$, then, $\forall c > 0,\, \exists n_0 > 0$ such that $\displaystyle\forall n\geq n_0 : 0 \leq 2n < cn^2 \Rightarrow n > \frac{2}{c}$.
+
+    Then, for any $c>0$, we choose $\displaystyle n_0 = \ceil*{\frac{2}{c}}+1$.
+    For any $n\geq n_0$, we have $\displaystyle n\geq\ceil*{\frac{2}{c}}+1 > \frac{2}{c}$, which satisfies the previous inequality.
+
+    Therefore, for any $c>0$, there exists $\displaystyle n_0 = \ceil*{\frac{2}{c}}+1$ such that $\displaystyle\forall n\geq n_0 : 0 \leq 2n < cn^2$.
+    Hence, $2n \in o(n^2)$.
+\end{proof}
+
+To \textbf{disprove} a statement about Small O or Small Omega notations, we can show the existence of a constant for which the conditions do not hold, i.e., by \textbf{counterexample}.
+
+\begin{proposition}
+    $n\in o(0.1n)$
+\end{proposition}
+\begin{proof}
+    Assume that the statement is true, then $\forall c>0,\, \exists n_0 > 0$ such that $\forall n\geq n_0 : 0 \leq n < cn$.
+
+    We can easily choose $c=1>0$, then $\forall n$, $n < cn$ does not hold, which shows that such $n_0$ does not exist.
+
+    Therefore, our assumption is false, and $n \notin o(0.1n)$.
+\end{proof}
+
+\begin{remark}
+    Big Theta, Small O, and Small Omega notations can also be simply proved/disproved by using the limit definitions.
+    Since Small O and Small Omega are stricter bounds than Big O and Big Omega, $f(n)\in o(g(n))$ and $f(n)\in\omega(g(n))$ imply $f(n)\in O(g(n))$ and $f(n)\in\Omega(g(n))$, respectively.
+\end{remark}
+
+\subsection{Simple Rules Involving Big O and Their Proofs} \phantom{.}
+
+\begin{proposition}
+    $\bm{f(n)\in O(f(n))}$
+\end{proposition}
+\begin{proof}
+    Assume $f(n)\in O(f(n))$, then, $\exists c, n_0 >0$ such that $\forall n\geq n_0 : f(n)\leq cf(n)$.
+    We choose $c=1$, then $f(n)\leq f(n)$ trivially holds for all $n\geq 0$.
+    Therefore, $f(n)\in O(f(n))$.
+\end{proof}
+
+\begin{proposition}
+    $\bm{O(f(n))+O(g(n))\subseteq O(f(n)+g(n))}$
+\end{proposition}
+\begin{proof}
+    Let $F(n)\in O(f(n))$ and $G(n)\in O(g(n))$, then we have $\exists c_1, c_2, n_0 > 0$ such that $\forall n\geq n_0 : F(n)\leq c_1f(n)$ and $G(n)\leq c_2g(n)$.
+    Let $H(n) = F(n) + G(n)$.
+    Assume the proposition is true, then $\exists C, N_0 > 0$ such that $\forall n\geq N_0 : H(n) \leq C(f(n)+g(n))$.
+    Choose $C=c_1+c_2$, then, for all $n\geq \max\left\{n_0, N_0\right\}$, $H(n) = F(n) + G(n) \leq c_1f(n) + c_2g(n) \leq (c_1+c_2)(f(n)+g(n)) = C(f(n)+g(n))$.
+    Therefore, $O(f(n))+O(g(n))\subseteq O(f(n)+g(n))$.
+\end{proof}
+
+\begin{proposition}
+    $\bm{O(f(n))\cdot O(g(n))\subseteq O(f(n)\cdot g(n))}$
+\end{proposition}
+\begin{proof}
+    Let $F(n)$ and $G(n)$ be defined as in the previous proof.
+    Then let $H(n) = F(n)\cdot G(n)$.
+    Assume the proposition is true, then $\exists C, N_0 > 0$ such that $\forall n\geq N_0 : H(n) \leq C(f(n)\cdot g(n))$.
+    Choose $C=c_1\cdot c_2$, then, for all $n\geq \max\left\{n_0, N_0\right\}$, $H(n) = F(n)\cdot G(n) \leq c_1f(n)\cdot c_2g(n) = (c_1\cdot c_2)(F(n)\cdot G(n)) = C(f(n)\cdot g(n))$.
+    Therefore, $O(f(n))\cdot O(g(n))\subseteq O(f(n)\cdot g(n))$.
+\end{proof}
+
+\begin{remark}
+    In this course, when both sides of an equality include asymptotic notations, such as $O(f(n)) + O(g(n)) = O(f(n) + g(n))$, we will treat it as LHS $\subseteq$ RHS.
+    We do not discuss set equality.
+    Therefore, the two sides of the equality may not be exchangable and the order matters.
+\end{remark}
+
+\begin{proposition}
+    $\bm{n^m\in O(n^p)}$\textbf{ where }$\bm{m\leq p}$
+\end{proposition}
+\begin{proof}
+    Assume the proposition is true, then $\exists c, n_0 > 0$ such that $\forall n\geq n_0 : n^m \leq cn^p \Rightarrow n^{m-p} \leq c$.
+    Note that $m-p\leq 0$, then $n^{m-p}\to 0$ as $n\to\infty$.
+    Choose $c=1$, then there exists some sufficiently large $n_0 > 0$ such that $\forall n\geq n_0 : n^{m-p} = 0 \leq 1$.
+    Therefore, $n^m\in O(n^p)$ where $m\leq p$.
+\end{proof}
+
+\begin{proposition}
+    $\bm{c\in O(1)}$ \textbf{where} $c$ \textbf{is a constant}
+\end{proposition}
+\begin{proof}
+    Assume the proposition is true, then $\exists C, N_0 > 0$ such that $\forall n\geq N_0 : c \leq C$.
+    Choose $C=c$, then for all $n\geq 0$, $c \leq c$ trivially holds.
+    Therefore, $c\in O(1)$ where $c$ is a constant.
+\end{proof}
+
+\subsection{Growth Rates of Common Functions} \phantom{.}
+
+\begin{theorem}[Growth Rates of Common Functions]\label{thm:growth-rates-of-common-functions}
+    $\leftarrow$ slower growth rate \dotfill faster growth rate $\rightarrow$ \\
+    \hfill $O(1)$ \hfill $O(\log n)$ \hfill $O(n)$ \hfill $O(n\log n)$ \hfill $O(n^2)$ \hfill $O(n^3)$ \hfill $O(n^c)$ \hfill $O(2^n)$ \hfill $O(n!)$
+\end{theorem}
