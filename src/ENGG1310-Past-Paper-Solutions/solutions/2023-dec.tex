@@ -70,4 +70,69 @@
     $E_g$ does not determine the material's density, so C is correct.
 \end{solution}
 
+\startQwTags{2023}{Dec}{Q24}{\tgEE \tgEEPowerSystems \tgEERMS}
+\begin{solution}
+    \mcqAns{A}
+
+    From the graph, one can define
+    \[
+        v(t)=\begin{cases}
+            \frac{6t}{T}, & t\in[0, 0.5T) \\
+            6-\frac{6t}{T}, & t\in[0.5T, T)
+        \end{cases}, \quad v(t+kT)=v(t), k\in\mathbb{Z}^+,
+    \]
+    Then, we can calculate the RMS voltage value by:
+    \begin{align*}
+        V_{\mathrm{RMS}} &= \sqrt{\frac{1}{T}\int_0^{T} v^2(t) \,\mathrm{d}t}\\
+        &= \sqrt{\frac{1}{T}\left[\int_0^{T/2}\left(\frac{6t}{T}\right)^2\mathrm{d}t
+            + \int_{T/2}^{T}\left(6-\frac{6t}{T}\right)^2\mathrm{d}t\right]}\\
+        &= \sqrt{\frac{2}{T}\int_0^{T/2}\left(\frac{6t}{T}\right)^2\mathrm{d}t}\\
+        &= \sqrt{\frac{72}{T^3}\int_0^{T/2} t^2\,\mathrm{d}t}\\
+        &= \sqrt{\frac{72}{T^3}\cdot\frac{(T/2)^3}{3}}
+        = \boxed{\sqrt{3}\,\mathrm{V}} \approx 1.732\,\mathrm{V}
+    \end{align*}
+\end{solution}
+
+\startQwTags{2023}{Dec}{Q28}{\tgEE \tgEEPowerSystems}
+\begin{solution}
+    \mcqAns{D}
+
+    \begin{enumualpha}
+        \item Adequacy is the ability of a power system to supply the aggregate electrical demand and energy requirements of customers at all times.
+            This is long-term.
+        \item Firmness is about enough supply infrastructure being available and depends on the operation planning activities, e.g., maintenance schedules, reservoir management.
+            This is medium-term.
+        \item Security is the ability of the power system to withstand sudden disturbances, e.g., electric short circuit, unanticipated loss of system elements.
+            This is short-term.
+        \item Resilience is the ability of the power system to withstand and reduce the magnitude and duration of disruptive events, e.g., natural disasters, cyber attacks.
+            This is long-term. This fits the definition of the question, so D is correct.
+        \item Reliability is a combination of all of the above.
+    \end{enumualpha}
+\end{solution}
+
 \end{multicols*}
+
+\subsection*{Section D -- Long Questions (Electrical Engineering)}
+\begin{multicols}{2}
+
+\startQwTags{2023}{Dec}{LQ6}{\tgEE \tgEEPowerSystems}
+\begin{solution}
+    For scenario A, the demand is at 1200 MW.
+    The power plant units supply 1000 MW and 900 MW, respectively, so there will be loss of load for failure of either unit.
+    Hence, we have
+    \begin{align*}
+        \mathrm{LOLP}_A &= \mathrm{FOR}_1 + \mathrm{FOR}_2 - \mathrm{FOR}_1 \cdot \mathrm{FOR}_2\\
+        &= 6\% + 3\% - 6\% \cdot 3\%\\
+        &= \boxed{8.82\%}
+    \end{align*}
+
+    For scenario B, the demand is 700 MW.
+    There will only be loss of load when both units fail, so we have
+    \begin{align*}
+        \mathrm{LOLP}_B &= \mathrm{FOR}_1 \cdot \mathrm{FOR}_2\\
+        &= 6\% \cdot 3\%\\
+        &= \boxed{0.18\%}
+    \end{align*}
+\end{solution}
+
+\end{multicols}

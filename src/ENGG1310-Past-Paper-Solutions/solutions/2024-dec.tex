@@ -109,6 +109,25 @@
     Hence only (i) and (ii) are correct, therefore A.
 \end{solution}
 
+\startQwTags{2024}{Dec}{Q25}{\tgEE \tgEEPowerSystems \tgEERMS}
+\begin{solution}
+    \mcqAns{A}
+    
+    The voltage $v(t)$ for one period is given by:
+    \[
+        v(t) = \begin{cases}
+            2, & t\in[0, 0.5T) \\
+            \frac{-4t}{T}+4, & t\in[0.5T, T)
+        \end{cases}.
+    \]
+    The RMS voltage value is given by:
+    \begin{align*}
+        V_{\mathrm{RMS}} &= \sqrt{\frac{1}{T}\int_0^{T} v^2(t) \d t} \\
+        &= \sqrt{\frac{1}{T}\left[\int_0^{0.5T} 4 \d t + \int_{0.5T}^{T} \left(\frac{-4t}{T}+4\right)^2 \d t\right]} \\
+        &= \sqrt{\frac{1}{T}\left(2T+\frac{2}{3}T\right)} = \sqrt{\frac{8}{3}}\,\mathrm{V} \approx 1.63 \,\mathrm{V}
+    \end{align*}
+\end{solution}
+
 \startQwTags{2024}{Dec}{Q26}{\tgEE \tgEERenewableEnergy}
 \begin{solution}
     \mcqAns{D}

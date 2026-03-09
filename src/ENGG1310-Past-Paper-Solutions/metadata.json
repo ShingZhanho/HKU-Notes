@@ -8,6 +8,6 @@
         "pdf_viewer": "at_tag"
     },
     "build": {
-        "prebuild_command": "chmod +x pre_build.sh && ./pre_build.sh"
+        "build_command": "latexmk --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./ENGG1310-Past-Paper-Solutions.tex"
     }
 }

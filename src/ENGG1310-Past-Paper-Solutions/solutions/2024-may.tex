@@ -96,4 +96,81 @@
     Moore's law states that the number of transistors on a microchip doubles approximately every two years.
 \end{solution}
 
+\startQwTags{2024}{May}{Q25}{\tgEE \tgEERMS}
+\begin{solution}
+    \mcqAns{C}
+    
+    The voltage for one period is given by:
+    \[
+        v(t)\begin{cases}
+            \frac{6t}{T}, & t\in[0, 0.5T) \\
+            3-\frac{3t}{T}, & t\in[0.5T, T)
+        \end{cases}.
+    \]
+    The RMS voltage value is given by:
+    \begin{align*}
+        V_{\mathrm{RMS}} &= \sqrt{\frac{1}{T}\int_0^{T} v^2(t) \d t} \\
+        &= \sqrt{\frac{1}{T}\left[\int_{0}^{0.5T}\frac{36t^2}{T^2}\d t+\int_{0.5T}^{T}\left(9-\frac{18t}{T}+\frac{9t^2}{T^2}\right)\d t\right]} \\
+        &= \sqrt{\frac{1}{T}\left(\frac{3}{2}T+\frac{3}{8}T\right)} = \sqrt{\frac{15}{8}} \approx 1.375\,\mathrm{V}
+    \end{align*}
+\end{solution}
+
+\startQwTags{2024}{May}{Q28}{\tgEE \tgEEPowerSystems}
+\begin{solution}
+    \mcqAns{?}
+
+    For scenario A, any one failure or both failures of units 1 and 2 will cause loss of load.
+    Therefore, the loss of load probability is given by:
+    $
+        \mathrm{LOLP}_A = \mathrm{FOR}_1 + \mathrm{FOR}_2 - \mathrm{FOR}_1 \cdot \mathrm{FOR}_2
+        = 6\% + 4\% - 6\% \cdot 4\% = 9.76\%
+    $
+    Only A is correct.
+
+    For the completeness of the solution, for scenario B, there will only be loss of load when both units fail, so the loss of load probability is given by:
+    $
+        \mathrm{LOLP}_B = \mathrm{FOR}_1 \cdot \mathrm{FOR}_2 = 6\% \cdot 4\% = 0.24\%
+    $
+\end{solution}
+
 \end{multicols*}
+
+\subsection*{Section B -- Long Questions (Electronics)}
+\begin{multicols}{2}
+
+\startQwTags{2024}{May}{Q31}{\tgElectronics \tgElectronicsDiodes}
+\begin{solution}
+    The two diodes are connected in series, the current flowing through them is the same and the voltage across them divides equally.
+    Denote the voltage across each diode as $V$, we have:
+    \[
+        V=\frac{1.3}{2}=0.65\text{ V}
+    \]
+    The current flowing through the diodes $I$ is given by:
+    \begin{align*}
+        I &= I_S\left(e^{\frac{V}{V_T}}-1\right) \\
+        &= 10^{-12}\left(e^{\frac{0.65}{0.026}}-1\right)\quad (I_S=10^{-12}\text{ A}, V_T=0.026\text{ V}) \\
+        &= 0.072\text{ A} = \boxed{72\text{ mA}}
+    \end{align*}
+\end{solution}
+
+\columnbreak
+
+\startQwTags{2024}{May}{Q32}{\tgElectronics \tgElectronicsBJT}
+\begin{solution}
+    Consider the base-emitter loop, the $I_{B}$ can be obtained by:
+    \[
+        I_B = \frac{5-V_{BE}}{68000} = \frac{5-0.7}{68000} = 63.235\text{ }\mu\text{A}
+    \]
+    Then, consider the collector-emitter loop, the $I_C$ can be obtained by:
+    \[
+        I_C = \frac{9-V_{CE}}{3300} = \frac{9-3.2}{3300} = 1757.576\text{ }\mu\text{A}
+    \]
+    Thus, the current gain $\beta$ can be obtained by:
+    \[
+        \beta = \frac{I_C}{I_B} = \frac{1757.576}{63.235} = \boxed{27.80}
+    \]
+\end{solution}
+
+\end{multicols}
+
+\subsection*{Section C -- Long Questions ()}

@@ -103,4 +103,32 @@
     The electric field and the magnetic field are in phase, so the phase difference is 0.
 \end{solution}
 
+\startQwTags{2023}{May}{Q31}{\tgEE \tgEERenewableEnergy}
+\begin{solution}
+    \mcqAns{E}
+
+    Natural gas is a fossil fuel, it is consumed faster than it is replenished, so it is not a renewable energy source.
+\end{solution}
+
+\startQwTags{2023}{May}{Q33}{\tgEE \tgEEPowerSystems \tgEERMS}
+\begin{solution}
+    \mcqAns{E}
+
+    The voltage waveform for one period is defined as:
+    \[
+        v(t)=\begin{cases}
+            \frac{6t}{T}, & t\in[0, 0.5T) \\
+            3, & t\in[0.5T, T)
+        \end{cases}.
+    \]
+    Then, the RMS voltage value is given by:
+    \begin{align*}
+        V_{\mathrm{RMS}} &=
+        \sqrt{\frac{1}{T}\int_{0}^{T} v^2(t)\d t} \\
+        &= \sqrt{\frac{1}{T}\left(\int_0^{0.5T}\frac{36t^2}{T^2}\d t + \int_{0.5T}^{T} 9\d t\right)} \\
+        &= \sqrt{\frac{1}{T}\left(\frac{3}{2}T+\frac{9}{2}T\right)} \\
+        &= \sqrt{6}\,\mathrm{V} \approx 2.45\,\mathrm{V}
+    \end{align*}
+\end{solution}
+
 \end{multicols*}
