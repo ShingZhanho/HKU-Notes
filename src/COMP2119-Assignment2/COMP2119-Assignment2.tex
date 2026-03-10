@@ -1,0 +1,233 @@
+%!TEX TS-program = xelatex
+%!TEX root = COMP2119-Assignment2.tex
+%!TEX options = -shell-escape -synctex=1 -interaction=nonstopmode -file-line-error ./COMP2119-Assignment2.tex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preambles.tex}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{COMP2119 Assignment 2}}\\[0.5em]
+    {\large SHING, Zhan Ho Jacob 3036228892}
+\end{center}
+
+\begin{questions}
+    
+    \question \phantom{.}
+    \begin{parts}
+        
+        \part[5] Fibonacci sequence.
+        \begin{solution}
+            Let $F(n)=F(n-1)+F(n-2)$ be the $n$-th Fibonacci number, with $F(0)=0$ and $F(1)=1$.
+            
+            Define $\bvec{x}_{n+1}=\begin{pmatrix} F(n+1) \\ F(n) \end{pmatrix}$,
+            and $\bvec{x}_n=\begin{pmatrix} F(n) \\ F(n-1) \end{pmatrix}$.
+            One can observe that $\bvec{x}_{n+1}=\begin{pmatrix}1 & 1\\1 &0\end{pmatrix}\bvec{x}_n$.
+            Let $A:=\begin{pmatrix}1&1\\1&0\end{pmatrix}$.
+
+            Note that $\bvec{x}_1=\begin{pmatrix} F(1)\\F(0) \end{pmatrix} = \begin{pmatrix}1\\0\end{pmatrix}$, $\bvec{x}_2=A\bvec{x}_1$, $\bvec{x}_3=A^2\bvec{x}_1$, $\ldots$, $\bvec{x}_n=A^{n-1}\bvec{x}_1$.
+            Let $A^{n-1}=\begin{pmatrix}a&c\\b&d\end{pmatrix}$, then $F(n)=a$.
+
+            Now, the problem reduces to finding an $O(\log n)$ algorithm for computing $A^{n-1}$, which is already hinted on page 26 of the slides ``Divide and Conquer''.
+            The complete solution in pseudocode is as follows:
+
+            \begin{verbatim}
+
+function matrix_mult(A -> SqMatrix, B -> SqMatrix) -> SqMatrix:     # O(1) time
+    # A matrix is implemented as an array of arrays,
+    # where A[n] is the n-th column of A (index 1).
+    # **COLUMN-MAJOR REPRESENTATION**
+    return [
+        [A[1][1]*B[1][1] + A[2][1]*B[1][2], A[1][2]*B[1][1] + A[2][2]*B[1][2]], # col 1
+        [A[1][1]*B[2][1] + A[2][1]*B[2][2], A[1][2]*B[2][1] + A[2][2]*B[2][2]]  # col 2
+    ]
+
+function matrix_pow(A -> SqMatrix, n -> int) -> SqMatrix:           # O(log n) time
+    # Calculates A^n.
+    # Time complexity already proven.
+    # Reference: Lecture slides "Divide and Conquer", page 26.
+    if n == 0:
+        return [[1, 0], [0, 1]]
+    if n % 2 == 0:                  # n is even
+        B -> SqMatrix = matrix_pow(A, n/2)
+        return matrix_mult(B, B)
+    else:                           # n is odd
+        B -> SqMatrix = matrix_pow(A, (n-1)/2)
+        return matrix_mult(matrix_mult(B, B), A)
+
+function fib(n -> int) -> int:
+    if n == 0:                                              # Cond1
+        return 0                                            # S1
+    if n == 1:                                              # Cond2
+        return 1                                            # S2
+    M -> SqMatrix = matrix_pow([[1, 1], [1, 0]], n-1)       # S3
+    return M[1][1]                                          # S4
+
+            \end{verbatim}
+
+            We now show the time complexity of the function \texttt{fib(n)}.
+            It is trivial to show that the for \texttt{Cond1} and \texttt{Cond2}, the time complexity of \texttt{S1} and \texttt{S2} is $O(1)$.
+            For \texttt{S3}, it makes a call to \texttt{matrix\_pow(A, n)}, which is proven to be $O(\log n)$, so its time complexity is also $O(\log n)$.
+            For \texttt{S4}, it is $O(1)$.
+            Therefore, the overall time complexity of \texttt{fib(n)} is $O(\log n)$.
+        \end{solution}\pagebreak
+
+        \part[15] Tribonacci sequence.
+        \begin{subparts}
+
+            \subpart Non-recursive solution.
+            \begin{solution}
+                Similarly, we define $\bvec{x}_{i+2}=\begin{pmatrix}G_{i+2}\\G_{i+1}\\G_{i}\end{pmatrix}, i\geq 0$, and define $\bvec{x}_2=\begin{pmatrix}G_2\\G_1\\G_0\end{pmatrix}=\begin{pmatrix}1\\1\\0\end{pmatrix}$.
+                Let $A:=\begin{pmatrix}1&1&1\\1&0&0\\0&1&0\end{pmatrix}$, then $\bvec{x}_{i+2}=A\bvec{x}_{i+1}=A^i\bvec{x}_2$ and $\bvec{x}_i=A^{i-2}\bvec{x}_2$.
+                Suppose $A^{i-2}=\begin{pmatrix}a&d&g\\b&e&h\\c&f&i\end{pmatrix}$, then $G_{i}=a+d$.
+
+                We modify the functions from the above part to give similar $O(1)$ multiplication of $3\times 3$ matrices, and $O(\log n)$ exponentiation of $3\times 3$ matrices.
+                Then, we can produce a function \texttt{G(i)} that takes $O(\log i)$ time to compute $G_i$.
+                The pseudocode is as follows:
+
+                \begin{verbatim}
+
+function matrix_mult(A -> CubeMatrix, B -> CubeMatrix) -> CubeMatrix:     # O(1) time
+    # For readability, we use variables a, b, c, ... to denote the following elements:
+    #     [a d g]       [j m p]
+    # A = [b e h],  B = [k n q],  **COLUMN-MAJOR REPRESENTATION**
+    #     [c f i]       [l o r]
+    # to substitute the indexing notations A[1][1], etc.
+    return [
+        [a*j + d*k + g*l, b*j + e*k + h*l, c*j + f*k + i*l],  # col 1
+        [a*m + d*n + g*o, b*m + e*n + h*o, c*m + f*n + i*o],  # col 2
+        [a*p + d*q + g*r, b*p + e*q + h*q, c*p + f*q + i*r]   # col 3
+    ]
+
+function matrix_pow(A -> CubeMatrix, n -> int) -> CubeMatrix:         # O(log n) time
+    # Same as the 2x2 case, but with CubeMatrix instead of SqMatrix.
+    # Implementation omitted.
+
+function G(i -> int) -> int:
+    if i == 0:                                                           # Cond1
+        return 0                                                         # S1
+    if i == 1 or i == 2:                                                 # Cond2
+        return 1                                                         # S2
+    M -> CubeMatrix = matrix_pow([[1, 1, 0], [1, 0, 1], [1, 1, 0]], i-2) # S3
+    return M[1][1] + M[2][1]                                             # S4
+
+                \end{verbatim}
+
+                The time complexity of \texttt{Cond1}, \texttt{S1}, \texttt{Cond2}, and \texttt{S2} is $O(1)$.
+                \texttt{S3} makes a call to \texttt{matrix\_pow(A, i)}, which gives $O(\log(i-2))$.
+                \texttt{S4} is $O(1)$.
+                The overall time complexity of \texttt{G(i)} is $O(1)+O(1)+O(1)+O(1)+O(\log(i-2))+O(1)=O(\log i)$.
+            \end{solution}\pagebreak
+
+            \subpart Recursive solution.
+            \begin{solution}
+                To provide a time-optimised recursive solution, we take inspiration from the fast doubling method for Fibonacci numbers, and derive a similar approach for Tribonacci numbers.
+
+                Note that $\bvec{x}_{i+2}=\begin{pmatrix}G_{i+2}\\G_{i+1}\\G_i\end{pmatrix}=\begin{pmatrix}G_{i+1}+G_i+G_{i-1}\\G_i\\G_{i-1}\end{pmatrix}$.
+                We find $M\in\mathbb{R}^{3\times 3}$ such that $\bvec{x}_{i+2}=M\bvec{x}_{i+1}$.
+                It is easy to see that $M=\begin{pmatrix}1&1&1\\1&0&0\\0&1&0\end{pmatrix}$.
+                Observe the pattern of $M^k\begin{pmatrix}G_2\\G_1\\G_0\end{pmatrix}$ for $k\geq 1$:
+
+                \begin{align*}
+                    k&=1:\quad \begin{pmatrix}1&1&1\\1&0&0\\0&1&0\end{pmatrix}\begin{pmatrix}1\\1\\0\end{pmatrix}=\begin{pmatrix}2\\1\\1\end{pmatrix}=\begin{pmatrix}G_3\\G_2\\G_1\end{pmatrix}\\
+                    k&=2:\quad \begin{pmatrix}1&1&1\\1&0&0\\0&1&0\end{pmatrix}\begin{pmatrix}2\\1\\1\end{pmatrix}=\begin{pmatrix}4\\2\\1\end{pmatrix}=\begin{pmatrix}G_4\\G_3\\G_2\end{pmatrix}\\
+                    k&=3:\quad \begin{pmatrix}1&1&1\\1&0&0\\0&1&0\end{pmatrix}\begin{pmatrix}4\\2\\1\end{pmatrix}=\begin{pmatrix}7\\4\\2\end{pmatrix}=\begin{pmatrix}G_5\\G_4\\G_3\end{pmatrix}\\
+                    &\qquad\cdots\\
+                    k&=i:\quad M^i\bvec{x}_2=\bvec{x}_{i+2}
+                \end{align*}
+
+                From the above, we can derive that $\bvec{x}_k=M^k\bvec{x}_0$, which involves $G_0, G_{-1}, G_{-2}$.
+                From the definition, we have $G_2=G_1+G_0+G_{-1} \Rightarrow 1=1+0+G_{-1} \Rightarrow G_{-1}=0$, and similarly $G_{-2}=1$.
+                Denote $M^k=\begin{pmatrix}a&d&g\\b&e&h\\c&f&i\end{pmatrix}$.
+
+                $M^k\bvec{x}_0=M^k\begin{pmatrix}0\\0\\1\end{pmatrix}=\begin{pmatrix}g\\h\\i\end{pmatrix}=\bvec{x}_k=\begin{pmatrix}G_k\\G_{k-1}\\G_{k-2}\end{pmatrix}=\begin{pmatrix}G_k\\G_{k-1}\\G_{k+1}-G_k-G_{k-1}\end{pmatrix}$;
+
+                $M^k\bvec{x}_1=M^k\begin{pmatrix}1\\0\\0\end{pmatrix}=\begin{pmatrix}a\\b\\c\end{pmatrix}=\bvec{x}_{k+1}=\begin{pmatrix}G_{k+1}\\G_{k}\\G_{k-1}\end{pmatrix}$;
+
+                $\begin{pmatrix}0\\1\\0\end{pmatrix}=\begin{pmatrix}1\\1\\0\end{pmatrix}-\begin{pmatrix}1\\0\\0\end{pmatrix}=\bvec{x}_2-\bvec{x}_1 $\\
+                \phantom{.}$\qquad\Rightarrow M^k\begin{pmatrix}0\\1\\0\end{pmatrix}=M^k\bvec{x}_2-M^k\bvec{x}_1=\begin{pmatrix}G_{k+2}\\G_{k+1}\\G_k\end{pmatrix}-\begin{pmatrix}G_{k+1}\\G_k\\G_{k-1}\end{pmatrix}=\begin{pmatrix}G_{k}+G_{k-1}\\G_{k+1}-G_k\\G_k-G_{k-1}\end{pmatrix}$
+
+                Therefore, $M^k=\begin{pmatrix}G_{k+1} & G_k+G_{k-1} & G_k\\G_k & G_{k+1}-G_k & G_{k-1}\\G_{k-1} & G_k-G_{k-1} & G_{k+1}-G_k-G_{k-1}\end{pmatrix}$.
+                For simplicity, we denote $X=G_{k-1}, Y=G_k, Z=G_{k+1}$, then $M^k=\begin{pmatrix}Z & Y+X & Y\\Y & Z-Y & X\\X & Y-X & Z-Y-X\end{pmatrix}$.
+                Consider $M^{2k}\bvec{x}_1=\bvec{x}_{2k+1}=\begin{pmatrix}G_{2k+1}\\G_{2k}\\G_{2k-1}\end{pmatrix}$.
+                We only consider the first column of $M^{2k}$, which is $\begin{pmatrix}
+                    Z^2+Y^2+2XY \\
+                    X^2+2YZ-Y^2 \\
+                    2XZ+Y^2-2XY-X^2
+                \end{pmatrix}$.
+
+                Then, we have formulae:
+                \[
+                    \begin{cases}
+                        G_{2k+1} &= G_{k+1}^2 + G_k^2 + 2G_{k+1}G_{k-1}\\
+                        G_{2k} &= G_{k-1}^2 + 2G_kG_{k+1} - G_k^2\\
+                        G_{2k-1} &= 2G_{k-1}G_{k+1} + G_k^2 - 2G_kG_{k-1} - G_{k-1}^2
+                    \end{cases}
+                \]
+
+                We implement the above formulae with pseudocode:
+
+                \begin{verbatim}
+                    
+function trib(n -> int) -> Tuple[int, int, int]:
+    # Returns Tuple[G_{n-1}, G_n, G_{n+1}]
+    if n == 1:
+        return (0, 1, 1) # G_0, G_1, G_2
+
+    k -> int = floor(n / 2)
+    (x, y, z) -> Tuple[int, int, int] = trib(k) # G_{k-1}, G_k, G_{k+1}
+
+    g2kp1 -> int = z*z + y*y + 2*x*y            # G_{2k+1}
+    g2k   -> int = x*x + 2*y*z - y*y            # G_{2k}
+    g2km1 -> int = 2*x*z + y*y - 2*x*y - x*x    # G_{2k-1}
+
+    if n % 2 == 0: # n is even, n = 2k
+        return (g2km1, g2k, g2kp1)              # G_{n-1=2k-1}, G_{n=2k}, G_{n+1=2k+1}
+    else:          # n is odd, n = 2k + 1
+        g2kp2 -> int = g2km1 + g2k + g2kp1
+        return (g2k, g2kp1, g2kp2)              # G_{n-1=2k}, G_{n=2k+1}, G_{n+1=2k+2}
+
+function G(i -> int) -> int:
+    # Returns G_i.
+    if i == 0:
+        return 0
+    if i == 1 or i == 2:
+        return 1
+    return trib(i)[2]  # G_{i} is the second element of the tuple (index 1).
+
+                \end{verbatim}
+    
+                The runtime analysis of \texttt{G(i)} is as follows.
+                Denote $T_{\text{trib}}(n)$ as the time complexity of \texttt{trib(n)}.
+                \[
+                    T_{\text{trib}}(n)=\begin{cases}
+                        1 & ,n=1\\
+                        T_{\text{trib}}(\lfloor n/2 \rfloor) + c & ,n>1
+                    \end{cases},\text{ where }c\text{ is the time required for calculating terms, a constant}.
+                \]
+
+                Expanding the recurrence, we have $\di T_{\text{trib}}(n)=\floor*{\frac{n}{2}}+c=\floor*{\frac{n}{4}}+c+c=\cdots=(\log_2 n)\cdot c + 1$.
+                Therefore, $T_{\text{trib}}(n)\in O(\log n)$.
+                
+                For \texttt{G(i)}, the time complexity is given by:
+                \[
+                    T_{\text{G}}(i) = \begin{cases}
+                        1 &, i=0,1,2\\
+                        T_{\text{trib}}(i) + 1 &, i>2
+                    \end{cases}
+                \]
+                Then, as $i\to\infty$, $T_{\text{G}}(i)\in O(\log i)$.
+
+                Therefore, the above implementation has $O(\log i)$ time complexity.
+            \end{solution}
+
+        \end{subparts}
+
+    \end{parts}
+
+\end{questions}
+
+\end{document}
