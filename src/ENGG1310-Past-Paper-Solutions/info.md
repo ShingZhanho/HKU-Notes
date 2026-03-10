@@ -40,10 +40,12 @@ To start a new set of exam paper, create a new file under `solutions/` with the 
 Then, for each question, do:
 
 ```latex
-\startQwTags{year}{month}{question number}{tags}
-    % \startQwTags => start question with tags
+\begin{qsolution}{year}{month}{question number}{tags}
     % This starts a question with specified tags (topics).
-    % e.g., \startQwTags{2024}{May}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
+    % e.g., \begin{qsolution}{2024}{May}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
+
+    Write your solution here.
+\end{qsolution}
 ```
 
 All the available tags are defined in the `tags.tex` file.
@@ -56,6 +58,9 @@ If a question does not need to be tagged, do this instead:
     % This starts a question without tags.
     % The question will not have a topic, so it will not appear in the by-topic index.
     % e.g., \startQuestion{2024}{May}{Q1}
+\begin{solution}
+    Write your solution here.
+\end{solution}
 ```
 
 !!! info "`question` environment"
@@ -67,12 +72,11 @@ If a question does not need to be tagged, do this instead:
 Then, write the solution inside the `solution` environment, right after the question:
 
 ```latex
-\startQwTags{2024}{May}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
-\begin{solution}
+\begin{qsolution}{2024}{May}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
     \mcqAns{C}
 
     Some explanation.
-\end{solution}
+\end{qsolution}
 ```
 
 For MCQs, you can use the `\mcqAns{option}` command to indicate the correct answer, and then write an explanation for it.
