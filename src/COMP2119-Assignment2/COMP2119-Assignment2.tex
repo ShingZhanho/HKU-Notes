@@ -228,6 +228,129 @@ function G(i -> int) -> int:
 
     \end{parts}
 
+    \question Recursive algorithms.
+    \begin{parts}
+        
+        \part[5] Reversal of an array.
+        \begin{solution}
+            We can recursively reverse an array by swapping the first and last elements.
+            The pseudocode is as follows:
+
+            \begin{verbatim}
+function reverse(A -> Array, start -> int, end -> int, length -> int) -> void:
+    # Reverses an array A of given length in-place.
+    # 1-indexed array.
+
+    if length <= 1:
+        return               # c_1 time
+
+    temp -> int = A[start]   # \
+    A[start] = A[end]        #  > c_2 time
+    A[end] = temp            # /
+
+    reverse(A, start + 1, end - 1, length - 2)
+            \end{verbatim}
+
+            We analyse the worst-case time complexity $T(n)$ of \texttt{reverse(A, start, end, length)}, where $n$ is the length of the array.
+            $T(n)$ is given by: \[
+                T(n) = \begin{cases}
+                    c_1 & , n \leq 1 \\
+                    T(n-2) + c_2 & , n > 1
+                \end{cases}\]
+            Expand the recurrence:
+            $\di T(n)=T(n-2)+c_2=T(n-4)+2c_2=\cdots=\begin{cases}\di
+                c_1 + \frac{n}{2}c_2 & , n\text{ is even}\\\di
+                c_1 + \frac{n-1}{2}c_2 & , n\text{ is odd}
+            \end{cases}=c_1+\floor*{\frac{n}{2}}c_2.$
+
+            Note that $\di\floor*{\frac{n}{2}}\leq\frac{n}{2}$, so $\di T(n)\leq c_1+\frac{n}{2}c_2\in O(n)$.
+        \end{solution}
+
+        \part[5] Verifying sequence.
+        \begin{solution}
+            We assume the sequence must have at least 3 elements.
+            The pseudocode implementation is as follows:
+
+            \begin{verbatim}
+function check(A -> Array, length -> int, n -> int = 3) -> bool:
+    # Checks if A[n] = A[n-1] + A[n-2] for all n in [3, length].
+    # 1-indexed array.
+
+    if n > length:                          # \
+        return true                         #  | c statements
+    else if A[n] != A[n - 1] + A[n - 2]:    #  | O(1) time
+        return false                        # /
+    else:
+        return check(A, length, n + 1)
+            \end{verbatim}
+
+            The worst case would be if the sequence indeed satisfies the condition $\forall i\in[3,n]:A_i = A_{i-1}+A_{i-2}$ (all elements except the first two are traversed once).
+            
+            The worst-case run time $T(n)$ is given by $T(n)=\begin{cases}
+                c &, n > l\\
+                T(n+1) + c &, n \leq l
+            \end{cases}$, where $l\geq 3$ is the length of the array.
+
+            When $n=l+1$, $T(n) = c$; when $n=l$, $T(n)=T(l+1)+c=2c$; when $n=l-1$, $T(n)=T(l)+c=3c$; $\cdots$; when $n=3$, $T(n)=(l-1)c$.
+            Therefore, $T(n)\in O(l)$, where $l$ is the length of the array.
+        \end{solution}
+
+        \part[10] Bit string generation.
+        \begin{solution}
+            The pseudocode implementation is as follows:
+            \begin{verbatim}
+function gen(n -> int, generated -> Queue[string] = []) -> void:
+    # Generates all bit strings of length n without consecutive 0s.
+    # Generated strings are stored in the provided queue.
+    # Everything is 1-indexed.
+
+    if n == 0:                  # \
+        enqueue(generated, "")  #  |
+        return                  #  |
+    if n == 1:                  #   > c_1 time
+        enqueue(generated, "0") #  |
+        enqueue(generated, "1") #  |
+        return                  # /
+    
+    gen(n - 1, generated)               # T(n-1) time
+    len -> int = generated.length       # O(1)  \
+    ctr -> int = 1                      # O(1)  / c_2 time
+    while ctr <= len:                   # F(n-1) iterations
+        s -> string = dequeue(generated) # take out an element of n-1 length;    O(1)\
+        enqueue(generated, s + "1")      # append "1" to it and                  O(1) |
+        if s[s.length] != "0":           #                                       O(1) c_3
+            enqueue(generated, s + "0")  # append "0" to it not ending with "0"  O(1) |
+        ctr += 1                         #                                       O(1)/
+            \end{verbatim}
+
+            \textit{\textbf{Assumptions:}
+            Queues and Strings have a variable \texttt{length} maintained internally.
+            Queues have sufficiently large \texttt{max\_length}.
+            Queues are defined and implemented like that of the lecture slides (pages 22-23) with $O(1)$ time complexity for \texttt{enqueue} and \texttt{dequeue}.
+            String operations such as concatenation and indexing are $O(1)$ time.}
+
+            \textbf{Worst-case Time:} We now analyse the time complexity of \texttt{gen(n, generated)}.
+            First, we investigate the loop. All operations inside the loop are $O(1)$, thus each iteration is $O(1)$ time.
+            
+            The number of iterations is $F(n-1)$, where $F(n)$ is the number of valid bit strings (without consecutive 0's) of length $n$.
+            Note that for each valid bit string of length $n-1$, we can append "1" to it, producing $F(n-1)$ valid bit strings of length $n$.
+            Also, we can append "0" to each valid bit string of length $n-1$ that ends with "1", which is $F(n-2)$ valid bit strings.
+            Therefore, $F(n)=F(n-1)+F(n-2)$, with $F(0)=1$ and $F(1)=2$.
+
+            Therefore, the running time $T(n)$ is given by \[
+            T(n)=\begin{cases}
+                c_1 &, n=0,1\\
+                T(n-1)+c_2+F(n-1)\cdot c_3 &,\text{otherwise}
+            \end{cases}\]
+            Expanding the recurrence, we have $\di T(n)=c_1+(n-1)c_2+c_3\sum_{i=1}^{n-1}F(i)$.
+            Recall from problem (\ref{question@1})(\ref{part@1@1}), if we diagonalise the Fibonacci matrix, we can obtain the closed-form $\di Fib(n)=\frac{\phi^n-(1-\phi)^n}{\sqrt{5}}$, where $\di\phi=\frac{1+\sqrt{5}}{2}$.
+            Also note that $F(n)$ is a shifted Fibonacci sequence, with $F(n)=Fib(n+2)$.
+            From $\di\sum_{j=1}^{n}Fib(j)=Fib(n+2)-1$, we can conclude $\di\sum F(n)\in\Theta(F(n))=\Theta(Fib(n))=\Theta(\phi^n)$.
+            Therefore, $T(n)\in O(\phi^n)$, i.e., the algorithm runs in exponential time.
+        \end{solution}
+
+    \end{parts}
+
 \end{questions}
 
 \end{document}
