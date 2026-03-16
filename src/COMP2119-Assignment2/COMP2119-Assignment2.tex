@@ -1,7 +1,9 @@
 %!TEX TS-program = xelatex
 %!TEX root = COMP2119-Assignment2.tex
 %!TEX options = -shell-escape -synctex=1 -interaction=nonstopmode -file-line-error ./COMP2119-Assignment2.tex
-%!TEX encoding = UTF-8 Unicode
+%!TEX encoding = UTF-8 Unicode% Pre-build hook: compile all standalone figures in the `figs` directory
+
+\immediate\write18{ cd figs && make all }
 
 \documentclass[answers]{exam}
 \input{packages.tex}
@@ -347,6 +349,77 @@ function gen(n -> int, generated -> Queue[string] = []) -> void:
             Also note that $F(n)$ is a shifted Fibonacci sequence, with $F(n)=Fib(n+2)$.
             From $\di\sum_{j=1}^{n}Fib(j)=Fib(n+2)-1$, we can conclude $\di\sum F(n)\in\Theta(F(n))=\Theta(Fib(n))=\Theta(\phi^n)$.
             Therefore, $T(n)\in O(\phi^n)$, i.e., the algorithm runs in exponential time.
+        \end{solution}
+
+    \end{parts}
+
+    \question[20] Solving recurrences.
+    \begin{parts}
+        
+        \part Show that the solution to $\di T(n)=T\left(\ceil*{\frac{n}{2}}\right)+1$ is $O(\log n)$.
+        \begin{solution}
+            We use the substitution method.
+            We guess that $T(n)\leq c\log n$ for some constant $c>0$.
+            Assume that $\forall m<n : T(m)\leq c\log m$.
+            Note that for $n\geq 3$, $\di\ceil*{\frac{n}{2}}\leq\frac{2n}{3}$.
+            Therefore, for $n\geq 3$, we have:
+            \begin{align*}
+                T(n) &= T\left(\ceil*{\frac{n}{2}}\right)+1\\
+                &\leq c\log\left(\ceil*{\frac{n}{2}}\right)+1\\
+                &\leq c\log\left(\frac{2n}{3}\right)+1\\
+                &= c(1+\log n-\log 3)+1\\
+                &= c\log n + (1+c(1-\log 3))\\
+                &\leq c\log n
+            \end{align*}
+            The last inequality holds when $\di 1+c(1-\log 3)\leq 0 \Rightarrow c\geq\frac{1}{\log3 -1}$
+            The inequality clearly holds for sufficiently large $c$.
+            We also verify the base cases.
+            Assume that $T(1)=k$ for some constant $k>0$.
+            Then, $T(2)=T(1)+1=k+1$.
+            We show that $T(2)\leq c\log 2 \Leftrightarrow k+1\leq c$, which holds for sufficiently large $c$, e.g., $\di c=\max\left\{\frac{1}{\log 3-1}, k+1 \right\}$.
+            Then, for $T(3)$, we have $T(3)=T(2)+1\leq c\log 2+1\leq c\log 3$.
+
+            Therefore, by induction, $T(n)\in O(\log n)$.
+        \end{solution}
+
+        \part Recursive tree and substitution method for $\di T(n)=4T\left(\floor*{\frac{n}{2}}\right)+cn$.
+        \begin{solution}
+            Assuming that $T(1)\in\Theta(1)$, the recursive tree is as follows:
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=\textwidth]{figs/fig-q3b-1.pdf}
+            \end{figure}
+
+            At each level of the tree, the work size is shrunk by a factor of 2.
+            We reach the leaf level when the work size is 1 after $h$ levels when $\di\frac{n}{2^h}=1 \Rightarrow h=\log n$.
+            At level $i$, there are $4^i$ nodes, for $i=[0, \log n -1]$.
+            At leave level, there are $4^{\log n}=n^{\log 4}=n^2$ nodes, each with $\Theta(1)$ work, so the leave level total work is $n^2\cdot\Theta(1)=\Theta(n^2)$.
+
+            The cost of the entire tree is:
+            \begin{align*}
+                T(n)&=cn+4\cdot\frac{cn}{2}+16\cdot\frac{cn}{4}+\cdots+\Theta(n^2)\\
+                &=cn\sum_{i=0}^{\log n-1} 2^i + \Theta(n^2)\\
+                &=cn\cdot\frac{2^{\log n}-1}{2-1} + \Theta(n^2)\\
+                &=cn\cdot (n-1) + \Theta(n^2)\\
+                &=\Theta(n^2)
+            \end{align*}
+            Therefore, we guess that $T(n)\in O(n^2)$.
+            Now we verify the guess with the substitution method.
+            For the upper bound, we assume that $\forall m<n : T(m)\leq dm^2-em$ for some constant $d,e>0$.
+            Then, we have:
+            \begin{align*}
+                T(n)&\leq 4d\left(\frac{n}{2}\right)^2 - 2en + cn\\
+                &=dn^2 - 2en + cn\\
+                &\leq dn^2 - en
+            \end{align*}
+            For the inequality to hold, we require $-2e+c\leq -e \Leftrightarrow e\geq c$.
+            Choose $e=c$, then the inequality clearly holds.
+            For the base case $T(1)$ to hold, we can choose large enough $d$, e.g., $d\geq T(1)+c$.
+            Therefore, by induction, $T(n)\in O(n^2)$.
+
+            For the lower bound, since the leaf level must contribute $\Theta(n^2)$ work, $\Omega(n^2)$ must be a lower bound of $T(n)$.
+
+            Therefore, $T(n)\in\Theta(n^2)$.
         \end{solution}
 
     \end{parts}
