@@ -18,7 +18,7 @@
 
 \begin{questions}
     
-    \question \phantom{.}
+    \question Algorithm design.
     \begin{parts}
         
         \part[5] Fibonacci sequence.
@@ -420,6 +420,104 @@ function gen(n -> int, generated -> Queue[string] = []) -> void:
             For the lower bound, since the leaf level must contribute $\Theta(n^2)$ work, $\Omega(n^2)$ must be a lower bound of $T(n)$.
 
             Therefore, $T(n)\in\Theta(n^2)$.
+        \end{solution}
+
+    \end{parts}
+
+    \question Queues and Stacks.
+    \begin{parts}
+        
+        \part[10] Sorting with two queues.
+        \begin{solution}
+            The pseudocode implementation is as follows (denote the buffer queue $Q\prime$ as \texttt{R} in code):
+            \begin{verbatim}
+function sort_queue(Q -> Queue) -> void:
+    # Sorts a queue Q of numbers in decreasing order with a buffer queue R.
+
+    R -> Queue = new Queue(Q.length)        # Queue.length is the # of elements in a queue
+    # move everything in Q to R
+    while !Q.empty():           # n iterations
+        R.enqueue(Q.dequeue())
+
+    sorted_ctr -> int = 0
+    while sorted_ctr != R.length:       # n interations
+        max -> number = -inf            #  ] O(1) time
+        max_pos -> int = 0              #  ]
+        for i = 1 to R.length:          #    n, n-1, ..., 1 iterations (n-i+1 iterations)
+            x -> number = R.dequeue()   #      ]
+            if x > max:                 #      ]
+                max = x                 #      ] O(1) time
+                max_pos = i             #      ]
+            R.enqueue(x)                #      ]
+        for i = 1 to R.length:          #    n, n-1, ..., 1 iterations (n-i+1 iterations)
+            x -> number = R.dequeue()   #      ]
+            if i == max_pos:            #      ]
+                Q.enqueue(x)            #      ] O(1) time
+            else:                       #      ]
+                R.enqueue(x)            #      ]
+        sorted_ctr += 1                 #  ] O(1) time
+            \end{verbatim}
+
+            Now we analyse the time complexity.
+            For the first inner \texttt{for} loop, the number of iterations will be $n, n-1, \ldots, 1$ for each iteration of the outer \texttt{while} loop, which gives a total of $\di\frac{n(n+1)}{2}$ iterations.
+            The same applies to the second inner \texttt{for} loop.
+            Therefore, for the outer \texttt{while} loop, the total work is $\di O(1)+\frac{n(n+1)}{2}\cdot O(1)+\frac{n(n+1)}{2}\cdot O(1)+O(1)=n(n+1)\cdot O(1)+O(1)=O(n^2)$.
+            Then, we account for the first \texttt{while} loop and other operations, which yield $T(n)=O(1)+O(n)+O(n^2)=O(n^2)$.
+
+            Note that the algorithm is run identically for the same input size regardless of the order.
+            Therefore, the best-, average-, and worst-case time complexities are all $O(n^2)$.
+        \end{solution}
+
+        \part[10] Improving the Stack data structure.
+        \begin{solution}
+            The stack is implemented as follows:
+\begin{verbatim}
+struct Stack<T>:    # T must be a numeric type in this problem
+    
+    # private variables
+    data -> Array<T> = null
+    sum -> T = null
+    length -> int = null
+    size -> int = null
+
+    # public methods / constructors
+    init(size -> int):
+        data = new Array<T>(size)
+        sum = 0
+        length = 0
+        this.size = size
+
+    function push(x -> T) -> void:
+        if length == size:
+            throw "Stack overflow"
+        data[length + 1] = x
+        sum += x
+        length++
+
+    function pop() -> T:
+        if length == 0:
+            throw "Stack underflow"
+        x -> T = data[length]
+        sum -= x
+        length--
+        return x
+
+    function top() -> T:
+        if length == 0:
+            return null
+        return data[length]
+
+    function empty() -> bool:
+        return length == 0
+
+    function avg() -> T:
+        if length == 0:
+            return null
+        return sum / length
+\end{verbatim}
+
+            It is easy to see that the time complexity of all functions \texttt{push()}, \texttt{pop()}, \texttt{top()}, \texttt{empty()}, and \texttt{avg()} is $O(1)$.
+            The constructor \texttt{init()} allocates an array of size $n$, which typically takes $O(n)$ time.
         \end{solution}
 
     \end{parts}
