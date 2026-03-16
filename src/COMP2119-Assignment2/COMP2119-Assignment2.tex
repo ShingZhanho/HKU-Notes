@@ -466,7 +466,7 @@ function sort_queue(Q -> Queue) -> void:
 
             Note that the algorithm is run identically for the same input size regardless of the order.
             Therefore, the best-, average-, and worst-case time complexities are all $O(n^2)$.
-        \end{solution}
+        \end{solution}\pagebreak
 
         \part[10] Improving the Stack data structure.
         \begin{solution}
@@ -520,7 +520,40 @@ struct Stack<T>:    # T must be a numeric type in this problem
             The constructor \texttt{init()} allocates an array of size $n$, which typically takes $O(n)$ time.
         \end{solution}
 
-    \end{parts}
+    \end{parts}\pagebreak
+
+    \question[15] Proof of a variant of the Master Theorem.
+    \begin{psol}{If $\di T(n)=aT\left(\frac{n}{b}\right)+f(n)$ and $f(n)=\Theta(n^p)$, then $T(n)=\Theta(n^p\log n)$ if $a=b^p$, where $a\geq 1, b\geq 2, p\geq 0$. Suppose $n$ is exact power of $b$.}
+        Assume that $T(1)=\Theta(1)$.
+        For the recurrence, consider a modified recursive tree from Problem (\ref{question@3})(\ref{part@3@2}):
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=\textwidth]{figs/fig-q5.pdf}
+        \end{figure}
+
+        The root of the tree has $f(n)$ cost.
+        At depth 1, there are $a$ nodes, each with $\di f\left(\frac{n}{b}\right)$ cost.
+        For depth $i$, where $i=0,1,\ldots,\log_b n-1$, there are $a^i$ nodes, each with $\di f\left(\frac{n}{b^i}\right)$ cost.
+        At the leaf level, there are $a^{\log_b n}=n^{\log_b a}=n^p$ nodes, each with constant cost, totaling $\Theta(n^p)$.
+        Therefore, summing everything up, we get:
+        \[T(n)=\Theta(n^p)+\sum_{i=0}^{\log_b n-1} a^i f\left(\frac{n}{b^i}\right)\]
+        Since $f(n)=\Theta(n^p)$, we have $\di f\left(\frac{n}{b^i}\right)=\Theta\left(\left(\frac{n}{b^i}\right)^p\right)$.
+        Therefore, $\di\sum_{i=0}^{\log_b n-1} a^i f\left(\frac{n}{b^i}\right)=\Theta\left(\sum_{i=0}^{\log_b n-1}a^i\left(\frac{n}{b^i}\right)^{\log_b a}\right)=\Theta\left(n^{\log_b a}\sum_{i=0}^{\log_b n-1}\left(\frac{a}{b^{\log_b a}}\right)^i\right)=\Theta\left(n^{\log_b a}\log_b n\right)=\Theta(n^p\log_b n)$.
+
+        That is, $T(n)=\Theta(n^p)+\Theta(n^p\log_b n)=\Theta(n^p\log n)$.
+    \end{psol}
+
+    \question[5] Survey.
+    \begin{solution}
+        \begin{parts}
+            \part Too difficult.
+            \part 10 -- 20 hours.
+            \part Not 100\% sure.
+                Even though I have read the textbook and consulted some online resources, I still do not understand the substitution method.
+                I cannot independently solve the problems in questions about the substitution method without the reading the solution to similar problems.
+            \part A tutorial on the substitution method would be helpful.
+        \end{parts}
+    \end{solution}
 
 \end{questions}
 
