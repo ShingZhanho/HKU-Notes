@@ -541,6 +541,8 @@ struct Stack<T>:    # T must be a numeric type in this problem
         Therefore, $\di\sum_{i=0}^{\log_b n-1} a^i f\left(\frac{n}{b^i}\right)=\Theta\left(\sum_{i=0}^{\log_b n-1}a^i\left(\frac{n}{b^i}\right)^{\log_b a}\right)=\Theta\left(n^{\log_b a}\sum_{i=0}^{\log_b n-1}\left(\frac{a}{b^{\log_b a}}\right)^i\right)=\Theta\left(n^{\log_b a}\log_b n\right)=\Theta(n^p\log_b n)$.
 
         That is, $T(n)=\Theta(n^p)+\Theta(n^p\log_b n)=\Theta(n^p\log n)$.
+
+        \textit{\bfseries Reference:} Cormen, T. H. (2009). \textit{Introduction to algorithms} (3rd ed.). MIT Press. (Section 4.6.1 -- The proof for exact powers, pp. 98-101).
     \end{psol}
 
     \question[5] Survey.
