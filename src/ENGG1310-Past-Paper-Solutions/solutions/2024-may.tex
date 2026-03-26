@@ -93,6 +93,17 @@
     Refer to the solution of that question for details.
 \end{qsolution}
 
+\begin{qsolution}[20]{2024}{May}{Q23}{\tgEE \tgEEThreePhase \tgEEDeltaY \tgEECircuitAnalysis}
+    \mcqAns{D}
+
+    $R_1$ can be obtained:
+    \begin{align*}
+        R_1 &= \frac{R_AR_B+R_BR_C+R_AR_C}{R_A}\\
+        &= \frac{2\cdot 2+2\cdot 4+2\cdot 4}{2}\\
+        &= \boxed{10\,\Omega}
+    \end{align*}
+\end{qsolution}
+
 \begin{qsolution}[20]{2024}{May}{Q25}{\tgEE \tgEERMS}
     \mcqAns{C}
     
@@ -112,7 +123,7 @@
 \end{qsolution}
 
 \begin{qsolution}{2024}{May}{Q28}{\tgEE \tgEEPowerSystems}
-    \mcqAns{?}
+    \mcqAns{A}
 
     For scenario A, any one failure or both failures of units 1 and 2 will cause loss of load.
     Therefore, the loss of load probability is given by:
@@ -166,4 +177,36 @@
 
 \end{multicols}
 
-\subsection*{Section C -- Long Questions ()}
+\subsection*{Section D -- Long Questions (Electrical Engineering)}
+\begin{multicols}{2}
+
+\begin{qsolution}{2024}{May}{Q35}{\tgEE \tgEETransformer \tgEECircuitAnalysis}
+    In this ideal transformer, we have:
+    \[\frac{V_{S1}}{V_{RL}}=\frac{I_{RL}}{I_S}=2.\]
+    Note that $V_{S2}$ is DC voltage, so the transformer does not affect it.
+    
+    Peak $V_{S1}$ is when $\di\sin\left(\frac{2\pi}{T}t\right)=1$, which gives $V_{S1}=1500\sqrt 2$ V.
+    Then, peak $\di V_{RL}=\frac{V_{S1}}{2}=750\sqrt 2$ V.
+    Also, $V_{RL}=I_{RL}\cdot R_{L} \Rightarrow I_{RL}=5\sqrt 2$.
+
+    Finally, we find peak $\di I_S=\frac{I_{RL}}{2}=\boxed{\frac{5\sqrt 2}{2}\,\mathrm{A}}$.
+\end{qsolution}
+
+\columnbreak
+
+\begin{qsolution}{2024}{May}{Q36}{\tgEE \tgEEResistors \tgEECircuitAnalysis}
+    We need to find the minimum operating current.
+    Note that from $\di I=\frac{V}{R}$, we find that $\di I\propto \frac{1}{R}$.
+    Therefore, when $V$ is constant, $I_{\mathrm{min}}$ is reached at $R_{\mathrm{max}}$.
+
+    From the colour code of the resistors, we find:
+    \begin{align*}
+        R_{1,\mathrm{max}} &= 82\times 1 \times(1+1\%)=82.82\,\Omega \\
+        R_{2,\mathrm{max}} &= 58\times 1 \times(1+2\%)=59.16\,\Omega \\
+        \Rightarrow R_{\mathrm{eq, max}}&=R_{1,\mathrm{max}}+R_{2,\mathrm{max}}=141.98\,\Omega
+    \end{align*}
+
+    Therefore, $\di I_{\mathrm{min}}=\frac{120}{141.98}\approx \boxed{0.845\,\mathrm{A}}$.
+\end{qsolution}
+
+\end{multicols}

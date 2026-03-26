@@ -1,7 +1,7 @@
 \startYear{2024 Dec}
 
 \subsection*{Section A -- Multiple-choice Questions}
-\begin{multicols*}{2}
+\begin{multicols}{2}
 
 \begin{qsolution}{2024}{Dec}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
     \mcqAns{A}
@@ -98,6 +98,24 @@
     Hence only (i) and (ii) are correct, therefore A.
 \end{qsolution}
 
+\begin{qsolution}{2024}{Dec}{Q22}{\tgEE \tgEECircuitAnalysis}
+    \mcqAns{E}
+
+    Use the formula $\di R=\frac{\rho l}{A}$.
+    The three resistances are:
+    \begin{align*}
+        R_1 &= \frac{0.8\cdot 1.6}{\pi\left(0.2/\sqrt\pi\right)^2}=32\,\Omega\\
+        R_2 =R_3 &= \frac{1\cdot 0.9}{\pi\left(0.3/\sqrt\pi\right)^2}=10\,\Omega
+    \end{align*}
+
+    The equivalent resistance is calculated as:
+    \begin{align*}
+        R_{\mathrm{eq}} &= R_1 + R_{2\parallel 3} \\
+        &= 32 + \frac{1}{\frac{1}{10}+\frac{1}{10}} \\
+        &= 32 + 5 = 37\,\Omega
+    \end{align*}
+\end{qsolution}
+
 \begin{qsolution}{2024}{Dec}{Q24}{\tgEE \tgEEThreePhase \phantomsection\label{q:2024-dec-mcq24}}
     \mcqAns{D}
     
@@ -138,4 +156,68 @@
     Coal, oil, and natural gas are all non-renewable energy sources, therefore only D is correct.
 \end{qsolution}
 
-\end{multicols*}
+\begin{qsolution}{2024}{Dec}{Q29}{\tgEE \tgEECapacitors \tgEECircuitAnalysis}
+    \mcqAns{E}
+
+    The original circuit is equivalent to the following circuit:
+    \figHere{2024-Dec-MCQ29-CircuitEquiv.pdf}{width=0.6\textwidth}
+    The first branch's equivalent capacitance is given by
+    \[C_{\mathrm{eq},1}=\frac{1}{\frac{1}{2}+\frac{1}{2}}=1\,\mathrm{F}\]
+    
+    When the switch is closed, we have $C_{AB1}=1+3+1+2=7\,\mathrm{F}.$
+    When the switch is open, we have$C_{AB2}=1+1+2=4\,\mathrm{F}.$
+\end{qsolution}
+
+\begin{qsolution}{2024}{Dec}{Q30}{\tgEE \tgEEBatterySOC}
+    \mcqAns{E}
+
+    Substituting the given values into the formulae:
+    \begin{align*}
+        \mathrm{SOC}_{\mathrm{ch}} &= \frac{15\,\mathrm{kW}\cdot 1\,\mathrm{h}\cdot 90\%}{50\,\mathrm{kWh}} = 27\%\\
+        \mathrm{SOC}_\mathrm{dis} &= \frac{10\,\mathrm{kW}\cdot 1.8\,\mathrm{h}}{50\,\mathrm{kWh}\cdot 90\%} = 40\%\\
+        &\phantom{.}\\ % empty line
+        \mathrm{SOC}_1 &= \mathrm{SOC}_0 + \mathrm{SOC}_{\mathrm{ch}} - \mathrm{SOC}_{\mathrm{dis}}\\
+        54\% &= \mathrm{SOC}_0 + 27\% - 40\% \\
+        \mathrm{SOC}_0 &= 67\%
+    \end{align*}
+\end{qsolution}
+
+\pagebreak
+
+\end{multicols}
+
+\subsection*{Section D -- Long Questions (Electrical Engineering)}
+\begin{multicols}{2}
+
+\begin{qsolution}{2024}{Dec}{Q35}{\tgEE \tgEEResistors \tgEECircuitAnalysis}
+    Note that this is a current divider circuit, therefore, we have
+    \[I_i=\frac{R_i}{\sum R}\cdot I,\quad i=1,2.\]
+    The absolute difference between $I_1$ and $I_2$ is given by
+    \[\left|\Delta I\right|=I\cdot\left|I_1-I_2\right|=I\cdot\left|\frac{R_1-R_2}{R_1+R_2}\right|,\]
+    $\left|\Delta I_{\mathrm{min}}\right|$ occurs when $R_1$ and $R_2$ are as close as possible.
+
+    By the colour code of the resistors, we have $R_1\in[51.48\,\Omega,52.52\,\Omega]$ and $R_2\in[63.7\,\Omega,66.3\,\Omega]$.
+    Then, $\left|\Delta I_{\mathrm{min}}\right|\approx 0.09620I$.
+    Also, total current $I$ is given by
+    \[I=\frac{V}{R_{\mathrm{eq}}}=\frac{100}{\left(\frac{1}{52.52}+\frac{1}{63.7}\right)^{-1}}\approx 3.474\,\mathrm{A}\]
+
+    Therefore, $\left|\Delta I_{\mathrm{min}}\right|\approx \boxed{0.334\,\mathrm{A}}$.
+\end{qsolution}
+
+\columnbreak
+
+\begin{qsolution}{2024}{Dec}{Q36}{\tgEE \tgEEResistors \tgEECircuitAnalysis}
+    Let $I_1$ and $I_2$ be the currents through $R_1$ and $R_2$, respectively.
+    The current flowing through $R_3$ is given by $I_1+I_2$.
+    Consider the power consumed by $R_1$, we have:
+    \[0.64\,\mathrm{W}=I_1^2\cdot 225\,\Omega \Rightarrow I_1=\frac{4}{75}\,\mathrm{A}\approx 0.0533\,\mathrm{A}\]
+    Since $V_1=V_2$ and $R_1=R_2$, we have $I_1=I_2=0.0533$ A, $I_3=0.1066$ A.
+    For $V_3$ it is given by:
+    \[V_3=I_3\cdot R_3=0.1066\cdot 100=10.66\,\mathrm{V}\]
+    Consider the energy consumed by $R_3$, we have:
+    \[6.75\,\mathrm{kJ}=P_3\cdot T=I_3\cdot V_3\cdot T=1.136T \Rightarrow T\approx 5942\,\mathrm{s}\]
+    Then, to find the charge, we have:
+    \[I_3=\frac{Q_3}{T} \Rightarrow Q_3=0.1066\cdot 5942=\boxed{633.4\,\mathrm{C}}\]
+\end{qsolution}
+
+\end{multicols}
