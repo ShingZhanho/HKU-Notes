@@ -1,0 +1,81 @@
+\addbibresource{references.bib}
+
+\doublespacing
+
+% Paragraph formatting (APA7: 0.5in indent, no extra paragraph spacing)
+\setlength{\RaggedRightParindent}{0.5in}
+\setlength{\parindent}{0.5in}
+\setlength{\parskip}{0pt}
+
+% Running head (all pages including title page)
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\runninghead}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% APA7 heading levels
+% Level 1: Centred, Bold
+\titleformat{\section}
+    {\normalfont\bfseries\centering}{}{0pt}{#1}
+\titlespacing*{\section}{0pt}{0.3\baselineskip}{0pt}
+
+% Level 2: Flush Left, Bold
+\titleformat{\subsection}
+    {\normalfont\bfseries}{}{0pt}{#1}
+\titlespacing*{\subsection}{0pt}{0.3\baselineskip}{0pt}
+
+% Level 3: Flush Left, Bold Italic
+\titleformat{\subsubsection}
+    {\normalfont\bfseries\itshape}{}{0pt}{#1}
+\titlespacing*{\subsubsection}{0pt}{0.3\baselineskip}{0pt}
+
+% Level 4: Indented, Bold, Ending With a Period. Text continues on same line.
+\titleformat{\paragraph}[runin]
+    {\normalfont\bfseries}{}{0pt}{#1.}
+\titlespacing*{\paragraph}{\parindent}{0.3\baselineskip}{\wordsep}
+
+% Level 5: Indented, Bold Italic, Ending With a Period. Text continues on same line.
+\titleformat{\subparagraph}[runin]
+    {\normalfont\bfseries\itshape}{}{0pt}{#1.}
+\titlespacing*{\subparagraph}{\parindent}{0.3\baselineskip}{\wordsep}
+
+% Title page fields
+\newcommand{\runninghead}{}
+\newcommand{\essaytitle}{}
+\newcommand{\essayauthor}{}
+\newcommand{\essaycourse}{}
+\newcommand{\essayinstitution}{}
+\newcommand{\essayinstructor}{}
+\newcommand{\essaydate}{}
+
+% APA7 title page
+\newcommand{\apatitlepage}{%
+    \thispagestyle{fancy}
+    \begin{center}
+        \vspace*{3\baselineskip}
+        {\bfseries\essaytitle}\\[\baselineskip]
+        \essayauthor\\
+        \essaycourse\\
+        \essayinstitution\\
+        \essayinstructor\\
+        \essaydate
+    \end{center}
+    \newpage
+}
+
+% De facto Level 1 heading: paper title repeated at start of body text (APA7)
+\newcommand{\apatextheading}{%
+    \begin{center}
+        {\bfseries\essaytitle}
+    \end{center}
+}
+
+% formatting shortcuts
+\newcommand{\I}[1]{\textit{#1}}
+\newcommand{\B}[1]{\textbf{#1}}
+
+% Commands for secondary citations
+\newcommand{\textseccite}[3]{#1 (#2, as cited in \nptextcite{#3})}
+
+\newcommand{\possessivecite}[1]{\citeauthor{#1}'s \parencite*{#1}}
