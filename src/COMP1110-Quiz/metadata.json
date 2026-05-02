@@ -1,0 +1,11 @@
+{
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "static_site": {
+        "description": "The 2026 quiz for COMP1110 Computing and Data Science in Everyday Life, consisting of 50 multiple-choice questions spanning Machine Learning, Computer Networks, Databases, Algorithms and Data Structures, Theory of Computation and Software Engineering, Data Science and Statistics, Robotics and Sensing, Cybersecurity, and Web and Mobile Development.",
+        "custom_md_file": "custom.md",
+        "document_status": "lts"
+    },
+    "authors": [
+        "!jacob_shing"
+    ]
+}

@@ -1,0 +1,818 @@
+\documentclass[answers]{exam}
+\input{packages.tex}
+
+\CorrectChoiceEmphasis{\color{Green4}}
+\pagestyle{foot}
+\cfoot{Page \thepage\ of \numpages}
+\shadedsolutions
+% \setlength{\parindent}{0pt}
+\renewcommand{\choiceshook}{\setlength{\leftmargin}{16pt}}
+
+\begin{document}
+\begin{center}
+    {\Large \bfseries COMP1110 COMPUTING AND DATA SCIENCE IN EVERYDAY LIFE}\par
+    {\Large \bfseries Quiz 2026}
+\end{center}
+
+\begin{questions}
+
+% --- Q1 ------------------------------------------------------------------
+\question Which of the following best describes supervised learning?
+
+\begin{choices}
+    \choice Learning by trial and error through rewards and penalties
+    \correctchoice Learning from labeled examples to predict outputs for new inputs
+    \choice Exhaustively searching all possible solutions without using data
+    \choice Grouping unlabeled data into clusters without target labels
+\end{choices}
+
+\begin{solution}
+    In supervised learning, the algorithm is trained on a labeled dataset --- each training example pairs an input with its correct output (the ``label''). The model learns to map inputs to outputs so that it can make predictions on unseen data.
+    Learning by trial and error with rewards describes reinforcement learning, while grouping unlabeled data describes unsupervised (clustering) methods.
+\end{solution}
+
+% --- Q2 ------------------------------------------------------------------
+\question A messaging app reads a message and outputs ``URGENT'' or ``NOT URGENT''. This is an example of which supervised learning task?
+
+\begin{oneparchoices}
+    \correctchoice Classification
+    \choice Regression
+    \choice Reinforcement learning
+    \choice Clustering
+\end{oneparchoices}
+
+\begin{solution}
+    Classification assigns each input to one of a finite set of discrete categories (here: URGENT or NOT URGENT).
+    Regression predicts a continuous numerical value; reinforcement learning involves an agent acting in an environment; clustering groups unlabeled data without predefined classes.
+\end{solution}
+
+% --- Q3 ------------------------------------------------------------------
+\question A machine learning model achieves 95\% accuracy on the training set but only 60\% accuracy on the test set. This is best described as:
+
+\begin{oneparchoices}
+    \choice Backfitting
+    \choice Underfitting
+    \correctchoice Overfitting
+    \choice Retrofitting
+\end{oneparchoices}
+
+\begin{solution}
+    Overfitting occurs when a model learns the training data too well --- including its noise and idiosyncrasies --- so that it performs well on training data but generalises poorly to unseen test data.
+    Underfitting is the opposite: the model is too simple to capture the patterns even in the training data.
+    ``Backfitting'' and ``retrofitting'' are not standard ML terms in this context.
+\end{solution}
+
+% --- Q4 ------------------------------------------------------------------
+\question Which of the following is a common advantage of decision trees in machine learning?
+
+\begin{choices}
+    \choice They always produce the most accurate model
+    \choice Small changes in the training data never affect the learned tree
+    \correctchoice They are relatively easy for humans to understand and interpret
+    \choice They are guaranteed not to overfit the training data
+\end{choices}
+
+\begin{solution}
+    Decision trees are interpretable models: the sequence of if/else splits can be read and understood by non-experts, making them useful when explainability matters.
+    They do not always achieve the highest accuracy (ensemble methods often outperform a single tree), they are sensitive to small changes in training data (high variance), and they can overfit without pruning or depth constraints.
+\end{solution}
+
+% --- Q5 ------------------------------------------------------------------
+\question In reinforcement learning, what is the agent's main objective?
+
+\begin{choices}
+    \choice Group similar states together without feedback
+    \choice Correctly classify every example in the training set
+    \choice Minimize the number of labeled training examples needed
+    \correctchoice Learn a policy that maximizes total reward
+\end{choices}
+
+\begin{solution}
+    A reinforcement learning agent interacts with an environment, receiving rewards or penalties for its actions.
+    Its goal is to discover a \textit{policy} --- a mapping from states to actions --- that maximizes the cumulative (total) reward over time.
+    Grouping states is clustering; classifying labeled examples is supervised learning; minimizing labeled data is the goal of active learning.
+\end{solution}
+
+% --- Q6 ------------------------------------------------------------------
+\question Why did neural networks become widely practical only in the last decade, despite being invented much earlier?
+
+\begin{choices}
+    \choice Commercial use of neural networks was previously illegal
+    \choice No training data existed before the 2010s
+    \correctchoice They require heavy computation, and earlier hardware was often too slow
+    \choice The training algorithm for neural networks was discovered only in the last decade
+\end{choices}
+
+\begin{solution}
+    Backpropagation, the key training algorithm for neural networks, was known since the 1980s.
+    What changed in the last decade was the availability of powerful GPUs that can perform the massive matrix computations deep networks require, combined with large datasets (e.g., ImageNet) and advances like improved activation functions and regularisation techniques.
+    Hardware limitations --- not legal barriers, data absence, or missing algorithms --- were the primary bottleneck.
+\end{solution}
+
+% --- Q7 ------------------------------------------------------------------
+\question Which of the following is a valid IPv4 address?
+
+\begin{choices}
+    \choice 888.888.888.888
+    \choice 88:88:88:88:88:88
+    \choice 8888:8888:8888:8888:8888:8888:8888:8888
+    \correctchoice 8.8.8.8
+\end{choices}
+
+\begin{solution}
+    IPv4 addresses consist of four decimal octets separated by dots, where each octet is in the range 0--255.
+    
+    \texttt{8.8.8.8} is Google's public DNS server and is a valid IPv4 address.
+    
+    \texttt{888.888.888.888} is invalid (octets exceed 255); \texttt{88:88:88:88:88:88} is a MAC address format; \texttt{8888:8888:\ldots} is an IPv6 address using colon-separated hexadecimal groups.
+\end{solution}
+
+% --- Q8 ------------------------------------------------------------------
+\question What is the primary purpose of a DNS server?
+
+\begin{choices}
+    \choice To encrypt data sent between a browser and a server
+    \choice To manage the physical cabling and electrical signals in a network
+    \correctchoice To translate domain names into IP addresses
+    \choice To assign IP addresses to newly connected devices
+\end{choices}
+
+\begin{solution}
+    The Domain Name System (DNS) acts as the Internet's ``phone book'': when you type a domain name such as \texttt{www.example.com}, the DNS server resolves it to the corresponding IP address so your device can establish a connection.
+    Encrypting traffic is done by TLS/SSL; DHCP assigns IP addresses to new devices; physical signalling is a hardware/physical-layer concern.
+\end{solution}
+
+% --- Q9 ------------------------------------------------------------------
+\question \textit{(Cancelled)} Which layer of the network model can provide end-to-end reliability between applications, for example through protocols such as TCP?
+
+\begin{oneparchoices}
+    \correctchoice Transport layer
+    \choice Data link layer
+    \choice Network layer
+    \choice Physical layer
+\end{oneparchoices}
+
+\begin{solution}
+    TCP (Transmission Control Protocol) operates at the \textit{Transport} layer (Layer 4 in the OSI model).
+    It provides end-to-end reliability by establishing connections, sequencing packets, acknowledging receipt, and retransmitting lost segments.
+    The Network layer routes packets between hosts; the Data link layer handles framing on a single link; the Physical layer deals with bit transmission over a medium.
+\end{solution}
+
+% --- Q10 -----------------------------------------------------------------
+\question \textit{(Cancelled)} Which of the following is \textit{not} typically used as a transmission medium in standard computer networks?
+
+\begin{oneparchoices}
+    \correctchoice Sound waves
+    \choice Electromagnetic waves
+    \choice Copper wires
+    \choice Optical fibers
+\end{oneparchoices}
+
+\begin{solution}
+    Standard computer networks transmit data over copper wires (electrical signals), optical fibres (light pulses), and electromagnetic waves (radio/microwave for Wi-Fi and cellular).
+    Sound waves are not a practical transmission medium for computer networks: they travel slowly through air ($\approx$\,343\,m/s) compared to light-based media and are susceptible to noise.
+\end{solution}
+
+% --- Q11 -----------------------------------------------------------------
+\question \textit{(Cancelled)} What is the main advantage of UDP compared with TCP?
+
+\begin{oneparchoices}
+    \choice Guaranteed delivery
+    \choice Larger packet size
+    \correctchoice Lower overhead and lower latency
+    \choice Better security
+\end{oneparchoices}
+
+\begin{solution}
+    UDP (User Datagram Protocol) is a connectionless protocol that does not perform handshaking, acknowledgements, or retransmissions.
+    This means it has much lower overhead and latency than TCP, making it suitable for real-time applications such as video streaming, VoIP, and online games where a small amount of packet loss is preferable to the delay caused by retransmission.
+    UDP does \textit{not} guarantee delivery, does not offer larger packet sizes, and provides no built-in security.
+\end{solution}
+
+% --- Q12 -----------------------------------------------------------------
+\question Why was IPv6 introduced?
+
+\begin{choices}
+    \choice IPv6 is faster because its addresses are shorter
+    \correctchoice IPv4 addresses have been exhausted
+    \choice IPv6 removes the need for DNS
+    \choice IPv6 guarantees encryption for all traffic
+\end{choices}
+
+\begin{solution}
+    IPv4 uses 32-bit addresses, providing approximately 4.3 billion unique addresses.
+    The rapid growth of internet-connected devices exhausted the IPv4 address pool (IANA issued the last blocks in 2011).
+    IPv6 uses 128-bit addresses, providing $2^{128} \approx 3.4 \times 10^{38}$ unique addresses.
+    IPv6 addresses are longer (not shorter) than IPv4; DNS is still used with IPv6; and while IPv6 originally planned mandatory IPsec, encryption is not guaranteed by default in practice.
+\end{solution}
+
+% --- Q13 -----------------------------------------------------------------
+\question Which of the following is the best primary key for a ``Student'' table in a university database?
+
+\begin{choices}
+    \correctchoice The student's university ID number
+    \choice The student's full name
+    \choice The student's date of birth
+    \choice The student's home address
+\end{choices}
+
+\begin{solution}
+    A primary key must uniquely identify each row and should be stable over time.
+    A university-assigned student ID number is unique per student by definition and does not change.
+    Full names are not unique (multiple students can share the same name); dates of birth are not unique; home addresses change over time and are not unique.
+\end{solution}
+
+% --- Q14 -----------------------------------------------------------------
+\question Which of the following is a valid SQL statement?
+
+\begin{choices}
+    \correctchoice \texttt{SELECT Name FROM Student WHERE Year = 2;}
+    \choice \texttt{Student.findAll(Year==2).get(Name);}
+    \choice \texttt{GET /api/student/2/name}
+    \choice \texttt{<Student>Name<Year>2</Year></Student>}
+\end{choices}
+
+\begin{solution}
+    The first option is syntactically correct SQL: it retrieves the \texttt{Name} column from the \texttt{Student} table for all rows where \texttt{Year} equals 2.
+    The second resembles an ORM (object-relational mapping) method chain, but is not standard SQL.
+    The third is an HTTP REST API call; the fourth is XML.
+\end{solution}
+
+% --- Q15 -----------------------------------------------------------------
+\question Why is a foreign key useful in a relational database?
+
+\begin{choices}
+    \correctchoice It helps ensure that a value in one table matches an existing row in a related table
+    \choice It encrypts linked data so only authorised users can read it
+    \choice It stores all related data in one table so joins are never needed
+    \choice It makes every row in a table unique, even if duplicate values are entered
+\end{choices}
+
+\begin{solution}
+    A foreign key enforces \textit{referential integrity}: it constrains a column's values to match primary key values in another (or the same) table, ensuring that relationships between tables are consistent and dangling references do not exist.
+    Foreign keys do not encrypt data, do not eliminate joins, and ensuring row uniqueness is the role of a primary key or unique constraint.
+\end{solution}
+
+% --- Q16 -----------------------------------------------------------------
+\question Why does a database management system need concurrency control?
+
+\begin{choices}
+    \choice To compress data before storing it on disk
+    \choice To speed up queries by caching recent results
+    \choice To automatically remove missing values
+    \correctchoice To prevent data corruption when multiple users modify the same data at the same time
+\end{choices}
+
+\begin{solution}
+    When multiple transactions execute concurrently without coordination, anomalies such as lost updates, dirty reads, and non-repeatable reads can occur, leaving the database in an inconsistent state.
+    Concurrency control mechanisms (e.g., locking, timestamps, multi-version concurrency control) serialise conflicting operations to ensure isolation and data integrity.
+\end{solution}
+
+% --- Q17 -----------------------------------------------------------------
+\question In a database, what does the term ``schema'' refer to?
+
+\begin{choices}
+    \choice A backup copy of the database
+    \choice A query used to retrieve data
+    \correctchoice The blueprint that defines tables and their attributes
+    \choice The actual records stored in all tables
+\end{choices}
+
+\begin{solution}
+    A database \textit{schema} is the logical structure or blueprint of the database: it defines the tables, their columns, data types, and constraints --- but not the actual data stored.
+    The actual stored data is called the database \textit{instance} or \textit{state}.
+    A schema is analogous to a class definition in OOP, while the instance is analogous to the objects created from that class.
+\end{solution}
+
+% --- Q18 -----------------------------------------------------------------
+\question What does ``deterministic'' mean in the context of algorithms?
+
+\begin{choices}
+    \choice The algorithm always finishes within finite time
+    \choice The algorithm uses random guesses to speed up execution
+    \choice The algorithm always finds the globally optimal solution
+    \correctchoice The algorithm always produces the same output for the same input
+\end{choices}
+
+\begin{solution}
+    A \textit{deterministic} algorithm is one whose behaviour is fully determined by its input: given the same input, it will always follow the same execution path and produce the same output.
+    This is in contrast to a \textit{randomised} algorithm, which may produce different outputs or follow different paths on the same input due to random choices.
+\end{solution}
+
+% --- Q19 -----------------------------------------------------------------
+\question Using the greedy coin-change strategy with denominations \{\$1, \$2, \$5, \$10\}, how many coins does the algorithm choose to make \$37?
+
+\begin{oneparchoices}
+    \choice 6
+    \choice 4
+    \correctchoice 5
+    \choice 7
+\end{oneparchoices}
+
+\begin{solution}
+    The greedy algorithm always selects the largest denomination that does not exceed the remaining amount:
+    \begin{enumerate}
+        \item \$10 $\times$ 3 = \$30 \quad (remaining: \$7, coins so far: 3)
+        \item \$5 $\times$ 1 = \$35 \quad (remaining: \$2, coins so far: 4)
+        \item \$2 $\times$ 1 = \$37 \quad (remaining: \$0, coins so far: 5)
+    \end{enumerate}
+    Total: 5 coins.
+\end{solution}
+
+% --- Q20 -----------------------------------------------------------------
+\question Which statement correctly describes the binary search tree property?
+
+\begin{choices}
+    \choice Every node must have exactly two children
+    \choice The root node always holds the largest value in the tree
+    \correctchoice All values in the left subtree are smaller than the node, and all values in the right subtree are larger than the node
+    \choice All values in both subtrees must be smaller than the node
+\end{choices}
+
+\begin{solution}
+    The BST property requires that for any node with value $v$: every value in the \textit{left} subtree is less than $v$, and every value in the \textit{right} subtree is greater than $v$.
+    This ordering enables efficient $O(\log n)$ search, insertion, and deletion on a balanced tree.
+    Nodes need not have two children (leaves have zero), and the root holds neither the largest nor the smallest value in general.
+\end{solution}
+
+% --- Q21 -----------------------------------------------------------------
+\question For a balanced binary search tree with $N$ nodes, the worst-case number of nodes inspected during a search is approximately:
+
+\begin{oneparchoices}
+    \choice $\dfrac{1}{N}$
+    \correctchoice $\log_2 N$
+    \choice $\sqrt{N}$
+    \choice $N$
+\end{oneparchoices}
+
+\begin{solution}
+    A balanced BST has height $\lfloor \log_2 N \rfloor$, so a search visits at most $\lfloor \log_2 N \rfloor + 1 \approx \log_2 N$ nodes before reaching the target or a null pointer.
+    This logarithmic complexity is why balanced BSTs (e.g., AVL trees, red-black trees) are preferred over linear structures like linked lists for search operations.
+    $N$ would describe the worst case for an unbalanced (degenerate) tree.
+\end{solution}
+
+% --- Q22 -----------------------------------------------------------------
+\question What is a common disadvantage of greedy algorithms?
+
+\begin{choices}
+    \choice They can solve only coin-related problems
+    \choice They are generally very difficult to implement
+    \correctchoice They do not always produce the correct or optimal result for some problems
+    \choice They are slow because they must explore all possible choices
+\end{choices}
+
+\begin{solution}
+    Greedy algorithms make the locally optimal choice at each step without reconsidering previous decisions.
+    While this makes them fast and simple, they do not always produce a globally optimal solution.
+    A classic counter-example is the coin-change problem with non-standard denominations (e.g., \{1, 3, 4\} coins for amount 6: greedy picks 4+1+1=3 coins, but the optimal is 3+3=2 coins).
+\end{solution}
+
+% --- Q23 -----------------------------------------------------------------
+\question In the theory of computation, the Halting Problem shows that:
+
+\begin{choices}
+    \correctchoice Not every computational problem can be solved by an algorithm
+    \choice Infinite loops occur only in poorly written software
+    \choice A computer will eventually freeze if a program enters an infinite loop
+    \choice Every program will eventually halt if given enough memory
+\end{choices}
+
+\begin{solution}
+    Alan Turing proved in 1936 that no general algorithm can determine, for an arbitrary program and input, whether that program will halt or run forever.
+    This is the \textit{Halting Problem}, and it establishes that there exist \textit{undecidable} problems --- problems for which no algorithmic solution can exist, independent of hardware speed or memory.
+\end{solution}
+
+% --- Q24 -----------------------------------------------------------------
+\question Which of the following is an example of a \textit{non-functional} requirement in software engineering?
+
+\begin{choices}
+    \choice Users can reset their password by email
+    \correctchoice The web page must load in under 2 seconds
+    \choice Customers can place vegetarian food orders through the app
+    \choice Students can search for courses by instructor
+\end{choices}
+
+\begin{solution}
+    \textit{Functional} requirements describe \textit{what} a system does (specific behaviours and features).
+    \textit{Non-functional} requirements describe \textit{how well} the system performs --- qualities such as performance, reliability, security, and usability.
+    ``Load in under 2 seconds'' is a \textit{performance} non-functional requirement.
+    The other three options all describe specific user-facing features (functional requirements).
+\end{solution}
+
+% --- Q25 -----------------------------------------------------------------
+\question In software engineering, what is the main purpose of a penetration test?
+
+\begin{choices}
+    \choice To test whether users can navigate deep menu structures efficiently
+    \correctchoice To identify security vulnerabilities before attackers can exploit them
+    \choice To measure how thoroughly automated tests cover all branches of a program
+    \choice To measure how well Wi-Fi signals pass through walls in an office building
+\end{choices}
+
+\begin{solution}
+    A penetration test (``pen test'') involves authorised security professionals attempting to exploit a system's vulnerabilities in the same way a malicious attacker would, in order to discover and remediate weaknesses before real attackers do.
+    Usability testing evaluates user navigation; code coverage measures test completeness; Wi-Fi signal measurement is a network infrastructure task.
+\end{solution}
+
+% --- Q26 -----------------------------------------------------------------
+\question What is the main purpose of version control in software development?
+
+\begin{choices}
+    \correctchoice To track changes to code over time and support collaboration
+    \choice To automatically find and fix bugs in source code
+    \choice To convert design documents directly into working software
+    \choice To improve the visual appearance of the user interface automatically
+\end{choices}
+
+\begin{solution}
+    Version control systems (e.g., Git) maintain a history of every change made to a codebase.
+    This allows developers to review past changes, revert to earlier versions, branch for experimental features, and merge contributions from multiple collaborators without overwriting each other's work.
+\end{solution}
+
+% --- Q27 -----------------------------------------------------------------
+\question In a Gantt chart, what is a dependency between two tasks?
+
+\begin{choices}
+    \choice Two tasks grouped under the same milestone
+    \correctchoice A relationship in which one task cannot start until another task has finished
+    \choice Two tasks assigned to the same developer
+    \choice Two tasks with the same deadline
+\end{choices}
+
+\begin{solution}
+    A task dependency (``finish-to-start'') means that a successor task cannot begin until its predecessor has completed.
+    Gantt charts visualise these dependencies with arrows connecting tasks, helping project managers identify the \textit{critical path} --- the longest chain of dependent tasks that determines the minimum project duration.
+\end{solution}
+
+% --- Q28 -----------------------------------------------------------------
+\question Which of the following best describes a common trade-off of pair programming?
+
+\begin{choices}
+    \choice It splits one task into two independent coding tasks, which speeds development but makes integration harder
+    \correctchoice It uses two developers on one task, which may increase effort upfront but can improve code quality and reduce defects
+    \choice It requires writing production code and test code at the same time, which improves coverage but doubles the codebase
+    \choice It runs the same application on two identical servers, which improves reliability but doubles hosting cost
+\end{choices}
+
+\begin{solution}
+    In pair programming, two developers work together at one workstation: one writes code (the ``driver'') while the other reviews each line (the ``navigator'').
+    The immediate trade-off is that two people are needed for what one person could do alone.
+    However, research shows that pair programming reduces defect rates, improves design quality, and facilitates knowledge sharing.
+\end{solution}
+
+% --- Q29 -----------------------------------------------------------------
+\question In data analysis, what is an outlier?
+
+\begin{choices}
+    \correctchoice A data point that lies unusually far from the others
+    \choice The target variable being predicted
+    \choice A missing value recorded as blank
+    \choice A duplicate record
+\end{choices}
+
+\begin{solution}
+    An \textit{outlier} is an observation that deviates markedly from the overall pattern of the dataset.
+    Outliers may be caused by measurement errors, data entry mistakes, or they may represent genuine but rare phenomena.
+    They are important to detect because they can disproportionately affect summary statistics (e.g., mean) and distort model training.
+\end{solution}
+
+% --- Q30 -----------------------------------------------------------------
+\question What is the main purpose of exploratory data analysis (EDA)?
+
+\begin{choices}
+    \choice To train and evaluate the final predictive model
+    \correctchoice To understand a dataset by summarising patterns, spotting anomalies, and checking data quality
+    \choice To encrypt and secure sensitive information before storage
+    \choice To gather new raw data from external sources
+\end{choices}
+
+\begin{solution}
+    EDA is the process of examining a dataset before formal modelling --- using summary statistics, visualisations (histograms, box plots, scatter plots, etc.), and correlation analysis to understand the data's structure, distribution, and relationships.
+    It helps identify missing values, outliers, data quality issues, and promising features before committing to a model.
+\end{solution}
+
+% --- Q31 -----------------------------------------------------------------
+\question Why are precision and recall often reported in addition to accuracy for classification tasks?
+
+\begin{choices}
+    \choice Accuracy is used only for training data, while precision and recall are used only for test data
+    \choice Precision and recall are always larger than accuracy
+    \correctchoice Accuracy alone can be misleading, especially when the classes are imbalanced
+    \choice Precision and recall automatically remove extreme data points before evaluation
+\end{choices}
+
+\begin{solution}
+    Consider a dataset where 99\% of emails are not spam.
+    A classifier that predicts ``not spam'' for every email achieves 99\% accuracy yet is entirely useless.
+    Precision (fraction of predicted positives that are truly positive) and recall (fraction of actual positives that are correctly identified) capture the classifier's performance on the minority class.
+\end{solution}
+
+% --- Q32 -----------------------------------------------------------------
+\question In data science, which of the following statements about causation is true?
+
+\begin{choices}
+    \choice If two variables are correlated, then one must cause the other
+    \correctchoice Causation means that changing one variable directly affects another variable
+    \choice If two variables move in opposite directions, they cannot be causally related
+    \choice Causation can always be proven just by observing enough data points
+\end{choices}
+
+\begin{solution}
+    Causation means that a direct mechanism exists whereby changing variable $A$ produces a change in variable $B$.
+    Correlation alone does not imply causation: two variables may be correlated due to a common cause (confounding variable) or by coincidence.
+    Establishing causation requires controlled experiments (e.g., randomised controlled trials) or careful causal inference methods, not merely more observational data.
+\end{solution}
+
+% --- Q33 -----------------------------------------------------------------
+\question An investor studies only highly successful traders and notices that many of them took large risks. He ignores traders who took large risks and failed, then concludes that taking large risks is a reliable way to become rich. What statistical misconception does this best illustrate?
+
+\begin{choices}
+    \choice No misconception; the conclusion is justified
+    \choice Base rate fallacy
+    \choice Simpson's paradox
+    \correctchoice Survivorship bias
+\end{choices}
+
+\begin{solution}
+    \textit{Survivorship bias} occurs when analysis focuses exclusively on the subjects that ``survived'' a selection process, ignoring those that did not.
+    Here, only successful risk-takers are observed; the many who took equal risks and failed are invisible.
+    Correcting for survivorship bias requires explicitly including the full population, not just the ``survivors''.
+\end{solution}
+
+% --- Q34 -----------------------------------------------------------------
+\question An active sensor emits its own energy and measures the reflection. Which of the following is an active sensor?
+
+\begin{oneparchoices}
+    \correctchoice Radar
+    \choice Thermometer
+    \choice Optical camera
+    \choice Microphone
+\end{oneparchoices}
+
+\begin{solution}
+    An \textit{active} sensor emits energy into the environment and measures the return signal.
+    Radar emits radio waves and detects their reflections from objects, which is why it can operate in darkness, rain, or fog.
+    A thermometer measures ambient temperature passively; an optical camera captures ambient or reflected light it did not emit; a microphone passively captures sound waves.
+\end{solution}
+
+% --- Q35 -----------------------------------------------------------------
+\question Which of the following tasks is LiDAR especially suitable for?
+
+\begin{choices}
+    \correctchoice Building a precise 3D map of the surroundings
+    \choice Reading QR codes printed on a poster
+    \choice Recording a sunset with accurate colour detail
+    \choice Identifying the colour of a traffic light
+\end{choices}
+
+\begin{solution}
+    LiDAR (Light Detection And Ranging) emits rapid pulses of laser light and measures the time-of-flight of each return pulse, generating a dense \textit{point cloud} that encodes the precise distance to thousands of surfaces per second.
+    This makes LiDAR ideal for high-resolution 3D mapping --- used in autonomous vehicles, surveying, and robotics.
+    LiDAR does not capture colour or texture information, so it is not suited to reading QR codes, photographing scenes, or distinguishing traffic light colours.
+\end{solution}
+
+% --- Q36 -----------------------------------------------------------------
+\question A robot arm must reach a specific point in space. You know the desired end-effector position and need to determine the required joint angles. What is this problem called?
+
+\begin{oneparchoices}
+    \correctchoice Inverse kinematics
+    \choice Forward kinematics
+    \choice Delayed kinematics
+    \choice Fuzzy kinematics
+\end{oneparchoices}
+
+\begin{solution}
+    \textit{Forward kinematics} computes the end-effector position given known joint angles.
+    \textit{Inverse kinematics} (IK) solves the reverse problem: given a desired end-effector position, find the joint angles that achieve it.
+    IK is generally harder than forward kinematics and may have multiple solutions, no solution, or require iterative numerical methods.
+\end{solution}
+
+% --- Q37 -----------------------------------------------------------------
+\question Which of the following is primarily used as an actuator?
+
+\begin{oneparchoices}
+    \choice GPS
+    \correctchoice Servo motor
+    \choice QR code reader
+    \choice LiDAR
+\end{oneparchoices}
+
+\begin{solution}
+    An \textit{actuator} converts energy into mechanical motion, causing a robot to interact physically with its environment.
+    A \textit{servo motor} is a powered actuator that can rotate to a commanded angle with feedback control, making it the standard actuator in robotic joints and RC mechanisms.
+    GPS, QR code readers, and LiDAR are all \textit{sensors} --- they gather information about the environment but do not produce motion.
+\end{solution}
+
+% --- Q38 -----------------------------------------------------------------
+\question What is the plaintext of the ciphertext ``ABC'' under ROT13, that is, a Caesar cipher with shift~13?
+
+\begin{oneparchoices}
+    \correctchoice NOP
+    \choice CBA
+    \choice XYZ
+    \choice 123
+\end{oneparchoices}
+
+\begin{solution}
+    ROT13 shifts each letter forward by 13 positions in the alphabet (wrapping around at Z).
+    Since $13 + 13 = 26$ (one full cycle), encryption and decryption are the same operation:
+    \[
+        \text{A} \xrightarrow{+13} \text{N}, \quad
+        \text{B} \xrightarrow{+13} \text{O}, \quad
+        \text{C} \xrightarrow{+13} \text{P}
+    \]
+    Therefore the plaintext of ciphertext ``ABC'' under ROT13 is \textbf{NOP}.
+\end{solution}
+
+% --- Q39 -----------------------------------------------------------------
+\question Why is a monoalphabetic substitution cipher rarely used in modern cryptography?
+
+\begin{choices}
+    \choice It requires specialised computer hardware for encryption
+    \choice It is too slow because of its mathematical complexity
+    \correctchoice It can often be broken by frequency analysis if the ciphertext is long enough
+    \choice It works only for messages written in English
+\end{choices}
+
+\begin{solution}
+    In a monoalphabetic substitution cipher each plaintext letter is always replaced by the same ciphertext letter.
+    Since natural language has a well-known letter frequency distribution (e.g., `E' is most common in English), an attacker who observes which ciphertext symbol appears most frequently can guess the key iteratively.
+    This \textit{frequency analysis} attack, used since the 9th century by Al-Kind\={i}, renders monoalphabetic ciphers insecure for any sufficiently long message.
+\end{solution}
+
+% --- Q40 -----------------------------------------------------------------
+\question In a public-key cryptosystem such as RSA, which of the following must be kept secret?
+
+\begin{choices}
+    \choice Nothing; everything is public in a public-key cryptosystem
+    \correctchoice The private key
+    \choice The public key
+    \choice The ciphertext
+\end{choices}
+
+\begin{solution}
+    In public-key (asymmetric) cryptography, each party has a \textit{key pair}: a \textbf{public key} that is freely distributed and a \textbf{private key} that must be kept secret.
+    Anyone can encrypt a message using the recipient's public key, but only the recipient holding the corresponding private key can decrypt it.
+    Exposing the private key would allow any attacker to decrypt messages or forge digital signatures.
+\end{solution}
+
+% --- Q41 -----------------------------------------------------------------
+\question What does the security of the RSA cryptosystem primarily rely on?
+
+\begin{choices}
+    \correctchoice The difficulty of integer factorisation
+    \choice The difficulty of recognising human faces
+    \choice The difficulty of dividing by zero
+    \choice The difficulty of sorting very large arrays
+\end{choices}
+
+\begin{solution}
+    RSA key generation involves selecting two large prime numbers $p$ and $q$ and publishing their product $n = pq$ as part of the public key.
+    Breaking RSA requires factoring $n$ back into $p$ and $q$.
+    Integer factorisation of large numbers (e.g., 2048-bit) is believed to be computationally infeasible with current classical computers.
+    Note that sufficiently large quantum computers running Shor's algorithm could factor large integers efficiently, which is why post-quantum cryptography is an active research area.
+\end{solution}
+
+% --- Q42 -----------------------------------------------------------------
+\question Which type of malware encrypts a victim's files and demands payment for the decryption key?
+
+\begin{oneparchoices}
+    \choice Zombie process
+    \correctchoice Ransomware
+    \choice Adware
+    \choice Honeypot
+\end{oneparchoices}
+
+\begin{solution}
+    \textit{Ransomware} is a class of malware that encrypts the victim's files (or locks their device) and demands a ransom --- typically in cryptocurrency --- in exchange for the decryption key.
+    High-profile examples include WannaCry (2017) and Ryuk.
+    Adware displays unwanted advertisements; a honeypot is a security decoy (not malware); a zombie process is a Unix/Linux concept for a terminated child process not yet reaped by its parent.
+\end{solution}
+
+% --- Q43 -----------------------------------------------------------------
+\question How does a DDoS (Distributed Denial of Service) attack typically work?
+
+\begin{choices}
+    \choice By intercepting communications between two parties
+    \choice By installing hidden software that monitors user activity
+    \choice By injecting malicious code into database queries
+    \correctchoice By overwhelming servers with traffic and making them unavailable
+\end{choices}
+
+\begin{solution}
+    A DDoS attack floods the target server or network with an enormous volume of requests, exhausting its bandwidth, CPU, or memory so that legitimate users cannot access the service.
+    The ``distributed'' aspect means traffic originates from many compromised machines (a botnet), making it difficult to block a single source IP.
+    Intercepting communications describes a man-in-the-middle attack; monitoring user activity describes spyware; injecting malicious code into queries describes SQL injection.
+\end{solution}
+
+% --- Q44 -----------------------------------------------------------------
+\question What does ``authentication'' mean in cybersecurity?
+
+\begin{choices}
+    \choice Encrypting data so that no one can read it during transmission
+    \correctchoice Proving that a user is really who they claim to be
+    \choice Making a backup copy of a system in case of failure
+    \choice Deciding what actions a user is allowed to perform after logging in
+\end{choices}
+
+\begin{solution}
+    \textit{Authentication} answers the question ``Who are you?'' --- verifying a claimed identity, typically via a password, biometric, hardware token, or cryptographic certificate.
+    It is distinct from \textit{authorisation} (determining what an authenticated user is permitted to do) and \textit{confidentiality} (keeping data secret via encryption).
+\end{solution}
+
+% --- Q45 -----------------------------------------------------------------
+\question Which language is most commonly used to implement logic running inside a web browser?
+
+\begin{oneparchoices}
+    \choice C++
+    \choice Perl
+    \correctchoice JavaScript
+    \choice Kotlin
+\end{oneparchoices}
+
+\begin{solution}
+    JavaScript is the only programming language natively supported by all major web browsers.
+    It runs client-side, enabling dynamic page updates, user interaction handling, and communication with servers (via APIs and fetch/AJAX).
+    C++ can target browsers via WebAssembly but is not the primary browser language; Perl is a server-side scripting language; Kotlin is primarily used for Android and JVM development.
+\end{solution}
+
+% --- Q46 -----------------------------------------------------------------
+\question What does the ``front end'' of a web application refer to?
+
+\begin{choices}
+    \choice The database server that stores persistent records
+    \choice The backup system that archives logs
+    \choice The router that forwards Internet packets
+    \correctchoice The part that runs in the user's browser and handles what the user sees and interacts with
+\end{choices}
+
+\begin{solution}
+    The \textit{front end} (client side) encompasses everything the user directly sees and interacts with: HTML for structure, CSS for styling, and JavaScript for behaviour, all executed in the browser.
+    The \textit{back end} (server side) handles business logic, data storage, and authentication on a server.
+    Databases, backup systems, and network routers are all back-end or infrastructure components.
+\end{solution}
+
+% --- Q47 -----------------------------------------------------------------
+\question What is the main purpose of a Content Delivery Network (CDN)?
+
+\begin{choices}
+    \correctchoice To deliver static content from servers closer to users, often improving load time and reducing latency
+    \choice To ensure that websites never experience server failures
+    \choice To replace the database by storing all application data in the browser
+    \choice To encrypt all traffic between users and servers
+\end{choices}
+
+\begin{solution}
+    A CDN is a geographically distributed network of servers (``edge nodes'' or ``points of presence'') that cache and serve static assets --- images, CSS, JavaScript files, videos --- from the location nearest to the user.
+    By reducing the physical distance between the server and the client, a CDN lowers round-trip latency and improves page load times.
+    CDNs do not prevent all failures, cannot replace a database, and do not inherently encrypt traffic (that is TLS's role).
+\end{solution}
+
+% --- Q48 -----------------------------------------------------------------
+\question What does ``cross-platform mobile development'' mean?
+
+\begin{choices}
+    \correctchoice Writing one codebase that can be used to build apps for both Android and iOS
+    \choice Building an app that supports multiple spoken languages, such as English and Chinese
+    \choice Ensuring an app's data is automatically backed up across multiple cloud servers
+    \choice Designing a user interface that automatically fits both smartphones and tablets
+\end{choices}
+
+\begin{solution}
+    Cross-platform mobile development allows developers to write a single codebase that compiles or runs on both Android and iOS.
+    Frameworks such as Flutter (Dart), React Native (JavaScript), and Xamarin (.NET) achieve this.
+    Supporting multiple languages is called \textit{localisation}; multi-server backups are a cloud storage concern; fitting different screen sizes is \textit{responsive design}.
+\end{solution}
+
+% --- Q49 -----------------------------------------------------------------
+\question What is JavaScript minification?
+
+\begin{choices}
+    \choice Reducing JavaScript file size using general-purpose compression methods such as gzip
+    \choice Translating JavaScript into a low-level language such as Assembly for faster execution
+    \choice Splitting one JavaScript file into many smaller files for modularity
+    \correctchoice Reducing JavaScript file size by removing unnecessary characters and shortening identifiers while preserving functionality
+\end{choices}
+
+\begin{solution}
+    Minification removes whitespace, comments, and newlines, and replaces long variable and function names with short ones (e.g., \texttt{calculateTotalPrice} $\to$ \texttt{a}), without changing the program's behaviour.
+    This is distinct from \textit{compression} (gzip applies lossless byte-level compression and is a separate step) and \textit{code splitting} (dividing a bundle into smaller chunks for lazy loading).
+\end{solution}
+
+% --- Q50 -----------------------------------------------------------------
+\question What does ``edge computing'' refer to?
+
+\begin{choices}
+    \correctchoice Processing data close to where it is generated instead of sending everything to a cloud server
+    \choice Compressing files at the edge of a network by removing metadata
+    \choice A mobile design style that places buttons near the border of the screen
+    \choice Running graphics calculations only near the edge of a screen
+\end{choices}
+
+\begin{solution}
+    Edge computing moves computation and data processing closer to the source of data generation (e.g., IoT sensors, smart cameras, factory equipment) rather than routing all data to a centralised cloud data centre.
+    This reduces latency (important for real-time decisions), lowers bandwidth usage, and improves privacy by keeping sensitive data local.
+\end{solution}
+
+\end{questions}
+\end{document}
