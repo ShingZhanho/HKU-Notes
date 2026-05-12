@@ -131,7 +131,7 @@
 \newcommand{\currentQRef}{}
 \newcommand{\qref}[3]{\hyperref[#1]{#2}}
 \newcommand{\ignorePageNum}[1]{}
-\newcommand{\primaryTag}[2]{\tcPrimaryTag{\footnotesize\bfseries\sffamily\raisebox{-0.15ex}{#1}}\expanded{\noexpand\index{#2|ignorePageNum}}}
+\newcommand{\primaryTag}[2]{\tcPrimaryTag{\footnotesize\bfseries\sffamily\raisebox{-0.15ex}{#1}}}
 \newcommand{\secondaryTag}[3]{\tcSecondaryTag{\footnotesize\sffamily\raisebox{-0.15ex}{#1}}\expanded{\noexpand\index{#2!#3|qref{\currentQLabel}{\currentQRef}}}}
 \newcommand{\startYear}[1]{
 	\section*{#1}
@@ -157,6 +157,13 @@
 	#4
 }
 \makeindex[title=By-topic Index,columns=2]
+\newenvironment{qsolution}[5][3]{%
+	\needspace{#1\baselineskip}%
+	\startQwTags{#2}{#3}{#4}{#5}%
+	\begin{solution}%
+}{%
+	\end{solution}%
+}
 
 % =============================================================
 % amsmath package

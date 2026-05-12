@@ -3,43 +3,38 @@
 \subsection*{Section A -- Multiple-choice Questions}
 \begin{multicols*}{2}
 
-\startQwTags{2023}{Dec}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
-\begin{solution}
+\begin{qsolution}{2023}{Dec}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
     \mcqAns{C}
 
     In a semiconductor subjected to an electric field, holes and electrons move in opposite directions.
     Electrons flows in opposite direction to the conventional current, while holes flows in the same direction as the conventional current.
     Therefore, C is correct.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{Dec}{Q2}{\tgElectronics \tgElectronicsSemiconductor}
-\begin{solution}
+\begin{qsolution}{2023}{Dec}{Q2}{\tgElectronics \tgElectronicsSemiconductor}
     \mcqAns{E}
 
     To form an n-type semiconductor using silicon, we dope it with an element that has more outer electrons than silicon, i.e., phosphorus, arsenic, or antimony.
     Phosphorus is ideal since its atomic size is similar to silicon, so E is correct.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{Dec}{Q3}{\tgElectronics \tgElectronicsSemiconductor}
-\begin{solution}
+\begin{qsolution}{2023}{Dec}{Q3}{\tgElectronics \tgElectronicsSemiconductor}
     \mcqAns{E}
 
     The bandgap energy of silicon is approximately 1.1 eV, and approximately 9 eV for silicon dioxide.
     Therefore, E is correct.
     Note that these values need to be memorised.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{Dec}{Q4}{\tgElectronics \tgElectronicsDiodes}
-\begin{solution}
+\begin{qsolution}{2023}{Dec}{Q4}{\tgElectronics \tgElectronicsDiodes}
     \mcqAns{C}
 
     A Si pn junction diode is a passive component, it cannot be used to implement \texttt{NOT} gates, so C is not true, therefore correct.
     Note that an \texttt{AND} gate can be implemented when connected in series, as shown below:
     \figHere{AND-gate-diodes.pdf}{width=0.5\textwidth}
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{Dec}{Q5}{\tgElectronics \tgElectronicsBJT}
-\begin{solution}
+\begin{qsolution}{2023}{Dec}{Q5}{\tgElectronics \tgElectronicsBJT}
     \mcqAns{E}
 
     A BJT can be considered as a voltage-controlled device, where the voltage across the base-emitter junction ($V_{BE}$) controls the current flowing from collector to emitter ($I_C$).
@@ -48,18 +43,16 @@
     A BJT contains two pn junctions (the base-emitter junction and the base-collector junction), so C is correct.
     The transfer characteristic of a BJT is exponential, so D is correct.
     Hence, all of the above statements are correct, so E is correct.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{Dec}{Q6}{\tgElectronics \tgElectronicsBJT \tgElectronicsMOSFET}
-\begin{solution}
+\begin{qsolution}{2023}{Dec}{Q6}{\tgElectronics \tgElectronicsBJT \tgElectronicsMOSFET}
     \mcqAns{C}
 
     Generally, when compared to MOSFETs, BJTs have higher transconductance, C is correct.
     On the other hand, MOSFETs consume less static power, have higher transistor density, and operate at higher frequencies, so A, B, and D are incorrect.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{Dec}{Q7}{\tgElectronics \tgElectronicsSemiconductor}
-\begin{solution}
+\begin{qsolution}{2023}{Dec}{Q7}{\tgElectronics \tgElectronicsSemiconductor}
     \mcqAns{C}
 
     The bandgap energy $E_g$ determines the conductivity of a material.
@@ -68,10 +61,9 @@
     Different $E_g$ values correspond to different wavelengths of light that can be absorbed or emitted by the material, so D is incorrect.
     The built-in potential of a diode is affected by $E_g$, so E is incorrect.
     $E_g$ does not determine the material's density, so C is correct.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{Dec}{Q24}{\tgEE \tgEEPowerSystems \tgEERMS}
-\begin{solution}
+\begin{qsolution}{2023}{Dec}{Q24}{\tgEE \tgEEPowerSystems \tgEERMS}
     \mcqAns{A}
 
     From the graph, one can define
@@ -91,10 +83,29 @@
         &= \sqrt{\frac{72}{T^3}\cdot\frac{(T/2)^3}{3}}
         = \boxed{\sqrt{3}\,\mathrm{V}} \approx 1.732\,\mathrm{V}
     \end{align*}
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{Dec}{Q28}{\tgEE \tgEEPowerSystems}
-\begin{solution}
+\begin{qsolution}{2023}{Dec}{Q27}{\tgEE \tgEEThreePhase}
+    \mcqAns{C}
+
+    From the given information, we can write:
+    \begin{align*}
+        \frac{\sqrt{3}-1}{2}V_m\cos(\omega t) &= V_m\cos(\omega t-120^\circ)\\
+        \frac{\cos \omega t}{\cos(\omega t-120^\circ)} &= \frac{2}{\sqrt{3}-1} \\
+        \frac{\cos \omega t}{\cos \omega t\cos 120^\circ + \sin\omega t\sin 120^\circ} &= \frac{2}{\sqrt{3}-1}\\
+        \frac{\cos \omega t}{-\frac{1}{2}\cos \omega t + \frac{\sqrt{3}}{2}\sin \omega t} &= \frac{2}{\sqrt{3}-1}\\
+        \left(\sqrt{3}-1\right)\cos\omega t &= -\cos \omega t + \sqrt{3}\sin \omega t\\
+        \sqrt{3}\cos \omega t &= \sqrt{3}\sin \omega t\\
+        \tan \omega t &=1\\
+        \omega t&=45^\circ, 225^\circ, \ldots
+    \end{align*}
+    Take $\omega t=45^\circ$, without loss of generality, we have $V_m\cos(45^\circ-120^\circ)=20 \Rightarrow V_m\approx 77.26\,\mathrm{V}$.
+    Therefore, the phase voltage (RMS value) is given by $\di V_{ph}=\frac{V_m}{\sqrt 2}\approx 54.64\,\mathrm{V}$.
+    Then, the line voltage is given by $\di V_l=\frac{V_{ph}}{\sqrt 3}\approx 31.54\,\mathrm{V}$.
+    \hfill$\therefore$ C
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{Q28}{\tgEE \tgEEPowerSystems}
     \mcqAns{D}
 
     \begin{enumualpha}
@@ -108,15 +119,46 @@
             This is long-term. This fits the definition of the question, so D is correct.
         \item Reliability is a combination of all of the above.
     \end{enumualpha}
-\end{solution}
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{Q30}{\tgEE \tgEECircuitAnalysis}
+    \mcqAns{B}
+
+    Use the given formula and values:
+    \[I_F=5\cdot\left[\exp\left(\frac{4.5\times10^{-21}\cdot3}{10^{-23}\cdot300}\right)-1\right]\approx 445\,\mathrm{mA}\]
+
+    Then, by KVF,
+    \begin{align*}
+        I_F\cdot R_S+3&=3.9\\
+        R_S&=\frac{0.9}{0.445}\approx 2.02\,\Omega
+    \end{align*}
+\end{qsolution}
 
 \end{multicols*}
 
 \subsection*{Section D -- Long Questions (Electrical Engineering)}
 \begin{multicols}{2}
 
-\startQwTags{2023}{Dec}{LQ6}{\tgEE \tgEEPowerSystems}
-\begin{solution}
+\begin{qsolution}{2023}{Dec}{LQ5}{\tgEE \tgEETransformer}
+    The AC voltage source $V_H$ has a peak voltage at $t=8T$ of $900\sqrt 2$ V.
+    Through the step-up transformer, the voltage on the secondary side $V_L$ is $\di V_L=\frac{1}{3}V_H=300\sqrt 2$ V.
+
+    The equivalent resistance $R_{2||3}$ for the parallel connection $R_2$ and $R_3$ is $\di\left(\frac{1}{15}+\frac{1}{30}\right)^{-1}=10\,\Omega$.
+    Then, the equivalent resistance $R_{eq}$ for the whole secondary side is $R_1+R_{2||3}=10+10=20\,\Omega$.
+
+    $\di V_L=I_L\cdot R_{eq} \Rightarrow I_L=\frac{300\sqrt 2}{20}=15\sqrt 2$ A.
+
+    Let $V_i$ and $I_i$ be the voltage and current flowing through the resistor $R_i$ ($i=1,2,3$).
+    By KVL, we have $V_L=V_1+V_{2||3}$.
+    Also, $V_1=I_L\cdot R_1=150\sqrt 2$ V.
+    Therefore, $V_2=V_3=V_{2||3}=V_L-V_1=150\sqrt 2$ V.
+    
+    By Ohm's law, we have $\di I_2=\frac{V_2}{R_2}=10\sqrt 2$ A.
+
+    Therefore, the peak current flowing through $R_2$ is $\boxed{10\sqrt 2\,\mathrm{A}} \approx 14.14\,\mathrm{A}$.
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{LQ6}{\tgEE \tgEEPowerSystems}
     For scenario A, the demand is at 1200 MW.
     The power plant units supply 1000 MW and 900 MW, respectively, so there will be loss of load for failure of either unit.
     Hence, we have
@@ -133,6 +175,6 @@
         &= 6\% \cdot 3\%\\
         &= \boxed{0.18\%}
     \end{align*}
-\end{solution}
+\end{qsolution}
 
 \end{multicols}

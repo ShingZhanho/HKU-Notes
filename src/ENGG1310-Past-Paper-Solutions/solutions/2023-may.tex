@@ -3,8 +3,7 @@
 \subsection*{Section A -- Multiple-choice Questions}
 \begin{multicols*}{2}
 
-\startQwTags{2023}{May}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
-\begin{solution}
+\begin{qsolution}{2023}{May}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
     \mcqAns{C}
 
     \begin{enumualpha}
@@ -13,17 +12,15 @@
         \item Doping will increase the number of charge carriers, therefore altering the conductivity of the material, so C is correct.
         \item Electrical conductivity depends on temperature, so D is incorrect.
     \end{enumualpha}
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q3}{\tgElectronics \tgElectronicsSemiconductor}
-\begin{solution}
+\begin{qsolution}{2023}{May}{Q3}{\tgElectronics \tgElectronicsSemiconductor}
     \mcqAns{B}
 
     When under forward bias, the n-type side of the pn junction is connected to a lower potential than the p-type side, not higher, so B is false.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q4}{\tgElectronics \tgElectronicsBJT}
-\begin{solution}
+\begin{qsolution}{2023}{May}{Q4}{\tgElectronics \tgElectronicsBJT}
     \mcqAns{D}
 
     Assuming the BJT is npn type:
@@ -33,10 +30,9 @@
         \item $I_B$ is regarded as the input current, not $I_C$.
         \item $I_E=I_B+I_C$, and $I_B$ is usually very small, so one can conclude that $I_E\approx I_C$.
     \end{enumualpha}
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q6}{\tgElectronics \tgElectronicsCMOS \tgElectronicsBJT}
-\begin{solution}
+\begin{qsolution}{2023}{May}{Q6}{\tgElectronics \tgElectronicsCMOS \tgElectronicsBJT}
     \mcqAns{E}
 
     \begin{enumualpha}
@@ -45,33 +41,29 @@
         \item CMOS can be fabricated on both p-type and n-type Si substrates. Incorrect.
         \item When applied with a positive voltage at the gate, NMOS turn on, while PMOS turn off. Incorrect.
     \end{enumualpha}
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q7}{\tgElectronics \tgElectronicsOptoelectronics}
-\begin{solution}
+\begin{qsolution}{2023}{May}{Q7}{\tgElectronics \tgElectronicsOptoelectronics}
     \mcqAns{B}
 
     Photocurrent is a result of absorption of photons, which will excite an electron from the valence band to the conduction band, so B is correct.
     All other processes are unrelated to the generation of photocurrent.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q8}{\tgElectronics \tgElectronicsBJT \tgElectronicsMOSFET}
-\begin{solution}
+\begin{qsolution}{2023}{May}{Q8}{\tgElectronics \tgElectronicsBJT \tgElectronicsMOSFET}
     \mcqAns{E}
 
     MOSFETs have lower transconductance than BJTs, so E is not an advantage of MOSFETs over BJTs.
     All other options are advantages of MOSFETs over BJTs.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q9}{\tgElectronics \tgElectronicsAnalogueDigital}
-\begin{solution}
+\begin{qsolution}{2023}{May}{Q9}{\tgElectronics \tgElectronicsAnalogueDigital}
     \mcqAns{C}
 
     Both analogue and digital communication systems require modulation to transmit signals over long distances, so C is NOT exclusive to digital communication.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q10}{\tgElectronics \tgElectronicsAM}
-\begin{solution}
+\begin{qsolution}{2023}{May}{Q10}{\tgElectronics \tgElectronicsAM}
     \mcqAns{B}
 
     \begin{enumualpha}
@@ -81,10 +73,9 @@
         \item The power dedicated to the carrier and the suppresed sideband is saved, so less power is used, so C is incorrect.
         \item There is less selective fading in SSB, so D is incorrect.
     \end{enumualpha}
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q11}{\tgElectronics \tgElectronicsMultiplexing}
-\begin{solution}
+\begin{qsolution}{2023}{May}{Q11}{\tgElectronics \tgElectronicsMultiplexing}
     \mcqAns{D}
 
     In WDM (wavelength-division multiplexing), the varying parameter is the wavelength of the light.
@@ -94,24 +85,39 @@
     {\itshape
         Note: WDM can also be regarded as a type of FDM (frequency-division multiplexing).
     }
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q12}{\tgElectronics \tgElectronicsEM}
-\begin{solution}
+\begin{qsolution}[100]{2023}{May}{Q12}{\tgElectronics \tgElectronicsEM}
     \mcqAns{A}
 
     The electric field and the magnetic field are in phase, so the phase difference is 0.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q31}{\tgEE \tgEERenewableEnergy}
-\begin{solution}
+\begin{qsolution}{2023}{May}{Q29}{\tgEE \tgEETransformer}
+    \mcqAns{D}
+
+    The AC voltage source $V_{S1}$ has a peak voltage at $\di t=\frac{1}{8}T$ (i.e., $\di \frac{2\pi}{T}=\frac{\pi}{4}$).
+    $V_{S1,\mathrm{peak}}=2000\sqrt{2}$ V.
+    \textbf{Note that a transformer cannot transform DC voltage (since $\di\bm{\frac{\mathrm{d}\Phi}{\mathrm{d}t}=0}$ for DC), so the DC voltage source $\bm{V_{S2}}$ does not contribute to the primary voltage.}
+    By using-- \[2=\frac{N_P}{N_S}=\frac{V_P}{V_S}=\frac{I_S}{I_P},\] we have $\di V_S=\frac{1}{2}V_P=1000\sqrt{2}$ V.
+    Then, since $V=IR$, we have $\di I_S=\frac{1000\sqrt{2}}{50}=20\sqrt{2}$ A.
+    Using the above equation again, we have $\di I_P=\frac{1}{2}I_S=10\sqrt{2}$ A $\approx 14.14$ A.
+
+    \textit{
+        {\bfseries Note}:
+        The symbols used in this solution are defined differently from the question.
+        Here, $V_P$, $I_P$, $N_P$ are the voltage, current, and number of turns on the primary side, while $V_S$, $I_S$, $N_S$ are the voltage, current, and number of turns on the secondary side.
+        The diagram of the question defines $I_S$ as the current on the primary side.
+    }
+\end{qsolution}
+
+\begin{qsolution}{2023}{May}{Q31}{\tgEE \tgEERenewableEnergy}
     \mcqAns{E}
 
     Natural gas is a fossil fuel, it is consumed faster than it is replenished, so it is not a renewable energy source.
-\end{solution}
+\end{qsolution}
 
-\startQwTags{2023}{May}{Q33}{\tgEE \tgEEPowerSystems \tgEERMS}
-\begin{solution}
+\begin{qsolution}[20]{2023}{May}{Q33}{\tgEE \tgEEPowerSystems \tgEERMS}
     \mcqAns{E}
 
     The voltage waveform for one period is defined as:
@@ -129,6 +135,13 @@
         &= \sqrt{\frac{1}{T}\left(\frac{3}{2}T+\frac{9}{2}T\right)} \\
         &= \sqrt{6}\,\mathrm{V} \approx 2.45\,\mathrm{V}
     \end{align*}
-\end{solution}
+\end{qsolution}
+
+\begin{qsolution}{2023}{May}{Q35}{\tgEE \tgEEDeltaY}
+    \mcqAns{B}
+
+    The transformation from Delta to Y is given by
+    \[R_a=\frac{R_2\cdot R_3}{R_1+R_2+R_3}=\frac{4\cdot 6}{2+4+6}=2\,\Omega\]
+\end{qsolution}
 
 \end{multicols*}
