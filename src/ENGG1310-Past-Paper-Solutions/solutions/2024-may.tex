@@ -1,7 +1,7 @@
 \startYear{2024 May}
 
 \subsection*{Section A -- Multiple-choice Questions}
-\begin{multicols*}{2}
+\begin{multicols}{2}
 
 \begin{qsolution}{2024}{May}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
     \mcqAns{D}
@@ -86,11 +86,110 @@
     Moore's law states that the number of transistors on a microchip doubles approximately every two years.
 \end{qsolution}
 
+\begin{qsolution}{2024}{May}{Q11}{\tgCE}
+    \mcqAns{B}
+
+    The answer is given by $\displaystyle\left\lfloor\frac{17\cdot(7+4)}{8}\right\rfloor=24$ bytes.
+\end{qsolution}
+
+\begin{qsolution}[20]{2024}{May}{Q12}{\tgCE \tgCESignMagRepr}
+    \mcqAns{B}
+
+    A 15-bit sign-magnitude representation has 14 bits for representing the magnitude.
+    The range is therefore $[-(2^{14}-1), 2^{14}-1] = [-16383, 16383]$.
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q13}{\tgCE \tgCEAI}
+    \mcqAns{C}
+
+    The steps from data to intelligence are processing, cognition, pattern extraction, and inference.
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q14}{\tgCE \tgCELogicalCircuits}
+    \mcqAns{E}
+
+    By verifying all of the possible combinations, we find that only $(0,1,1), (1,0,1), (1,1,0), (1,1,1)$ will give an output of 1.
+    Therefore, when two or more inputs are 1, the output is 1.
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q15}{\tgCE \tgCEIEEESinglePrecision}
+    \mcqAns{C}
+
+    \begin{enumualpha}
+        \item The single precision floating-point representation has 23 bits for the significand.
+        \item Special values like NaN and infinity can be represented (through exponent/significand being all 0's or all 1's).
+        \item Correct.
+        \item The exponent uses excess-127, not 128.
+        \item The significand has 23 bits, not 22.
+    \end{enumualpha}
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q16}{\tgCE \tgCETwosComplement}
+    \mcqAns{D}
+
+    Flip the bits of $101\,1010\,1001$ gives $010\,0101\,0110$.
+    Adding 1 gives $010\,0101\,0111$, which is the binary representation of 599.
+    Since the original number is negative (MSB is 1), the decimal value is $-599$.
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q17}{\tgCE \tgCELogicalCircuits}
+    \mcqAns{E}
+
+    Create the truth table for the options, we find that only E matches the truth table of the given expression.
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q18}{\tgCE \tgCELogicalCircuits}
+    \mcqAns{E}
+
+    By Karnaugh map ({\itshape not covered in this course, taught in COMP2120 Computer Organisation}), we can find a simplified expression for the given truth table, which is $\overline A\,\overline F+F\,G$.
+
+    Expand the expression in option E, we have $\overline E\,\overline F+\overline E\,G+F\,G$.
+    Observe that whenever $\overline E\,G$ is 1, the output is 1, therefore the term is redundant and can be removed, which gives $\overline E\,\overline F+F\,G$, which is the same as the simplified expression.
+
+    \itshape Note: if you do not know Karnaugh map method, you can also brute-force verify all of the expressions.
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q19}{\tgCE \tgCELogicalCircuits}
+    \mcqAns{D}
+
+    Write down the expression for the given circuit, we have $\overline{\overline{\overline{C+D}\cdot\overline{C\cdot D}\cdot E}}$.
+    Simplify:
+    \begin{align*}
+        \overline{\overline{\overline{C+D}\cdot\overline{C\cdot D}\cdot E}}
+        &= \overline{C+D}\cdot\overline{C\cdot D}\cdot E\\
+        &= \overline C\,\overline D\cdot(\overline C+\overline D)\cdot E\\
+        &= \overline C\cdot\overline D\cdot E
+    \end{align*}
+    The only combination that gives an output of 1 is $(C,D,E)=(0,0,1)$.
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q20}{\tgCE \tgCEFixedPointRepr}
+    \mcqAns{B}
+
+    For the integral part, we have $117_{10}=1110101_2$.
+    For the fractional part, it is given by:
+    \begin{align*}
+        0.4375_{10}\times 2 = \boxed{0}.875\\
+        0.875_{10}\times 2 = \boxed{1}.75\\
+        0.75_{10}\times 2 = \boxed{1}.5\\
+        0.5_{10}\times 2 = \boxed{1}.0
+    \end{align*}
+    Therefore, $.4375_{10}=.0111_2$.
+
+    Thus, $117.4375_{10}=111\,0101.0111_2=101\,0101\,0111\times 2^{-4}$.
+\end{qsolution}
+
 \begin{qsolution}{2024}{May}{Q21}{\tgEE \tgEEThreePhase}
     \mcqAns{C}
 
     This problem is identical to \hyperref[q:2024-dec-mcq24]{2024 Dec Q24}.
     Refer to the solution of that question for details.
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q22}{\tgEE \tgEERenewableEnergy}
+    \mcqAns{E}
+
+    Water source is generally not a concern for photovoltaic systems.
 \end{qsolution}
 
 \begin{qsolution}[20]{2024}{May}{Q23}{\tgEE \tgEEDeltaY}
@@ -104,7 +203,13 @@
     \end{align*}
 \end{qsolution}
 
-\begin{qsolution}[20]{2024}{May}{Q25}{\tgEE \tgEERMS}
+\begin{qsolution}{2024}{May}{Q24}{\tgEE \tgEEHKElec}
+    \mcqAns{E}
+
+    All of the statements regarding Hong Kong electricity utilisation are correct.
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q25}{\tgEE \tgEERMS}
     \mcqAns{C}
     
     The voltage for one period is given by:
@@ -119,6 +224,64 @@
         V_{\mathrm{RMS}} &= \sqrt{\frac{1}{T}\int_0^{T} v^2(t) \d t} \\
         &= \sqrt{\frac{1}{T}\left[\int_{0}^{0.5T}\frac{36t^2}{T^2}\d t+\int_{0.5T}^{T}\left(9-\frac{18t}{T}+\frac{9t^2}{T^2}\right)\d t\right]} \\
         &= \sqrt{\frac{1}{T}\left(\frac{3}{2}T+\frac{3}{8}T\right)} = \sqrt{\frac{15}{8}} \approx 1.375\,\mathrm{V}
+    \end{align*}
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q26}{\tgEE \tgEECircuitAnalysis \tgEEResistors}
+    \mcqAns{D}
+
+    Denote the current flowing through the loop Voltage Source-$R_1$-$R_3$-$R_6$ as $I_1$, the loop $R_1$-$R_2$-$R_5$ as $I_2$, and the loop $R_3$-$R_5$-$R_4$ as $I_3$.
+    Analyse each loop, we have:
+    \[
+    \begin{cases}
+        -6+0.6(I_1-I_2)+1.8(I_1-I_3)=0\\
+        0.6(I_2-I_1)+1.2I_2+12(I_2-I_3)=0\\
+        1.8(I_3-I_1)+12(I_3-I_2)+3.6I_3=0
+    \end{cases}
+    \]
+    Simplifying and rearranging the terms, we have:
+    \[
+    \begin{pmatrix}
+        3.8 & -0.6 & -1.8 \\
+        -0.6 & 13.8 & -12 \\
+        -1.8 & -12 & 17.4
+    \end{pmatrix} \begin{pmatrix}
+        I_1 \\ I_2 \\ I_3
+    \end{pmatrix} = \begin{pmatrix}
+        6 \\ 0 \\ 0
+    \end{pmatrix},
+    \]
+    which solves to
+    \[
+        \begin{cases}
+            I_1 &= 2\text{ V}\\
+            I_2 &= 2/3\text{ V}\\
+            I_3 &= 2/3\text{ V}
+        \end{cases}.
+    \]
+    Refer to the circuit, we have:
+    \[
+    \begin{cases}
+        V_{R_1}=0.6\cdot|I_1-I_2|=0.6\cdot\frac{4}{3}&=\boxed{0.8\text{ V}} \\
+        V_{R_4}=3.6\cdot I_3=3.6\cdot\frac{2}{3}&=\boxed{2.4\text{ V}} \\
+        V_{R_5}=12\cdot|I_2-I_3|&=\boxed{0\text{ V}}
+    \end{cases}
+    \]
+\end{qsolution}
+
+\begin{qsolution}{2024}{May}{Q27}{\tgEE \tgEEPowerSystems}
+    \mcqAns{C}
+
+    The information gives the equation:
+    \begin{align*}
+        4P\eta + 2\cdot500\cdot30\%&=10\cdot50 \\
+        4P\eta&=200\\
+        P\eta&=50
+    \end{align*}
+    Let the time that the wind turbine should charge the battery be $t$ hours, we have:
+    \begin{align*}
+        50t&=4.5\cdot50\\
+        t&=4.5\text{ hours}
     \end{align*}
 \end{qsolution}
 
@@ -139,7 +302,28 @@
     $
 \end{qsolution}
 
-\end{multicols*}
+\begin{qsolution}[20]{2024}{May}{Q29}{\tgEE \tgEERenewableEnergy \tgOutSyl}
+    \mcqAns{C}
+
+    Fuel cell electric vehicles (FCEVs) are powered by a fuel cell stack that converts hydrogen into electricity, not by an internal combustion engine.
+    They use electric motors, but do not have an internal combustion engine.
+
+    \itshape Note: it appears that the latest syllabus no longer mentions electric vehicles.
+\end{qsolution}
+
+\begin{qsolution}[20]{2024}{May}{Q30}{\tgEE \tgEEBatterySOC}
+    \mcqAns{C}
+
+    Substituting the given values into the formulae:
+    \begin{align*}
+        \mathrm{SOC}_{\mathrm{ch}}&=\frac{15\mathrm{kW}\cdot2\mathrm{h}\cdot90\%}{50\mathrm{kWh}}=54\%\\
+        \mathrm{SOC}_{\mathrm{dis}}&=\frac{10\mathrm{kW}\cdot1.8\mathrm{h}}{50\mathrm{kWh}\cdot90\%}=40\%\\
+        \mathrm{SOC}_1&=\mathrm{SOC}_0+\mathrm{SOC}_{\mathrm{ch}}-\mathrm{SOC}_{\mathrm{dis}}\\
+        &=20\%+54\%-40\%=\boxed{34\%}
+    \end{align*}
+\end{qsolution}
+
+\end{multicols}
 
 \subsection*{Section B -- Long Questions (Electronics)}
 \begin{multicols}{2}
@@ -173,6 +357,76 @@
     \[
         \beta = \frac{I_C}{I_B} = \frac{1757.576}{63.235} = \boxed{27.80}
     \]
+\end{qsolution}
+
+\end{multicols}
+
+\pagebreak
+
+\subsection*{Section C -- Long Questions (Computer Engineering)}
+\begin{multicols}{2}
+
+\startQwTags{2024}{May}{Q33}{\tgCE \tgCEOnesComplement \tgCETwosComplement}
+\begin{solution}
+    First, we convert $-107$ and $-21$ to their 8-bit one's complement representations:
+    \begin{center}
+        \begin{tabular}{rccccccccl}
+            $\mathrm{NOT})$  & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 1 & (+107 in binary)\\\hline
+                             & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & ($-107$)\\
+        \end{tabular}
+    \end{center}
+    \begin{center}
+        \begin{tabular}{rccccccccl}
+            $\mathrm{NOT})$  & 0 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & (+21 in binary)\\\hline
+                             & 1 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & ($-21$)\\
+        \end{tabular}
+    \end{center}
+
+    Then, we add the two numbers together:
+    \begin{center}
+        \begin{tabular}{rccccccccl}
+                             & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & ($-107$)\\
+            $+)$             & 1 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & ($-21$)\\\hline
+                $\cancel{1}$ & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & \\
+        \end{tabular}
+    \end{center}
+
+    Since carry bit is generated, we need to add it back to the result:
+    \begin{center}
+        \begin{tabular}{rccccccccl}
+                             & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & \\
+            $+)$             &   &   &   &   &   &   &   & 1 & \\\hline
+                             & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & \\
+        \end{tabular}
+    \end{center}
+    
+    The result has the most significant bit being 0, which indicates that the result is positive.
+    However, $(-107)+(-21)<0$, so the result is incorrect.
+
+    If we use two's complement representation, we have:
+    \begin{center}
+        \begin{tabular}{rccccccccl}
+                             & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & ($-107$)\\
+            $+)$             & 1 & 1 & 1 & 0 & 1 & 0 & 1 & 1 & ($-21$)\\\hline
+                $\cancel{1}$ & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & ($-128$)\\
+        \end{tabular}
+    \end{center}
+    We can see that the result is correct.
+\end{solution}
+
+\columnbreak
+
+\begin{qsolution}{2024}{May}{Q34}{\tgCE \tgCELogicProgramming}
+    With the given rules, we can define the rule:
+
+    {\itshape
+        grandmother(X, Z) :- mother(X, Y), parent(Y, Z).
+
+        grandchild(A, C) :- parent(C, B), parent(B, A).
+    }
+
+    \textbf{Ontology} is a closely related field of study to deal with the kinds of objects that exist.
+    It is a formal definition of the properties and relationships of entities in a particular domain, often done with a specific taxonomy.
 \end{qsolution}
 
 \end{multicols}
