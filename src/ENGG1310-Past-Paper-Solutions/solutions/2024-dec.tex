@@ -176,6 +176,28 @@
     Ignoring the carry-out, we have option A.
 \end{qsolution}
 
+\begin{qsolution}{2024}{Dec}{Q20}{\tgCE \tgCEComputerOrganisation}
+    \mcqAns{C}
+
+    \begin{enumroman}
+        \item This is a bottleneck of the von Neumann architecture, not an advantage.
+        \item[(ii)-(iii)] Correct.
+        \item[(iv)] This is not specific to the von Neumann architecture, nor is it an advantage.
+    \end{enumroman}
+\end{qsolution}
+
+\begin{qsolution}{2024}{Dec}{Q21}{\tgEE \tgEEPowerSystems}
+    \mcqAns{C}
+
+    \begin{enumualpha}
+        \item Hong Kong's power system is interconnected with \textbf{China Southern Power Grid}, not State Grid Corporation of China.
+        \item Due to skin effect, high power loss occurs at high frequencies.
+        \item Correct.
+        \item Kirchhoff's laws can be applied to both AC and DC circuits.
+        \item The power quality is measured by voltage, frequency, and harmonics, not active power.
+    \end{enumualpha}
+\end{qsolution}
+
 \begin{qsolution}{2024}{Dec}{Q22}{\tgEE \tgEECircuitAnalysis}
     \mcqAns{E}
 
@@ -194,6 +216,25 @@
     \end{align*}
 \end{qsolution}
 
+\begin{qsolution}{2024}{Dec}{Q23}{\tgEE \tgEECircuitAnalysis}
+    \mcqAns{D}
+    
+    Notice that peak $V_H=900\sqrt2$ V.
+    \[
+        \frac{V_L}{V_H}=\frac{3}{1} \implies V_L=2700\sqrt{2}\,\mathrm{V}
+    \]
+    The total resistance $R$ on the right hand side is
+    \[
+    R=\left(\frac{1}{R_1}+\frac{1}{R_2}\right)^{-1}+\left(\frac{1}{R_3}+\frac{1}{R_4}\right)^{-1}=27.5\,\Omega.
+    \]
+    Then,
+    \[
+        V_L=I_L\cdot R \implies I_L=\frac{2700\sqrt 2}{27.5}=\frac{1080\sqrt 2}{11}\,\mathrm{A}.
+    \]
+    Notice that when the current converges after flowing through $R_1$ and $R_2$, then is equally split into two branches since $R_3=R_4$.
+    Therefore, the current flowing through $R_3$ is $\displaystyle\frac{1080\sqrt 2}{22}\approx 69.42$ A.
+\end{qsolution}
+
 \begin{qsolution}{2024}{Dec}{Q24}{\tgEE \tgEEThreePhase \phantomsection\label{q:2024-dec-mcq24}}
     \mcqAns{D}
     
@@ -209,6 +250,8 @@
     Note that counterclockwise is defined as positive.
     Therefore, line voltage is $\sqrt{3}$ times the phase voltage, and leads the phase voltage by $30^\circ$.
 \end{qsolution}
+
+\pagebreak
 
 \begin{qsolution}{2024}{Dec}{Q25}{\tgEE \tgEEPowerSystems \tgEERMS}
     \mcqAns{A}
@@ -232,6 +275,28 @@
     \mcqAns{D}
 
     Coal, oil, and natural gas are all non-renewable energy sources, therefore only D is correct.
+\end{qsolution}
+
+\begin{qsolution}{2024}{Dec}{Q27}{\tgEE \tgEEPowerSystems}
+    \mcqAns{C}
+
+    With the information given, we have:
+    \begin{align*}
+        4P\eta+5\cdot300\cdot35\%&=13\cdot50\\
+        P\eta&=31.25\,\mathrm{kW}
+    \end{align*}
+    Then, let the time taken to charge the lamp be $t$ hours, we have:
+    \begin{align*}
+        31.25t&=6\cdot50\\
+        t&=9.6\,\mathrm{h}
+    \end{align*}
+\end{qsolution}
+
+\begin{qsolution}{2024}{Dec}{Q28}{\tgEE \tgEERenewableEnergy \tgEEPowerSystems}
+    \mcqAns{E}
+
+    The fundamental components of a stand-alone PV system include a power generator, a charge controller, a storage battery, and an inverter.
+    Diodes are not fundamental components of a stand-alone PV system.
 \end{qsolution}
 
 \begin{qsolution}{2024}{Dec}{Q29}{\tgEE \tgEECapacitors \tgEECircuitAnalysis}
@@ -259,6 +324,95 @@
         \mathrm{SOC}_0 &= 67\%
     \end{align*}
 \end{qsolution}
+
+\end{multicols}
+
+\pagebreak
+
+\subsection*{Section B -- Long Questions (Electronic Engineering)}
+\begin{multicols}{2}
+
+\begin{qsolution}{2024}{Dec}{Q31}{\tgElectronics \tgElectronicsSemiconductor}
+
+    \begin{parts}
+        \part Boron has 3 valence $\mathrm e^-$, and silicon has 4.
+        When doping silicon with boron, only 3 valence $\mathrm e^-$ are available for bonding, leaving one positive $\mathrm h^+$ (hole) in the crystal lattice, thus creating a p-type semiconductor.
+
+        Besides, boron has a similar atomic radius to silicon, which allows it to fit into the silicon lattice without causing significant distortion, making it a suitable dopant for silicon.
+
+        \part A hole is the absence of an electron.
+        The hole itself does not move independently.
+        When an electron gets excited from the valence band to the conduction band, it leaves behind a hole (positive charge carrier) in the valence band.
+        Then, when a nearby valent electron jumps to fill the hole, it creates a new hole at its original position, thus the positive charge is shifted to the new position.
+        This process repeats, allowing holes to ``move'' through the semiconductor material.
+
+        \textit{(Sketch omitted.)}
+    \end{parts}
+
+\end{qsolution}
+
+\begin{qsolution}{2024}{Dec}{Q32}{\tgElectronics \tgElectronicsFibreOptics}
+
+    \begin{parts}
+        \part The three main components of an optical fibre, from the innermost to the outermost, are the core, cladding, and jacket.
+        The core usually has a refractive index of $1.5$, while the cladding has a slightly lower refractive index of $1.4$.
+
+        \textit{(Sketch omitted.)}
+
+        \part When the signal light rays enter the fibre, they will travel through different paths.
+        The rays that travel straight through the core will arrive at the destination first.
+        Some other rays traveling at an angle will reflect off the core-cladding interface, thus taking a longer path and arriving at the receiving end later.
+        Since the light rays arrive at different times, the signal will be elongated when it reaches the destination, resulting in a distortion of the signal, which is called \textit{modal dispersion}.
+
+        \textit{(Sketch omitted.)}
+    \end{parts}
+
+\end{qsolution}
+
+\end{multicols}
+
+\subsection*{Section C -- Long Questions (Computer Engineering)}
+\begin{multicols}{2}
+
+\begin{qsolution}{2024}{Dec}{Q33}{\tgCE \tgCELogicalCircuits}
+
+    The conditions for a logical function to be combinational are:
+    \begin{enumarab}
+        \item The enclosing logical circuit must be combinational;
+        \item There must be no loops in the circuits; and
+        \item The input of a function must only be connected to one output of a function.
+    \end{enumarab}
+
+    The given circuit is indeed combinational, since:
+    \begin{enumarab}
+        \item The circuit is composed of only \texttt{NAND} gates, which are combinational;
+        \item There are no loops in the circuit; and
+        \item The input of each function is only connected to one output of a function.
+    \end{enumarab}
+
+\end{qsolution}
+
+\startQwTags{2024}{Dec}{Q34}{\tgCE \tgCEOnesComplement \tgCEComputerOrganisation}
+% This placement without the qsolution environment is intentional, since the solution is too long to fit in one column.
+
+\textbf{Solution:}
+\begin{parts}
+    \part Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+    \part Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\end{parts}
+\dotfill
 
 \end{multicols}
 
