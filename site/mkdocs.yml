@@ -65,3 +65,25 @@ plugins:
   - search:
       lang: en
       enabled: true
+nav:
+  - Home: index.md
+  - Downloads:
+    - Catalogue: downloads/index.md
+    - Resources:
+# == RES_LIST_PLACEHOLDER == #
+      # items should be dynamically generated in the build pipeline
+      # first level:
+      #   - [course code]:
+      # second level:
+      #     - [target name]: downloads/details/[target name].md
+  - References:
+    - references.md
+    - Contributing: contribution.md
+    - Document Status: downloads/document-status.md
+    - Syntax References:
+      - authors.json: contribution/syntax-reference/authors.json.md
+      - build-targets.txt: contribution/syntax-reference/build-targets.txt.md
+      - metadata.json:
+        - contribution/syntax-reference/metadata.json/index.md
+        - Schema v1: contribution/syntax-reference/metadata.json/v1.md
+        - Schema v2: contribution/syntax-reference/metadata.json/v2.md
