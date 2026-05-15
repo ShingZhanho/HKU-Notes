@@ -1,5 +1,6 @@
 site_name: HKU-Notes
 site_url: https://hku.jacobshing.com/
+site_dir: ../gh-out
 theme:
   name: material
   custom_dir: overrides
