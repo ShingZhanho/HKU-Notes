@@ -1,8 +1,8 @@
 {
-    "@metadata_file_version": "1",
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "static_site": {
         "description": "Assignment 1 of COMP2121 (subclass 1B) (25/26 Fall) with solutions.",
-        "document_status": "fin",
-        "custom_md_file": "custom.md"
+        "custom_md_file": "custom.md",
+        "document_status": "fin"
     }
 }

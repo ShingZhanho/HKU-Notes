@@ -1,5 +1,5 @@
 {
-    "@metadata_file_version": "1",
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "build": {
         "requires": [
             "python-minted-pkgs"

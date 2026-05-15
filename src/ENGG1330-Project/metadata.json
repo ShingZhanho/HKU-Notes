@@ -1,24 +1,27 @@
 {
-    "@metadata_file_version": "1",
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "build": {
         "output_file": "NON_FILE_TARGET",
         "build_command": "true",
-        "miktex_package_file": "NON_FILE_TARGET",
         "no_latex": true
     },
     "static_site": {
         "description": "The GitHub repository of the group project.",
         "custom_md_file": "index.md",
-        "primary_button": {
-            "text": "View on GitHub",
-            "icon": "material-github",
-            "href": "https://github.com/ShingZhanho/ENGG1330-Project-24Fall"
-        },
-        "secondary_button": {
-            "disabled": true
-        }
+        "buttons": [
+            {
+                "index": 0,
+                "is_primary": true,
+                "text": "View on GitHub",
+                "icon": "material-github",
+                "href": "https://github.com/ShingZhanho/ENGG1330-Project-24Fall"
+            }
+        ]
     },
     "authors": [
-        "!jacob_shing", "jialin_liu", "kyaw_w_thant", "jun_hao_wu"
+        "!jacob_shing",
+        "jialin_liu",
+        "kyaw_w_thant",
+        "jun_hao_wu"
     ]
 }

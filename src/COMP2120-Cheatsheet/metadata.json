@@ -1,5 +1,5 @@
 {
-    "@metadata_file_version": "1",
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "static_site": {
         "description": "An A4 double-sided cheatsheet for the COMP2120 final exam.",
         "custom_md_file": "custom.md",

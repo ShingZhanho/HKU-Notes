@@ -1,5 +1,5 @@
 {
-    "@metadata_file_version": "1",
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "static_site": {
         "description": "Assignment 3 of COMP2120 (24/25 Spring) with solutions.",
         "document_status": "lts"

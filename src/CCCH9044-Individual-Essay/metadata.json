@@ -1,12 +1,12 @@
 {
-    "@metadata_file_version": "1",
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "build": {
         "prebuild_command": "texcount ./contents.tex | grep \"Words in text:\" | awk '{print $4}' > ./wordcount.txt"
     },
     "static_site": {
         "description": "The 3000-word individual essay for the course CCCH9044.",
-        "document_status": "fin",
         "custom_md_file": "custom.md",
+        "document_status": "fin",
         "pdf_viewer": "at_tag"
     }
 }

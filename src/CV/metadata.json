@@ -1,7 +1,6 @@
 {
-    "@metadata_file_version": "1",
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
     "build": {
-        "miktex_package_file": "altacv.cls",
         "root_file": "CV-JacobShing.tex",
         "postbuild_command": "mv CV-JacobShing.pdf CV-SHING_Zhan_Ho_Jacob.pdf",
         "output_file": "CV-SHING_Zhan_Ho_Jacob.pdf"
@@ -11,10 +10,21 @@
         "custom_md_file": "custom.md",
         "document_status": "sre",
         "pdf_viewer": "at_tag",
-        "secondary_button": {
-            "text": "View on LinkedIn",
-            "icon": "material-linkedin",
-            "href": "https://www.linkedin.com/in/jacobszh/"
-        }
+        "buttons": [
+            {
+                "index": 0,
+                "is_primary": true,
+                "text": "Download",
+                "icon": "material-download",
+                "href": "https://hku.jacobshing.com/files/CV/CV-SHING_Zhan_Ho_Jacob.pdf"
+            },
+            {
+                "index": 1,
+                "is_primary": false,
+                "text": "View on LinkedIn",
+                "icon": "material-linkedin",
+                "href": "https://www.linkedin.com/in/jacobszh/"
+            }
+        ]
     }
 }

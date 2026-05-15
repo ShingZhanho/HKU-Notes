@@ -12,21 +12,26 @@ how it should be displayed and presented on the website.
 
 There are two versions of the `metadata.json` schema:
 
+!!! danger "Schema v1 has been phased out"
+
+    All existing build targets have been migrated to **schema v2**. Schema v1 is **no longer supported**.
+    Pull requests that introduce build targets using v1 schema **will not be merged** until updated to v2.
+
 <div class="grid cards" markdown>
 
--   :material-numeric-2-box:{ .lg .middle } **Schema v2** _(Recommended)_
+-   :material-numeric-2-box:{ .lg .middle } **Schema v2** _(Required)_
 
     ---
 
-    The current recommended schema for new build targets. Features a flexible button system and uses the `$schema` field for version detection.
+    The only supported schema for all build targets. Features a flexible button system and uses the `$schema` field for version detection.
 
     [:octicons-arrow-right-24: View v2 Documentation](v2.md)
 
--   :material-numeric-1-box:{ .lg .middle } **Schema v1** _(Legacy)_
+-   :material-numeric-1-box:{ .lg .middle } **Schema v1** _(Phased Out)_
 
     ---
 
-    The legacy schema maintained for backward compatibility. Uses `@metadata_file_version` for version detection and supports primary/secondary button structure.
+    No longer supported. All targets have been migrated to v2. This documentation is kept for historical reference only.
 
     [:octicons-arrow-right-24: View v1 Documentation](v1.md)
 
@@ -34,17 +39,16 @@ There are two versions of the `metadata.json` schema:
 
 ## Version Detection
 
-The build pipeline automatically detects the schema version of each `metadata.json` file using the following priority:
+The build pipeline detects the schema version of each `metadata.json` file using the following priority:
 
 1. **`$schema` field** - If present and contains `schemas/v2.json`, the file is treated as v2
-2. **`@metadata_file_version` field** - Legacy method for both v1 and v2
+2. **`@metadata_file_version` field** - Legacy fallback for historical v1 and v2 files
 3. **Error** - If neither field is present, the build will fail
 
-!!! tip "Choosing a Schema Version"
+!!! tip "Using Schema v2"
 
-    - **For new build targets**: Use [schema v2](v2.md) with the `$schema` field
-    - **For existing build targets**: No changes needed - v1 files will continue to work
-    - **Migrating from v1 to v2**: See the [v2 documentation](v2.md#changes-from-v1-to-v2) for key differences
+    All build targets must use [schema v2](v2.md) with the `$schema` field.
+    See the [v2 documentation](v2.md#changes-from-v1-to-v2) for the full list of fields.
 
 ## Common Concepts
 
