@@ -1,7 +1,3 @@
----
-hide:
-    - navigation
----
 # Document Status
 
 The website displays a status badge for each document, indicating its current state.

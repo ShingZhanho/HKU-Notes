@@ -78,7 +78,7 @@ nav:
       #     - [target name]: downloads/details/[target name].md
   - References:
     - references.md
-    - Contributing: contribution.md
+    - Contributing: contribution/index.md
     - Document Status: downloads/document-status.md
     - Syntax References:
       - authors.json: contribution/syntax-reference/authors.json.md

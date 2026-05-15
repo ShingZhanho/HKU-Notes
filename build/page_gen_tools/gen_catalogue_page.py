@@ -11,9 +11,6 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
 
     # Prepare front matter data
     front_matter = {
-        "hide": [
-            "navigation",
-        ],
         "description": "Browse and download free HKU notes and materials. \
             Mainly for Computer Science courses but some common core courses are also available!",
         "comments": True,
