@@ -31,7 +31,9 @@ theme:
 
   features: 
     - content.tooltips
+    - navigation.expand
     - navigation.path
+    - navigation.sections
     - navigation.tabs
     - navigation.top
 repo_url: https://github.com/ShingZhanho/HKU-Notes
