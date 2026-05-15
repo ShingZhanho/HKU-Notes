@@ -306,17 +306,17 @@ jobs:
         with:
           fetch-depth: 0  # allow access to commit date and time for sitemap.xml
 
-      # --- SETUP MKDOCS-MATERIAL ---
+      # --- SETUP SITE BUILD DEPENDENCIES ---
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
           cache: 'pip'
-          cache-dependency-path: ./build/python-requirement-lists/mkdocs-material-pkgs.txt
+          cache-dependency-path: ./build/python-requirement-lists/site-pkgs.txt
 
       # --- DOWNLOAD COMPILED ARTIFACTS ---
-      - name: Install mkdocs-material
-        run: pip install -r ./build/python-requirement-lists/mkdocs-material-pkgs.txt
+      - name: Install site build dependencies
+        run: pip install -r ./build/python-requirement-lists/site-pkgs.txt
 
       - name: Prepare deployment directories
         run: |
@@ -351,20 +351,8 @@ jobs:
         run: mkdir ./site/docs/files && cp -r ./gh-out/files/* ./site/docs/files && rm -rf ./gh-out
 
       - name: Build static site
-        run: mkdocs build -d ../gh-out
+        run: zensical build -d ../gh-out
         working-directory: ./site
-
-      - name: Build Zensical site
-        working-directory: ./site
-        run: |
-          mkdir beta
-          cp -r docs beta
-          mv mkdocs_zensical_beta.yml beta/mkdocs.yml
-          cd beta
-          zensical build
-          mkdir ../../gh-out/beta
-          cd ..
-          cp -r beta/site/* ../gh-out/beta
 
       # --- GENERATE AND REPLACE SITEMAP.XML ---
       - name: Remove generated sitemap.xml
@@ -426,17 +414,17 @@ jobs:
         with:
           fetch-depth: 0  # allow access to commit date and time for sitemap.xml
 
-      # --- SETUP MKDOCS-MATERIAL ---
+      # --- SETUP SITE BUILD DEPENDENCIES ---
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
           cache: 'pip'
-          cache-dependency-path: ./build/python-requirement-lists/mkdocs-material-pkgs.txt
+          cache-dependency-path: ./build/python-requirement-lists/site-pkgs.txt
 
       # --- DOWNLOAD COMPILED ARTIFACTS ---
-      - name: Install mkdocs-material
-        run: pip install -r ./build/python-requirement-lists/mkdocs-material-pkgs.txt
+      - name: Install site build dependencies
+        run: pip install -r ./build/python-requirement-lists/site-pkgs.txt
 
       - name: Prepare deployment directories
         run: |
@@ -471,7 +459,7 @@ jobs:
         run: mkdir ./site/docs/files && cp -r ./gh-out/files/* ./site/docs/files && rm -rf ./gh-out
 
       - name: Build static site
-        run: mkdocs build -d ../gh-out
+        run: zensical build -d ../gh-out
         working-directory: ./site
 
       # --- GENERATE AND REPLACE SITEMAP.XML ---
