@@ -459,7 +459,7 @@ jobs:
         run: mkdir ./site/docs/files && cp -r ./gh-out/files/* ./site/docs/files && rm -rf ./gh-out
 
       - name: Build static site
-        run: zensical build
+        run: zensical build && mv output ../gh-out
         working-directory: ./site
 
       # --- GENERATE AND REPLACE SITEMAP.XML ---
