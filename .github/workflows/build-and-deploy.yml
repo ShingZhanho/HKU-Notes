@@ -351,20 +351,8 @@ jobs:
         run: mkdir ./site/docs/files && cp -r ./gh-out/files/* ./site/docs/files && rm -rf ./gh-out
 
       - name: Build static site
-        run: mkdocs build -d ../gh-out
+        run: zensical build -d ../gh-out
         working-directory: ./site
-
-      - name: Build Zensical site
-        working-directory: ./site
-        run: |
-          mkdir beta
-          cp -r docs beta
-          mv mkdocs_zensical_beta.yml beta/mkdocs.yml
-          cd beta
-          zensical build
-          mkdir ../../gh-out/beta
-          cd ..
-          cp -r beta/site/* ../gh-out/beta
 
       # --- GENERATE AND REPLACE SITEMAP.XML ---
       - name: Remove generated sitemap.xml
@@ -471,7 +459,7 @@ jobs:
         run: mkdir ./site/docs/files && cp -r ./gh-out/files/* ./site/docs/files && rm -rf ./gh-out
 
       - name: Build static site
-        run: mkdocs build -d ../gh-out
+        run: zensical build -d ../gh-out
         working-directory: ./site
 
       # --- GENERATE AND REPLACE SITEMAP.XML ---
