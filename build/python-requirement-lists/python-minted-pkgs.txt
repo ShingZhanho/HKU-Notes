@@ -1,4 +1,4 @@
 latex2pydata==0.5.0
-latexminted==0.6.0
+latexminted==0.7.1
 latexrestricted==0.6.2
-Pygments==2.19.2
+Pygments==2.20.0
