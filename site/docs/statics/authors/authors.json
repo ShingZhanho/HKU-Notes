@@ -59,6 +59,26 @@
         "avatar": null,
         "href": "#"
     },
+    "chun_hei_bahn": {
+        "display_name": "Chun Hei Bahn",
+        "avatar": "https://avatars.githubusercontent.com/u/234912174?v=4",
+        "href": "https://github.com/ZeroFunding"
+    },
+    "sze_pok_liu": {
+        "display_name": "Sze Pok Liu",
+        "avatar": "https://avatars.githubusercontent.com/u/248708918?v=4",
+        "href": "https://github.com/lsb2194221469-crypto"
+    },
+    "yubing_ye": {
+        "display_name": "Yubing Ye",
+        "avatar": "https://avatars.githubusercontent.com/u/232557191?v=4",
+        "href": "https://github.com/YeYubing"
+    },
+    "yikun_zhang": {
+        "display_name": "Yikun Zhang",
+        "avatar": "https://avatars.githubusercontent.com/u/54359531?v=4",
+        "href": "https://github.com/pzdmmsd"
+    },
     "@unknown": {
         "display_name": "Unknown Author",
         "avatar": "https://hku.jacobshing.com/statics/authors/default_avatar.png",

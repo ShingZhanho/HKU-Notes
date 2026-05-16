@@ -1,0 +1,24 @@
+{
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "build": {
+        "build_command": "true",
+        "output_file": "NON_FILE_TARGET",
+        "no_latex": true
+    },
+    "static_site": {
+        "description": "The GitHub repository of the group project.",
+        "custom_md_file": "index.md",
+        "buttons": [
+            {
+                "text": "View GitHub Repo",
+                "icon": "material-github",
+                "href": "https://github.com/ShingZhanho/COMP1110-Project-26Spring",
+                "is_primary": true,
+                "index": 0
+            }
+        ]
+    },
+    "authors": [
+        "chun_hei_bahn", "sze_pok_liu", "jacob_shing", "yubing_ye", "yikun_zhang"
+    ]
+}

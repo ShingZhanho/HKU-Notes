@@ -1,0 +1,31 @@
+{
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "build": {
+        "output_file": "COMP1110-D08-Project-Report.pdf",
+        "prebuild_command": "git clone --depth=1 --filter=blob:none --sparse https://github.com/ShingZhanho/COMP1110-Project-26Spring.git _clone && git -C _clone sparse-checkout set project_report && (cd _clone/project_report && bash pre_build.sh)",
+        "build_command": "latexmk -pdf -f -interaction=nonstopmode -cd -outdir=../.. ./_clone/project_report/COMP1110-D08-Project-Report.tex"
+    },
+    "static_site": {
+        "description": "The project report for COMP1110 (25/26 Spring).",
+        "document_status": "fin",
+        "buttons": [
+            {
+                "text": "Download",
+                "icon": "material-download",
+                "href": "../../files/COMP1110-Project-Report/COMP1110-D08-Project-Report.pdf",
+                "is_primary": true,
+                "index": 0
+            },
+            {
+                "text": "View Source",
+                "icon": "material-github",
+                "href": "https://github.com/ShingZhanho/COMP1110-Project-26Spring/tree/master/project_report",
+                "is_primary": false,
+                "index": 1
+            }
+        ]
+    },
+    "authors": [
+        "chun_hei_bahn", "sze_pok_liu", "jacob_shing", "yubing_ye", "yikun_zhang"
+    ]
+}

@@ -1,0 +1,1 @@
+This "document" is in fact a link to the GitHub repository of our group project.

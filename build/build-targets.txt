@@ -42,7 +42,13 @@ ENGG1340-
 	Project
 
 # COMP1110 - Computing and Data Science in Everyday Life
-COMP1110-Quiz
+COMP1110-
+	Project
+	Project-
+		Plan
+		Report
+		IndividualReport_JacobShing
+	Quiz
 
 # COMP2113 - Programming Technologies (an alias for ENGG1340)
 COMP2113-
