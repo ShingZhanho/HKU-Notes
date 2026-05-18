@@ -1,0 +1,64 @@
+\documentclass{standalone}
+\usepackage{circuitikz}
+\ctikzset{logic ports=ieee}
+\begin{document}
+\begin{circuitikz}
+    % --- Layer 1: Leftmost Gates ---
+    \node [nand port] (G1) at (1.5, 3.5) {1};
+    \node [nand port] (G2) at (1.5, 1.5) {2};
+    \node [nand port] (G3) at (1.5, -0.5) {3};
+
+    % --- Layer 2: Middle Gate ---
+    \node [nand port] (G4) at (4.5, 2.5) {4};
+
+    % --- Layer 3: Inverter Gate ---
+    \node [nand port] (G5) at (7.4, 2.5) {5};
+
+    % --- Layer 4: Final Output Gate ---
+    \node [nand port] (G6) at (10.1, 1.0) {6};
+
+    % --- Inputs (P, Q, R) ---
+    % Draw horizontal reference lines from the left edge to the gate inputs
+    \draw (G1.in 1) -- (0,0 |- G1.in 1) node[left] {P};
+    \draw (G2.in 1) -- (0,0 |- G2.in 1) node[left] {Q};
+    \draw (G3.in 1) -- (0,0 |- G3.in 1) node[left] {R};
+
+    % --- Staggered Input Dots & Vertical Branching ---
+    % P Branch down to G3 input 2
+    \path (0,0 |- G1.in 1) -- (G1.in 1) coordinate[pos=0.5] (P_dot);
+    \fill (P_dot) circle (2.5pt);
+    \draw (P_dot) |- (G3.in 2);
+
+    % Q Branch up to G1 input 2
+    \path (0,0 |- G2.in 1) -- (G2.in 1) coordinate[pos=1] (Q_dot);
+    \fill (Q_dot) circle (2.5pt);
+    \draw (Q_dot) |- (G1.in 2);
+
+    % R Branch up to G2 input 2
+    \path (0,0 |- G3.in 1) -- (G3.in 1) coordinate[pos=1] (R_dot);
+    \fill (R_dot) circle (2.5pt);
+    \draw (R_dot) |- (G2.in 2);
+
+    % --- Inter-gate Connections ---
+    % Connect G1 and G2 to G4 with aligned vertical turns
+    \path (G1.out) -- ++(0.5,0) coordinate (turn1);
+    \draw (G1.out) -- (turn1) |- (G4.in 1);
+    \draw (G2.out) -- (turn1 |- G2.out) |- (G4.in 2);
+
+    % Connect G4 to G5 (Tied inputs creating an inverter)
+    \path (G4.out) -- ++(0.5,0) coordinate (G4_split);
+    \draw (G4.out) -- (G4_split);
+    \fill (G4_split) circle (2.5pt);
+    \draw (G4_split) |- (G5.in 1);
+    \draw (G4_split) |- (G5.in 2);
+
+    % Connect G5 and G3 to G6 with aligned vertical turns
+    \path (G5.out) -- ++(0.5,0) coordinate (turn2);
+    \draw (G5.out) -- (turn2) |- (G6.in 1);
+    \draw (G3.out) -- (turn2 |- G3.out) |- (G6.in 2);
+
+    % --- Final Output ---
+    \draw (G6.out) -- ++(0.5,0) node[right] {Y};
+
+\end{circuitikz}
+\end{document}

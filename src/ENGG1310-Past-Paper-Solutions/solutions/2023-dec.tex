@@ -1,7 +1,7 @@
 \startYear{2023 Dec}
 
 \subsection*{Section A -- Multiple-choice Questions}
-\begin{multicols*}{2}
+\begin{multicols}{2}
 
 \begin{qsolution}{2023}{Dec}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
     \mcqAns{C}
@@ -61,6 +61,141 @@
     Different $E_g$ values correspond to different wavelengths of light that can be absorbed or emitted by the material, so D is incorrect.
     The built-in potential of a diode is affected by $E_g$, so E is incorrect.
     $E_g$ does not determine the material's density, so C is correct.
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{Q8}{\tgElectronics \tgElectronicsFibreOptics}
+    \mcqAns{D}
+
+    Light propagates in an optical fibre because of \textbf{total internal reflection}.
+    Other options:
+    \begin{enumualpha}
+        \item Refraction is the bending of light when it passes from one medium to another.
+            With refraction alone, light can still escape from the core into the cladding.
+        \item Reflection is the bouncing back of light when it hits a surface.
+            With ordinary reflection, there will be a great loss of light and the light signals attenuate quickly.
+        \item Absorption is the process by which light energy converts to other forms of energy.
+            It is a mechanism of loss, not propagation.
+        \item[(E)] Generation is done outside of the fibre and has nothing to do with the propagation of light within the fibre.
+    \end{enumualpha}
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{Q9}{\tgElectronics \tgElectronicsMultiplexing}
+    \mcqAns{C}
+
+    \begin{enumualpha}
+        \item In FDM, complex modulators and filters are required, so the circuitry is not simpler.
+        \item Crosstalk (interference between channels) is common in FDM.
+        \item Since all channels are transmitted simultaneously, messages arrive at the same time, so no propagation delay.
+        \item FDM is more expensive than TDM due to the need for more complex circuitry.
+        \item TDM is preferred for digital signals, not FDM.
+    \end{enumualpha}
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{Q10}{\tgElectronics \tgElectronicsAM}
+    \mcqAns{E}
+
+    \begin{enumualpha}
+        \item The spectral space is conserved in SSB because the bandwidth is halved, so more signals can be transmitted on the same frequency.
+        \item All the power can be channeled into the single sideband, achieving higher power efficiency.
+        \item The amount of noise in the signal is reduced on a narrower bandwidth, improving the signal to noise ratio.
+        \item There is less selective fading in SSB, so the signal is more reliable.
+    \end{enumualpha}
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{Q11}{\tgCE \tgCETwosComplement}
+    \mcqAns{E}
+
+    In two's complement addition, any carry out bit is discarded.
+    Other options are incorrect because: ---
+    \begin{enumualpha}
+        \item describes the addition mechanism of sign-magnitude representation.
+        \item[(C)] describes the addition mechanism of one's complement representation.
+        \item[(B), (D)] do not describe any standard addition mechanism.
+    \end{enumualpha}
+\end{qsolution}
+
+\startQwTags{2023}{Dec}{Q12}{\tgCE \tgCELogicalCircuits}
+
+\textbf{Solution:}\mcqAns{C}
+
+Number the gates as shown below:
+\figHere{Complicated-NAND-Function.pdf}{width=0.47\textwidth}
+Then, consider gates 1, 2, and 4, the subcircuit is expressed as:
+\begin{align*}
+    &\phantom{=}\overline{\overline{P\cdot Q}\cdot\overline{Q\cdot R}}\\
+    &=P\cdot Q + Q\cdot R\\
+    &=Q\cdot(P+R)
+\end{align*}
+Then, applying gate 5 on the same input, we obtain the negation 
+\begin{align*}
+    \overline{Q\cdot(P+R)} &= \overline{Q}+\overline{P+R} \\
+    &= \overline{Q}+(\overline{P}\cdot\overline{R})
+\end{align*}
+Gate 3 gives $\overline{P\cdot R}=\overline{P}+\overline{R}$.
+Finally, applying gate 6, we have over the two inputs, we have:
+\begin{align*}
+    &\phantom{=}\overline{\overline{Q}+(\overline{P}\cdot\overline{R}) \cdot (\overline{P}+\overline{R})}\\
+    &=\overline{\overline{Q}+(\overline{P}\cdot\overline{R})} + \overline{\overline{P}+\overline{R}}\\
+    &=(Q\cdot\overline{\overline{P}\cdot\overline{R}}) + (P\cdot R)\\
+    &=(Q\cdot(P+R)) + (P\cdot R)\\
+    &=(PQ+QR)+(PR)\\
+    &=PQ+PR+QR
+\end{align*}
+Then, we draw the truth table:
+\begin{center}
+    \begin{tabular}{ccc|ccc|c}
+        $P$ & $Q$ & $R$ & $PQ$ & $PR$ & $QR$ & $Y$ \\ \hline
+        0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 1 & 1 & 0 & 0 & 1 & 1 \\
+        1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        1 & 0 & 1 & 0 & 1 & 0 & 1 \\
+        1 & 1 & 0 & 1 & 0 & 0 & 1 \\
+        1 & 1 & 1 & 1 & 1 & 1 & 1 
+    \end{tabular}
+\end{center}
+We can conclude that $Y$ will always be one when at least two of the inputs are one.
+
+\begin{qsolution}{2023}{Dec}{Q13}{\tgCE \tgCEComputerOrganisation}
+    \mcqAns{D}
+    
+    \begin{enumualpha}
+        \item The control unit does not perform arithmetic operations.
+        \item Data cannot be moved into ROM (\textbf{read-only} memory).
+        \item The ALU performs arithmetic and logic operations but does not fetch instructions.
+        \item[(E)] The ALU cannot move computed results.
+    \end{enumualpha}
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{Q14}{\tgCE \tgCETwosComplement}
+    \mcqAns{B}
+
+    A 13-bit two's complement number can represent integers in the range of $[-2^{12}, 2^{12}-1]=[-4096,+4095]$.
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{Q15}{\tgCE \tgCELogicalCircuits}
+    \mcqAns{B}
+
+    The circuit is equivalent to $(I\cdot J)\oplus(J+K)$.
+    For $(I,J,K)=(0,1,0)$, the output should be 1, not 0.
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{Q20}{\tgCE}
+    \mcqAns{C}
+
+    Let the number of pixels in the image be $N$.
+    Then, \begin{align*}
+        \frac{N\cdot 24\,\mathrm{bits}}{8\,\mathrm{bits/byte}} &= 33.749\,\mathrm{MB}\cdot 1024^2\,\mathrm{bytes/MB}\\
+        N &\approx 1\times10^7\,\mathrm{pixels}
+    \end{align*}
+\end{qsolution}
+
+\begin{qsolution}{2023}{Dec}{Q21}{\tgEE \tgEEPowerSystems}
+    \mcqAns{B}
+
+    Hong Kong's power supply mainly relies on coal, natural gas, and nuclear power (from Daya Bay Nuclear Power Station).
+    Renewable energy only accounts for a small portion.
 \end{qsolution}
 
 \begin{qsolution}{2023}{Dec}{Q24}{\tgEE \tgEEPowerSystems \tgEERMS}
@@ -134,7 +269,7 @@
     \end{align*}
 \end{qsolution}
 
-\end{multicols*}
+\end{multicols}
 
 \subsection*{Section D -- Long Questions (Electrical Engineering)}
 \begin{multicols}{2}
