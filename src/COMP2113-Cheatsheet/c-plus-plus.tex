@@ -139,6 +139,8 @@ std::setprecision(2);
           // otherwise: 3.14159 -> 3.1
     // no padding 0 without std::showpoint if
     // not std::fixed or std::scientific
+/* setw: only non-sticky one in this section. */
+/* Everything else sticks until changed.  */
 std::setw(10); // set width to 10
 std::setfill('*'); // fill with * (char)
 
@@ -149,6 +151,7 @@ std::setfill('*'); // fill with * (char)
 \begin{minted}[style=manni]{cpp}
 int val = 5;
 int* p = &val;      // p points to val
+int *a, b;          // * sticks only to next name
 std::cout << *p;    // output: 5
 std::cout << p;     // output: address of val
 std::cout << &p;    // output: address of p
@@ -201,18 +204,32 @@ void insertAtEnd(Node*& head, Node* n) {
 }
 
 void deleteWithVal(Node*& head, int val) {
-    Node* current = head, * prev = nullptr;
-    while (current != nullptr) {
-        if (current->data == val) {
-            if (prev == nullptr)
-                head = current->next;
-            else
-                prev->next = current->next;
-            delete current;
-            return;
-        }
-        prev = current; current = current->next;
+  Node* current = head, *prev = nullptr;
+  while (current != nullptr) {
+    if (current->data == val) {
+      if (prev == nullptr)
+        head = current->next;
+      else
+        prev->next = current->next;
+
+      delete current;
+      current = prev ? prev->next : head;
+
+      /* Delete all occurrences */
+      continue; /* swap to return for 1st only */
     }
+    prev = current; current = current->next;
+  }
+}
+
+void deleteList(Node*& head) {
+    Node* current = head, * next;
+    while (current != nullptr) {
+        next = current->next;
+        delete current;
+        current = next;
+    }
+    head = nullptr;
 }
 
 void reverseList(Node*& head) {
@@ -223,15 +240,7 @@ void reverseList(Node*& head) {
         prev = current;
         current = next;
     }
-}
-
-void deleteList(Node*& head) {
-    Node* current = head, * next;
-    while (current != nullptr) {
-        next = current->next;
-        delete current;
-        current = next;
-    }
+    head = prev;
 }
 \end{minted}
 \vspace*{-1.25\baselineskip}
@@ -290,6 +299,11 @@ vector<T>::iterator it; // random access iterator
 for (it = v.begin(); it != v.end(); ++it) {
     std::cout << *it << ", ";
 }
+/* --- Erase while traversing --- */
+for (auto it = v.begin(); it != v.end(); ) {
+    if (condition) it = v.erase(it);
+    else ++it;
+}
 \end{minted}
 \vspace*{-1.25\baselineskip}
 
@@ -329,7 +343,11 @@ for (it = m.begin(); it != m.end(); ++it) {
     std::cout << it->first << ": ";
     std::cout << it->second << ", ";
 }
-/* --- Use with Custom Structs S as key --- */
+/* -- Range-based loop; p is not an iterator -- */
+for (const auto& p : m) {
+    std::cout << p.first << ": " << p.second;
+}
+/* -- Use with Custom Structs S as key -- */
 // S must have operator< defined
 \end{minted}
 \vspace*{-1.25\baselineskip}
@@ -349,15 +367,19 @@ std::sort(v.begin(), v.end()); // sort vector
 
 \subsection*{Recursion (Binary Search)}
 \begin{minted}[style=manni]{cpp}
-int binSearch(int arr[], int l, int r, int x) {
-    if (r >= 1) (
-        int mid = l + (r - l) / 2;
-        if (arr[mid] == x) return mid;
-        if (arr[mid] > x)
-            return binSearch(arr, l, mid - 1, x);
-        return binSearch(arr, mid + 1, r, x);
-    )
-    return -1; // not found
+int binSearch(int arr[], int left,
+  int right, int target) {
+  if (right >= left) {
+    int mid = left + (right - left) / 2;
+    if (arr[mid] == target) {
+      return mid;
+    }
+    if (arr[mid] > target) {
+      return binSearch(arr, left, mid - 1, target);
+    }
+    return binSearch(arr, mid + 1, right, target);
+  }
+  return -1; /* not found */
 }
 \end{minted}
 \vspace*{-1.25\baselineskip}

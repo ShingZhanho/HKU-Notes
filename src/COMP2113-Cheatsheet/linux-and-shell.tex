@@ -45,6 +45,11 @@
 \textit{Example output:}
 \quad \textbf{  1  2  3 file.txt}
 
+\textbf{\emph{head [-n N] file} \hfill First N lines of file}\\
+\quad \textit{Default: first 10 lines}\\
+\textbf{\emph{tail [-n N] file} \hfill Last N lines of file}\\
+\quad \textit{Default: last 10 lines}
+
 \textbf{\emph{sort [-nr|-k<n>|-t<char>] file/stdin} \\\hfill Sort lines of text}\\
 \quad -n \hfill \textit{Numeric sort}\\
 \quad -r \hfill \textit{Reverse sort}\\
@@ -77,8 +82,9 @@
 \quad -name <name> \hfill \textit{Find items with name}\\
 \quad -type f|d \hfill \textit{Find files (f) or dirs (d) only}
 
-\textbf{\emph{grep [-E <regexpr> | pattern] [-o] file/stdin} \\\hfill Search for pattern}\\
+\textbf{\emph{grep [-E|-P <regexpr> | pattern] [-o] file/stdin} \\\hfill Search for pattern}\\
 \quad -E <regexpr> \hfill \textit{Match regular expression}\\
+\quad -P <regexpr> \hfill \textit{Full Perl-compatible regex}\\
 \quad -o \hfill \textit{Only print matching part of line}\\
 \quad pattern \hfill \textit{Match pattern}
 
