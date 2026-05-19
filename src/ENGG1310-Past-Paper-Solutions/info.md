@@ -24,25 +24,53 @@ The solutions are organised by year, with an index for you to query easily by to
 
 A set of LaTeX macros have been defined to make it easier to automate solution indexing, even for beginner LaTeX users.
 
-To start a new set of exam paper, create a new file under `solutions/` with the name format `year-month.tex`. In the file, start with:
+To start a new set of exam paper, create a new file under `solutions/` with the name format `year-month.tex`. In the file, start with the year header, then add each section in its own `multicols` block:
 
 ```latex
-\startYear{year month} % e.g. \startYear{2024 May}
+\startYear{year month} % e.g. \startYear{2024 Dec}
 
 \subsection*{Section A -- Multiple-choice Questions}
-\begin{multicols*}{2}
+\begin{multicols}{2}
 
 % questions go here
 
-\end{multicols*}
+\end{multicols}
+
+\pagebreak
+
+\subsection*{Section B -- Long Questions (Electronic Engineering)}
+\begin{multicols}{2}
+
+% questions go here
+
+\end{multicols}
+
+\subsection*{Section C -- Long Questions (Computer Engineering)}
+\begin{multicols}{2}
+
+% questions go here
+
+\end{multicols}
+
+\subsection*{Section D -- Long Questions (Electrical Engineering)}
+\begin{multicols}{2}
+
+% questions go here
+
+\end{multicols}
 ```
 
-Then, for each question, do:
+!!! info "Section names"
+
+    The section names (B, C, D) and their subtitles may vary between exam papers.
+    Check the original paper to use the correct section names.
+
+Then, for each question, use the `qsolution` environment:
 
 ```latex
 \begin{qsolution}{year}{month}{question number}{tags}
     % This starts a question with specified tags (topics).
-    % e.g., \begin{qsolution}{2024}{May}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
+    % e.g., \begin{qsolution}{2024}{Dec}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
 
     Write your solution here.
 \end{qsolution}
@@ -57,7 +85,7 @@ If a question does not need to be tagged, do this instead:
 \startQuestion{year}{month}{question number}
     % This starts a question without tags.
     % The question will not have a topic, so it will not appear in the by-topic index.
-    % e.g., \startQuestion{2024}{May}{Q1}
+    % e.g., \startQuestion{2024}{Dec}{Q1}
 \begin{solution}
     Write your solution here.
 \end{solution}
@@ -69,26 +97,27 @@ If a question does not need to be tagged, do this instead:
     The entire file is already wrapped in a `question` environment in `solutions/solutions.tex`.
     Nested `question` environments will mess up the indexing and layout.
 
-Then, write the solution inside the `solution` environment, right after the question:
+For MCQs, use the `\mcqAns{option}` command to indicate the correct answer, followed by an explanation:
 
 ```latex
-\begin{qsolution}{2024}{May}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
-    \mcqAns{C}
+\begin{qsolution}{2024}{Dec}{Q1}{\tgElectronics \tgElectronicsSemiconductor}
+    \mcqAns{A}
 
     Some explanation.
 \end{qsolution}
 ```
 
-For MCQs, you can use the `\mcqAns{option}` command to indicate the correct answer, and then write an explanation for it.
-For non-MCQs, you can write the solution as you normally would.
+For non-MCQs, write the solution as you normally would inside the `qsolution` environment.
 
-Finally, import this file in `solutions/solutions.tex` by adding the line:
+Finally, import this file in `solutions/solutions.tex` by adding the line at the top using `\input`:
 
 ```latex
 \begin{questions}
+    \input{solutions/2024-dec.tex}
+    \include{solutions/2024-may.tex}
     % ... other imports
-    \input{solutions/2024-may.tex}
 \end{questions}
 ```
 
 Please arrange the imports in chronological order, with the most recent exam paper at the top.
+Use `\input` for the most recent entry and `\include` for the rest.
