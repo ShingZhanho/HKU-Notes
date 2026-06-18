@@ -1,0 +1,748 @@
+%!TEX TS-program = xelatex
+%!TEX root = COMP2119-Assignment1.tex
+%!TEX options = -shell-escape -synctex=1 -interaction=nonstopmode -file-line-error ./COMP2119-Assignment1.tex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preamble.tex}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{COMP2119 Assignment 1}}\\[0.5em]
+    {\large SHING, Zhan Ho Jacob 3036228892}
+\end{center}
+
+\begin{questions}
+    
+    \question[20] \phantom{.}
+    \begin{parts}
+        
+        \part[5] \phantom{.}
+        \begin{solution}
+            Result of array \texttt{A=[1, 6, 8, 20, 30, 43, 50, 90]}.
+            \texttt{F()} sorts the array in ascending order.
+        \end{solution}
+
+        \part[15] \phantom{.}
+        \begin{subparts}
+            
+            \subpart \phantom{.}
+            \begin{solution}
+                Statement \texttt{S1} will be executed $n-1=8-1=7$ times, so will statement \texttt{S3}.
+
+                For statement \texttt{S2}, the number of times it is executed is the distance between the number at \texttt{A[$j$]} and its correct position (number of swaps required).
+                For this array, \texttt{S2} will be executed $1+2+0+3+3+1+2=12$ times (\texttt{A[1]} will not be handled).
+
+                Therefore, the total number of times the statements are executed is $7 + 12 + 7 = 26$.
+            \end{solution}
+
+            \subpart \phantom{.}
+            \begin{solution}
+                \textbf{Best-case:} occurs when the array is already sorted.
+                In this case, \texttt{S2} will not be executed, so the total number of executions is $7 + 0 + 7 = 14$.
+
+                \textbf{Worst-case:} occurs when the array is sorted in descending order.
+                In this case, \texttt{S2} will be executed for $1+2+3+4+5+6+7=28$ times, so the total number of executions is $7 + 28 + 7 = 42$.
+            \end{solution}
+
+            \subpart \phantom{.}
+            \begin{solution}
+                At the time of execution for \texttt{$x=$A[$j$]}, the subarray \texttt{A[1], A[2], $\ldots$, A[$j-1$]} is already sorted.
+                Suppose \texttt{A[$j$]} is the $k$-th largest among \texttt{A[1], A[2], $\ldots$, A[$j$]}, for $k=1, 2, \ldots$, $j$.
+                There are $k-1$ numbers larger than $x$, and $j-k$ numbers smaller than $x$.
+                Note that the inner \texttt{while} loop shifts numbers larger than $x$ to the right.
+                Therefore, for each $x$, \texttt{S2} will be executed $k-1$ times.
+                Let the $t$ be the random variable denoting the number of executions for \texttt{S2}, and $t\sim\text{Uniform}(1, j)$.
+                Then, $\di\mathbb{E}(t)=\sum_{k=1}^j \frac{1}{j}(k-1)=\frac{j-1}{2}$.
+                As the loop containing \texttt{S2} runs for $j\in[2,n]$, the average number of executions for \texttt{S2} is $\di \sum_{j=2}^n\mathbb{E}(t)=\frac{n(n-1)}{4}$.
+                The average number of executions for \texttt{S1}, \texttt{S2}, and \texttt{S3} altogether is $\di \frac{n(n-1)}{4} + 2(n-1) = \frac{(n-1)(n+8)}{4}$.
+            \end{solution}
+
+        \end{subparts}
+
+    \end{parts}
+
+    \question[60] \phantom{.}
+    \begin{parts}
+        
+        \part \phantom{.}
+        \begin{psol}{$\mathit{3n^{1.9}+n = \bt(n^2)}$ is false.}
+            Consider the limit:
+            $\di
+                \lim_{n \to +\infty} \frac{3n^{1.9}+n}{n^2}
+                    = \lim_{n\to+\infty} \left(\frac{3}{n^{0.1}} + \frac{1}{n}\right) 
+                    = 0
+            $ which is not a non-zero constant.
+
+            Thus, $\bm{3n^{1.9}+n \neq \bt(n^2)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{2n^3 = \bom(10n^{3.1})}$ is false.}
+            Assume for contradiction that $2n^3 = \bom(10n^{3.1})$.
+            Then, $\di \exists c, n_0 > 0 : \forall n \geq n_0, 2n^3 \geq 10cn^{3.1} \Rightarrow \frac{1}{n^{0.1}} \geq 5c \qquad [1]$.
+
+            Pick $n = \max\left((5c)^{10}, n_0\right)$.
+            Then, $\di \frac{1}{n^{0.1}} \leq \frac{1}{5c} < 5c$, which contradicts $[1]$.
+            
+            Thus, $\bm{2n^3 \neq \bom(10n^{3.1})}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{6n^{1.3}=\bo(n^{1.1})}$ is false.}
+            Assume for contradiction that $6n^{1.3} = \bo(n^{1.1})$.
+            Then, $\di \exists c, n_0 >0 : \forall n \geq n_0, 6n^{1.3}\leq cn^{1.1} \Rightarrow n^{0.2}\leq\frac{c}{6} \qquad[1]$.
+
+            Pick any $\di n > \ceil{\max\left(\left(\frac{c}{6}\right)^5, n_0\right)}$.
+            Then, $\di n^{0.2} > \frac{c}{6}$, which contradicts $[1]$.
+
+            Thus, $\bm{6n^{1.3}\neq\bo(n^{1.1})}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\bo(\log^2 n)+\bo(2n) = \bo(n)}$ is true.}
+            Let $f(n)=\bo(\log^2 n)$ and $g(n)=\bo(2n)$.
+            Then, $\exists c_1, n_1>0: \forall n\geq n_1, f(n)\leq c_1\log^2 n$ and $\exists c_2, n_2>0: \forall n\geq n_2, g(n)\leq 2c_2n$.
+
+            Let $h(n)=f(n)+g(n)$, then choose $N=\max(n_1, n_2)$, we have $\forall n\geq N, h(n)\leq c_1\log^2 n + 2c_2n$.
+
+            Also, observe that $\di \lim_{n\to+\infty} \frac{\log^2 n}{n}=0 \Rightarrow \log^2 n=\lo(n)$. Thus, $\forall C>0, \exists n_0>0:\forall n\geq n_0, \log^2 n < Cn\qquad [1]$.
+            
+            From $[1]$, pick some $C_0>0$, then we have $\forall n\geq n_0, \log^2 n \leq C_0 n \Rightarrow \log^2 n=\bo(n) \qquad[2]$.
+
+            Multiply $[2]$ by $c_1$ and add $2c_2n$ to both side, we have: $c_1\log^2 n+2c_2n\leq c_1C_0 n+2c_2n = (c_1C_0 + 2c_2)n$.
+            Using this result, we choose $C=c_1C_0 + 2c_2$ and $N=\max(n_0, n_1, n_2)$, we have $\forall n\geq N, h(n)\leq Cn$, which is the definition of big-O notation.
+
+            Thus, $\bm{\bo(\log^2 n)+\bo(2n) = \bo(n)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\bo(\log n)=\bo(0.01+10n)}$ is true.}
+            Let $f(n)=\bo(\log n)$, then $\exists c_1, n_1 >0 : \forall n\geq n_1, f(n)\leq c_1\log n\qquad[1]$.
+
+            Observe that $\forall n\geq 1, \log n \leq n$.
+            Also, $\di 10n\leq 0.01+10n \Rightarrow n\leq\frac{1}{10}(0.01+10n)\qquad[2]$.
+
+            From $[1]$ and $[2]$, we have $\di \forall n \geq \max(n_1, 1): f(n)\leq\frac{c_1}{10}(0.01+10n)$.
+
+            Take $n_2=\max(n_1, 1)$ and $\di c_2=\frac{c_1}{10}$, we have $\di \forall n\geq n_2 : f(n)\leq c_2(0.01+10n)$.
+
+            Thus, $\bm{\bo(\log n)=\bo(0.01+10n)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\underbrace{\bo(1)+\bo{2}+\bo(3)+\cdots+\bo(100)}_{100\textit{ terms}}=\bt(0.1)}$ is false.}
+            We prove by counterexample. Let $f_i(n) = \bo(i) \,\forall i\in[1,100]\cap\mathbb{Z}$, then $\exists c_i, n_i >0: \forall n\geq n_i, f_i(n) \leq c_i i$.
+            We choose $f_i(n)=\di \frac{1}{n}$ for every $i$.
+            We should see that $\di \forall n\geq n_1=1, \frac{1}{n}\leq c_i\cdot i$ holds for $c_i = 1$, therefore, $f_i(n)=\bo(i)$.
+
+            Assume for contradiction that $\di\sum_{i=1}^{100} f_i(n) =\bt(0.1)$.
+            Then, $\di \exists C_1, C_2, n_0 >0: \forall n\geq n_0, 0\leq C_1\cdot 0.1 \leq \frac{100}{n} \leq C_2\cdot 0.1$.
+
+            From the left-hand inequality, we have $\di n\leq\frac{1000}{C_1} \qquad[1]$.
+
+            When $n>\di\max\left(n_0, \frac{1000}{C_1}\right), [1]$ is impossible, i.e., such $C_1$ does not exist, leading to a contradiction.
+
+            Thus, $\bm{\underbrace{\bo(1)+\bo{2}+\bo(3)+\cdots+\bo(100)}_{100\textbf{ terms}}\neq\bt(0.1)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``$\mathit{\min\{f(n),g(n)\}=\bo(f(n)+g(n))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions'' is true.}
+            Let $h(n) = \min\{f(n), g(n)\}$, then, we have $h(n)\leq f(n)$ and $h(n) \leq g(n)$.
+            Note that this always holds $\forall n$ whether $f(n)\leq g(n)$ or $g(n) \leq f(n)$.
+
+            Thus, $\di 2h(n)\leq f(n)+g(n) \Rightarrow h(n) \leq \frac{1}{2}[f(n)+g(n)]$. Then, we can see that for $\di c=\frac{1}{2}, n_0=1$, $\forall n\geq n_0, h(n)\leq c[f(n)+g(n)]$,
+            satisfying the definition of big-O notation.
+
+            Thus, \textbf{``}$\bm{\min\{f(n),g(n)\}=\bo(f(n)+g(n))}$, \textbf{where} $\bm{f(n)}$ \textbf{and} $\bm{g(n)}$ \textbf{are positive functions''.}
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``$\mathit{\max\{f(n),g(n)\}=\bt(f(n)+g(n))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions'' is true.}
+            Let $h(n)=\max\{f(n),g(n)\}$, then, we have $h(n)\geq f(n)$ and $h(n)\geq g(n)$.
+            Note that this always holds $\forall n$ whether $f(n)\geq g(n)$ or $g(n) \geq f(n)$.
+            This implies that $\di 2h(n)\geq f(n)+g(n) \Rightarrow h(n)\geq \frac{1}{2}[f(n)+g(n)]\qquad[1]$.
+
+            Also, we have $\forall n:h(n)\leq f(n)+g(n)$.
+
+            Thus, we have shown that for $\di c_1=\frac{1}{2}, c_2=1, n_0=1:\forall n\geq n_0, 0\leq c_1[f(n)+g(n)]\leq \max\{f(n),g(n)\}\leq c_2[f(n)+g(n)]$.
+
+            Thus, \textbf{``}$\bm{\max\{f(n),g(n)\}=\bt(f(n)+g(n))}$\textbf{, where} $\bm{f(n)}$ \textbf{and }$\bm{g(n)}$ \textbf{are positive functions''}.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\bt(1)+\bo(1)=\bom(1)}$ is false.}
+            We prove by counterexample.
+            Let $f(n)=\bt(1)$ and $g(n)=\bo(1)$.
+            For counterexample, we pick $f(n)=1$ and $\di g(n)=\frac{1}{n}$.
+            Their bounds can be easily verified:
+            
+            For $f(n)=1$, consider $\di \lim_{n\to+\infty} \frac{1}{1}=1\quad(\text{non-zero constant}) \Rightarrow f(n)=\bt(1)$.
+
+            For $\di g(n)=\frac{1}{n}$, pick $c=1, n_0=1$, then, $\forall n\geq n_0:g(n)\leq c\cdot 1 \Rightarrow g(n)=\bo(1)$.
+
+            Let $\di h(n)=f(n)+g(n)=1+\frac{1}{n}$.
+            Assume for contradiction that $h(n)=\bom(1)$, then, $\di \exists C, N>0: \forall n\geq N, 1+\frac{1}{n}\geq C \Rightarrow n\leq\frac{1}{C-1}\qquad[1]$.
+            
+            When $\di n=\max\left(\ceil{\frac{1}{C-1}}+1,N\right)$, $[1]$ fails, leading to contradiction.
+
+            Thus, $\bm{\bt(1)+\bo(1)\neq\bom(1)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{f(n)=\bo(f(n)+\sqrt{n})}$ is true.}
+            We attempt to find constants $c, n_0>0$ such that $\forall n\geq n_0, f(n)\leq c[f(n)+\sqrt{n}]$.
+
+            Let $c=1$, then the inequality is true for all $n\geq n_0>0$.
+            Thus, we have found such constants $c=1, n_0=1$.
+
+            Thus, $\bm{f(n)=\bo(f(n)+\sqrt{n})}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\bo(n)+\lo(n)=\bom(4\log^3 n)}$ is false.}
+            We prove by counterexample.
+
+            Let $f(n)=\bo(n)$ and $g(n)=\lo(n)$.
+            For counterexample, we pick $f(n)=\log n$ and $g(n)=3\log n$.
+            Their bounds can be easily verified:
+
+            For $f(n)=\log n$, pick $c_1=1, n_1=1$, then, $\forall n\geq n_1:f(n)\leq c_1n \Rightarrow f(n)=\bo(n)$.
+
+            For $g(n)=3\log n$, consider: $\di \lim_{n\to+\infty} \frac{3\log n}{n} = 0$, so $g(n)=\lo(n)$.
+
+            Let $h(n)=f(n)+g(n)=4\log n$.
+            Assume for contradiction that $h(n)=\bom(4\log^3 n)$, then, $\di \exists C, N>0 :\forall n\geq N, h(n)=4\log n\geq 4C\log^3 n \Rightarrow 2^{\frac{1}{C}}\geq n \qquad[1]$.
+
+            When $\di n>\max\left(\ceil{2^{\frac{1}{C}}}+1, N\right)$, $[1]$ is impossible, leading to contradiction.
+
+            Thus, $\bm{\bo(n)+\lo(n)\neq\bom(4\log^3 n)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{n+\bo(n^{2.1})=\bom(n^2)}$ is false.}
+            We can prove by counterexample.
+            It suffices to find one $f(n)=\bo(n^{2.1})$ such that $n+f(n)\notin\bom(n^2)$.
+            Let $f(n)=n$, then we can verify, for $c=1, n_0=1:\forall n\geq n_0, f(n)\leq cn^{2.1}$, so $f(n)=\bo(n^{2.1})$.
+
+            Assume for contradiction, that $n+f(n)=\bom(n^2)$.
+            Then, $\di \exists C, N>0:\forall n\geq N, 2n\geq Cn^2 \Rightarrow n\leq\frac{2}{C}\qquad[1]$.
+
+            Pick $\di n = \max\left(\ceil{\frac{2}{C}}+1, N\right)$, then $[1]$ is impossible, leading to a contradiction.
+
+            Thus, $\bm{n+\bo(n^{2.1})\neq\bom(n^2)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``If $\mathit{f(n)=\bo(n)}$, then $\mathit{2^{f(n)}=\bo(2^n)}$, where $\mathit{f(n)}$ is a positive function'' is false.}
+            We prove by counterexample.
+            Let $f(n)=2n$, then one can verify, for $c=3, n_0=1:\forall n\geq n_0, f(n)\leq cn$, so $f(n)=2n=\bo(n)$.
+
+            Assume for contradiction that $2^{f(n)}=\bo(2^n)$.
+            Then, $\di \exists C, N>0:\forall n\geq N, 2^{2n}\leq C2^n \Rightarrow 2^n\leq C \qquad[1]$.
+
+            Pick $\di n=\max(\ceil{\log_2 C}+1, N)$, then $2^n>C$, which contradicts $[1]$.
+
+            Thus, the statement \textbf{``if} $\bm{f(n)=\bo(n)}$\textbf{, then} $\bm{2^{f(n)}=\bo(2^n)}$\textbf{'' is false.}
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{n=\lo(0.1n)}$ is false.}
+            Assume for contradiction that $n=\lo(0.1n)$.
+            Then, $\di \forall c>0, \exists n_0>0: \forall n\geq n_0, n<0.1cn \Rightarrow 1<0.1c\qquad[1]$.
+
+            However, pick $c=10$, then we have $0.1c=1$, contradicting $[1]$.
+
+            Thus, $\bm{n\neq\lo(0.1n)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{100\log_4 n=\lo(\log_2 n)}$ is false.}
+            Consider the limit:
+            $\di
+                \lim_{n\to+\infty} \frac{100\log_4 n}{\log_2 n}
+                    = 100\lim_{n\to+\infty} \left(\frac{\log_2 n}{\log_2 4}\cdot\frac{1}{\log_2 n}\right)
+                    = 50
+                    \neq 0
+            $
+
+            Thus, by definition, $\bm{100\log_4 n \neq \lo(\log_2 n)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``If $\mathit{f(n)=\lom(g(n))}$, then $\mathit{\log_2(f(n))=\lom(\log_2(g(n)))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions'' is false.}
+            We prove by counterexample.
+            Let $f(n)=n^2$ and $g(n)=n$, then, consider:
+            $\di
+                \lim_{n\to+\infty} \frac{f(n)}{g(n)}
+                    = \lim_{n\to+\infty} \frac{n^2}{n}
+                    = +\infty
+            $
+            Thus, by definition, $f(n)=\lom(g(n))$.
+
+            However, consider:
+            $\di
+                \lim_{n\to+\infty} \frac{\log_2 n^2}{\log_2 n}
+                    = \lim_{n\to+\infty} \frac{2\log_2 n}{\log_2 n}
+                    = 2
+                    \neq +\infty
+            $
+            Thus, by definition, $\log_2(f(n))\neq\lom(\log_2(g(n)))$.
+
+            Thus, the statement \textbf{``if} $\bm{f(n)=\lom(g(n))}$\textbf{, then} $\bm{\log_2(f(n))=\lom(\log_2(g(n)))}$\textbf{'' is false.}
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{$\mathit{\lom(n^3)+\lom(2n^2)=\bt(n)}$ is false.}
+            We prove by counterexample.
+            Let $f(n)=n^4$ and $g(n)=n^3$, then, consider:
+            $\di
+                \lim_{n\to+\infty} \frac{f(n)}{n^3}
+                    = \lim_{n\to+\infty} \frac{n^4}{n^3}
+                    = +\infty
+            $
+            and
+            $\di
+                \lim_{n\to+\infty} \frac{g(n)}{2n^2}
+                    = \lim_{n\to+\infty} \frac{n^3}{2n^2}
+                    = +\infty
+            $
+            Thus, by definition, $f(n)=\lom(n^3)$ and $g(n)=\lom(2n^2)$.
+
+            However, consider:
+            $\di
+                \lim_{n\to+\infty} \frac{n^4+n^3}{n}
+                    = \lim_{n\to+\infty} \left(n^3 + n^2\right)
+                    = +\infty
+                    \neq C\quad (\text{where }C\text{ is a non-zero constant})
+            $.
+            Thus, by definition, $\lom(n^3)+\lom(2n^2)\neq\bt(n)$.
+
+            Thus, $\bm{\lom(n^3)+\lom(2n^2)\neq\bt(n)}$.
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``$\mathit{f(n)g(n)=\lo(f(n))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions'' is false.}
+            We prove by counterexample.
+            Let $f(n)=n$ and $g(n)=1$.
+            Then, consider:
+            $\di
+                \lim_{n\to+\infty} \frac{n}{n}
+                    = 1
+                    \neq 0
+            $.
+
+            Thus, by definition, the statement \textbf{``}$\bm{f(n)g(n)=\lo(f(n))}$\textbf{, where} $\bm{f(n)}$ \textbf{and} $\bm{g(n)}$ \textbf{are positive functions'' is false.}
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``If $\mathit{f(n)=\bt(g(n))}$, then $\mathit{f(n)=\bom(c g(n))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions and $\mathit{c}$ is a positive constant'' is true.}
+            When $f(n)=\bt(g(n))$, then $\exists c_1, c_2, n_0>0:\forall n\geq n_0, c_1 g(n)\leq f(n)\leq c_2 g(n)\qquad [1]$.
+
+            Now, we need to show that $\exists C, N>0:\forall n\geq N, Ccg(n)\leq f(n)\qquad[2]$.
+
+            Pick $\di C=\frac{c_1}{c}$ and $N=n_0$, then $[2]$ reduces to the left-hand inequality in $[1]$, which is true.
+
+            Thus, the statement \textbf{``if} $\bm{f(n)=\bt(g(n))}$\textbf{, then} $\bm{f(n)=\bom(c g(n))}$\textbf{, where} $\bm{f(n)}$ \textbf{and} $\bm{g(n)}$ \textbf{are positive functions and} $\bm{c}$ \textbf{is a positive constant'' is true.}
+        \end{psol}
+
+        \part \phantom{.}
+        \begin{psol}{``If there are constant number of values of $\mathit{n}$ for which $\mathit{f(n)>g(n)}$, then $\mathit{f(n)=\bo(g(n))}$, where $\mathit{f(n)}$ and $\mathit{g(n)}$ are positive functions'' is true.}
+            We discuss two cases.
+            
+            \textbf{Case 1: There are 0 values of $\bm{n}$ for which $\bm{f(n)>g(n)}$.}
+
+            Then, $\forall n, f(n)\leq g(n)$. Take $c=1, n_0=1$, then $\forall n\geq n_0, f(n)\leq cg(n)$, which proves $f(n)=\bo(g(n))$.
+
+            \textbf{Case 2: There are $\bm{a\in[1,+\infty)\cap\mathbb{Z}}$ (finite) values of $\bm{n}$ for which $\bm{f(n)>g(n)}$.}
+
+            Let these values be $n_1, n_2, \ldots, n_a$, where $n_i < n_{i+1} \,\forall i\in[1,a-1]\cap\mathbb{Z}$.
+            Then, for some $n_0=\max(n_1, n_2, \ldots, n_a)+1$, we have $\forall n\geq n_0, f(n)\leq g(n)$.
+            Take $c=1$, then $\forall n\geq n_0, f(n)\leq cg(n)$, which proves $f(n)=\bo(g(n))$.
+
+            Thus, the statement \textbf{``if there are constant number of values of} $\bm{n}$ \textbf{for which} $\bm{f(n)>g(n)}$\textbf{, then} $\bm{f(n)=\bo(g(n))}$\textbf{, where} $\bm{f(n)}$ \textbf{and} $\bm{g(n)}$ \textbf{are positive functions'' is true.}
+        \end{psol}
+
+    \end{parts}
+
+    \clearpage
+
+    \question[15] \phantom{.}
+    \begin{parts}
+        
+        \part \phantom{.}
+        \begin{solution}
+            The algorithm is as follows (in pseudocode).
+            This algorithm uses at most 3 weighings in the worst case (and also in any other case).
+            \begin{small}\begin{verbatim}
+func findCounterfeit(coins[12]) -> (coin, boolean) {
+    // Accepts an array of 12 coins. Assumes exactly one is counterfeit.
+    // Returns the counterfeit coin and whether it is heavier (true) or lighter (false).
+
+    switch (weigh(coins[1..4], coins[5..8])) {
+        case (LEFT_HEAVIER) { // heavy in 1..4 OR light in 5..8
+            switch (weigh(coins[1, 2, 5, 6], coins[3, 7, 9, 10])) {
+                case (LEFT_HEAVIER) { // 1 heavy, 2 heavy, or 7 light
+                    switch (weigh(coins[1], coins[2])) {
+                        case (LEFT_HEAVIER)     { return (coins[1], true);  }
+                        case (RIGHT_HEAVIER)    { return (coins[2], true);  }
+                        case (EQUAL)            { return (coins[7], false); }
+                    }
+                }
+                case (RIGHT_HEAVIER) { // 3 heavy, 5 light, or 6 light
+                    switch (weigh(coins[5], coins[6])) {
+                        case (LEFT_HEAVIER)     { return (coins[6], false); }
+                        case (RIGHT_HEAVIER)    { return (coins[5], false); }
+                        case (EQUAL)            { return (coins[3], true);  }
+                    }
+                }
+                case (EQUAL) { // 4 heavy, or 8 light
+                    switch (weigh(coins[4], coins[8])) {
+                        case (LEFT_HEAVIER)     { return (coins[4], true);  }
+                        case (RIGHT_HEAVIER)    { return (coins[8], false); }
+                    }
+                }
+            }
+        }
+        case (RIGHT_HEAVIER) { // light in 1..4 OR heavy in 5..8
+            switch (weigh(coins[5, 6, 1, 2], coins[7, 3, 9, 10])) {
+                case (LEFT_HEAVIER) { // 5 heavy, 6 heavy, or 3 light
+                    switch (weigh(coins[5], coins[6])) {
+                        case (LEFT_HEAVIER)     { return (coins[5], true);  }
+                        case (RIGHT_HEAVIER)    { return (coins[6], true);  }
+                        case (EQUAL)            { return (coins[3], false); }
+                    }
+                }
+                case (RIGHT_HEAVIER) { // 7 heavy, 1 light, or 2 light
+                    switch (weigh(coins[1], coins[2])) {
+                        case (LEFT_HEAVIER)     { return (coins[2], false); }
+                        case (RIGHT_HEAVIER)    { return (coins[1], false); }
+                        case (EQUAL)            { return (coins[7], true);  }
+                    }
+                }
+                case (EQUAL) { // 8 heavy, or 4 light
+                    switch (weigh(coins[8], coins[4])) {
+                        case (LEFT_HEAVIER)     { return (coins[8], true);  }
+                        case (RIGHT_HEAVIER)    { return (coins[4], false); }
+                    }
+                }
+            }
+        }
+        case (EQUAL) { // counterfeit among 9..12
+            switch (weigh(coins[9..11], coins[1..3])) { // 1..3 are real
+                case (LEFT_HEAVIER) { // heavy among 9..11
+                    switch (weigh(coins[9], coins[10])) {
+                        case (LEFT_HEAVIER)     { return (coins[9],  true); }
+                        case (RIGHT_HEAVIER)    { return (coins[10], true); }
+                        case (EQUAL)            { return (coins[11], true); }
+                    }
+                }
+                case (RIGHT_HEAVIER) { // light among 9..11
+                    switch (weigh(coins[9], coins[10])) {
+                        case (LEFT_HEAVIER)     { return (coins[10], false); }
+                        case (RIGHT_HEAVIER)    { return (coins[9],  false); }
+                        case (EQUAL)            { return (coins[11], false); }
+                    }
+                }
+                case (EQUAL) { // coin 12 is counterfeit
+                    switch (weigh(coins[12], coins[1])) {
+                        case (LEFT_HEAVIER)     { return (coins[12], true);  }
+                        case (RIGHT_HEAVIER)    { return (coins[12], false); }
+                    }
+                }
+            }
+        }
+    }
+}
+\end{verbatim}\end{small}
+        \end{solution}
+
+        \part \phantom{.}
+        \begin{solution}
+            For 39 coins, the following algorithm can be used to find the counterfeit coin in at most 4 weighings.
+\begin{small}\begin{verbatim}
+func findCounterfeitAmong39(coins[39]) -> (coin, boolean) {
+    switch (weigh(coins[1..13], coins[14..26])) {
+        case (EQUAL) {
+            switch (weigh(coins[27..35], coins[1..9])) {
+                case (LEFT_HEAVIER) {
+                    switch (weigh(coins[27..29], coins[30..32])) {
+                        case (LEFT_HEAVIER) {
+                            switch (weigh(coins[27], coins[28])) {
+                                case (LEFT_HEAVIER)  { return (coins[27], true);  }
+                                case (RIGHT_HEAVIER) { return (coins[28], true);  }
+                                case (EQUAL)         { return (coins[29], true);  }
+                            }
+                        }
+                        case (RIGHT_HEAVIER) {
+                            switch (weigh(coins[30], coins[31])) {
+                                case (LEFT_HEAVIER)  { return (coins[30], true);  }
+                                case (RIGHT_HEAVIER) { return (coins[31], true);  }
+                                case (EQUAL)         { return (coins[32], true);  }
+                            }
+                        }
+                        case (EQUAL) {
+                            switch (weigh(coins[33], coins[34])) {
+                                case (LEFT_HEAVIER)  { return (coins[33], true);  }
+                                case (RIGHT_HEAVIER) { return (coins[34], true);  }
+                                case (EQUAL)         { return (coins[35], true);  }
+                            }
+                        }
+                    }
+                }
+                case (RIGHT_HEAVIER) {
+                    switch (weigh(coins[27..29], coins[30..32])) {
+                        case (LEFT_HEAVIER) {
+                            switch (weigh(coins[30], coins[31])) {
+                                case (LEFT_HEAVIER)  { return (coins[31], false); }
+                                case (RIGHT_HEAVIER) { return (coins[30], false); }
+                                case (EQUAL)         { return (coins[32], false); }
+                            }
+                        }
+                        case (RIGHT_HEAVIER) {
+                            switch (weigh(coins[27], coins[28])) {
+                                case (LEFT_HEAVIER)  { return (coins[28], false); }
+                                case (RIGHT_HEAVIER) { return (coins[27], false); }
+                                case (EQUAL)         { return (coins[29], false); }
+                            }
+                        }
+                        case (EQUAL) {
+                            switch (weigh(coins[33], coins[34])) {
+                                case (LEFT_HEAVIER)  { return (coins[34], false); }
+                                case (RIGHT_HEAVIER) { return (coins[33], false); }
+                                case (EQUAL)         { return (coins[35], false); }
+                            }
+                        }
+                    }
+                }
+                case (EQUAL) {
+                    switch (weigh(coins[36, 37], coins[38, 1])) {
+                        case (LEFT_HEAVIER) {
+                            switch (weigh(coins[36], coins[37])) {
+                                case (LEFT_HEAVIER)  { return (coins[36], true);  }
+                                case (RIGHT_HEAVIER) { return (coins[37], true);  }
+                                case (EQUAL)         { return (coins[38], false); }
+                            }
+                        }
+                        case (RIGHT_HEAVIER) {
+                            switch (weigh(coins[36], coins[37])) {
+                                case (LEFT_HEAVIER)  { return (coins[37], false); }
+                                case (RIGHT_HEAVIER) { return (coins[36], false); }
+                                case (EQUAL)         { return (coins[38], true);  }
+                            }
+                        }
+                        case (EQUAL) {
+                            switch (weigh(coins[39], coins[1])) {
+                                case (LEFT_HEAVIER)  { return (coins[39], true);  }
+                                case (RIGHT_HEAVIER) { return (coins[39], false); }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        case (LEFT_HEAVIER) {
+            switch (weigh(coins[1..4, 14..17, 27], coins[5..8, 18..21, 28])) {
+                case (LEFT_HEAVIER) {
+                    switch (weigh(coins[1, 18, 19], coins[2, 20, 21])) {
+                        case (LEFT_HEAVIER) {
+                            switch (weigh(coins[20], coins[21])) {
+                                case (LEFT_HEAVIER)  { return (coins[21], false); }
+                                case (RIGHT_HEAVIER) { return (coins[20], false); }
+                                case (EQUAL)         { return (coins[1], true);   }
+                            }
+                        }
+                        case (RIGHT_HEAVIER) {
+                            switch (weigh(coins[18], coins[19])) {
+                                case (LEFT_HEAVIER)  { return (coins[19], false); }
+                                case (RIGHT_HEAVIER) { return (coins[18], false); }
+                                case (EQUAL)         { return (coins[2], true);   }
+                            }
+                        }
+                        case (EQUAL) {
+                            switch (weigh(coins[3], coins[4])) {
+                                case (LEFT_HEAVIER)  { return (coins[3], true);   }
+                                case (RIGHT_HEAVIER) { return (coins[4], true);   }
+                                case (EQUAL)         { return (coins[22], false); }
+                            }
+                        }
+                    }
+                }
+                case (RIGHT_HEAVIER) {
+                    switch (weigh(coins[5, 14, 15], coins[6, 16, 17])) {
+                        case (LEFT_HEAVIER) {
+                            switch (weigh(coins[16], coins[17])) {
+                                case (LEFT_HEAVIER)  { return (coins[17], false); }
+                                case (RIGHT_HEAVIER) { return (coins[16], false); }
+                                case (EQUAL)         { return (coins[5], true);   }
+                            }
+                        }
+                        case (RIGHT_HEAVIER) {
+                            switch (weigh(coins[14], coins[15])) {
+                                case (LEFT_HEAVIER)  { return (coins[15], false); }
+                                case (RIGHT_HEAVIER) { return (coins[14], false); }
+                                case (EQUAL)         { return (coins[6], true);   }
+                            }
+                        }
+                        case (EQUAL) {
+                            switch (weigh(coins[7], coins[8])) {
+                                case (LEFT_HEAVIER)  { return (coins[7], true);   }
+                                case (RIGHT_HEAVIER) { return (coins[8], true);   }
+                                case (EQUAL)         { return (coins[23], false); }
+                            }
+                        }
+                    }
+                }
+                case (EQUAL) {
+                    switch (weigh(coins[9, 10, 22, 23], coins[11, 12, 24, 25])) {
+                        case (LEFT_HEAVIER) {
+                            switch (weigh(coins[9], coins[10])) {
+                                case (LEFT_HEAVIER)  { return (coins[9], true);  }
+                                case (RIGHT_HEAVIER) { return (coins[10], true); }
+                                case (EQUAL) {
+                                    switch (weigh(coins[24], coins[25])) {
+                                        case (LEFT_HEAVIER)  { return (coins[25], false); }
+                                        case (RIGHT_HEAVIER) { return (coins[24], false); }
+                                    }
+                                }
+                            }
+                        }
+                        case (RIGHT_HEAVIER) {
+                            switch (weigh(coins[11], coins[12])) {
+                                case (LEFT_HEAVIER)  { return (coins[11], true); }
+                                case (RIGHT_HEAVIER) { return (coins[12], true); }
+                                case (EQUAL) {
+                                    switch (weigh(coins[22], coins[23])) {
+                                        case (LEFT_HEAVIER)  { return (coins[23], false); }
+                                        case (RIGHT_HEAVIER) { return (coins[22], false); }
+                                    }
+                                }
+                            }
+                        }
+                        case (EQUAL) {
+                            switch (weigh(coins[13], coins[26])) {
+                                case (LEFT_HEAVIER)  { return (coins[13], true);  }
+                                case (RIGHT_HEAVIER) { return (coins[26], false); }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        case (RIGHT_HEAVIER) {
+            switch (weigh(coins[14..17, 1..4, 27], coins[18..21, 5..8, 28])) {
+                case (LEFT_HEAVIER) {
+                    switch (weigh(coins[14, 5, 6], coins[15, 7, 8])) {
+                        case (LEFT_HEAVIER) {
+                            switch (weigh(coins[7], coins[8])) {
+                                case (LEFT_HEAVIER)  { return (coins[8], false);  }
+                                case (RIGHT_HEAVIER) { return (coins[7], false);  }
+                                case (EQUAL)         { return (coins[14], true);  }
+                            }
+                        }
+                        case (RIGHT_HEAVIER) {
+                            switch (weigh(coins[5], coins[6])) {
+                                case (LEFT_HEAVIER)  { return (coins[6], false);  }
+                                case (RIGHT_HEAVIER) { return (coins[5], false);  }
+                                case (EQUAL)         { return (coins[15], true);  }
+                            }
+                        }
+                        case (EQUAL) {
+                            switch (weigh(coins[16], coins[17])) {
+                                case (LEFT_HEAVIER)  { return (coins[16], true);  }
+                                case (RIGHT_HEAVIER) { return (coins[17], true);  }
+                                case (EQUAL)         { return (coins[22], false); }
+                            }
+                        }
+                    }
+                }
+                case (RIGHT_HEAVIER) {
+                    switch (weigh(coins[18, 1, 2], coins[19, 3, 4])) {
+                        case (LEFT_HEAVIER) {
+                            switch (weigh(coins[3], coins[4])) {
+                                case (LEFT_HEAVIER)  { return (coins[4], false);  }
+                                case (RIGHT_HEAVIER) { return (coins[3], false);  }
+                                case (EQUAL)         { return (coins[18], true);  }
+                            }
+                        }
+                        case (RIGHT_HEAVIER) {
+                            switch (weigh(coins[1], coins[2])) {
+                                case (LEFT_HEAVIER)  { return (coins[2], false);  }
+                                case (RIGHT_HEAVIER) { return (coins[1], false);  }
+                                case (EQUAL)         { return (coins[19], true);  }
+                            }
+                        }
+                        case (EQUAL) {
+                            switch (weigh(coins[20], coins[21])) {
+                                case (LEFT_HEAVIER)  { return (coins[20], true);  }
+                                case (RIGHT_HEAVIER) { return (coins[21], true);  }
+                                case (EQUAL)         { return (coins[23], false); }
+                            }
+                        }
+                    }
+                }
+                case (EQUAL) {
+                    switch (weigh(coins[22, 23, 9, 10], coins[24, 25, 11, 12])) {
+                        case (LEFT_HEAVIER) {
+                            switch (weigh(coins[22], coins[23])) {
+                                case (LEFT_HEAVIER)  { return (coins[22], true); }
+                                case (RIGHT_HEAVIER) { return (coins[23], true); }
+                                case (EQUAL) {
+                                    switch (weigh(coins[11], coins[12])) {
+                                        case (LEFT_HEAVIER)  { return (coins[12], false); }
+                                        case (RIGHT_HEAVIER) { return (coins[11], false); }
+                                    }
+                                }
+                            }
+                        }
+                        case (RIGHT_HEAVIER) {
+                            switch (weigh(coins[24], coins[25])) {
+                                case (LEFT_HEAVIER)  { return (coins[24], true); }
+                                case (RIGHT_HEAVIER) { return (coins[25], true); }
+                                case (EQUAL) {
+                                    switch (weigh(coins[9], coins[10])) {
+                                        case (LEFT_HEAVIER)  { return (coins[10], false); }
+                                        case (RIGHT_HEAVIER) { return (coins[9], false);  }
+                                    }
+                                }
+                            }
+                        }
+                        case (EQUAL) {
+                            switch (weigh(coins[26], coins[13])) {
+                                case (LEFT_HEAVIER)  { return (coins[26], true);  }
+                                case (RIGHT_HEAVIER) { return (coins[13], false); }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+\end{verbatim}\end{small}
+
+            \textbf{\itshape References}
+
+            \begin{hangparas}{2em}{1}
+            J. Dominguez-Montes, ``Solution to the counterfeit coin problem and its generalization,'' \textit{arXiv (Cornell University)}, May 2010, doi: 10.48550/arxiv.1005.1391.
+            \end{hangparas}
+        \end{solution}
+
+    \end{parts}
+
+    \question[5] \phantom{.}
+    \begin{parts}
+            
+        \part Too difficult.
+        \part 5 -- 20 hours.
+        \part Not 100\% sure.
+            I understand the definitions and the basic concepts of the topic, but I struggle with forming formal proofs.
+        \part The wording and phrasing of some of the questions can be ambiguous.
+
+    \end{parts}
+
+\end{questions}
+
+\end{document}

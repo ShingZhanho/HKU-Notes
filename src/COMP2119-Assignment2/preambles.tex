@@ -1,0 +1,48 @@
+% Set fonts
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\rmdefault}{\sfdefault}
+
+% Customise exam package
+\renewcommand{\thequestion}{\arabic{question}}
+\renewcommand{\questionlabel}{\thequestion)}
+\renewcommand{\thesubpart}{\roman{subpart}}
+\renewcommand{\subpartlabel}{(\thesubpart)}
+% psol (proof-solution) environment
+\newenvironment{psol}[1]{
+    \renewcommand{\solutiontitle}{\noindent\textbf{\itshape Proof:} {\itshape #1}\par\noindent}
+    \begin{solution}
+}{
+    \hfill\textbf{QED}
+    \end{solution}
+    \renewcommand{\solutiontitle}{\noindent\textbf{Answers:}\par\noindent}
+}
+% override default solution title
+\renewcommand{\solutiontitle}{\noindent\textbf{Answers:}\par\noindent}
+
+% Page configuration
+\pagestyle{foot}
+\cfoot{\small Page \thepage\ of \numpages}
+
+% Growth-rate notations
+\newcommand{\bo}{O}
+\newcommand{\bt}{\Theta}
+\newcommand{\bom}{\Omega}
+\newcommand{\lo}{o}
+\newcommand{\lom}{\omega}
+
+% Shortcuts for math
+\newcommand{\di}{\displaystyle}
+\newcommand{\bvec}[1]{\bm{\mathrm{#1}}} % bold vector
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+% % Configure minted
+% \setminted{
+%     linenos=true,           % Enable line numbers
+%     breaklines=true,        % Automatic line breaking
+%     breakanywhere=true,     % Break lines anywhere if needed
+%     style=manni,            % Consistent color scheme
+%     bgcolor=lightgray!10,   % Light background color
+%     fontsize=\small,        % Slightly smaller font
+%     tabsize=4               % Tab size
+% }

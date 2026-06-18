@@ -1,0 +1,124 @@
+%!TEX TS-program = xelatex
+%!TEX root = COMP2119-Assignment3a.tex
+%!TEX options = -synctex=1 -interaction=nonstopmode -file-line-error ./COMP2119-Assignment3a.tex
+%!TEX encoding = UTF-8 Unicode% Pre-build hook: compile all standalone figures in the `figs` directory
+
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preambles.tex}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{COMP2119 Assignment 3 -- Part I}}\\[0.5em]
+    {\large SHING, Zhan Ho Jacob 3036228892}
+\end{center}
+
+\begin{questions}
+    
+    \question[20] Hashing.
+    \begin{parts}
+
+        \part Probing.
+        \begin{solution}
+            \begin{subparts}
+
+                \subpart \textbf{Linear probing}. The resulting hash table is:
+                \begin{center}
+                    \begin{tabular}{*{17}{|c}|}
+                        \multicolumn{1}{c}{\texttt{0}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{2}} & \multicolumn{1}{c}{\texttt{3}} & \multicolumn{1}{c}{\texttt{4}} & \multicolumn{1}{c}{\texttt{5}} & \multicolumn{1}{c}{\texttt{6}} & \multicolumn{1}{c}{\texttt{7}} & \multicolumn{1}{c}{\texttt{8}} & \multicolumn{1}{c}{\texttt{9}} & \multicolumn{1}{c}{\texttt{10}} & \multicolumn{1}{c}{\texttt{11}} & \multicolumn{1}{c}{\texttt{12}} & \multicolumn{1}{c}{\texttt{13}} & \multicolumn{1}{c}{\texttt{14}} & \multicolumn{1}{c}{\texttt{15}} & \multicolumn{1}{c}{\texttt{16}}\\
+                        \hline
+                        51 & & 36 & & 38 & & & & & & & 11 & 80 & 62 & 31 & & 67 \\
+                        \hline
+                    \end{tabular}
+                \end{center}
+
+                \subpart \textbf{Quadratic probing}. The resulting hash table is:
+                \begin{center}
+                    \begin{tabular}{*{17}{|c}|}
+                        \multicolumn{1}{c}{\texttt{0}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{2}} & \multicolumn{1}{c}{\texttt{3}} & \multicolumn{1}{c}{\texttt{4}} & \multicolumn{1}{c}{\texttt{5}} & \multicolumn{1}{c}{\texttt{6}} & \multicolumn{1}{c}{\texttt{7}} & \multicolumn{1}{c}{\texttt{8}} & \multicolumn{1}{c}{\texttt{9}} & \multicolumn{1}{c}{\texttt{10}} & \multicolumn{1}{c}{\texttt{11}} & \multicolumn{1}{c}{\texttt{12}} & \multicolumn{1}{c}{\texttt{13}} & \multicolumn{1}{c}{\texttt{14}} & \multicolumn{1}{c}{\texttt{15}} & \multicolumn{1}{c}{\texttt{16}}\\
+                        \hline
+                        51 & & 36 & & 38 & & & & & & & 11 & 80 & & 62 & 31 & 67 \\
+                        \hline
+                    \end{tabular}
+                \end{center}
+
+                \subpart \textbf{Double hashing}. The resulting hash table is:
+                \begin{center}
+                    \begin{tabular}{*{17}{|c}|}
+                        \multicolumn{1}{c}{\texttt{0}} & \multicolumn{1}{c}{\texttt{1}} & \multicolumn{1}{c}{\texttt{2}} & \multicolumn{1}{c}{\texttt{3}} & \multicolumn{1}{c}{\texttt{4}} & \multicolumn{1}{c}{\texttt{5}} & \multicolumn{1}{c}{\texttt{6}} & \multicolumn{1}{c}{\texttt{7}} & \multicolumn{1}{c}{\texttt{8}} & \multicolumn{1}{c}{\texttt{9}} & \multicolumn{1}{c}{\texttt{10}} & \multicolumn{1}{c}{\texttt{11}} & \multicolumn{1}{c}{\texttt{12}} & \multicolumn{1}{c}{\texttt{13}} & \multicolumn{1}{c}{\texttt{14}} & \multicolumn{1}{c}{\texttt{15}} & \multicolumn{1}{c}{\texttt{16}}\\
+                        \hline
+                        51 & & 36 & & 38 & & & 67 & & & & 11 & 80 & & 31 & & 67\\
+                        \hline
+                    \end{tabular}
+                \end{center}
+
+            \end{subparts}
+        \end{solution}
+
+        \part Prove that \[(\gcd(h_2(k), m) = 1) \land (h_2(k) \neq 0) \rightarrow (\{(h\prime(k)+ih_2(k))\bmod m\mid i=0,1,\ldots,m-1\} = \{0,1,2,\ldots,m-1\})\]
+
+        \begin{psol}{The above statement is true.}
+            Denote $A=\{(h\prime(k)+ih_2(k))\bmod m\mid i=0,1,\ldots,m-1\}$ and $B=\{0,1,\ldots,m-1\}$.
+            Assume for contradiction that for some $H_2(k)$ and $M$ such that $\gcd(H_2(k), M)=1$ and $H_2(k)\neq 0$, we have $A\neq B$.
+            
+            Since $h\prime(k)\geq 0$ and $H_2(k), M\geq 1$, then $h\prime(k)+iH_2(k)\geq 0$, hence $(h\prime(k)+iH_2(k))\bmod M\in\{0,1,\ldots,M-1\}$.
+            This shows $\forall x\in A: x\in B \Rightarrow A\subseteq B$.
+            
+            We also try to show that $\forall x\in B: x\in A$.
+            Since $H_2(k)$ and $M$ are coprime, there exists an integer $t$ such that $t\cdot H_2(k)\bmod M = 1$, or $t\cdot H_2(k) \equiv 1 \pmod M$.
+            We want to show that:
+            \begin{align*}
+                h\prime(k)+iH_2(k) &\equiv x \pmod M \\
+                iH_2(k) &\equiv x - h\prime(k) \pmod M \\
+                it\cdot H_2(k) &\equiv t\cdot(x - h\prime(k)) \pmod M \\
+                i &\equiv t\cdot(x - h\prime(k)) \pmod M
+            \end{align*}
+            Let $i_0 \in\{0,1,\ldots,M-1\}$ be the unique integer such that $i_0 \equiv t\cdot(x - h\prime(k)) \pmod M$.
+            Then we have $h\prime(k)+i_0H_2(k) \bmod M = x$, which means $x\in A$.
+            This shows $\forall x\in B: x\in A \Rightarrow B\subseteq A$.
+
+            Then, we have $A\subseteq B$ and $B\subseteq A$, which means $A=B$.
+            This contradicts the assumption that $A\neq B$.
+            Therefore, the statement is true.
+        \end{psol}
+
+    \end{parts}
+    
+    \question[20] Improved Breadth-First Search.
+    \begin{solution}
+        The required algorithm is as follows:
+        \begin{verbatim}
+BFS(s, n) { // s = starting vertex, n = number of vertices
+    queue Q;
+    bool visited[0..n-1] = {false};
+    int PREV[0..n-1] = {null}; // second last vertex on the shortest path from s to v_i
+    Q.enqueue(s);
+    visited[s] = true;
+    while (!Q.empty()) {
+        int v = Q.dequeue();
+        for (int w : v.neighbors()) {
+            if (!visited[w]) {
+                Q.enqueue(w);
+                visited[w] = true;
+                PREV[w] = v;    // the shortest path from s to w must go through v
+            }
+        }
+    }
+}
+        \end{verbatim}
+    \end{solution}
+
+    \question[5] Questionnaire.
+    \begin{solution}
+        \begin{parts}
+            \part About right.
+            \part Less than 5 hours.
+            \part Yes.
+            \part Nil.
+        \end{parts}
+    \end{solution}
+
+\end{questions}
+
+\end{document}

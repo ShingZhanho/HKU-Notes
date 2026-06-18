@@ -1,0 +1,562 @@
+%!TEX TS-program = xelatex
+%!TEX root = COMP2119-Assignment2.tex
+%!TEX options = -shell-escape -synctex=1 -interaction=nonstopmode -file-line-error ./COMP2119-Assignment2.tex
+%!TEX encoding = UTF-8 Unicode% Pre-build hook: compile all standalone figures in the `figs` directory
+
+\immediate\write18{ cd figs && make all }
+
+\documentclass[answers]{exam}
+\input{packages.tex}
+\input{preambles.tex}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{COMP2119 Assignment 2}}\\[0.5em]
+    {\large SHING, Zhan Ho Jacob 3036228892}
+\end{center}
+
+\begin{questions}
+    
+    \question Algorithm design.
+    \begin{parts}
+        
+        \part[5] Fibonacci sequence.
+        \begin{solution}
+            Let $F(n)=F(n-1)+F(n-2)$ be the $n$-th Fibonacci number, with $F(0)=0$ and $F(1)=1$.
+            
+            Define $\bvec{x}_{n+1}=\begin{pmatrix} F(n+1) \\ F(n) \end{pmatrix}$,
+            and $\bvec{x}_n=\begin{pmatrix} F(n) \\ F(n-1) \end{pmatrix}$.
+            One can observe that $\bvec{x}_{n+1}=\begin{pmatrix}1 & 1\\1 &0\end{pmatrix}\bvec{x}_n$.
+            Let $A:=\begin{pmatrix}1&1\\1&0\end{pmatrix}$.
+
+            Note that $\bvec{x}_1=\begin{pmatrix} F(1)\\F(0) \end{pmatrix} = \begin{pmatrix}1\\0\end{pmatrix}$, $\bvec{x}_2=A\bvec{x}_1$, $\bvec{x}_3=A^2\bvec{x}_1$, $\ldots$, $\bvec{x}_n=A^{n-1}\bvec{x}_1$.
+            Let $A^{n-1}=\begin{pmatrix}a&c\\b&d\end{pmatrix}$, then $F(n)=a$.
+
+            Now, the problem reduces to finding an $O(\log n)$ algorithm for computing $A^{n-1}$, which is already hinted on page 26 of the slides ``Divide and Conquer''.
+            The complete solution in pseudocode is as follows:
+
+            \begin{verbatim}
+
+function matrix_mult(A -> SqMatrix, B -> SqMatrix) -> SqMatrix:     # O(1) time
+    # A matrix is implemented as an array of arrays,
+    # where A[n] is the n-th column of A (index 1).
+    # **COLUMN-MAJOR REPRESENTATION**
+    return [
+        [A[1][1]*B[1][1] + A[2][1]*B[1][2], A[1][2]*B[1][1] + A[2][2]*B[1][2]], # col 1
+        [A[1][1]*B[2][1] + A[2][1]*B[2][2], A[1][2]*B[2][1] + A[2][2]*B[2][2]]  # col 2
+    ]
+
+function matrix_pow(A -> SqMatrix, n -> int) -> SqMatrix:           # O(log n) time
+    # Calculates A^n.
+    # Time complexity already proven.
+    # Reference: Lecture slides "Divide and Conquer", page 26.
+    if n == 0:
+        return [[1, 0], [0, 1]]
+    if n % 2 == 0:                  # n is even
+        B -> SqMatrix = matrix_pow(A, n/2)
+        return matrix_mult(B, B)
+    else:                           # n is odd
+        B -> SqMatrix = matrix_pow(A, (n-1)/2)
+        return matrix_mult(matrix_mult(B, B), A)
+
+function fib(n -> int) -> int:
+    if n == 0:                                              # Cond1
+        return 0                                            # S1
+    if n == 1:                                              # Cond2
+        return 1                                            # S2
+    M -> SqMatrix = matrix_pow([[1, 1], [1, 0]], n-1)       # S3
+    return M[1][1]                                          # S4
+
+            \end{verbatim}
+
+            We now show the time complexity of the function \texttt{fib(n)}.
+            It is trivial to show that the for \texttt{Cond1} and \texttt{Cond2}, the time complexity of \texttt{S1} and \texttt{S2} is $O(1)$.
+            For \texttt{S3}, it makes a call to \texttt{matrix\_pow(A, n)}, which is proven to be $O(\log n)$, so its time complexity is also $O(\log n)$.
+            For \texttt{S4}, it is $O(1)$.
+            Therefore, the overall time complexity of \texttt{fib(n)} is $O(\log n)$.
+        \end{solution}\pagebreak
+
+        \part[15] Tribonacci sequence.
+        \begin{subparts}
+
+            \subpart Non-recursive solution.
+            \begin{solution}
+                Similarly, we define $\bvec{x}_{i+2}=\begin{pmatrix}G_{i+2}\\G_{i+1}\\G_{i}\end{pmatrix}, i\geq 0$, and define $\bvec{x}_2=\begin{pmatrix}G_2\\G_1\\G_0\end{pmatrix}=\begin{pmatrix}1\\1\\0\end{pmatrix}$.
+                Let $A:=\begin{pmatrix}1&1&1\\1&0&0\\0&1&0\end{pmatrix}$, then $\bvec{x}_{i+2}=A\bvec{x}_{i+1}=A^i\bvec{x}_2$ and $\bvec{x}_i=A^{i-2}\bvec{x}_2$.
+                Suppose $A^{i-2}=\begin{pmatrix}a&d&g\\b&e&h\\c&f&i\end{pmatrix}$, then $G_{i}=a+d$.
+
+                We modify the functions from the above part to give similar $O(1)$ multiplication of $3\times 3$ matrices, and $O(\log n)$ exponentiation of $3\times 3$ matrices.
+                Then, we can produce a function \texttt{G(i)} that takes $O(\log i)$ time to compute $G_i$.
+                The pseudocode is as follows:
+
+                \begin{verbatim}
+
+function matrix_mult(A -> CubeMatrix, B -> CubeMatrix) -> CubeMatrix:     # O(1) time
+    # For readability, we use variables a, b, c, ... to denote the following elements:
+    #     [a d g]       [j m p]
+    # A = [b e h],  B = [k n q],  **COLUMN-MAJOR REPRESENTATION**
+    #     [c f i]       [l o r]
+    # to substitute the indexing notations A[1][1], etc.
+    return [
+        [a*j + d*k + g*l, b*j + e*k + h*l, c*j + f*k + i*l],  # col 1
+        [a*m + d*n + g*o, b*m + e*n + h*o, c*m + f*n + i*o],  # col 2
+        [a*p + d*q + g*r, b*p + e*q + h*q, c*p + f*q + i*r]   # col 3
+    ]
+
+function matrix_pow(A -> CubeMatrix, n -> int) -> CubeMatrix:         # O(log n) time
+    # Same as the 2x2 case, but with CubeMatrix instead of SqMatrix.
+    # Implementation omitted.
+
+function G(i -> int) -> int:
+    if i == 0:                                                           # Cond1
+        return 0                                                         # S1
+    if i == 1 or i == 2:                                                 # Cond2
+        return 1                                                         # S2
+    M -> CubeMatrix = matrix_pow([[1, 1, 0], [1, 0, 1], [1, 1, 0]], i-2) # S3
+    return M[1][1] + M[2][1]                                             # S4
+
+                \end{verbatim}
+
+                The time complexity of \texttt{Cond1}, \texttt{S1}, \texttt{Cond2}, and \texttt{S2} is $O(1)$.
+                \texttt{S3} makes a call to \texttt{matrix\_pow(A, i)}, which gives $O(\log(i-2))$.
+                \texttt{S4} is $O(1)$.
+                The overall time complexity of \texttt{G(i)} is $O(1)+O(1)+O(1)+O(1)+O(\log(i-2))+O(1)=O(\log i)$.
+            \end{solution}\pagebreak
+
+            \subpart Recursive solution.
+            \begin{solution}
+                To provide a time-optimised recursive solution, we take inspiration from the fast doubling method for Fibonacci numbers, and derive a similar approach for Tribonacci numbers.
+
+                Note that $\bvec{x}_{i+2}=\begin{pmatrix}G_{i+2}\\G_{i+1}\\G_i\end{pmatrix}=\begin{pmatrix}G_{i+1}+G_i+G_{i-1}\\G_i\\G_{i-1}\end{pmatrix}$.
+                We find $M\in\mathbb{R}^{3\times 3}$ such that $\bvec{x}_{i+2}=M\bvec{x}_{i+1}$.
+                It is easy to see that $M=\begin{pmatrix}1&1&1\\1&0&0\\0&1&0\end{pmatrix}$.
+                Observe the pattern of $M^k\begin{pmatrix}G_2\\G_1\\G_0\end{pmatrix}$ for $k\geq 1$:
+
+                \begin{align*}
+                    k&=1:\quad \begin{pmatrix}1&1&1\\1&0&0\\0&1&0\end{pmatrix}\begin{pmatrix}1\\1\\0\end{pmatrix}=\begin{pmatrix}2\\1\\1\end{pmatrix}=\begin{pmatrix}G_3\\G_2\\G_1\end{pmatrix}\\
+                    k&=2:\quad \begin{pmatrix}1&1&1\\1&0&0\\0&1&0\end{pmatrix}\begin{pmatrix}2\\1\\1\end{pmatrix}=\begin{pmatrix}4\\2\\1\end{pmatrix}=\begin{pmatrix}G_4\\G_3\\G_2\end{pmatrix}\\
+                    k&=3:\quad \begin{pmatrix}1&1&1\\1&0&0\\0&1&0\end{pmatrix}\begin{pmatrix}4\\2\\1\end{pmatrix}=\begin{pmatrix}7\\4\\2\end{pmatrix}=\begin{pmatrix}G_5\\G_4\\G_3\end{pmatrix}\\
+                    &\qquad\cdots\\
+                    k&=i:\quad M^i\bvec{x}_2=\bvec{x}_{i+2}
+                \end{align*}
+
+                From the above, we can derive that $\bvec{x}_k=M^k\bvec{x}_0$, which involves $G_0, G_{-1}, G_{-2}$.
+                From the definition, we have $G_2=G_1+G_0+G_{-1} \Rightarrow 1=1+0+G_{-1} \Rightarrow G_{-1}=0$, and similarly $G_{-2}=1$.
+                Denote $M^k=\begin{pmatrix}a&d&g\\b&e&h\\c&f&i\end{pmatrix}$.
+
+                $M^k\bvec{x}_0=M^k\begin{pmatrix}0\\0\\1\end{pmatrix}=\begin{pmatrix}g\\h\\i\end{pmatrix}=\bvec{x}_k=\begin{pmatrix}G_k\\G_{k-1}\\G_{k-2}\end{pmatrix}=\begin{pmatrix}G_k\\G_{k-1}\\G_{k+1}-G_k-G_{k-1}\end{pmatrix}$;
+
+                $M^k\bvec{x}_1=M^k\begin{pmatrix}1\\0\\0\end{pmatrix}=\begin{pmatrix}a\\b\\c\end{pmatrix}=\bvec{x}_{k+1}=\begin{pmatrix}G_{k+1}\\G_{k}\\G_{k-1}\end{pmatrix}$;
+
+                $\begin{pmatrix}0\\1\\0\end{pmatrix}=\begin{pmatrix}1\\1\\0\end{pmatrix}-\begin{pmatrix}1\\0\\0\end{pmatrix}=\bvec{x}_2-\bvec{x}_1 $\\
+                \phantom{.}$\qquad\Rightarrow M^k\begin{pmatrix}0\\1\\0\end{pmatrix}=M^k\bvec{x}_2-M^k\bvec{x}_1=\begin{pmatrix}G_{k+2}\\G_{k+1}\\G_k\end{pmatrix}-\begin{pmatrix}G_{k+1}\\G_k\\G_{k-1}\end{pmatrix}=\begin{pmatrix}G_{k}+G_{k-1}\\G_{k+1}-G_k\\G_k-G_{k-1}\end{pmatrix}$
+
+                Therefore, $M^k=\begin{pmatrix}G_{k+1} & G_k+G_{k-1} & G_k\\G_k & G_{k+1}-G_k & G_{k-1}\\G_{k-1} & G_k-G_{k-1} & G_{k+1}-G_k-G_{k-1}\end{pmatrix}$.
+                For simplicity, we denote $X=G_{k-1}, Y=G_k, Z=G_{k+1}$, then $M^k=\begin{pmatrix}Z & Y+X & Y\\Y & Z-Y & X\\X & Y-X & Z-Y-X\end{pmatrix}$.
+                Consider $M^{2k}\bvec{x}_1=\bvec{x}_{2k+1}=\begin{pmatrix}G_{2k+1}\\G_{2k}\\G_{2k-1}\end{pmatrix}$.
+                We only consider the first column of $M^{2k}$, which is $\begin{pmatrix}
+                    Z^2+Y^2+2XY \\
+                    X^2+2YZ-Y^2 \\
+                    2XZ+Y^2-2XY-X^2
+                \end{pmatrix}$.
+
+                Then, we have formulae:
+                \[
+                    \begin{cases}
+                        G_{2k+1} &= G_{k+1}^2 + G_k^2 + 2G_{k+1}G_{k-1}\\
+                        G_{2k} &= G_{k-1}^2 + 2G_kG_{k+1} - G_k^2\\
+                        G_{2k-1} &= 2G_{k-1}G_{k+1} + G_k^2 - 2G_kG_{k-1} - G_{k-1}^2
+                    \end{cases}
+                \]
+
+                We implement the above formulae with pseudocode:
+
+                \begin{verbatim}
+                    
+function trib(n -> int) -> Tuple[int, int, int]:
+    # Returns Tuple[G_{n-1}, G_n, G_{n+1}]
+    if n == 1:
+        return (0, 1, 1) # G_0, G_1, G_2
+
+    k -> int = floor(n / 2)
+    (x, y, z) -> Tuple[int, int, int] = trib(k) # G_{k-1}, G_k, G_{k+1}
+
+    g2kp1 -> int = z*z + y*y + 2*x*y            # G_{2k+1}
+    g2k   -> int = x*x + 2*y*z - y*y            # G_{2k}
+    g2km1 -> int = 2*x*z + y*y - 2*x*y - x*x    # G_{2k-1}
+
+    if n % 2 == 0: # n is even, n = 2k
+        return (g2km1, g2k, g2kp1)              # G_{n-1=2k-1}, G_{n=2k}, G_{n+1=2k+1}
+    else:          # n is odd, n = 2k + 1
+        g2kp2 -> int = g2km1 + g2k + g2kp1
+        return (g2k, g2kp1, g2kp2)              # G_{n-1=2k}, G_{n=2k+1}, G_{n+1=2k+2}
+
+function G(i -> int) -> int:
+    # Returns G_i.
+    if i == 0:
+        return 0
+    if i == 1 or i == 2:
+        return 1
+    return trib(i)[2]  # G_{i} is the second element of the tuple (index 1).
+
+                \end{verbatim}
+    
+                The runtime analysis of \texttt{G(i)} is as follows.
+                Denote $T_{\text{trib}}(n)$ as the time complexity of \texttt{trib(n)}.
+                \[
+                    T_{\text{trib}}(n)=\begin{cases}
+                        1 & ,n=1\\
+                        T_{\text{trib}}(\lfloor n/2 \rfloor) + c & ,n>1
+                    \end{cases},\text{ where }c\text{ is the time required for calculating terms, a constant}.
+                \]
+
+                Expanding the recurrence, we have $\di T_{\text{trib}}(n)=\floor*{\frac{n}{2}}+c=\floor*{\frac{n}{4}}+c+c=\cdots=(\log_2 n)\cdot c + 1$.
+                Therefore, $T_{\text{trib}}(n)\in O(\log n)$.
+                
+                For \texttt{G(i)}, the time complexity is given by:
+                \[
+                    T_{\text{G}}(i) = \begin{cases}
+                        1 &, i=0,1,2\\
+                        T_{\text{trib}}(i) + 1 &, i>2
+                    \end{cases}
+                \]
+                Then, as $i\to\infty$, $T_{\text{G}}(i)\in O(\log i)$.
+
+                Therefore, the above implementation has $O(\log i)$ time complexity.
+            \end{solution}
+
+        \end{subparts}
+
+    \end{parts}
+
+    \question Recursive algorithms.
+    \begin{parts}
+        
+        \part[5] Reversal of an array.
+        \begin{solution}
+            We can recursively reverse an array by swapping the first and last elements.
+            The pseudocode is as follows:
+
+            \begin{verbatim}
+function reverse(A -> Array, start -> int, end -> int, length -> int) -> void:
+    # Reverses an array A of given length in-place.
+    # 1-indexed array.
+
+    if length <= 1:
+        return               # c_1 time
+
+    temp -> int = A[start]   # \
+    A[start] = A[end]        #  > c_2 time
+    A[end] = temp            # /
+
+    reverse(A, start + 1, end - 1, length - 2)
+            \end{verbatim}
+
+            We analyse the worst-case time complexity $T(n)$ of \texttt{reverse(A, start, end, length)}, where $n$ is the length of the array.
+            $T(n)$ is given by: \[
+                T(n) = \begin{cases}
+                    c_1 & , n \leq 1 \\
+                    T(n-2) + c_2 & , n > 1
+                \end{cases}\]
+            Expand the recurrence:
+            $\di T(n)=T(n-2)+c_2=T(n-4)+2c_2=\cdots=\begin{cases}\di
+                c_1 + \frac{n}{2}c_2 & , n\text{ is even}\\\di
+                c_1 + \frac{n-1}{2}c_2 & , n\text{ is odd}
+            \end{cases}=c_1+\floor*{\frac{n}{2}}c_2.$
+
+            Note that $\di\floor*{\frac{n}{2}}\leq\frac{n}{2}$, so $\di T(n)\leq c_1+\frac{n}{2}c_2\in O(n)$.
+        \end{solution}
+
+        \part[5] Verifying sequence.
+        \begin{solution}
+            We assume the sequence must have at least 3 elements.
+            The pseudocode implementation is as follows:
+
+            \begin{verbatim}
+function check(A -> Array, length -> int, n -> int = 3) -> bool:
+    # Checks if A[n] = A[n-1] + A[n-2] for all n in [3, length].
+    # 1-indexed array.
+
+    if n > length:                          # \
+        return true                         #  | c statements
+    else if A[n] != A[n - 1] + A[n - 2]:    #  | O(1) time
+        return false                        # /
+    else:
+        return check(A, length, n + 1)
+            \end{verbatim}
+
+            The worst case would be if the sequence indeed satisfies the condition $\forall i\in[3,n]:A_i = A_{i-1}+A_{i-2}$ (all elements except the first two are traversed once).
+            
+            The worst-case run time $T(n)$ is given by $T(n)=\begin{cases}
+                c &, n > l\\
+                T(n+1) + c &, n \leq l
+            \end{cases}$, where $l\geq 3$ is the length of the array.
+
+            When $n=l+1$, $T(n) = c$; when $n=l$, $T(n)=T(l+1)+c=2c$; when $n=l-1$, $T(n)=T(l)+c=3c$; $\cdots$; when $n=3$, $T(n)=(l-1)c$.
+            Therefore, $T(n)\in O(l)$, where $l$ is the length of the array.
+        \end{solution}
+
+        \part[10] Bit string generation.
+        \begin{solution}
+            The pseudocode implementation is as follows:
+            \begin{verbatim}
+function gen(n -> int, generated -> Queue[string] = []) -> void:
+    # Generates all bit strings of length n without consecutive 0s.
+    # Generated strings are stored in the provided queue.
+    # Everything is 1-indexed.
+
+    if n == 0:                  # \
+        enqueue(generated, "")  #  |
+        return                  #  |
+    if n == 1:                  #   > c_1 time
+        enqueue(generated, "0") #  |
+        enqueue(generated, "1") #  |
+        return                  # /
+    
+    gen(n - 1, generated)               # T(n-1) time
+    len -> int = generated.length       # O(1)  \
+    ctr -> int = 1                      # O(1)  / c_2 time
+    while ctr <= len:                   # F(n-1) iterations
+        s -> string = dequeue(generated) # take out an element of n-1 length;    O(1)\
+        enqueue(generated, s + "1")      # append "1" to it and                  O(1) |
+        if s[s.length] != "0":           #                                       O(1) c_3
+            enqueue(generated, s + "0")  # append "0" to it not ending with "0"  O(1) |
+        ctr += 1                         #                                       O(1)/
+            \end{verbatim}
+
+            \textit{\textbf{Assumptions:}
+            Queues and Strings have a variable \texttt{length} maintained internally.
+            Queues have sufficiently large \texttt{max\_length}.
+            Queues are defined and implemented like that of the lecture slides (pages 22-23) with $O(1)$ time complexity for \texttt{enqueue} and \texttt{dequeue}.
+            String operations such as concatenation and indexing are $O(1)$ time.}
+
+            \textbf{Worst-case Time:} We now analyse the time complexity of \texttt{gen(n, generated)}.
+            First, we investigate the loop. All operations inside the loop are $O(1)$, thus each iteration is $O(1)$ time.
+            
+            The number of iterations is $F(n-1)$, where $F(n)$ is the number of valid bit strings (without consecutive 0's) of length $n$.
+            Note that for each valid bit string of length $n-1$, we can append "1" to it, producing $F(n-1)$ valid bit strings of length $n$.
+            Also, we can append "0" to each valid bit string of length $n-1$ that ends with "1", which is $F(n-2)$ valid bit strings.
+            Therefore, $F(n)=F(n-1)+F(n-2)$, with $F(0)=1$ and $F(1)=2$.
+
+            Therefore, the running time $T(n)$ is given by \[
+            T(n)=\begin{cases}
+                c_1 &, n=0,1\\
+                T(n-1)+c_2+F(n-1)\cdot c_3 &,\text{otherwise}
+            \end{cases}\]
+            Expanding the recurrence, we have $\di T(n)=c_1+(n-1)c_2+c_3\sum_{i=1}^{n-1}F(i)$.
+            Recall from problem (\ref{question@1})(\ref{part@1@1}), if we diagonalise the Fibonacci matrix, we can obtain the closed-form $\di Fib(n)=\frac{\phi^n-(1-\phi)^n}{\sqrt{5}}$, where $\di\phi=\frac{1+\sqrt{5}}{2}$.
+            Also note that $F(n)$ is a shifted Fibonacci sequence, with $F(n)=Fib(n+2)$.
+            From $\di\sum_{j=1}^{n}Fib(j)=Fib(n+2)-1$, we can conclude $\di\sum F(n)\in\Theta(F(n))=\Theta(Fib(n))=\Theta(\phi^n)$.
+            Therefore, $T(n)\in O(\phi^n)$, i.e., the algorithm runs in exponential time.
+        \end{solution}
+
+    \end{parts}
+
+    \question[20] Solving recurrences.
+    \begin{parts}
+        
+        \part Show that the solution to $\di T(n)=T\left(\ceil*{\frac{n}{2}}\right)+1$ is $O(\log n)$.
+        \begin{solution}
+            We use the substitution method.
+            We guess that $T(n)\leq c\log n$ for some constant $c>0$.
+            Assume that $\forall m<n : T(m)\leq c\log m$.
+            Note that for $n\geq 3$, $\di\ceil*{\frac{n}{2}}\leq\frac{2n}{3}$.
+            Therefore, for $n\geq 3$, we have:
+            \begin{align*}
+                T(n) &= T\left(\ceil*{\frac{n}{2}}\right)+1\\
+                &\leq c\log\left(\ceil*{\frac{n}{2}}\right)+1\\
+                &\leq c\log\left(\frac{2n}{3}\right)+1\\
+                &= c(1+\log n-\log 3)+1\\
+                &= c\log n + (1+c(1-\log 3))\\
+                &\leq c\log n
+            \end{align*}
+            The last inequality holds when $\di 1+c(1-\log 3)\leq 0 \Rightarrow c\geq\frac{1}{\log3 -1}$
+            The inequality clearly holds for sufficiently large $c$.
+            We also verify the base cases.
+            Assume that $T(1)=k$ for some constant $k>0$.
+            Then, $T(2)=T(1)+1=k+1$.
+            We show that $T(2)\leq c\log 2 \Leftrightarrow k+1\leq c$, which holds for sufficiently large $c$, e.g., $\di c=\max\left\{\frac{1}{\log 3-1}, k+1 \right\}$.
+            Then, for $T(3)$, we have $T(3)=T(2)+1\leq c\log 2+1\leq c\log 3$.
+
+            Therefore, by induction, $T(n)\in O(\log n)$.
+        \end{solution}
+
+        \part Recursive tree and substitution method for $\di T(n)=4T\left(\floor*{\frac{n}{2}}\right)+cn$.
+        \begin{solution}
+            Assuming that $T(1)\in\Theta(1)$, the recursive tree is as follows:
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=\textwidth]{figs/fig-q3b-1.pdf}
+            \end{figure}
+
+            At each level of the tree, the work size is shrunk by a factor of 2.
+            We reach the leaf level when the work size is 1 after $h$ levels when $\di\frac{n}{2^h}=1 \Rightarrow h=\log n$.
+            At level $i$, there are $4^i$ nodes, for $i=[0, \log n -1]$.
+            At leave level, there are $4^{\log n}=n^{\log 4}=n^2$ nodes, each with $\Theta(1)$ work, so the leave level total work is $n^2\cdot\Theta(1)=\Theta(n^2)$.
+
+            The cost of the entire tree is:
+            \begin{align*}
+                T(n)&=cn+4\cdot\frac{cn}{2}+16\cdot\frac{cn}{4}+\cdots+\Theta(n^2)\\
+                &=cn\sum_{i=0}^{\log n-1} 2^i + \Theta(n^2)\\
+                &=cn\cdot\frac{2^{\log n}-1}{2-1} + \Theta(n^2)\\
+                &=cn\cdot (n-1) + \Theta(n^2)\\
+                &=\Theta(n^2)
+            \end{align*}
+            Therefore, we guess that $T(n)\in O(n^2)$.
+            Now we verify the guess with the substitution method.
+            For the upper bound, we assume that $\forall m<n : T(m)\leq dm^2-em$ for some constant $d,e>0$.
+            Then, we have:
+            \begin{align*}
+                T(n)&\leq 4d\left(\frac{n}{2}\right)^2 - 2en + cn\\
+                &=dn^2 - 2en + cn\\
+                &\leq dn^2 - en
+            \end{align*}
+            For the inequality to hold, we require $-2e+c\leq -e \Leftrightarrow e\geq c$.
+            Choose $e=c$, then the inequality clearly holds.
+            For the base case $T(1)$ to hold, we can choose large enough $d$, e.g., $d\geq T(1)+c$.
+            Therefore, by induction, $T(n)\in O(n^2)$.
+
+            For the lower bound, since the leaf level must contribute $\Theta(n^2)$ work, $\Omega(n^2)$ must be a lower bound of $T(n)$.
+
+            Therefore, $T(n)\in\Theta(n^2)$.
+        \end{solution}
+
+    \end{parts}
+
+    \question Queues and Stacks.
+    \begin{parts}
+        
+        \part[10] Sorting with two queues.
+        \begin{solution}
+            The pseudocode implementation is as follows (denote the buffer queue $Q\prime$ as \texttt{R} in code):
+            \begin{verbatim}
+function sort_queue(Q -> Queue) -> void:
+    # Sorts a queue Q of numbers in decreasing order with a buffer queue R.
+
+    R -> Queue = new Queue(Q.length)        # Queue.length is the # of elements in a queue
+    # move everything in Q to R
+    while !Q.empty():           # n iterations
+        R.enqueue(Q.dequeue())
+
+    sorted_ctr -> int = 0
+    while sorted_ctr != R.length:       # n interations
+        max -> number = -inf            #  ] O(1) time
+        max_pos -> int = 0              #  ]
+        for i = 1 to R.length:          #    n, n-1, ..., 1 iterations (n-i+1 iterations)
+            x -> number = R.dequeue()   #      ]
+            if x > max:                 #      ]
+                max = x                 #      ] O(1) time
+                max_pos = i             #      ]
+            R.enqueue(x)                #      ]
+        for i = 1 to R.length:          #    n, n-1, ..., 1 iterations (n-i+1 iterations)
+            x -> number = R.dequeue()   #      ]
+            if i == max_pos:            #      ]
+                Q.enqueue(x)            #      ] O(1) time
+            else:                       #      ]
+                R.enqueue(x)            #      ]
+        sorted_ctr += 1                 #  ] O(1) time
+            \end{verbatim}
+
+            Now we analyse the time complexity.
+            For the first inner \texttt{for} loop, the number of iterations will be $n, n-1, \ldots, 1$ for each iteration of the outer \texttt{while} loop, which gives a total of $\di\frac{n(n+1)}{2}$ iterations.
+            The same applies to the second inner \texttt{for} loop.
+            Therefore, for the outer \texttt{while} loop, the total work is $\di O(1)+\frac{n(n+1)}{2}\cdot O(1)+\frac{n(n+1)}{2}\cdot O(1)+O(1)=n(n+1)\cdot O(1)+O(1)=O(n^2)$.
+            Then, we account for the first \texttt{while} loop and other operations, which yield $T(n)=O(1)+O(n)+O(n^2)=O(n^2)$.
+
+            Note that the algorithm is run identically for the same input size regardless of the order.
+            Therefore, the best-, average-, and worst-case time complexities are all $O(n^2)$.
+        \end{solution}\pagebreak
+
+        \part[10] Improving the Stack data structure.
+        \begin{solution}
+            The stack is implemented as follows:
+\begin{verbatim}
+struct Stack<T>:    # T must be a numeric type in this problem
+    
+    # private variables
+    data -> Array<T> = null
+    sum -> T = null
+    length -> int = null
+    size -> int = null
+
+    # public methods / constructors
+    init(size -> int):
+        data = new Array<T>(size)
+        sum = 0
+        length = 0
+        this.size = size
+
+    function push(x -> T) -> void:
+        if length == size:
+            throw "Stack overflow"
+        data[length + 1] = x
+        sum += x
+        length++
+
+    function pop() -> T:
+        if length == 0:
+            throw "Stack underflow"
+        x -> T = data[length]
+        sum -= x
+        length--
+        return x
+
+    function top() -> T:
+        if length == 0:
+            return null
+        return data[length]
+
+    function empty() -> bool:
+        return length == 0
+
+    function avg() -> T:
+        if length == 0:
+            return null
+        return sum / length
+\end{verbatim}
+
+            It is easy to see that the time complexity of all functions \texttt{push()}, \texttt{pop()}, \texttt{top()}, \texttt{empty()}, and \texttt{avg()} is $O(1)$.
+            The constructor \texttt{init()} allocates an array of size $n$, which typically takes $O(n)$ time.
+        \end{solution}
+
+    \end{parts}\pagebreak
+
+    \question[15] Proof of a variant of the Master Theorem.
+    \begin{psol}{If $\di T(n)=aT\left(\frac{n}{b}\right)+f(n)$ and $f(n)=\Theta(n^p)$, then $T(n)=\Theta(n^p\log n)$ if $a=b^p$, where $a\geq 1, b\geq 2, p\geq 0$. Suppose $n$ is exact power of $b$.}
+        Assume that $T(1)=\Theta(1)$.
+        For the recurrence, consider a modified recursive tree from Problem (\ref{question@3})(\ref{part@3@2}):
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=\textwidth]{figs/fig-q5.pdf}
+        \end{figure}
+
+        The root of the tree has $f(n)$ cost.
+        At depth 1, there are $a$ nodes, each with $\di f\left(\frac{n}{b}\right)$ cost.
+        For depth $i$, where $i=0,1,\ldots,\log_b n-1$, there are $a^i$ nodes, each with $\di f\left(\frac{n}{b^i}\right)$ cost.
+        At the leaf level, there are $a^{\log_b n}=n^{\log_b a}=n^p$ nodes, each with constant cost, totaling $\Theta(n^p)$.
+        Therefore, summing everything up, we get:
+        \[T(n)=\Theta(n^p)+\sum_{i=0}^{\log_b n-1} a^i f\left(\frac{n}{b^i}\right)\]
+        Since $f(n)=\Theta(n^p)$, we have $\di f\left(\frac{n}{b^i}\right)=\Theta\left(\left(\frac{n}{b^i}\right)^p\right)$.
+        Therefore, $\di\sum_{i=0}^{\log_b n-1} a^i f\left(\frac{n}{b^i}\right)=\Theta\left(\sum_{i=0}^{\log_b n-1}a^i\left(\frac{n}{b^i}\right)^{\log_b a}\right)=\Theta\left(n^{\log_b a}\sum_{i=0}^{\log_b n-1}\left(\frac{a}{b^{\log_b a}}\right)^i\right)=\Theta\left(n^{\log_b a}\log_b n\right)=\Theta(n^p\log_b n)$.
+
+        That is, $T(n)=\Theta(n^p)+\Theta(n^p\log_b n)=\Theta(n^p\log n)$.
+
+        \textit{\bfseries Reference:} Cormen, T. H. (2009). \textit{Introduction to algorithms} (3rd ed.). MIT Press. (Section 4.6.1 -- The proof for exact powers, pp. 98-101).
+    \end{psol}
+
+    \question[5] Survey.
+    \begin{solution}
+        \begin{parts}
+            \part Too difficult.
+            \part 10 -- 20 hours.
+            \part Not 100\% sure.
+                Even though I have read the textbook and consulted some online resources, I still do not understand the substitution method.
+                I cannot independently solve the problems in questions about the substitution method without the reading the solution to similar problems.
+            \part A tutorial on the substitution method would be helpful.
+        \end{parts}
+    \end{solution}
+
+\end{questions}
+
+\end{document}
