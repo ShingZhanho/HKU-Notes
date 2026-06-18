@@ -1,0 +1,7 @@
+{
+    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "static_site": {
+        "document_status": "fin",
+        "description": "Read the student submission of the essay to CCHU9094. This work has been graded A."
+    }
+}
