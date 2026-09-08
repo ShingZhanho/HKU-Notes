@@ -1,5 +1,5 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "static_site": {
         "description": "Assignment 4 of COMP2120 (24/25 Spring) with solutions.",
         "document_status": "lts",
@@ -28,6 +28,14 @@
         "pdf_viewer": "at_footer"
     },
     "build": {
-        "prebuild_command": "latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./figure.tex"
-	}
+        "type": "latex",
+        "prepare": [
+            {
+                "type": "latex",
+                "inputs": [
+                    "figure.tex"
+                ]
+            }
+        ]
+    }
 }

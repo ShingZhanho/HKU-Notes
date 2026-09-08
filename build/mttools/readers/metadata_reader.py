@@ -1,64 +1,40 @@
-from ..metadata import Metadata
-import re
+"""Compatibility view for page generators; the input format is exclusively v3."""
+from pathlib import Path
+from hkbuild.metadata import load
+from ..metadata import Metadata, ButtonKeyNode
+
 
 class Reader:
-    """
-    Wrapper class for reading metadata files.
-    """
     def __init__(self, metadata_file, build_target=None):
-        """
-        Initialize the reader with a metadata file.
-        """
-        self.metadata_file = metadata_file
-        if build_target is None:
-            # if no build target is provided, set name as parent dir of the metadata file
-            self.build_target = metadata_file.split('/')[-2]
-        else:
-            self.build_target = build_target
-        
-    def parse(self) -> Metadata:
-        """
-        Parse the metadata file and return a metadata object.
-        """
-        # Read the metadata file
-        with open(self.metadata_file, 'r') as file:
-            metadata_str = file.read()
-        
-        # Determine version: first check $schema, then fall back to @metadata_file_version
-        version = None
-        
-        # Try to detect version from $schema field (v2 format)
-        schema_match = re.search(r'"\$schema"\s*:\s*"([^"]+)"', metadata_str)
-        if schema_match:
-            schema_url = schema_match.group(1)
-            # Check if it's the v2 schema
-            if 'schemas/v2.json' in schema_url:
-                version = "2"
-        
-        # Fall back to @metadata_file_version field (v1 and legacy v2 format)
-        if version is None:
-            version_match = re.search(r'"@metadata_file_version"\s*:\s*"([^"]+)"', metadata_str)
-            if version_match:
-                version = version_match.group(1)
-        
-        # If no version indicator found, raise an error
-        if version is None:
-            raise ValueError(
-                "Metadata file version could not be determined. "
-                "Please include either '$schema' field (v2) or '@metadata_file_version' field (v1)."
-            )
+        self.path = Path(metadata_file)
+        self.build_target = build_target or self.path.parent.name
 
-        # select the appropriate parser based on the version
-        if version == "1":
-            from .metadata_v1_parser import MetadataV1Parser as Parser
-        elif version == "2":
-            from .metadata_v2_parser import MetadataV2Parser as Parser
-        else:
-            raise ValueError(f"Unsupported metadata file version: {version}")
-        
-        # create the parser object
-        parser = Parser(metadata_str, self.build_target)
-        # parse the metadata and return the metadata object
-        metadata = parser.parse()
-        return metadata
-        
+    def parse(self) -> Metadata:
+        data = load(self.path)
+        result = Metadata(self.build_target)
+        build = data['build']
+        result.root_file.set(build.get('root_file', ''))
+        result.output_file.set(build.get('output_file', 'NON_FILE_TARGET'))
+        result.build.spec = build
+        site = data.get('static_site', {})
+        defaults = dict(description='-', custom_md_file='', document_status='unk', pdf_viewer='at_head')
+        for key in ('description', 'meta_description', 'custom_md_file', 'document_status', 'pdf_viewer'):
+            getattr(result.static_site, key).set(site.get(key, defaults.get(key)))
+        result.static_site.alias_to.set(build.get('target') if build['type'] == 'alias' else None)
+        result.authors.set(data.get('authors', ['jacob_shing']))
+        buttons = site.get('buttons')
+        if buttons is None:
+            buttons = []
+            if build['type'] in ('latex', 'custom'):
+                buttons.append(dict(text='Download', is_primary=True, icon='material-download',
+                                    href=f'../../files/{self.build_target}/{build["output_file"]}'))
+            buttons.append(dict(text='View source', icon='material-github',
+                                href=f'https://github.com/ShingZhanho/HKU-Notes/tree/master/src/{self.build_target}'))
+        nodes = []
+        for button in buttons:
+            node = ButtonKeyNode(result.static_site)
+            for key in ('index', 'is_primary', 'text', 'icon', 'href', 'message'):
+                getattr(node, key).set(button.get(key, {'index': 0, 'is_primary': False}.get(key)))
+            nodes.append(node)
+        result.static_site.buttons.set(sorted(nodes, key=lambda node: node.index.get()))
+        return result

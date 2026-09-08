@@ -1,5 +1,5 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "static_site": {
         "description": "Assignment 2 of COMP2120 (24/25 Spring) with solutions.",
         "document_status": "lts",
@@ -28,10 +28,24 @@
         "pdf_viewer": "at_footer"
     },
     "build": {
-        "prebuild_command": "latexmk -pdf -f -interaction=nonstopmode -cd -outdir=. ./figure.tex",
-        "build_command": "latexmk --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./COMP2120-Assignment2.tex",
-        "requires": [
-            "python-minted-pkgs"
+        "type": "latex",
+        "shell_escape": true,
+        "requires": {
+            "executables": [
+                "latexminted"
+            ],
+            "python": [
+                "latexminted",
+                "Pygments"
+            ]
+        },
+        "prepare": [
+            {
+                "type": "latex",
+                "inputs": [
+                    "figure.tex"
+                ]
+            }
         ]
     }
 }

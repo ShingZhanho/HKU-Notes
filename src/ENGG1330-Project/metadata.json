@@ -1,9 +1,7 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "build": {
-        "output_file": "NON_FILE_TARGET",
-        "build_command": "true",
-        "no_latex": true
+        "type": "page"
     },
     "static_site": {
         "description": "The GitHub repository of the group project.",

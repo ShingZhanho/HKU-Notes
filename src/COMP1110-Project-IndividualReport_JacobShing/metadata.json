@@ -1,9 +1,15 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "build": {
+        "type": "latex",
         "output_file": "COMP1110-D08-3036228892-Individual-Report.pdf",
-        "prebuild_command": "git clone --depth=1 --filter=blob:none --sparse https://github.com/ShingZhanho/COMP1110-Project-26Spring.git _clone && git -C _clone sparse-checkout set individual_reports/3036228892",
-        "build_command": "latexmk -pdf -f -interaction=nonstopmode -cd -outdir=../../.. ./_clone/individual_reports/3036228892/COMP1110-D08-3036228892-Individual-Report.tex"
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ShingZhanho/COMP1110-Project-26Spring.git",
+            "revision": "d999e80bc625146be532f33eedf4052acb2572b5",
+            "subdirectory": "individual_reports/3036228892"
+        },
+        "root_file": "COMP1110-D08-3036228892-Individual-Report.tex"
     },
     "static_site": {
         "description": "Individual report for COMP1110 (25/26 Spring) by Jacob Shing.",

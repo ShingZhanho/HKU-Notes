@@ -1,8 +1,8 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "build": {
+        "type": "latex",
         "root_file": "CV-JacobShing.tex",
-        "postbuild_command": "mv CV-JacobShing.pdf CV-SHING_Zhan_Ho_Jacob.pdf",
         "output_file": "CV-SHING_Zhan_Ho_Jacob.pdf"
     },
     "static_site": {
@@ -16,7 +16,7 @@
                 "is_primary": true,
                 "text": "Download",
                 "icon": "material-download",
-                "href": "https://hku.jacobshing.com/files/CV/CV-SHING_Zhan_Ho_Jacob.pdf"
+                "href": "../../files/CV/CV-SHING_Zhan_Ho_Jacob.pdf"
             },
             {
                 "index": 1,

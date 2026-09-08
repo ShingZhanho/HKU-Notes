@@ -1,5 +1,5 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "static_site": {
         "description": "A set of suggested solutions for ENGG1310 Past Papers.",
         "meta_description": "Explore latest collection of ENGG1310 past paper solutions, organised by year and by topic.",
@@ -8,6 +8,15 @@
         "pdf_viewer": "at_tag"
     },
     "build": {
-        "build_command": "latexmk --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./ENGG1310-Past-Paper-Solutions.tex"
+        "type": "latex",
+        "shell_escape": true,
+        "prepare": [
+            {
+                "type": "latex",
+                "inputs": [
+                    "figs/*.tex"
+                ]
+            }
+        ]
     }
 }

@@ -1,5 +1,5 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "static_site": {
         "description": "The question bank for CCGL9042 in-class quizzes.",
         "custom_md_file": "custom.md",
@@ -9,5 +9,8 @@
         "!jacob_shing",
         "@unknown",
         "@unknown"
-    ]
+    ],
+    "build": {
+        "type": "latex"
+    }
 }

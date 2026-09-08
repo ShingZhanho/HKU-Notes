@@ -1,5 +1,5 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "static_site": {
         "description": "The final quiz for COMP1110 with 50 multiple-choice questions, solutions, and explanations.",
         "custom_md_file": "custom.md",
@@ -7,5 +7,8 @@
     },
     "authors": [
         "!jacob_shing"
-    ]
+    ],
+    "build": {
+        "type": "latex"
+    }
 }

@@ -87,5 +87,6 @@ nav:
       - build-targets.txt: contribution/syntax-reference/build-targets.txt.md
       - metadata.json:
         - contribution/syntax-reference/metadata.json/index.md
+        - Schema v3: contribution/syntax-reference/metadata.json/v3.md
         - Schema v1: contribution/syntax-reference/metadata.json/v1.md
         - Schema v2: contribution/syntax-reference/metadata.json/v2.md

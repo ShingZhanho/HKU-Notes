@@ -1,9 +1,7 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "build": {
-        "build_command": "true",
-        "output_file": "NON_FILE_TARGET",
-        "no_latex": true
+        "type": "page"
     },
     "static_site": {
         "description": "The GitHub repository of the group project.",
@@ -19,6 +17,10 @@
         ]
     },
     "authors": [
-        "chun_hei_banh", "sze_pok_liu", "jacob_shing", "yubing_ye", "yikun_zhang"
+        "chun_hei_banh",
+        "sze_pok_liu",
+        "jacob_shing",
+        "yubing_ye",
+        "yikun_zhang"
     ]
 }

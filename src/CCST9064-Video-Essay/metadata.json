@@ -1,13 +1,19 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "build": {
-        "output_file": "CCST9064-VideoEssay_IndividualResearchLog.pdf",
-        "build_command": "latexmk -shell-escape -pdf -f -interaction=nonstopmode -cd -outdir=. ./individual_report.tex",
-        "postbuild_command": "mv ./individual_report.pdf ./CCST9064-VideoEssay_IndividualResearchLog.pdf",
+        "type": "latex",
         "root_file": "individual_report.tex",
-        "requires": [
-            "python-minted-pkgs"
-        ]
+        "output_file": "CCST9064-VideoEssay_IndividualResearchLog.pdf",
+        "shell_escape": true,
+        "requires": {
+            "executables": [
+                "latexminted"
+            ],
+            "python": [
+                "latexminted",
+                "Pygments"
+            ]
+        }
     },
     "static_site": {
         "description": "The final video essay submitted for CCST9064 group project. Python code for Manim included.",
@@ -44,6 +50,10 @@
         ]
     },
     "authors": [
-        "!jacob_shing", "wai_ching_chu", "qiao_yao_xian", "stephanie_t_pratistha", "jialu_xu"
+        "!jacob_shing",
+        "wai_ching_chu",
+        "qiao_yao_xian",
+        "stephanie_t_pratistha",
+        "jialu_xu"
     ]
 }

@@ -1,5 +1,4 @@
 from .internal_types import *
-from hash_tex_pkgs import hash_pkgs
 
 class Metadata(KeyNode):
     def __init__(self, target: str):
@@ -25,13 +24,7 @@ class BuildKeyNode(KeyNode):
     def __init__(self, parent_node: Metadata):
         super().__init__(parent_node)
 
-        # Keys
-        self.requires: StrValue = StrValue(None)
-        self.no_latex: BoolValue = BoolValue(None)
-        self.prebuild_command: StrValue = StrValue(None)
-        self.build_command: StrValue = StrValue(None)
-        self.postbuild_command: StrValue = StrValue(None)
-        self.miktex_package_file: StrValue = StrValue(None)
+        self.spec: dict = {}
 
 class StaticSiteKeyNode(KeyNode):
     def __init__(self, parent_node: Metadata):
@@ -66,7 +59,6 @@ class ComputedKeyNode(KeyNode):
         self.is_alias: BoolComputedValue = BoolComputedValue(self.__is_alias)
         self.is_non_file_target: BoolComputedValue = BoolComputedValue(self.__is_non_file_target)
         self.is_pdf_target: BoolComputedValue = BoolComputedValue(self.__is_pdf_target)
-        self.tex_pkg_hash: StrComputedValue = StrComputedValue(self.__tex_pkg_hash)
 
     def __is_alias(self) -> bool:
         metadata: Metadata = self.parent
@@ -86,10 +78,3 @@ class ComputedKeyNode(KeyNode):
                 not self.__is_non_file_target() and
                 not self.__is_alias())
     
-    def __tex_pkg_hash(self) -> str:
-        metadata: Metadata = self.parent
-        if self.__is_non_file_target() or self.__is_alias():
-            return "0"
-        name: StrValue = metadata.name
-        return hash_pkgs(name.get(), False)
-

@@ -1,7 +1,15 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "build": {
-        "prebuild_command": "./pre_build.sh"
+        "type": "latex",
+        "prepare": [
+            {
+                "type": "latex",
+                "inputs": [
+                    "figs/*.tex"
+                ]
+            }
+        ]
     },
     "static_site": {
         "document_status": "fin",

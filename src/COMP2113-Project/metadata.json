@@ -1,9 +1,53 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "build": {
+        "type": "custom",
         "output_file": "shoot-v1.0.0-ubuntu_24.04-x86_64.zip",
-        "build_command": "chmod u+x ./build.sh && ./build.sh",
-        "no_latex": true
+        "environment": {
+            "os": "linux",
+            "architecture": "x86_64",
+            "distribution": "ubuntu",
+            "version": "24.04"
+        },
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ShingZhanho/ENGG1340-Project-25Spring.git",
+            "revision": "66a4a11165399754984175e9a0197a3aa2cf04af"
+        },
+        "requires": {
+            "executables": [
+                "cmake",
+                "make",
+                "c++"
+            ]
+        },
+        "steps": [
+            {
+                "type": "command",
+                "argv": [
+                    "cmake",
+                    "-S",
+                    ".",
+                    "-B",
+                    "build"
+                ]
+            },
+            {
+                "type": "command",
+                "argv": [
+                    "cmake",
+                    "--build",
+                    "build"
+                ]
+            },
+            {
+                "type": "command",
+                "argv": [
+                    "{python}",
+                    "{document}/package.py"
+                ]
+            }
+        ]
     },
     "static_site": {
         "description": "The GitHub repository of the group project.",
@@ -27,6 +71,10 @@
         ]
     },
     "authors": [
-        "!jacob_shing", "yucheng_xin", "ho_nam_chan", "ming_ngai_leung", "sizhe_song"
+        "!jacob_shing",
+        "yucheng_xin",
+        "ho_nam_chan",
+        "ming_ngai_leung",
+        "sizhe_song"
     ]
 }

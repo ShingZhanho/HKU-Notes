@@ -1,7 +1,16 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "build": {
-        "prebuild_command": "texcount ./contents.tex | grep \"Words in text:\" | awk '{print $4}' > ./wordcount.txt"
+        "type": "latex",
+        "prepare": [
+            {
+                "type": "wordcount",
+                "inputs": [
+                    "contents.tex"
+                ],
+                "output": "wordcount.txt"
+            }
+        ]
     },
     "static_site": {
         "description": "The 3000-word individual essay for the course CCCH9044.",

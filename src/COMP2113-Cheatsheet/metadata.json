@@ -1,15 +1,25 @@
 {
-    "$schema": "https://hku.jacobshing.com/statics/schemas/v2.json",
+    "$schema": "../../site/docs/statics/schemas/v3.json",
     "build": {
-        "requires": [
-            "python-minted-pkgs"
-        ],
-        "build_command": "latexmk -shell-escape -pdf -f -interaction=nonstopmode -cd -outdir=. ./COMP2113-Cheatsheet.tex"
+        "type": "latex",
+        "shell_escape": true,
+        "requires": {
+            "executables": [
+                "latexminted"
+            ],
+            "python": [
+                "latexminted",
+                "Pygments"
+            ]
+        }
     },
     "static_site": {
         "description": "An A4 double-sided cheatsheet for the COMP2113 final exam.",
         "custom_md_file": "custom.md",
         "document_status": "sre"
     },
-    "authors": ["!jacob_shing", "meteoni"]
+    "authors": [
+        "!jacob_shing",
+        "meteoni"
+    ]
 }
