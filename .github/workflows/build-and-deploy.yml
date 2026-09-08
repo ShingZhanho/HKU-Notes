@@ -26,6 +26,17 @@ jobs:
         run: |
           sudo sh build/bootstrap-ubuntu.sh
           python -m pip install -r build/python-requirement-lists/general-pkgs.txt -r build/python-requirement-lists/python-minted-pkgs.txt -r build/python-requirement-lists/site-pkgs.txt
+      - name: Cache MiKTeX packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.miktex
+          key: miktex-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build/bootstrap-ubuntu.sh', 'build/setup-miktex.sh') }}-${{ hashFiles('src/**/*.tex', 'src/**/*.sty', 'src/**/*.cls', 'src/**/metadata.json') }}
+          restore-keys: |
+            miktex-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build/bootstrap-ubuntu.sh', 'build/setup-miktex.sh') }}-
+      - name: Enable MiKTeX on-the-fly package installation
+        run: |
+          sh build/setup-miktex.sh
+          echo "$HOME/bin" >> "$GITHUB_PATH"
       - name: Validate metadata and test build tools
         run: |
           python build/build.py validate
@@ -43,7 +54,8 @@ jobs:
           subprocess.run([sys.executable, 'configure', *arguments], check=True)
           PY
       - name: Build documents and website
-        run: make -j2 site
+        # Cold builds share one writable package tree; avoid concurrent installs.
+        run: make site
       - name: Upload build outputs
         uses: actions/upload-artifact@v4
         with:

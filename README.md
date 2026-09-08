@@ -93,24 +93,37 @@ This provides the environment for the entire catalogue, including the Ubuntu x86
 ZIP, on a machine with Docker and amd64 container support:
 
 ```sh
-docker build --platform linux/amd64 -f build/Dockerfile -t hku-notes-build .
-docker run --rm --platform linux/amd64 --user "$(id -u):$(id -g)" \
+docker build --platform linux/amd64 --build-arg BUILD_UID="$(id -u)" \
+  -f build/Dockerfile -t hku-notes-build .
+docker run --rm --platform linux/amd64 \
   -v "$PWD:/workspace" hku-notes-build
 ```
 
-The default command runs `./configure && make -j2 site`. It overwrites a previously
+The default command runs `./configure && make site`. It overwrites a previously
 generated root configuration with container paths. Rerun configure when returning
 to native builds. For one document:
 
 ```sh
-docker run --rm --platform linux/amd64 --user "$(id -u):$(id -g)" \
+docker run --rm --platform linux/amd64 \
   -v "$PWD:/workspace" -w /workspace/src/CV hku-notes-build \
   sh -c '../../configure && make'
 ```
 
-The image installs a broad TeX environment and can take substantial disk space.
-`build/bootstrap-ubuntu.sh` is the optional Ubuntu 24.04 package provisioning script;
-CI uses the same script. Native TeX installations need not match the CI distribution.
+CI and the container use MiKTeX with automatic installation of missing TeX packages.
+`build/bootstrap-ubuntu.sh` installs MiKTeX and system tools; run
+`build/setup-miktex.sh` as the compiling user to initialize its writable package tree.
+Add `$HOME/bin` to PATH afterward. Only the build CLI tools and a small compatibility
+set are installed ahead of time; document packages are downloaded as needed.
+This follows [MiKTeX's installation instructions](https://miktex.org/download).
+
+CI caches `~/.miktex`. CI and the container default to serial document builds so
+cold builds do not install packages concurrently into the same tree. Local `make -j`
+is still available when the required packages are already installed. The shared
+build runner remains compatible with either MiKTeX or TeX Live.
+
+The container runs as `builder`; the build argument above matches its UID to the
+host. Do not override it with an arbitrary `docker run --user`, because MiKTeX needs
+access to that user's initialized package/configuration directories.
 
 ## CI and deployment
 

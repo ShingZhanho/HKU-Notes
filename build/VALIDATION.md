@@ -42,3 +42,11 @@ PYTHONPATH=build python -m unittest discover -s build/tests -v
 
 For full catalogue verification, use the Ubuntu container instructions in the root
 README, or a matching native Ubuntu environment, followed by `./configure && make -j2 site`.
+
+## MiKTeX provisioning correction
+
+CI and the optional Ubuntu image now install MiKTeX, initialize a writable per-user
+package tree, and enable on-the-fly package installation. The workflow caches that
+package tree and uses serial document builds during cold package installation.
+The revised shell scripts pass syntax checking and the workflow YAML parses.
+Ubuntu/Docker execution remains unverified locally.

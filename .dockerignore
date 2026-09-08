@@ -1,5 +1,6 @@
 *
 !build/
 !build/bootstrap-ubuntu.sh
+!build/setup-miktex.sh
 !build/python-requirement-lists/
 !build/python-requirement-lists/*.txt
