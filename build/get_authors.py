@@ -1,9 +1,10 @@
 import json
+from pathlib import Path
 
 class Authors:
-    def __init__(self):
+    def __init__(self, path=None):
         self.json_object = {}
-        with open('./site/docs/statics/authors/authors.json', 'r') as file:
+        with open(path or Path(__file__).resolve().parents[1] / 'site/docs/statics/authors/authors.json', 'r', encoding='utf-8') as file:
             self.json_object = json.load(file)
         
     def author_exists(self, id):

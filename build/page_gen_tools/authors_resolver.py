@@ -1,6 +1,6 @@
 from get_authors import Authors
 
-def resolve_authors(authors_list: list[str]) -> list[str]:
+def resolve_authors(authors_list: list[str], authors_path=None) -> list[str]:
     """
     Arrange and sort authors by specific rules:
         1. Main author (defined by prefix '!', if any) comes first.
@@ -23,7 +23,7 @@ def resolve_authors(authors_list: list[str]) -> list[str]:
     cntr_unknown_authors = 0
 
     resolved_authors: list[str] = []
-    authors_db = Authors()
+    authors_db = Authors(authors_path)
 
     for author in authors_list:
         # handle pseudo-authors
@@ -67,7 +67,7 @@ def resolve_authors(authors_list: list[str]) -> list[str]:
 
     return resolved_authors
 
-def get_author_cards(authors_list: list[str]) -> list[str]:
+def get_author_cards(authors_list: list[str], authors_path=None) -> list[str]:
     """
     Given a list of author handles, returns a list of corresponding one-line HTML
     tags representing author cards. You should only call this function with a list
@@ -82,20 +82,20 @@ def get_author_cards(authors_list: list[str]) -> list[str]:
 
     for author in authors_list:
         name_override = ("Unknown Author" + ("s" if cntr_unknown_authors > 1 else "")) if author == "@unknown" else None
-        author_cards.append(__get_card(author, name_override))
+        author_cards.append(__get_card(author, name_override, authors_path))
     
     # Add unknown author cards if any
     if cntr_unknown_authors > 0:
         name_override = "Unknown Author" + ("s" if cntr_unknown_authors > 1 else "")
-        author_cards.append(__get_card("@unknown", name_override))
+        author_cards.append(__get_card("@unknown", name_override, authors_path))
     
     return author_cards
     
-def __get_card(author_handle: str, name_override: str | None = None) -> str:
+def __get_card(author_handle: str, name_override: str | None = None, authors_path=None) -> str:
     """
     Generates a one-line HTML tag representing an author card for the given author handle.
     """
-    authors_db = Authors()
+    authors_db = Authors(authors_path)
     is_main_author = author_handle.startswith("!")
     author_handle = author_handle[1:] if author_handle.startswith("!") else author_handle
     author_name = name_override or authors_db.get_author_display_name(author_handle)
@@ -126,7 +126,7 @@ def write_authors_section(file_obj, author_cards: list[str]):
         '</div>\n\n',
     ])
 
-def get_authors_summary(authors_list: list[str]) -> str:
+def get_authors_summary(authors_list: list[str], authors_path=None) -> str:
     """
     Given a list of author handles, returns a summary string of authors.
     For one author, returns the author's display name.
@@ -135,7 +135,7 @@ def get_authors_summary(authors_list: list[str]) -> str:
 
     You should guarantee that the input list is already resolved by `resolve_authors()`.
     """
-    authors_db = Authors()
+    authors_db = Authors(authors_path)
     num_authors = len(authors_list)
 
     if num_authors == 1:

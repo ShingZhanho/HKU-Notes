@@ -1,14 +1,14 @@
 import os
 
 
-def generate_pdf_viewer_html(target: str) -> str:
+def generate_pdf_viewer_html(target: str, docs) -> str:
     sb: list[str] = [
         '<div class="preview__wrapper">',
         '<div class="preview__track">',
         '<div class="preview__list">',
     ]
 
-    page_count = __pdf_page_count(target)
+    page_count = __pdf_page_count(target, docs)
 
     def pad_number(num: int, total: int) -> str: # pads with leading zeros based on max
         total_digits = len(str(total))
@@ -29,5 +29,5 @@ def generate_pdf_viewer_html(target: str) -> str:
 
     return "".join(sb)
 
-def __pdf_page_count(target: str) -> int:
-    return len([f for f in os.listdir(f"./site/docs/downloads/details/{target}~preview") if f.endswith(".png")])
+def __pdf_page_count(target: str, docs) -> int:
+    return len([f for f in os.listdir(docs / "downloads/details" / f"{target}~preview") if f.endswith(".png")])

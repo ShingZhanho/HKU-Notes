@@ -1,13 +1,14 @@
 import sqlite3
+from hkbuild.metadata import resolve_alias
 from mttools import Reader, Metadata
 from .utils import write_front_matters, get_last_modified_time_hkt
 from .authors_resolver import get_authors_summary, resolve_authors
 from .status_badge import get_badge_str
 
-def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
+def gen_catalogue_page(targets: dict[str, dict[str, list[str]]], paths):
     print("Generating catalogue page...")
 
-    f = open("./site/docs/downloads/index.md", "w", encoding="utf-8")
+    f = open(paths.docs / "downloads/index.md", "w", encoding="utf-8")
 
     # Prepare front matter data
     front_matter = {
@@ -36,7 +37,7 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
 
         # for each course code under the leading alphabet:
         for course_code in targets[alphabet].keys():
-            course_name = __get_course_name(course_code)
+            course_name = __get_course_name(course_code, paths.repository)
             print(f"Writing catalogue subsection for course code: {course_code}")
             # course code and name h3 header
             f.write(f'### {course_code}')
@@ -50,14 +51,14 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
 
             # for each target under the course code:
             for target in targets[alphabet][course_code]:
-                metadata: Metadata = Reader(f"./src/{target}/metadata.json", target).parse()
+                metadata: Metadata = Reader(paths.metadata(target), target).parse()
                 print(f"Writing catalogue entry for target: {target}")
                 flag_is_alias = metadata.computed.is_alias.get()
 
                 # alias targets:
                 if flag_is_alias:
                     # override metadata with the aliased target's metadata
-                    metadata = Reader(f'./src/{metadata.static_site.alias_to.get()}/metadata.json', metadata.static_site.alias_to.get()).parse()
+                    metadata = Reader(resolve_alias(paths.repository / 'src' / target) / 'metadata.json').parse()
                     alias_from = target
                     target = metadata.name.get()
 
@@ -67,10 +68,10 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
                               f"_An alias of [{target}](./details/{target}.md)_")
                 
                 # Last Modified
-                last_modified = get_last_modified_time_hkt(target)
+                last_modified = get_last_modified_time_hkt(target, paths.repository)
 
                 # Authors
-                authors_string = get_authors_summary(resolve_authors(metadata.authors.get()))
+                authors_string = get_authors_summary(resolve_authors(metadata.authors.get(), paths.authors), paths.authors)
 
                 # Status
                 status_badge = get_badge_str(metadata.static_site.document_status.get(), False)
@@ -94,13 +95,13 @@ def gen_catalogue_page(targets: dict[str, dict[str, list[str]]]):
     f.close()
     print("Catalogue page generation completed.")
 
-def __get_course_name(course_code: str) -> str:
+def __get_course_name(course_code: str, repository) -> str:
     """
     Get the course name from the course code.
     """
     if course_code == "Miscellaneous":
         return "Miscellaneous"
-    conn = sqlite3.connect("./build/course-codes.sqlite")
+    conn = sqlite3.connect(f"file:{repository / 'build/course-codes.sqlite'}?mode=ro", uri=True)
     cursor = conn.cursor()
     cursor.execute("SELECT course_name FROM courses WHERE course_code = ?", (course_code,))
     row = cursor.fetchone()

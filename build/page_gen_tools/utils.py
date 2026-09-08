@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta, timezone, datetime
 from generate_sitemap import get_last_modified_datetime
 
@@ -41,14 +42,14 @@ def get_targets_dict(targets: list[str]) -> dict[str, dict[str, list[str]]]:
 
     return alphas
 
-def get_last_modified_time_hkt(target: str) -> str:
+def get_last_modified_time_hkt(target: str, repository=None) -> str:
     """
     Returns the last modified formatted time in HKT (UTC+8) of the target's
     directory. Format: YYYY-MM-DD HH:MM HKT.
     Use the last git commit time if git is available; otherwise, traverse the tree
     to find the latest modified time among all files in the directory.
     """
-    last_mod_utc = get_last_modified_datetime(target)
+    last_mod_utc = get_last_modified_datetime(target, repository)
     hkt = timezone(timedelta(hours=8))
     last_mod_utc_dt = datetime.fromisoformat(last_mod_utc)
     last_mod_hkt_dt = last_mod_utc_dt.astimezone(hkt)
@@ -74,7 +75,7 @@ def write_front_matters(file_obj, data: dict):
             elif isinstance(value, bool):
                 f.write(" " * indent + f"{key}: {'true' if value else 'false'}\n")
             else:
-                f.write(" " * indent + f"{key}: {value}\n")
+                f.write(" " * indent + f"{key}: {json.dumps(value, ensure_ascii=False)}\n")
 
     write_dict(data)
 

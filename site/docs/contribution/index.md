@@ -1,105 +1,75 @@
----
-description: "Learn how to contribute to the HKU Notes project, including guidelines for using the automated compilation pipeline, contributing new materials, and more."
----
+# Contribution guide
 
-# Contribution Guide
+Documents and the website can be built locally. GitHub Actions runs the same tools;
+access to Actions or deployment credentials is not required to contribute.
 
-Thank you for being interested in contributing to the HKU Notes project! This article will walk you through the
-process of how all the materials are compiled from source and deployed on GitHub Pages. Understanding this process
-is crucial for contributing new materials or improving existing ones.
+## Build a document
 
-## Automated Compilation Pipeline
+Install Python 3.11+, GNU Make, and a TeX distribution providing latexmk and the
+packages used by the document. From the repository root:
 
-All the source codes for generating the notes are stored in the `/src` directory. Whenever there is a push to the `master`
-branch, GitHub Actions will be triggered (defined in the
-[`build-and-deploy.yml`](https://github.com/ShingZhanho/HKU-Notes/blob/master/.github/workflows/build-and-deploy.yml) file).
-Here's what happens in the pipeline:
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r build/python-requirement-lists/general-pkgs.txt
+cd src/MATH1853-Assignment-I.1
+../../configure
+make
+```
 
-### 1. Resolve Build Targets
+The PDF appears in the document directory. Missing dependencies are reported by
+configure. For minted documents, additionally install
+`build/python-requirement-lists/python-minted-pkgs.txt` into the same environment.
+Run `make clean` for auxiliary files or `make distclean` for all runner outputs and
+configuration. Source files and handwritten Makefiles are retained.
 
-??? question inline end "What is a build target?"
+## Build the website
 
-    Generally, a build target is a PDF document that will be generated from the source code.
-    For example, the file `COMP2120-Notes.pdf` is the product of the build target `COMP2120-Notes`.
+Install Poppler and `build/python-requirement-lists/site-pkgs.txt`, then run these
+commands from the repository root:
 
-The pipeline needs to know what are the targets to build. All build targets are defined in the file `/build/build-targets.txt`,
-and are resolved by the script `/build/resolve-targets.py`.
+```sh
+./configure --targets MATH1853-Assignment-I.1 COMP1110-Project
+make -j2 site
+python -m http.server --directory dist/site 8000
+```
 
-`build-targets.txt` uses its own unique but simple syntax and provides shortcuts for defining targets in a tree-like structure.
-You should read the [syntax reference for `build-targets.txt`](./syntax-reference/build-targets.txt.md) before editing it.
+Omit `--targets` to build the whole catalogue. The Ubuntu-specific project ZIP requires
+Ubuntu 24.04 x86_64, the optional Docker build image, or an explicitly supplied
+artifact directory. See the repository README for environment setup and Docker commands.
+External sources are pinned to commits and cached locally after their first fetch.
 
-### 2. Resolve Target Metadata
+Site sources are staged in `.build/site`; the final website is in `dist/site`.
+Generating navigation and pages does not modify tracked site sources. Previews and
+artifact manifests live in `dist/artifacts`. Deployment and indexing are separate
+operations and never run as part of `make site`.
 
-Each build target **MUST** have a `metadata.json` file in its source directory, i.e., `/src/[BUILD_TARGET]/metadata.json`.
-This file contains information about how the target should be built, how it should be displayed and presented on the website,
-and other information for changing the build behaviour.
+## Add material
 
-Most importantly, it specifies the commands to run before, for, and after building the target. The pipeline is mainly designed
-to build PDF documents from LaTeX source code, but with the customisable commands, you can also use this pipeline to include
-other types of files.
+1. Create `src/<target>/` with a [v3 metadata.json](syntax-reference/metadata.json/v3.md).
+2. Add its source files. The default root is `<target>.tex`; override `build.root_file`
+   when needed. Separating packages into `packages.tex` is optional.
+3. Add the target to [build/build-targets.txt](syntax-reference/build-targets.txt.md)
+   to include it in the catalogue. Individual document builds do not require this entry.
+4. Run configure and make locally, then submit a pull request.
 
-You should refer to the [syntax reference for `metadata.json`](./syntax-reference/metadata.json/index.md) for the details about
-what information can you include in the file.
+Only schema v3 is accepted. The v1/v2 references are retained for historical context.
 
-### 3. Source Code Checksum
+## Change the build tools
 
-!!! note inline end "Overriding Checksum Behaviour"
+The shared implementation is in `build/hkbuild`. Generated Makefiles call the runner;
+GitHub Actions provisions tools and runs those Makefiles. Test changes locally:
 
-    If the head commit message contains `@force-rebuild`, the build target will always be rebuilt regardless of the checksum.
+```sh
+python build/build.py validate
+PYTHONPATH=build python -m unittest discover -s build/tests -v
+```
 
-To avoid unnecessary rebuilds, the GitHub Action will obtain the checksum of all the files under the `/src/[BUILD_TARGET]` directory.
-This value is compared with the previous build's checksum (can be accessed from
-`https://hku.jacobshing.com/files/[BUILD_TARGET]/src-checksum.txt`). If the checksum is the same, the build will be skipped
-and the previous output will be reused.
+The tests use temporary directories and fake compiler/site processes where appropriate;
+no TeX installation or credentials are needed for the test suite. Also build a relevant
+real document or website when changing compilation or rendering behavior.
 
-### 4. Build the Target
+## Attribution
 
-After setting up the environment according to instructions in `metadata.json`, the pipeline will run the commands specified in the file,
-and generate the output files.
-
-### 5. Generate the Website and Deploy
-
-The pipeline will then generate the website using the output files and metadata, and deploy it to GitHub Pages.
-
-## Steps for Creating New Materials
-
-Now that you have a basic understanding of how the pipeline works, here are the steps to create new materials:
-
-1. **Define a New Build Target**: Add a new entry in the `/build/build-targets.txt` file for your new material.
-   - Use the syntax defined in the [syntax reference for `build-targets.txt`](./syntax-reference/build-targets.txt.md).
-2. **Create the Source Directory**: Create a new directory under `/src/[NEW_BUILD_TARGET]` for your new material.
-    The directory name must match the build target name you defined in the previous step.
-3. **Create `metadata.json`**: Create a `metadata.json` file in the new source directory.
-   - Use the syntax defined in the [syntax reference for `metadata.json`](./syntax-reference/metadata.json/index.md).
-4. **Add Source Files**: Add the source files for your new material in the new source directory.
-    Most importantly, if you are adding a LaTeX document, you MUST separate all the `\usepackage` commands into a separate file
-    called `packages.tex` in the source directory.
-5. **Commit and Push**: Ensure your sources compile successfully on your local machine, then push to the remote and
-    create a pull request.
-
-## Contributing to Existing Materials
-
-If you spot an issue or want to improve existing materials, you can simply fork the repository and modify the source files.
-When you finish, create a pull request with your changes.
-
-## Contributing to the Compilation Pipeline
-
-You may also contribute to the compilation pipeline itself. The pipeline is implemented with YAML (GitHub Actions), Bash Scripts, and Python Scripts.
-You can find those scripts in the `/build` directory. It is recommended to test the pipeline in your forked repository, which would require you to
-set up GitHub Actions in your fork and change all the URLs in the scripts to point to your forked repository.
-
-!!! warning "Deploying to GitHub Pages"
-
-    If you are testing the pipeline in your forked repository, we kindly request that you remove the deployment step in the
-    `build-and-deploy.yml` file and **NOT** deploy to GitHub Pages, as this will create duplicated content on the web
-    and cause confusion for users.
-
-    **Please also note that failure to follow this guideline may result in copyright infringement.**
-
-## Attributing Your Contributions
-
-If you are contributing to this project, we would like to attribute your contributions.
-To do so, please refer to the [syntax reference for `authors.json`](./syntax-reference/authors.json.md) to add your information,
-and then refer to the [`authors` field in `metadata.json`](./syntax-reference/metadata.json/v2.md#authors) to add your name to the build target.
-
-Of course, whether you want to remain anonymous or not is entirely up to you.
+Add yourself to [authors.json](syntax-reference/authors.json.md), then reference your
+handle in the document's [authors field](syntax-reference/metadata.json/v3.md#authors).

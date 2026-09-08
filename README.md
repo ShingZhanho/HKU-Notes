@@ -59,3 +59,67 @@ Validate metadata and run the build-tool tests without a TeX installation:
 python build/build.py validate
 PYTHONPATH=build python -m unittest discover -s build/tests -v
 ```
+
+## Build the website
+
+Install the site dependencies into the same environment used by configure, and install
+Poppler using your OS package manager (`brew install poppler` on macOS,
+`sudo apt install poppler-utils` on Ubuntu).
+
+```sh
+python -m pip install -r build/python-requirement-lists/site-pkgs.txt
+./configure --targets MATH1853-Assignment-I.1 COMP1110-Project
+make -j2 site
+python -m http.server --directory dist/site 8000
+```
+
+Omit `--targets` to build the entire catalogue. `make site` compiles the selected
+targets, generates previews, stages Markdown/navigation under `.build/site`, and
+writes the website to `dist/site`. It does not edit `site/docs` or `site/mkdocs.yml`.
+Use `--site-url=https://example.org/notes/` for a different canonical URL. Local
+preview and download links resolve within the generated site.
+
+The entire catalogue includes `COMP2113-Project`, an Ubuntu 24.04 x86_64 binary ZIP.
+On other systems, use the build container described below or pass an existing ZIP
+through `--artifact-dir`. The tool will not silently omit the target or mislabel a
+native build. External Git sources require network access on their first build;
+the revision-pinned source cache is reused afterward. No build reads artifacts from
+the production website, uses GitHub Actions APIs, or needs deployment credentials.
+
+## Optional Ubuntu build container
+
+This provides the environment for the entire catalogue, including the Ubuntu x86_64
+ZIP, on a machine with Docker and amd64 container support:
+
+```sh
+docker build --platform linux/amd64 -f build/Dockerfile -t hku-notes-build .
+docker run --rm --platform linux/amd64 --user "$(id -u):$(id -g)" \
+  -v "$PWD:/workspace" hku-notes-build
+```
+
+The default command runs `./configure && make -j2 site`. It overwrites a previously
+generated root configuration with container paths. Rerun configure when returning
+to native builds. For one document:
+
+```sh
+docker run --rm --platform linux/amd64 --user "$(id -u):$(id -g)" \
+  -v "$PWD:/workspace" -w /workspace/src/CV hku-notes-build \
+  sh -c '../../configure && make'
+```
+
+The image installs a broad TeX environment and can take substantial disk space.
+`build/bootstrap-ubuntu.sh` is the optional Ubuntu 24.04 package provisioning script;
+CI uses the same script. Native TeX installations need not match the CI distribution.
+
+## CI and deployment
+
+GitHub Actions calls the same configure, Make, and test commands, then uploads `dist/`.
+PRs build a reviewable site without publishing it. Only pushes to `master` deploy.
+`targets/<target>/<description>` branches build that target and its alias destination.
+`@nobuild` remains available for push commits; builds no longer query remote checksums,
+so `@force-rebuild` is unnecessary on a fresh CI checkout.
+
+Indexing runs as a separate post-deployment CI job; local builds never send
+notifications. To invoke it explicitly elsewhere, install
+`build/python-requirement-lists/indexing-pkgs.txt` and run `build/request_indexing.py`
+with its documented arguments if needed.

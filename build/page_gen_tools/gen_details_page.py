@@ -1,13 +1,13 @@
 import os
 import shutil
-import random
+from hkbuild.document import inside
 from mttools import Metadata, Reader
 from .utils import write_front_matters, get_last_modified_time_hkt
 from .authors_resolver import resolve_authors, get_author_cards, write_authors_section
 from .status_badge import get_badge_str
 from .pdf_preview import generate_pdf_viewer_html
 
-def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dict[str, list[str]]]):
+def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dict[str, list[str]]], paths):
     print(f"Generating details page for target: {target}")
 
     if metadata.computed.is_alias.get():
@@ -15,7 +15,7 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
         return
     
     # Prepare output file path
-    out_file = f"./site/docs/downloads/details/{target}.md"
+    out_file = paths.docs / "downloads/details" / f"{target}.md"
     f = open(out_file, "w", encoding="utf-8")
     print(f"Writing details page to: {out_file}")
 
@@ -29,14 +29,14 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     print("Front matter written.")
 
     # Write target information
-    __write_target_info(f, target, metadata)
+    __write_target_info(f, target, metadata, paths)
     print("Target information written.")
 
     # Write authors section
-    resolved_authors = resolve_authors(metadata.authors.get())
+    resolved_authors = resolve_authors(metadata.authors.get(), paths.authors)
     if len(resolved_authors) == 0:
         raise Exception(f"No authors found for target: {target}")
-    author_cards = get_author_cards(resolved_authors)
+    author_cards = get_author_cards(resolved_authors, paths.authors)
     write_authors_section(f, author_cards)
     print("Authors section written.")
 
@@ -55,28 +55,19 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     f.write("\n</div>\n\n")
     print("Buttons written.")
 
-    # Move PDF preview pngs (if any) - MUST be done before generating PDF viewer HTML
-    if metadata.output_file.get().endswith(".pdf"):
-        os.makedirs(
-            f"./site/docs/downloads/details/{target}~preview",
-            exist_ok=True
-        )
-        for file in os.listdir(f"./gh-out/files/{target}/~preview"):
-            shutil.copy2(
-                f"./gh-out/files/{target}/~preview/{file}",
-                f"./site/docs/downloads/details/{target}~preview/{file}"
-            ) if file.endswith(".png") else None
-        shutil.rmtree(f"./gh-out/files/{target}/~preview")
-        print("PDF preview images moved.")
+    # Copy previews without consuming the reusable artifact directory.
+    if metadata.computed.is_pdf_target.get():
+        shutil.copytree(paths.artifacts / target / '~preview',
+                        paths.docs / 'downloads/details' / f'{target}~preview', dirs_exist_ok=True)
 
     # Prepare PDF viewer section
     pdf_viewer_html = ""
     if metadata.output_file.get().endswith(".pdf") and metadata.static_site.pdf_viewer.get() != "hidden":
-        pdf_viewer_html = generate_pdf_viewer_html(target)
+        pdf_viewer_html = generate_pdf_viewer_html(target, paths.docs)
 
     # Write customised content
     parsed_content = __read_and_process_custom_md(
-        f"./src/{target}/{metadata.static_site.custom_md_file.get()}" if metadata.static_site.custom_md_file.get() else "",
+        inside(paths.repository / "src" / target, metadata.static_site.custom_md_file.get()) if metadata.static_site.custom_md_file.get() else "",
         pdf_viewer_html,
         metadata.static_site.pdf_viewer.get()
     )
@@ -84,13 +75,13 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
     print("Custom markdown content written.")
 
     # Write "See also" section
-    __write_see_also_section(f, target, all_targets)
+    __write_see_also_section(f, target, all_targets, paths)
     print("See also section written.")
 
     f.close()
     print(f"Details page generation for target {target} completed.")
 
-def __write_target_info(file_obj, target: str, metadata: Metadata):
+def __write_target_info(file_obj, target: str, metadata: Metadata, paths):
     f = file_obj
     ## Heading
     f.write(f"# {target}\n\n")
@@ -98,7 +89,7 @@ def __write_target_info(file_obj, target: str, metadata: Metadata):
     ## Information
     f.write(f"**File description:** {metadata.static_site.description.get()}\n\n")
     f.write(f"**Document status:** {get_badge_str(metadata.static_site.document_status.get(), True)}\n\n")
-    f.write(f"**Last modified:** {get_last_modified_time_hkt(target)}\n\n")
+    f.write(f"**Last modified:** {get_last_modified_time_hkt(target, paths.repository)}\n\n")
 
 def __generate_button_md(primary: bool, text: str, href: str, icon: str | None = None, message: str | None = None) -> str:
     return "".join((
@@ -143,7 +134,7 @@ def __read_and_process_custom_md(file_path: str, pdf_viewer_html: str, pdf_viewe
 
     return "".join(lines)
 
-def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[str, list[str]]]):
+def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[str, list[str]]], paths):
     f = file_obj
     f.write("\n\n## See also\n\n")
 
@@ -157,7 +148,7 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
         if alphabet in all_targets and course_code in all_targets[alphabet]:
             see_also_targets = [
                 t for t in all_targets[alphabet][course_code]
-                if t != target and not Reader(f"./src/{t}/metadata.json", t).parse().computed.is_alias.get()
+                if t != target and not Reader(paths.metadata(t), t).parse().computed.is_alias.get()
             ]
     
     # then fill up with other targets if needed
@@ -167,9 +158,9 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
         for alpha in all_targets.keys():
             for course in all_targets.get(alpha).keys():
                 for t in all_targets.get(alpha).get(course):
-                    if t not in selected_set and not Reader(f"./src/{t}/metadata.json", t).parse().computed.is_alias.get():
+                    if t not in selected_set and not Reader(paths.metadata(t), t).parse().computed.is_alias.get():
                         additional_targets.append(t)
-        random.shuffle(additional_targets)
+        additional_targets.sort()
         see_also_targets.extend(additional_targets[:6 - len(see_also_targets)])
     
     # truncate to 6 targets
@@ -178,7 +169,7 @@ def __write_see_also_section(file_obj, target: str, all_targets: dict[str, dict[
     # write see also cards
     f.write('<div class="grid cards" markdown>\n\n')
     for t in see_also_targets:
-        metadata = Reader(f"./src/{t}/metadata.json", t).parse()
+        metadata = Reader(paths.metadata(t), t).parse()
         f.write(__generate_see_also_card(t, metadata))
     f.write('</div>\n\n')
     
