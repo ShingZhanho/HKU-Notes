@@ -1,1 +1,2 @@
 jsonschema==4.25.1
+pathspec==0.12.1

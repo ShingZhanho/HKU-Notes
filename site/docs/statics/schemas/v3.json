@@ -119,6 +119,18 @@
                 "url",
                 "revision"
               ]
+            },
+            "hash_ignore": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Gitignore-style source hashing exclusions. Document metadata is always hashed."
+            },
+            "cache": {
+              "type": "boolean",
+              "default": true,
+              "description": "Reuse verified artifacts when the source fingerprint matches."
             }
           },
           "required": [
@@ -237,6 +249,18 @@
                   "minLength": 1
                 }
               }
+            },
+            "hash_ignore": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Gitignore-style source hashing exclusions. Document metadata is always hashed."
+            },
+            "cache": {
+              "type": "boolean",
+              "default": true,
+              "description": "Reuse verified artifacts when the source fingerprint matches."
             }
           },
           "required": [
@@ -354,6 +378,18 @@
             "type": "string",
             "minLength": 1,
             "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+          },
+          "hash_ignore": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Gitignore-style source hashing exclusions. Document metadata is always hashed."
+          },
+          "cache": {
+            "type": "boolean",
+            "default": true,
+            "description": "Reuse verified artifacts when the source fingerprint matches."
           }
         }
       }

@@ -50,3 +50,17 @@ package tree, and enable on-the-fly package installation. The workflow caches th
 package tree and uses serial document builds during cold package installation.
 The revised shell scripts pass syntax checking and the workflow YAML parses.
 Ubuntu/Docker execution remains unverified locally.
+
+## Source-aware artifact reuse
+
+Added source fingerprints, protected metadata hashing, gitignore-style
+`build.hash_ignore`, verified artifact restoration, and explicit force rebuilding.
+All 30 tests pass, including fresh-checkout reuse, added/deleted inputs, ignored
+files and negation, source PDF inputs, corrupt/missing artifacts, metadata changes,
+source overrides, failed forced builds, and supplied-artifact provenance.
+
+Real MiKTeX checks for `MATH1853-Assignment-II.1`, `CCCH9044-Individual-Essay`, and
+`COMP2120-Notes` confirmed that generated files leave source fingerprints unchanged
+and a second build executes no preparation/compiler/finishing commands. The workflow
+YAML was checked for both package and artifact caches and the force-rebuild flag.
+Hosted cache restoration remains untested locally.

@@ -53,9 +53,19 @@ jobs:
           arguments = ['--targets', branch[1]] if len(branch) >= 3 and branch[0] == 'targets' else []
           subprocess.run([sys.executable, 'configure', *arguments], check=True)
           PY
-      - name: Build documents and website
-        # Cold builds share one writable package tree; avoid concurrent installs.
-        run: make site
+      - name: Restore compiled documents and previews
+        uses: actions/cache@v4
+        with:
+          path: dist/artifacts
+          key: documents-v1-${{ runner.os }}-${{ runner.arch }}-py313-${{ github.sha }}
+          restore-keys: |
+            documents-v1-${{ runner.os }}-${{ runner.arch }}-py313-
+      - name: Build changed documents and website
+        # Fingerprints validate restored artifacts individually. Cold builds share
+        # one writable MiKTeX package tree, so document builds remain serial.
+        env:
+          FORCE_REBUILD: ${{ contains(github.event.head_commit.message, '@force-rebuild') && '1' || '0' }}
+        run: make FORCE="$FORCE_REBUILD" site
       - name: Upload build outputs
         uses: actions/upload-artifact@v4
         with:

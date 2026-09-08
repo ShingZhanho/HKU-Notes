@@ -13,6 +13,7 @@ from .targets import select
 def main(argv=None):
     parser = argparse.ArgumentParser(description='Shared document/site build runner')
     parser.add_argument('--config', type=Path)
+    parser.add_argument('--force', action='store_true', help='Bypass artifact/step caches and force TeX compilation')
     parser.add_argument('command', choices=['build', 'preview', 'site', 'clean', 'distclean', 'targets', 'validate'])
     parser.add_argument('targets', nargs='*')
     args = parser.parse_args(argv)
@@ -41,7 +42,7 @@ def main(argv=None):
     artifacts = Path(config['artifact_root'])
     if args.command == 'build':
         for path in documents:
-            document.build(path, artifacts, config['profile'], config['source_dir'], config['artifact_input'])
+            document.build(path, artifacts, config['profile'], config['source_dir'], config['artifact_input'], force=args.force)
     elif args.command == 'preview':
         for path in documents:
             document.preview(artifacts / path.name)
@@ -54,6 +55,7 @@ def main(argv=None):
         for path in documents:
             with document.document_lock(path):
                 document.clean(path, args.command == 'distclean')
+                (artifacts / path.name / 'manifest.json').unlink(missing_ok=True)
         if config['mode'] == 'repository':
             for path in (repository / '.build/site', repository / 'dist/site'):
                 if path.exists():

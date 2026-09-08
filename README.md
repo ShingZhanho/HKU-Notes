@@ -130,8 +130,15 @@ access to that user's initialized package/configuration directories.
 GitHub Actions calls the same configure, Make, and test commands, then uploads `dist/`.
 PRs build a reviewable site without publishing it. Only pushes to `master` deploy.
 `targets/<target>/<description>` branches build that target and its alias destination.
-`@nobuild` remains available for push commits; builds no longer query remote checksums,
-so `@force-rebuild` is unnecessary on a fresh CI checkout.
+`@nobuild` remains available for push commits. CI caches compiled artifacts and
+previews, then compares each target's source fingerprint before reusing them.
+`@force-rebuild` in a push commit bypasses these caches. Locally, use `make FORCE=1`.
+The pipeline never queries the deployed website for checksums.
+
+Configure `build.hash_ignore` with gitignore-style patterns to exclude scratch files
+or other non-build inputs. Metadata is always hashed, even if a pattern matches it;
+editing ignore rules or build settings therefore invalidates the cache. Declared
+outputs and build caches are excluded automatically. See the v3 reference for details.
 
 Indexing runs as a separate post-deployment CI job; local builds never send
 notifications. To invoke it explicitly elsewhere, install

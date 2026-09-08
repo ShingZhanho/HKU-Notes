@@ -13,6 +13,7 @@ import sys
 import tempfile
 
 from .metadata import load, resolve_alias
+from .fingerprint import fingerprint
 
 
 def tool_path():
@@ -164,7 +165,8 @@ def latex(source, relative, spec, state):
     command.append('-shell-escape' if spec.get('shell_escape', False) else '-no-shell-escape')
     if spec.get('config_file'):
         command.extend(['-r', str(inside(source, spec['config_file']))])
-    if str(root) in state.setdefault('failed_tex_roots', []):
+    state.setdefault('failed_tex_roots', [])
+    if state.get('force') or str(root) in state.setdefault('failed_tex_roots', []):
         command.append('-g')  # Retry after a repaired failure; never ignore TeX errors.
     command.extend(spec.get('args', []))
     command.extend(['-cd', str(root)])
@@ -196,7 +198,7 @@ def execute_step(step, source, document, state, key):
         'inputs': [(str(path), digest(path)) for path in files]}, sort_keys=True).encode()).hexdigest()
     previous = state['steps'].get(key)
     current_outputs = {str(path): digest(path) for path in outputs if path.is_file()}
-    if files and outputs and previous == {'signature': signature, 'outputs': current_outputs} and len(current_outputs) == len(outputs):
+    if not state.get('force') and files and outputs and previous == {'signature': signature, 'outputs': current_outputs} and len(current_outputs) == len(outputs):
         return
     cwd = inside(source, step.get('cwd', '.'))
     if kind == 'command':
@@ -221,7 +223,7 @@ def execute_step(step, source, document, state, key):
     state['steps'][key] = {'signature': signature, 'outputs': {str(path): digest(path) for path in outputs}}
 
 
-def publish(document, spec, artifact_root, profile=None):
+def publish(document, spec, artifact_root, profile=None, source_fingerprint=None):
     directory = artifact_root / document.name
     directory.mkdir(parents=True, exist_ok=True)
     outputs = {}
@@ -234,20 +236,43 @@ def publish(document, spec, artifact_root, profile=None):
             raise ValueError(f'{document.name}: expected output is missing: {source}')
         copy_changed(source, inside(directory, relative))
         entries[name] = {'path': relative, 'sha256': digest(source)}
-    manifest = {'version': 1, 'target': document.name, 'type': spec['type'], 'profile': profile, 'outputs': entries}
+    manifest = {'version': 1, 'target': document.name, 'type': spec['type'], 'profile': profile, 'outputs': entries, 'source_fingerprint': source_fingerprint}
     write_json(directory / 'manifest.json', manifest)
     return directory
 
 
-def build(document, artifact_root, profile=None, source_override=None, artifact_input=None):
+def restore_cached(document, spec, directory, source_fingerprint, profile):
+    try:
+        manifest = json.loads((directory / 'manifest.json').read_text())
+        expected = {'primary': spec['output_file'], **spec.get('outputs', {})}
+        if (manifest.get('source_fingerprint') != source_fingerprint or
+                manifest.get('target') != document.name or manifest.get('profile') != profile or
+                manifest.get('type') != spec['type'] or
+                {name: entry['path'] for name, entry in manifest['outputs'].items()} != expected):
+            return False
+        # Verify every artifact before restoring any output. A partial or corrupt
+        # cache is a miss, never a successful build.
+        for entry in manifest['outputs'].values():
+            if digest(inside(directory, entry['path'])) != entry['sha256']:
+                return False
+        for entry in manifest['outputs'].values():
+            copy_changed(inside(directory, entry['path']), inside(document, entry['path']))
+        return True
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
+
+
+def build(document, artifact_root, profile=None, source_override=None, artifact_input=None, force=False):
     document = document.resolve()
     canonical = resolve_alias(document)
     if canonical != document:
-        return build(canonical, artifact_root, profile, source_override, artifact_input)
+        return build(canonical, artifact_root, profile, source_override, artifact_input, force)
     spec = load(document / 'metadata.json', profile)['build']
     with document_lock(document):
         state_path = document / '.build/state.json'
         state = json.loads(state_path.read_text()) if state_path.exists() else {'tex_roots': [], 'steps': {}, 'published': []}
+        directory = artifact_root / document.name
+        source_key = None
         try:
             supplied = Path(artifact_input) / document.name if artifact_input else None
             if supplied and supplied.is_dir() and spec['type'] != 'page':
@@ -256,21 +281,35 @@ def build(document, artifact_root, profile=None, source_override=None, artifact_
                     if not source.is_file():
                         raise ValueError(f'Supplied artifact is missing: {source}')
                     copy_changed(source, inside(document, relative))
+                # An explicitly supplied artifact has no verified relationship to
+                # these sources. Do not turn it into an automatic source cache hit.
             elif spec['type'] != 'page':
-                check_tools(document, spec, source_override)
-                source = source_root(document, spec, source_override)
-                for phase in ('prepare', 'main', 'finish'):
-                    if phase == 'main' and spec['type'] == 'latex':
-                        output = latex(source, spec['root_file'], spec, state)
-                        copy_changed(output, inside(document, spec['output_file']))
-                    else:
-                        for index, step in enumerate(spec.get('steps' if phase == 'main' else phase, [])):
-                            execute_step(step, source, document, state, f'{phase}:{index}')
-            result = publish(document, spec, artifact_root, profile)
+                check_environment(spec)
+                source_key = fingerprint(document, spec, profile, source_override)
+                hit = (spec.get('cache', True) and not force and
+                       restore_cached(document, spec, directory, source_key, profile))
+                if hit:
+                    print(f'{document.name}: sources unchanged; restored verified artifacts', flush=True)
+                else:
+                    print(f'{document.name}: rebuilding (changed inputs, forced build, or missing/invalid cache)', flush=True)
+                    # Never retain a formerly successful cache record after failure.
+                    (directory / 'manifest.json').unlink(missing_ok=True)
+                    check_tools(document, spec, source_override)
+                    source = source_root(document, spec, source_override)
+                    state['force'] = force or not spec.get('cache', True)
+                    for phase in ('prepare', 'main', 'finish'):
+                        if phase == 'main' and spec['type'] == 'latex':
+                            output = latex(source, spec['root_file'], spec, state)
+                            copy_changed(output, inside(document, spec['output_file']))
+                        else:
+                            for index, step in enumerate(spec.get('steps' if phase == 'main' else phase, [])):
+                                execute_step(step, source, document, state, f'{phase}:{index}')
+            result = publish(document, spec, artifact_root, profile, source_key)
             if spec['type'] != 'page':
                 state['published'] = sorted(set(state['published'] + [str(inside(document, value)) for value in [spec['output_file'], *spec.get('outputs', {}).values()]]))
             return result
         finally:
+            state.pop('force', None)
             write_json(state_path, state)
 
 

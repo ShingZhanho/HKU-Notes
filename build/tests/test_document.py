@@ -41,6 +41,8 @@ class DocumentTests(unittest.TestCase):
             subprocess.run(['make'], cwd=self.doc, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             self.assertEqual((self.doc / 'result.txt').read_text(), expected)
         self.assertEqual((self.doc / 'runs').read_text(), 'xx')
+        subprocess.run(['make', 'FORCE=1'], cwd=self.doc, check=True, stdout=subprocess.PIPE)
+        self.assertEqual((self.doc / 'runs').read_text(), 'xxx')
         subprocess.run(['make', 'distclean'], cwd=self.doc, check=True, stdout=subprocess.PIPE)
         self.assertFalse((self.doc / 'Makefile').exists())
         self.assertFalse((self.doc / 'result.txt').exists())
