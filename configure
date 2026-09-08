@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+"""Run this executable from a document root or the repository root."""
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / 'build'))
+try:
+    from hkbuild.configure import main
+    main()
+except (ValueError, OSError) as error:
+    sys.exit(f'configure: {error}')
+except ModuleNotFoundError as error:
+    sys.exit(f'configure: missing Python dependency {error.name}; install build/python-requirement-lists/general-pkgs.txt')

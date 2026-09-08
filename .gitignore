@@ -310,3 +310,9 @@ TSWLatexianTemp*
 
 # Python runtime
 __pycache__/
+# Local build configuration and artifacts
+.build/
+/dist/
+/Makefile
+/src/*/Makefile
+.venv/

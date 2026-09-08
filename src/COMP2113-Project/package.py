@@ -1,6 +1,5 @@
 """Package the pinned project's Ubuntu build; invoked with the source as cwd."""
 from pathlib import Path
-import shutil
 import sys
 import zipfile
 
