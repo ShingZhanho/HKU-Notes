@@ -1,495 +1,120 @@
-name: Build LaTeX PDFs and Deploy to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+name: Build documents and website
 on:
   push:
-    branches:
-      - 'master'
-      - 'targets/**'
+    branches: [master, 'targets/**']
   pull_request:
-    branches:
-      - 'master'
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
 jobs:
-
-  configure-matrix:
-    runs-on: ubuntu-latest
-    outputs:
-      set-matrix: ${{ steps.parse-build-targets.outputs.set-matrix }}
+  build:
+    runs-on: ubuntu-24.04
     if: ${{ !contains(github.event.head_commit.message, '@nobuild') }}
-    env:
-      TARGET_BRANCH_NAME: ""
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - name: Get target branch name (if on targets/* branch)
-        if: ${{ startsWith(github.ref, 'refs/heads/targets/') }}
-        run: echo "TARGET_BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
-      - name: Parse build-targets.txt
-        id: parse-build-targets
-        run: python ./build/resolve_targets.py ${{ env.TARGET_BRANCH_NAME }} >> $GITHUB_OUTPUT
-
-  build-target:
-    runs-on: ubuntu-24.04 # Noble
-    needs: configure-matrix
-    strategy:
-      matrix: 
-        target: ${{ fromJson(needs.configure-matrix.outputs.set-matrix) }}
-    env:
-      # --- DYNAMIC ENVIRONMENT VARIABLES ---
-      # These environment variables are evaluated at runtime.
-      # They are placed here to resolve the editor warning of undefined variables.
-      DYENV_ABORT_WORKFLOW: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_RESTORE_MIKTEX_FROM_CACHE: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_LOCAL_SRC_CHECKSUM: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_REMOTE_SRC_CHECKSUM: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_LOCAL_MIKTEX_CACHE_KEY: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_REMOTE_MIKTEX_CACHE_KEY: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_REQUIRE_PYTHON_MINTED_PKGS: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_PREBUILD_COMMAND: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_POSTBUILD_COMMAND: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_BUILD_COMMAND: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_OUTPUT_FILE: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_IS_ALIAS: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_TEX_PACKAGE_HASH: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_APT_DEPS_LIST: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_NO_LATEX: "RUNTIME DYNAMIC ENV VAR"
-      DYENV_IS_PDF: "RUNTIME DYNAMIC ENV VAR"
-    steps:
-      # --- ENVIRONMENT SETUP ---
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-          cache: 'pip'
-          cache-dependency-path: ./build/python-requirement-lists/*.txt
-
-      - name: Install general Python dependencies
-        run: pip install -r ./build/python-requirement-lists/general-pkgs.txt
-
-      - name: Compute environment variables
-        run: ./build/configure-env-vars.sh ${{ matrix.target }}
-
-      - name: Check local source checksum
-        if: env.DYENV_IS_ALIAS == 'false'
-        run: echo "DYENV_LOCAL_SRC_CHECKSUM=${{ hashFiles(format('./src/{0}/', matrix.target)) }}" >> "$GITHUB_ENV"
-
-      - name: Check deployed (remote) source checksum
-        if: env.DYENV_IS_ALIAS == 'false'
+          cache: pip
+          cache-dependency-path: build/python-requirement-lists/*.txt
+      - name: Install build environment
         run: |
-          export remote_checksum_status=$(curl -s -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/src-checksum.txt" \
-           -o ./src/${{ matrix.target}}/remote-src-checksum.txt \
-           -w "%{http_code}")
-          if [ "${remote_checksum_status}" != "200" ]; then
-            echo "Remote checksum returned status ${remote_checksum_status}. Rebuilding source."
-            echo "DYENV_REMOTE_SRC_CHECKSUM=-1" >> "$GITHUB_ENV"
-          else
-            export remote_checksum=$(cat ./src/${{ matrix.target }}/remote-src-checksum.txt)
-            echo "DYENV_REMOTE_SRC_CHECKSUM=${remote_checksum}" >> "$GITHUB_ENV"
-          fi
-
-      - name: Compare local and remote checksum
-        if: env.DYENV_IS_ALIAS == 'false'
+          sudo sh build/bootstrap-ubuntu.sh
+          python -m pip install -r build/python-requirement-lists/general-pkgs.txt -r build/python-requirement-lists/python-minted-pkgs.txt -r build/python-requirement-lists/site-pkgs.txt
+      - name: Validate metadata and test build tools
         run: |
-          if [ "${{ env.DYENV_LOCAL_SRC_CHECKSUM }}" != "${{ env.DYENV_REMOTE_SRC_CHECKSUM }}" ]; then
-            echo "Checksum mismatch. Proceeding with build."
-            echo "DYENV_ABORT_WORKFLOW=false" >> "$GITHUB_ENV"
-          else
-            echo "Checksum match. Skipping build. Downloading compiled file from remote."
-            mv ./src/${{ matrix.target }}/remote-src-checksum.txt ./src/${{ matrix.target }}/src-checksum.txt
-            curl -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/compiled-at.txt" \
-              -o ./src/${{ matrix.target }}/compiled-at.txt
-            curl -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/miktex-cache-key.txt" \
-              -o ./src/${{ matrix.target }}/miktex-cache-key.txt
-            curl -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}" \
-              -o ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}
-            echo "DYENV_ABORT_WORKFLOW=true" >> "$GITHUB_ENV"
-          fi
-
-      - name: Check for @force-rebuild
+          python build/build.py validate
+          PYTHONPATH=build python -m unittest discover -s build/tests -v
+      - name: Configure targets
+        env:
+          TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
-          if [[ "${{ contains(github.event.head_commit.message, '@force-rebuild') }}" == "true" ]]; then
-            echo "DYENV_ABORT_WORKFLOW=false" >> "$GITHUB_ENV"
-          fi
-
-      # --- INSTALL MIKTEX DISTRIBUTION ---
-      - name: Get APT dependencies list
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
-        run: echo "DYENV_APT_DEPS_LIST=$(awk '{$1=$1}1' OFS=' ' RS='' ./build/apt-packages.txt)" >> "$GITHUB_ENV"
-
-      - name: Download MiKTeX packages cache identifier key
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
-        run: |
-          export miktex_remote_cache_key=$(curl -s -XGET "https://hku.jacobshing.com/files/${{ matrix.target }}/miktex-cache-key.txt" \
-           -o ./src/${{ matrix.target}}/remote-miktex-cache-key.txt \
-           -w "%{http_code}")
-          if [ "${miktex_remote_cache_key}" != "200" ]; then
-            echo "Remote MikTeX cache key returned status ${miktex_remote_cache_key}. Reinstalling packages."
-            echo "DYENV_MIKTEX_CACHE_KEY=-1" >> "$GITHUB_ENV"
-          else
-            export miktex_cache_key=$(cat ./src/${{ matrix.target }}/remote-miktex-cache-key.txt)
-            echo "DYENV_REMOTE_MIKTEX_CACHE_KEY=${miktex_cache_key}" >> "$GITHUB_ENV"
-          fi
-
-      - name: Calculate local MiKTeX cache key
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
-        run: echo "DYENV_LOCAL_MIKTEX_CACHE_KEY=${{ env.DYENV_TEX_PACKAGE_HASH }}" >> "$GITHUB_ENV"
-
-      - name: Compare local and remote MikTeX cache key
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
-        run: |
-          if [ "${{ env.DYENV_REMOTE_MIKTEX_CACHE_KEY }}" != "${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}" ]; then
-            echo "MikTeX cache key mismatch. Proceeding with package installation."
-            echo "DYENV_RESTORE_MIKTEX_FROM_CACHE=false" >> "$GITHUB_ENV"
-          else
-            echo "MikTeX cache key match. Trying to restore packages from cache."
-            echo "DYENV_RESTORE_MIKTEX_FROM_CACHE=true" >> "$GITHUB_ENV"
-          fi
-
-      - name: Configure MiKTeX repository key for APT
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
-        run: |
-          curl -fsSL https://miktex.org/download/key | gpg --dearmor | sudo tee /usr/share/keyrings/miktex-keyring.gpg > /dev/null
-          echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.gpg] https://miktex.org/download/ubuntu noble universe" | sudo tee /etc/apt/sources.list.d/miktex.list
-          sudo apt-get update
-
-      - name: Install MiKTeX and dependencies
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
-        uses: awalsh128/cache-apt-pkgs-action@v1
-        with:
-          packages: ${{ env.DYENV_APT_DEPS_LIST }}
-
-      - name: Restore MiKTeX packages from cache
-        id: restore-miktex-cache
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_RESTORE_MIKTEX_FROM_CACHE == 'true' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
-        uses: actions/cache/restore@v4
-        with:
-          key: miktex-pkg-${{ runner.os }}-${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}
-          path: ~/.miktex
-
-      - name: Configure MiKTeX
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
-        run: |
-          miktexsetup finish
-          initexmf --set-config-value [MPM]AutoInstall=1
-          initexmf --enable-installer
-          initexmf --update-fndb
-          initexmf --mkmaps
-          miktex packages update
-          echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
-          # temporary fix: some MiKTeX packages are not auto-installed, manually install:
-          miktex packages install xkeyval || true
-          miktex packages install kvsetkeys || true
-          miktex packages install iftex || true
-          miktex packages install kvoptions || true
-        
-      # --- CONFIGURE TOOLSETS ---
-        # toolset for minted
-      - name: Install Python minted toolset
-        if: env.DYENV_REQUIRE_PYTHON_MINTED_PKGS == 'true' && env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_NO_LATEX == 'false'
-        run: pip install -r ./build/python-requirement-lists/python-minted-pkgs.txt
-
-      # --- RUN PRE-BUILD COMMAND ---
-      - name: Run pre-build command
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_PREBUILD_COMMAND != '' && env.DYENV_IS_ALIAS == 'false'
-        run: ${{ env.DYENV_PREBUILD_COMMAND }}
-        working-directory: ./src/${{ matrix.target }}
-
-      # --- BUILD TARGET ---
-      - name: Run build command
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
-        run: ${{ env.DYENV_BUILD_COMMAND }}
-        working-directory: ./src/${{ matrix.target }}
-
-      # --- RUN POST-BUILD COMMAND ---
-      - name: Run post-build command
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_POSTBUILD_COMMAND != '' && env.DYENV_IS_ALIAS == 'false'
-        run: ${{ env.DYENV_POSTBUILD_COMMAND }}
-        working-directory: ./src/${{ matrix.target }}
-
-      # --- CLEAN UP ---
-      - name: Save MikTeX cache
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false'
-        uses: actions/cache/save@v4
-        with:
-          key: miktex-pkg-${{ runner.os }}-${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}
-          path: ~/.miktex
-
-      - name: Install poppler-utils for PDF targets
-        if: env.DYENV_IS_PDF == 'true'
-        uses: awalsh128/cache-apt-pkgs-action@v1
-        with:
-          packages: poppler-utils
-
-      - name: Prepare PDF preview png directory (for PDF targets)
-        if: env.DYENV_IS_PDF == 'true'
-        run: mkdir -p ./src/${{ matrix.target }}/\~preview
-
-      - name: Download existing PDF preview png directory (for PDF targets) (cache hit)
-        if: env.DYENV_IS_PDF == 'true' && env.DYENV_ABORT_WORKFLOW == 'true'
-        run: |
-          export DYENV_PDF_PAGE_COUNT=$(pdfinfo ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }} | grep -- ^Pages | awk '{print $2}')
-          echo "Downloading $DYENV_PDF_PAGE_COUNT preview images from remote."
-          for i in $(seq -w 1 $DYENV_PDF_PAGE_COUNT); do
-            curl -XGET "https://hku.jacobshing.com/downloads/details/${{ matrix.target }}~preview/${{ matrix.target }}_preview-${i}.png" \
-              -o ./src/${{ matrix.target }}/\~preview/${{ matrix.target }}_preview-${i}.png
-            echo "Downloaded page $i"
-          done
-
-      - name: Generate PDF preview png (for PDF targets) (cache miss)
-        if: env.DYENV_IS_PDF == 'true' && env.DYENV_ABORT_WORKFLOW == 'false'
-        run: pdftoppm -png -r 200 -forcenum -progress ../${{ env.DYENV_OUTPUT_FILE }} ${{ matrix.target }}_preview
-        working-directory: src/${{ matrix.target }}/~preview
-
-      - name: Generate files for deployment (non-alias LaTeX targets)
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'false'
-        run: |
-          echo "${{ env.DYENV_LOCAL_SRC_CHECKSUM }}" > ./src/${{ matrix.target }}/src-checksum.txt
-          echo "${{ env.DYENV_LOCAL_MIKTEX_CACHE_KEY }}" > ./src/${{ matrix.target }}/miktex-cache-key.txt
-
-      - name: Generate files for deployment (non-alias non-LaTeX targets)
-        if: env.DYENV_ABORT_WORKFLOW == 'false' && env.DYENV_IS_ALIAS == 'false' && env.DYENV_NO_LATEX == 'true'
-        run: |
-          echo "${{ env.DYENV_LOCAL_SRC_CHECKSUM }}" > ./src/${{ matrix.target }}/src-checksum.txt
-        # miktex-cache-key.txt is not generated for non-latex targets
-
-      - name: Generate files for deployment (alias targets)
-        if: env.DYENV_IS_ALIAS == 'true'
-        run: |
-            echo "${{ env.DYENV_REMOTE_SRC_CHECKSUM }}" > ./src/${{ matrix.target }}/src-checksum.txt
-        # miktex-cache-key.txt is not generated for alias targets
-
-      - name: Upload artifacts
+          python - <<'PY'
+          import os
+          import subprocess
+          import sys
+          branch = os.environ['TARGET_BRANCH'].split('/')
+          arguments = ['--targets', branch[1]] if len(branch) >= 3 and branch[0] == 'targets' else []
+          subprocess.run([sys.executable, 'configure', *arguments], check=True)
+          PY
+      - name: Build documents and website
+        run: make -j2 site
+      - name: Upload build outputs
         uses: actions/upload-artifact@v4
         with:
-          name: compiled-artifact-${{ matrix.target }}
-          path: |
-            ./src/${{ matrix.target }}/${{ env.DYENV_OUTPUT_FILE }}
-            ./src/${{ matrix.target }}/src-checksum.txt
-            ./src/${{ matrix.target }}/miktex-cache-key.txt
-            ./src/${{ matrix.target }}/~preview/*
-          retention-days: 1
-
-      - name: On failure
+          name: local-build-output
+          path: dist/
+          retention-days: 7
+      - name: Upload diagnostics on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: build-failure-.miktex-dir-${{ matrix.target }}
+          name: build-diagnostics
           path: |
-            ~/.miktex
-            ~/texmf*
+            src/**/*.log
+            src/**/.build/state.json
+            .build/site/mkdocs.yml
           include-hidden-files: true
-          retention-days: 1
-        # Upload the entire .miktex installation for inspection
+          retention-days: 7
 
-  deploy-pages:
-    runs-on: ubuntu-24.04 # Noble
-    needs: build-target
+  deploy:
+    needs: build
+    if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
-        # Deploy iff we are on master branch and the event is a push (not a PR)
-    env:
-      DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
-          fetch-depth: 0  # allow access to commit date and time for sitemap.xml
-
-      # --- SETUP SITE BUILD DEPENDENCIES ---
-      - name: Set up Python
-        uses: actions/setup-python@v5
+          name: local-build-output
+          path: dist
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
-          python-version: '3.13'
-          cache: 'pip'
-          cache-dependency-path: ./build/python-requirement-lists/site-pkgs.txt
-
-      # --- DOWNLOAD COMPILED ARTIFACTS ---
-      - name: Install site build dependencies
-        run: pip install -r ./build/python-requirement-lists/site-pkgs.txt
-
-      - name: Prepare deployment directories
-        run: |
-          mkdir -p ./gh-out/files
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: compiled-artifact-*
-          path: ./gh-out/files
-
-      - name: Fix directory names
-        run: for dir in compiled-artifact-*; do [ -d "$dir" ] && mv "$dir" "${dir#compiled-artifact-}"; done; ls -l
-        working-directory: ./gh-out/files
-        # removes the prefix "compiled-artifact-" from the directory names
-
-      # --- GENERATE STATIC PAGES ---
-      - name: Output target list
-        run: echo DYENV_TARGETS_LIST=\"$(ls ./gh-out/files)\" >> $GITHUB_ENV
-
-      - name: Generate static pages
-        run: python3 ./build/generate_pages.py ${{ env.DYENV_TARGETS_LIST }}
-
-      - name: Generate mkdocs.yml navigation list
-        run: python3 ./build/generate_nav.py ${{ env.DYENV_TARGETS_LIST }}
-
-      - name: Upload generated Markdown sources
-        uses: actions/upload-artifact@v4
-        with:
-          name: generated-md
-          path: ./site
-          retention-days: 1
-
-      - name: Copy downloadable files to site
-        run: mkdir ./site/docs/files && cp -r ./gh-out/files/* ./site/docs/files && rm -rf ./gh-out
-
-      - name: Build static site
-        run: zensical build && mv output ../gh-out
-        working-directory: ./site
-
-      # --- GENERATE AND REPLACE SITEMAP.XML ---
-      - name: Remove generated sitemap.xml
-        run: rm -f ./gh-out/sitemap.xml && rm -f ./gh-out/sitemap.xml.gz
-
-      - name: Generate sitemap.xml
-        run: |
-          python3 ./build/generate_sitemap.py ${{ env.DYENV_TARGETS_LIST }}
-          mv ./sitemap.xml ./gh-out/sitemap.xml
-          mv ./preview-images-sitemap.xml ./gh-out/preview-images-sitemap.xml
-
-      # --- CONFIGURE GOOGLE SEO VERIFICATION ---
-      - name: Copy Google SEO verification file
-        run: cp ./build/seo/google481bf8abff9a1de7.html ./gh-out
-
-      # --- CONFIGURE INDEXNOW KEY ---
-      - name: Copy IndexNow key file
-        run: cp ./build/seo/33fe8f8f94504b19ac2625348c5a31d5.txt ./gh-out
-
-      # --- DEPLOY TO GITHUB PAGES ---
-      - name: Upload static files as artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./gh-out/
-
-      - name: Configure pages
-        uses: actions/configure-pages@v5
-
-      - name: Deploy to GitHub Pages
+          path: dist/site
+      - uses: actions/deploy-pages@v4
         id: deployment
-        uses: actions/deploy-pages@v4
 
-      # --- POST-DEPLOY NOTIFICATIONS ---
-      - name: Write Google API key
-        run: |
-          mkdir -p ./secrets
-          echo '${{ secrets.GOOGLE_INDEXING_API_JSON_KEY }}' > ./secrets/google_indexing_api_key.json
-
-      - name: Write IndexNow key
-        run: cat ./gh-out/33fe8f8f94504b19ac2625348c5a31d5.txt > ./secrets/indexnow_key.txt
-
-      - name: Request indexing from Google and IndexNow
-        run: python3 ./build/request_indexing.py
-
-  test-deploy-scripts:
-    # +---
-    # | This job is identical to deploy-pages, but is only run for branch validation.
-    # | No actual deployment occurs in this job.
-    # +---
-    runs-on: ubuntu-24.04 # Noble
-    needs: build-target
-    if: ${{ github.ref != 'refs/heads/master' || github.event_name != 'push' }}
-        # Only run this job if we are NOT on master branch or the event is a PR (negation of deploy-pages job condition)
-    env:
-      DYENV_TARGETS_LIST: "RUNTIME DYNAMIC ENV VAR"
+  notify-indexing:
+    needs: deploy
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # allow access to commit date and time for sitemap.xml
-
-      # --- SETUP SITE BUILD DEPENDENCIES ---
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-          cache: 'pip'
-          cache-dependency-path: ./build/python-requirement-lists/site-pkgs.txt
-
-      # --- DOWNLOAD COMPILED ARTIFACTS ---
-      - name: Install site build dependencies
-        run: pip install -r ./build/python-requirement-lists/site-pkgs.txt
-
-      - name: Prepare deployment directories
+      - uses: actions/download-artifact@v4
+        with:
+          name: local-build-output
+          path: dist
+      - name: Send post-deployment indexing notifications
+        env:
+          GOOGLE_INDEXING_KEY: ${{ secrets.GOOGLE_INDEXING_API_JSON_KEY }}
         run: |
-          mkdir -p ./gh-out/files
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: compiled-artifact-*
-          path: ./gh-out/files
-
-      - name: Fix directory names
-        run: for dir in compiled-artifact-*; do [ -d "$dir" ] && mv "$dir" "${dir#compiled-artifact-}"; done; ls -l
-        working-directory: ./gh-out/files
-        # removes the prefix "compiled-artifact-" from the directory names
-
-      # --- GENERATE STATIC PAGES ---
-      - name: Output target list
-        run: echo DYENV_TARGETS_LIST=\"$(ls ./gh-out/files)\" >> $GITHUB_ENV
-
-      - name: Generate static pages
-        run: python3 ./build/generate_pages.py ${{ env.DYENV_TARGETS_LIST }}
-
-      - name: Generate mkdocs.yml navigation list
-        run: python3 ./build/generate_nav.py ${{ env.DYENV_TARGETS_LIST }}
-
-      - name: Upload generated Markdown sources
-        uses: actions/upload-artifact@v4
-        with:
-          name: generated-md
-          path: ./site
-          retention-days: 1
-
-      - name: Copy downloadable files to site
-        run: mkdir ./site/docs/files && cp -r ./gh-out/files/* ./site/docs/files && rm -rf ./gh-out
-
-      - name: Build static site
-        run: zensical build && mv output ../gh-out
-        working-directory: ./site
-
-      # --- GENERATE AND REPLACE SITEMAP.XML ---
-      - name: Remove generated sitemap.xml
-        run: rm -f ./gh-out/sitemap.xml && rm -f ./gh-out/sitemap.xml.gz
-
-      - name: Generate sitemap.xml
-        run: |
-          python3 ./build/generate_sitemap.py ${{ env.DYENV_TARGETS_LIST }}
-          mv ./sitemap.xml ./gh-out/sitemap.xml
-          mv ./preview-images-sitemap.xml ./gh-out/preview-images-sitemap.xml
-
-      # --- CONFIGURE GOOGLE SEO VERIFICATION ---
-      - name: Copy Google SEO verification file
-        run: cp ./build/seo/google481bf8abff9a1de7.html ./gh-out
-
-      # --- CONFIGURE INDEXNOW KEY ---
-      - name: Copy IndexNow key file
-        run: cp ./build/seo/33fe8f8f94504b19ac2625348c5a31d5.txt ./gh-out
-
-      # --- UPLOAD TO ARTIFACT (NO DEPLOYMENT) ---
-      - name: Upload static files as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-deploy-pages-artifact
-          path: ./gh-out
-          retention-days: 1
+          python -m pip install -r build/python-requirement-lists/indexing-pkgs.txt
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          import subprocess
+          import sys
+          import tempfile
+          command = [sys.executable, 'build/request_indexing.py', '--indexnow-key', 'build/seo/33fe8f8f94504b19ac2625348c5a31d5.txt']
+          with tempfile.TemporaryDirectory() as directory:
+              if os.environ.get('GOOGLE_INDEXING_KEY'):
+                  key = Path(directory) / 'google.json'
+                  key.write_text(os.environ['GOOGLE_INDEXING_KEY'])
+                  command.extend(['--google-key', str(key)])
+              subprocess.run(command, check=True)
+          PY

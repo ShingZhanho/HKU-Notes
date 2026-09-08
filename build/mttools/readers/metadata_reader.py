@@ -14,7 +14,7 @@ class Reader:
         result = Metadata(self.build_target)
         build = data['build']
         result.root_file.set(build.get('root_file', ''))
-        result.output_file.set(build.get('output_file', 'NON_FILE_TARGET'))
+        result.output_file.set(build.get('output_file', ''))
         result.build.spec = build
         site = data.get('static_site', {})
         defaults = dict(description='-', custom_md_file='', document_status='unk', pdf_viewer='at_head')

@@ -68,7 +68,7 @@ class ComputedKeyNode(KeyNode):
     def __is_non_file_target(self) -> bool:
         metadata: Metadata = self.parent
         output_file: StrValue = metadata.output_file
-        return output_file.get() == "NON_FILE_TARGET"
+        return metadata.build.spec["type"] == "page"
     
     def __is_pdf_target(self) -> bool:
         metadata: Metadata = self.parent

@@ -1,46 +1,23 @@
+import argparse
+from pathlib import Path
+import xml.etree.ElementTree as ET
+from urllib.parse import urlparse
 import re
 import json
 import sys
+import argparse
+from pathlib import Path
+import xml.etree.ElementTree as ET
+from urllib.parse import urlparse
 import requests
 from oauth2client.service_account import ServiceAccountCredentials
 import httplib2
 
-def get_urls_to_index() -> list[str]:
-    """
-    Retrieve a list of URLs that need to be indexed from the sitemap.
+def get_urls_to_index(sitemap: Path) -> list[str]:
+    tree = ET.parse(sitemap)
+    return [element.text for element in tree.findall('.//{*}loc')
+            if element.text and not element.text.endswith('.xml')]
 
-    Returns:
-        list[str]: A list of URLs to be indexed.
-    """
-    PATTERN = r"<loc>(.*?)</loc>"
-    urls = []
-    try:
-        with open("./gh-out/sitemap.xml", "r", encoding="utf-8") as f:
-            while (line := f.readline()):
-                matches = re.findall(PATTERN, line)
-                urls.extend([m for m in matches if not m.endswith('.xml')])
-    except FileNotFoundError:
-        print("WARNING: Sitemap file not found at ./gh-out/sitemap.xml")
-    except Exception as e:
-        print(f"WARNING: Error reading sitemap: {str(e)}")
-    return urls
-
-def get_indexnow_key() -> str:
-    """
-    Retrieve the IndexNow key from a local file.
-
-    Returns:
-        str: The IndexNow key.
-    """
-    try:
-        with open("./secrets/indexnow_key.txt", "r", encoding="utf-8") as f:
-            return f.read().strip()
-    except FileNotFoundError:
-        print("WARNING: IndexNow key file not found at ./secrets/indexnow_key.txt")
-        return ""
-    except Exception as e:
-        print(f"WARNING: Error reading IndexNow key: {str(e)}")
-        return ""
 
 def submit_to_google_indexing(urls: list[str], auth_http) -> None:
     """
@@ -76,7 +53,7 @@ def submit_to_google_indexing(urls: list[str], auth_http) -> None:
         except Exception as e:
             print(f"  [{i}/{len(urls)}] WARNING: {url} - {str(e)}")
 
-def submit_to_indexnow(urls: list[str], api_key: str) -> None:
+def submit_to_indexnow(urls: list[str], api_key: str, site_url: str) -> None:
     """
     Submit URLs to IndexNow API.
     
@@ -90,9 +67,9 @@ def submit_to_indexnow(urls: list[str], api_key: str) -> None:
     
     # IndexNow allows batch submission
     payload = {
-        "host": "hku.jacobshing.com",
+        "host": urlparse(site_url).netloc,
         "key": api_key,
-        "keyLocation": f"https://hku.jacobshing.com/{api_key}.txt",
+        "keyLocation": f"{site_url.rstrip('/')}/{api_key}.txt",
         "urlList": urls
     }
     
@@ -100,7 +77,8 @@ def submit_to_indexnow(urls: list[str], api_key: str) -> None:
         response = requests.post(
             INDEXNOW_ENDPOINT,
             json=payload,
-            headers={"Content-Type": "application/json; charset=utf-8"}
+            headers={"Content-Type": "application/json; charset=utf-8"},
+            timeout=30
         )
         
         if response.status_code == 200:
@@ -114,8 +92,16 @@ def submit_to_indexnow(urls: list[str], api_key: str) -> None:
         print(f"  WARNING: {str(e)}")
 
 def main():
+    parser = argparse.ArgumentParser(description='Explicit post-deployment indexing notifications; never part of make site')
+    parser.add_argument('--sitemap', type=Path, default=Path('dist/site/sitemap.xml'))
+    parser.add_argument('--google-key', type=Path)
+    parser.add_argument('--indexnow-key', type=Path)
+    parser.add_argument('--site-url', default='https://hku.jacobshing.com/')
+    args = parser.parse_args()
+    if not args.google_key and not args.indexnow_key:
+        parser.error('Supply --google-key and/or --indexnow-key to send notifications')
     try:
-        urls = get_urls_to_index()
+        urls = get_urls_to_index(args.sitemap)
         
         if not urls:
             print("WARNING: No URLs found to index.")
@@ -123,18 +109,17 @@ def main():
             return 0
         
         print(f"Found {len(urls)} URLs to index.\n")
-        print(f"URLs to be indexed:\n\n{'\n'.join(urls)}")
+        print("URLs to be indexed:\n\n" + "\n".join(urls))
 
         # Google Indexing API setup
         SCOPES = ["https://www.googleapis.com/auth/indexing"]
-        GOOGLE_API_KEY_FILE = "./secrets/google_indexing_api_key.json"
+        GOOGLE_API_KEY_FILE = args.google_key
         
         try:
-            credentials = ServiceAccountCredentials.from_json_keyfile_name(
-                GOOGLE_API_KEY_FILE, scopes=SCOPES
-            )
-            auth_http = credentials.authorize(httplib2.Http())
-            submit_to_google_indexing(urls, auth_http)
+            if GOOGLE_API_KEY_FILE:
+                credentials = ServiceAccountCredentials.from_json_keyfile_name(str(GOOGLE_API_KEY_FILE), scopes=SCOPES)
+                auth_http = credentials.authorize(httplib2.Http(timeout=30))
+                submit_to_google_indexing(urls, auth_http)
         except FileNotFoundError:
             print(f"WARNING: Google API key file not found at {GOOGLE_API_KEY_FILE}")
         except Exception as e:
@@ -142,9 +127,9 @@ def main():
         
         # IndexNow API submission
         try:
-            api_key = get_indexnow_key()
+            api_key = args.indexnow_key.read_text().strip() if args.indexnow_key else ""
             if api_key:
-                submit_to_indexnow(urls, api_key)
+                submit_to_indexnow(urls, api_key, args.site_url)
             else:
                 print("\nWARNING: Skipping IndexNow submission due to missing API key")
         except Exception as e:

@@ -39,3 +39,11 @@ class MetadataTests(unittest.TestCase):
             self.assertEqual(load(path, 'draft')['build']['output_file'], 'draft.pdf')
             with self.assertRaisesRegex(ValueError, 'unknown profile'):
                 load(path, 'missing')
+
+    def test_reserved_or_duplicate_outputs_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'metadata.json'
+            for outputs in ({'primary': 'other.pdf'}, {'other': 'main.pdf'}, {'other': 'metadata.json'}):
+                path.write_text(json.dumps({'$schema': '../../site/docs/statics/schemas/v3.json', 'build': {'type': 'latex', 'output_file': 'main.pdf', 'outputs': outputs}}))
+                with self.assertRaises(ValueError):
+                    load(path)

@@ -1,0 +1,5 @@
+*
+!build/
+!build/bootstrap-ubuntu.sh
+!build/python-requirement-lists/
+!build/python-requirement-lists/*.txt

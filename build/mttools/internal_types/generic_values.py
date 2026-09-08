@@ -1,7 +1,9 @@
 from __future__ import annotations
-from typing import Callable
+from typing import Callable, Generic, TypeVar
 
-class GenericValue[T]:
+T = TypeVar("T")
+
+class GenericValue(Generic[T]):
     def __init__(self):
         self.__value: T | None = None
 
@@ -51,7 +53,7 @@ class GenericValue[T]:
         """
         self.set(value)
 
-class GenericArrayValue[T](GenericValue[list[T]]):
+class GenericArrayValue(GenericValue[list[T]]):
     def __init__(self):
         super().__init__()
 
@@ -197,7 +199,7 @@ class GenericArrayValue[T](GenericValue[list[T]]):
         """
         return item in self.__value
     
-class GenericComputedValue[T](GenericValue[Callable[[], T]]):
+class GenericComputedValue(GenericValue[Callable[[], T]]):
     def __init__(self):
         raise ValueError("ComputedValue must be initialized with a callable.")
     

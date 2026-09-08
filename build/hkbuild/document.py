@@ -3,6 +3,7 @@ from contextlib import contextmanager
 import hashlib
 import importlib.metadata
 import json
+import os
 from pathlib import Path
 import platform
 import re
@@ -14,10 +15,14 @@ import tempfile
 from .metadata import load, resolve_alias
 
 
+def tool_path():
+    return str(Path(sys.executable).parent) + os.pathsep + os.environ.get("PATH", "")
+
+
 def run(argv, cwd=None, capture=False):
     argv = [str(value) for value in argv]
     print('+ ' + ' '.join(argv), flush=True)
-    return subprocess.run(argv, cwd=cwd, check=True, text=True,
+    return subprocess.run(argv, cwd=cwd, check=True, text=True, env={**os.environ, "PATH": tool_path()},
                           stdout=subprocess.PIPE if capture else None)
 
 
@@ -96,7 +101,7 @@ def check_tools(document, spec, source_override=None):
             executables.add(step['interpreter'])
         elif step['argv'][0] != '{python}' and '/' not in step['argv'][0] and '{' not in step['argv'][0]:
             executables.add(step['argv'][0])
-    missing = [tool for tool in sorted(executables) if not shutil.which(tool)]
+    missing = [tool for tool in sorted(executables) if not shutil.which(tool, path=tool_path())]
     for package in spec.get('requires', {}).get('python', []):
         try:
             importlib.metadata.version(package)

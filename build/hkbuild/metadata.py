@@ -25,7 +25,10 @@ def load(path: Path, profile: str | None = None) -> dict:
         if profile not in data.get('profiles', {}):
             raise ValueError(f'{path}: unknown profile {profile!r}')
         data['build'].update(data['profiles'][profile])
-        VALIDATOR.validate(data)
+        try:
+            VALIDATOR.validate(data)
+        except jsonschema.ValidationError as error:
+            raise ValueError(f'{path}: invalid profile {profile!r}: {error.message}') from error
     build = data['build']
     if build['type'] == 'latex':
         build.setdefault('root_file', f'{path.parent.name}.tex')
@@ -35,6 +38,17 @@ def load(path: Path, profile: str | None = None) -> dict:
     # Outputs are relative to the document; built-in compilation always produces PDF.
     if build['type'] == 'latex' and not build['output_file'].endswith('.pdf'):
         raise ValueError(f'{path}: a latex output_file must end in .pdf')
+    outputs = build.get('outputs', {})
+    if 'primary' in outputs:
+        raise ValueError(f'{path}: outputs.primary is reserved for output_file')
+    filenames = [build['output_file'], *outputs.values()] if 'output_file' in build else []
+    if len(set(filenames)) != len(filenames):
+        raise ValueError(f'{path}: published output paths must be distinct')
+    for filename in filenames:
+        if any(char in filename for char in '*?['):
+            raise ValueError(f'{path}: output paths cannot contain glob patterns')
+        if filename in ('metadata.json', 'Makefile', 'manifest.json', 'preview.json') or filename.startswith(('.build/', '~preview/')):
+            raise ValueError(f'{path}: reserved output path {filename}')
     return data
 
 

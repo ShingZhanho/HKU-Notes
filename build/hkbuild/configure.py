@@ -5,6 +5,7 @@ from pathlib import Path
 import shlex
 import shutil
 import sys
+from urllib.parse import urlparse
 
 from .document import check_tools, write_json
 from .metadata import REPOSITORY, load, resolve_alias
@@ -46,6 +47,8 @@ def main(argv=None):
     parser.add_argument('--site-url', default='https://hku.jacobshing.com/', help='Canonical URL for generated site and sitemaps')
     parser.add_argument('--no-check', action='store_true', help='Defer tool/environment checks until make')
     args = parser.parse_args(argv)
+    if urlparse(args.site_url).scheme not in ("http", "https") or not urlparse(args.site_url).netloc:
+        parser.error("--site-url must be an absolute http(s) URL")
     directory = Path.cwd().resolve()
     document_mode = (directory / 'metadata.json').is_file()
     if not document_mode and directory != REPOSITORY:

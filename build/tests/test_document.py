@@ -111,6 +111,30 @@ class DocumentTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             document.inside(self.doc, '../outside')
 
+class EnvironmentAndArtifactTests(unittest.TestCase):
+    def test_incompatible_environment_is_rejected(self):
+        with patch('platform.system', return_value='Darwin'), patch('platform.machine', return_value='arm64'):
+            with self.assertRaisesRegex(ValueError, 'Required build environment'):
+                document.check_environment({'environment': {'os': 'linux', 'architecture': 'x86_64', 'distribution': 'ubuntu', 'version': '24.04'}})
+
+    def test_project_archive_contains_binary_and_resources(self):
+        from hkbuild.metadata import REPOSITORY
+        import zipfile
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            doc = root / 'document'
+            source = root / 'source'
+            doc.mkdir()
+            (source / 'build/res').mkdir(parents=True)
+            (source / 'build/shoot').write_bytes(b'fixture binary')
+            (source / 'build/res/data.txt').write_text('fixture resource')
+            script = doc / 'package.py'
+            script.write_text((REPOSITORY / 'src/COMP2113-Project/package.py').read_text())
+            subprocess.run([sys.executable, str(script)], cwd=source, check=True)
+            with zipfile.ZipFile(doc / 'shoot-v1.0.0-ubuntu_24.04-x86_64.zip') as archive:
+                self.assertEqual(set(archive.namelist()), {'shoot', 'res/data.txt'})
+                self.assertEqual(archive.read('shoot'), b'fixture binary')
+
 
 if __name__ == '__main__':
     unittest.main()
