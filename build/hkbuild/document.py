@@ -164,15 +164,20 @@ def latex(source, relative, spec, state):
     command.append('-shell-escape' if spec.get('shell_escape', False) else '-no-shell-escape')
     if spec.get('config_file'):
         command.extend(['-r', str(inside(source, spec['config_file']))])
+    if str(root) in state.setdefault('failed_tex_roots', []):
+        command.append('-g')  # Retry after a repaired failure; never ignore TeX errors.
     command.extend(spec.get('args', []))
     command.extend(['-cd', str(root)])
     # Record ownership before execution so clean also works after a failed compile.
     if str(root) not in state['tex_roots']:
         state['tex_roots'].append(str(root))
+    if str(root) not in state['failed_tex_roots']:
+        state['failed_tex_roots'].append(str(root))
     run(command, source)
     output = root.with_suffix('.pdf')
     if not output.is_file():
         raise ValueError(f'LaTeX did not produce {output}')
+    state['failed_tex_roots'].remove(str(root))
     return output
 
 
@@ -187,6 +192,7 @@ def execute_step(step, source, document, state, key):
     if kind == 'wordcount':
         outputs = [inside(source, step['output'])]
     signature = hashlib.sha256(json.dumps({'step': step, 'source': str(source),
+        'runner': digest(Path(__file__)), 'python': sys.version,
         'inputs': [(str(path), digest(path)) for path in files]}, sort_keys=True).encode()).hexdigest()
     previous = state['steps'].get(key)
     current_outputs = {str(path): digest(path) for path in outputs if path.is_file()}

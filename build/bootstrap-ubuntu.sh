@@ -5,6 +5,6 @@ set -eu
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     ca-certificates git make cmake g++ python3 python3-venv \
-    latexmk texlive-latex-extra texlive-fonts-extra texlive-science \
+    latexmk texlive-latex-extra texlive-fonts-extra texlive-fonts-recommended texlive-science \
     texlive-bibtex-extra texlive-xetex texlive-luatex \
-    texlive-lang-chinese texlive-lang-french biber poppler-utils
+    texlive-lang-chinese texlive-lang-french lmodern biber ghostscript poppler-utils

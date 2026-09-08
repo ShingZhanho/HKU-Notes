@@ -23,7 +23,7 @@ def generate(config, config_path):
     command = ' '.join(shell(value) for value in [sys.executable, REPOSITORY / 'build/build.py', '--config', config_path])
     lines = [MARKER, '.DEFAULT_GOAL := all\n', '.PHONY: all site preview clean distclean help ' + ' '.join(config['targets']) + '\n']
     if config['mode'] == 'document':
-        lines += [f'all:\n\t{command} build\n', f'preview: all\n\t{command} preview\n']
+        lines += [f'all:\n\t{command} build\n', f'preview: all\n\t{command} preview\n', f'site:\n\t{command} site\n']
     else:
         lines.append('all: ' + ' '.join(config['targets']) + '\n')
         for target in config['targets']:

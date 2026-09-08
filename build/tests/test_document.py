@@ -87,6 +87,23 @@ class DocumentTests(unittest.TestCase):
         self.assertIn('-halt-on-error', calls[0])
         self.assertEqual((self.artifacts / 'notes/renamed.pdf').read_bytes(), b'%PDF-test')
 
+    def test_retries_tex_after_failure_without_ignoring_errors(self):
+        self.metadata({'type': 'latex', 'root_file': 'main.tex'})
+        (self.doc / 'main.tex').write_text('fixture')
+        calls = []
+        def compiler(argv, cwd=None, capture=False):
+            calls.append(argv)
+            if len(calls) == 1:
+                raise subprocess.CalledProcessError(12, argv)
+            (self.doc / 'main.pdf').write_bytes(b'%PDF-repaired')
+        with patch.object(document, 'run', compiler), patch.object(document, 'check_tools'):
+            with self.assertRaises(subprocess.CalledProcessError):
+                document.build(self.doc, self.artifacts)
+            document.build(self.doc, self.artifacts)
+        self.assertNotIn('-g', calls[0])
+        self.assertIn('-g', calls[1])
+        self.assertNotIn('-f', calls[1])
+
     def test_checkout_is_pinned_and_reused_offline(self):
         upstream = self.root / 'upstream'
         upstream.mkdir()
