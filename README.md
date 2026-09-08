@@ -4,8 +4,9 @@ HKU Notes is my personal revision resources management project for the courses I
 at The University of Hong Kong in pursuit of my Bachelor of Engineering (Computer Science)
 degree.
 
-All resources are written in LaTeX. The purpose of this repository is to store the notes
-remotely and use GitHub Actions to automatically compile and distribute the notes online.
+Documents, project artifacts, and the website can be built locally with Python and
+GNU Make. GitHub Actions runs the same build pipeline to publish the website; local
+builds do not require access to Actions or deployment credentials.
 
 ## History of the Project
 
