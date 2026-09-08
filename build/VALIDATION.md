@@ -64,3 +64,17 @@ Real MiKTeX checks for `MATH1853-Assignment-II.1`, `CCCH9044-Individual-Essay`, 
 and a second build executes no preparation/compiler/finishing commands. The workflow
 YAML was checked for both package and artifact caches and the force-rebuild flag.
 Hosted cache restoration remains untested locally.
+
+## Missing xkeyval contingency fix
+
+Inspected CI run 34226126677. The grouped legacy `mpm --install=...` invocation
+reported “The requested package is unknown,” but setup continued; the CV later
+failed loading `xkeyval.sty`. Restored individual `miktex packages install` calls
+for the original contingency packages, package updates, and explicit file-resolution
+checks after refreshing the filename database. Setup now fails immediately if any
+of the four required style files remains unavailable.
+
+All 34 tests pass, including installer failure, a zero-exit installer that creates
+no package file, and empty/failed file lookups. Shell syntax checking passes; local
+MiKTeX resolves all four styles. The Ubuntu CI setup itself has not been rerun with
+this fix. Its changed setup-script hash invalidates the previous package cache key.
