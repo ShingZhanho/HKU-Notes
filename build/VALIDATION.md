@@ -153,3 +153,23 @@ All 49 tests pass, including a subprocess emitting mixed UTF-8/legacy bytes on
 stdout plus stderr, checked with both zero and nonzero exits. A forced local
 MiKTeX build of FREN2001-Grammaire succeeds. Hosted Ubuntu validation of this fix
 is pending the next pushed run.
+
+## Warm-cache setup and APT mirror fallback
+
+Run 34589951391 exposed an idempotency bug: MiKTeX returns a failure for
+`packages install latexmk` when the restored cache already contains latexmk.
+Setup now queries `packages info --template={isInstalled}` before each install,
+including on retries after partial success. Missing packages are still installed,
+unknown/query failures remain errors, and style-file verification still runs.
+
+Two inspected jobs instead failed fetching MiKTeX's signed APT index from the
+redirector's selected mirror. Ubuntu provisioning now tries the MIT CTAN endpoint
+after the primary repository exhausts retries, for either index or archive errors.
+Both endpoints use the same signed-by MiKTeX key; verification is not disabled.
+The MIT Noble InRelease endpoint was fetched successfully during investigation.
+This is an APT fallback; it does not change MiKTeX's on-demand package mirror.
+
+All 56 tests pass, including cold, warm, partial and repeated setup; partial
+installer success followed by an error; primary APT success; index/archive fallback;
+and both mirrors failing. Metadata validation, shell syntax, Actionlint and diff
+checks pass. Hosted CI verification after pushing these fixes is still pending.
