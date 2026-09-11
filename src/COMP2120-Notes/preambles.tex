@@ -158,18 +158,23 @@
 \makeatletter
 \renewenvironment{proof}[1][\proofname] {\par\pushQED{\qed}{\normalfont\sffamily\bfseries\topsep6\p@\@plus6\p@\relax #1\@addpunct{.} }}{\popQED\endtrivlist\@endpefalse}
 \makeatother
-\theoremstyle{mystyle}{\newtheorem{definition}{Definition}[section]}
-\theoremstyle{mystyle}{\newtheorem{proposition}[definition]{Proposition}}
-\theoremstyle{mystyle}{\newtheorem{theorem}[definition]{Theorem}}
-\theoremstyle{mystyle}{\newtheorem{lemma}[definition]{Lemma}}
-\theoremstyle{mystyle}{\newtheorem{corollary}[definition]{Corollary}}
-\theoremstyle{mystyle}{\newtheorem*{remark}{Remark}}
-\theoremstyle{mystyle}{\newtheorem*{remarks}{Remarks}}
-\theoremstyle{mystyle}{\newtheorem*{example}{Example}}
-\theoremstyle{mystyle}{\newtheorem*{examples}{Examples}}
-\theoremstyle{definition}{\newtheorem*{exercise}{Exercise}}
-\theoremstyle{mystyle}{\newtheorem*{solution}{Solution}}
-\theoremstyle{cstyle}{\newtheorem*{cthm}{}}
+% Keep declarations at preamble scope: LaTeX 2026 alias-counter macros are local.
+\theoremstyle{mystyle}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem*{remark}{Remark}
+\newtheorem*{remarks}{Remarks}
+\newtheorem*{example}{Example}
+\newtheorem*{examples}{Examples}
+\theoremstyle{definition}
+\newtheorem*{exercise}{Exercise}
+\theoremstyle{mystyle}
+\newtheorem*{solution}{Solution}
+\theoremstyle{cstyle}
+\newtheorem*{cthm}{}
 
 %Warning environment
 \newtheoremstyle{warn}{}{}{}{}{\normalfont}{}{ }{}
