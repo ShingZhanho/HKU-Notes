@@ -9,6 +9,7 @@ import xml.etree.ElementTree as ET
 from hkbuild.document import build, digest
 from hkbuild.metadata import REPOSITORY
 from hkbuild.website import assemble
+from test_html_preview import fixture
 
 
 class WebsiteTests(unittest.TestCase):
@@ -28,14 +29,14 @@ class WebsiteTests(unittest.TestCase):
         for name in ['DOC', 'PAGE']:
             build(self.root / 'src' / name, self.artifacts)
         (self.artifacts / 'DOC/~preview').mkdir()
-        (self.artifacts / 'DOC/~preview/DOC_preview-1.png').write_bytes(b'image fixture')
+        fixture(self.artifacts / 'DOC/~preview')
 
     def fake_zensical(self, argv, cwd):
         self.assertEqual(argv[1:], ['-m', 'zensical', 'build'])
         shutil.copytree(cwd / 'docs', cwd / 'output')
-        (cwd / 'output/index.html').write_text('<html>home</html>')
+        (cwd / 'output/index.html').write_text('<html><link rel="canonical" href="https://example.org/notes/index.html">home</html>')
         for name in ['DOC', 'PAGE']:
-            (cwd / f'output/downloads/details/{name}.html').write_text('page')
+            (cwd / f'output/downloads/details/{name}.html').write_text('<div data-html-preview="DOC"></div>' if name == 'DOC' else 'page')
 
     def test_repeatable_and_does_not_modify_inputs(self):
         originals = {p: digest(p) for root in [self.root / 'site', self.artifacts] for p in root.rglob('*') if p.is_file()}
@@ -50,7 +51,8 @@ class WebsiteTests(unittest.TestCase):
         self.assertEqual((self.root / 'dist/site/files/DOC/report.pdf').read_bytes(), b'PDF fixture')
         sitemap = ET.parse(self.root / 'dist/site/sitemap.xml')
         urls = [item.text for item in sitemap.findall('.//{*}loc')]
-        self.assertIn('https://example.org/notes/files/DOC/report.pdf', urls)
+        self.assertNotIn('https://example.org/notes/files/DOC/report.pdf', urls)
+        self.assertIn('https://example.org/notes/index.html', urls)
         self.assertNotIn('https://example.org/notes/files/PAGE/NON_FILE_TARGET', urls)
         navigation = (self.root / '.build/site/mkdocs.yml').read_text()
         self.assertIn('"ALIAS2": downloads/details/DOC.md', navigation)

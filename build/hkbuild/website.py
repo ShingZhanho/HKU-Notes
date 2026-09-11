@@ -10,6 +10,7 @@ from .metadata import load
 from generate_nav import generate as generate_nav
 from generate_sitemap import generate as generate_sitemap
 from page_gen_tools import start
+from page_gen_tools.pdf_preview import embed_previews
 from page_gen_tools.paths import SitePaths
 
 
@@ -52,6 +53,7 @@ def assemble(repository, targets, artifacts, site_url):
     output = staging / 'output'
     if not (output / 'index.html').is_file():
         raise ValueError('Zensical did not produce output/index.html')
+    embed_previews(output)
     generate_sitemap(targets, paths, output, site_url)
     for file in (repository / 'build/seo').iterdir():
         if file.is_file():

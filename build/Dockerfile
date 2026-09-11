@@ -2,6 +2,8 @@
 FROM ubuntu:24.04
 COPY build/bootstrap-ubuntu.sh /tmp/bootstrap-ubuntu.sh
 RUN sh /tmp/bootstrap-ubuntu.sh && rm -rf /var/lib/apt/lists/*
+COPY build/install-pdf2htmlex.sh /tmp/install-pdf2htmlex.sh
+RUN sh /tmp/install-pdf2htmlex.sh
 COPY build/python-requirement-lists /tmp/requirements
 RUN python3 -m venv /opt/hku-venv && /opt/hku-venv/bin/python -m pip install --no-cache-dir \
     -r /tmp/requirements/general-pkgs.txt \

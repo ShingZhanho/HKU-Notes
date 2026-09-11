@@ -66,8 +66,11 @@ def fingerprint(document, spec, profile=None, source_override=None):
         inputs['override'] = source_files(override, spec)
     # Pinned remote sources are identified by the full source declaration in spec.
     # Their internal .build checkout is a cache, not an editable source override.
-    tooling = [*sorted((REPOSITORY / 'build/hkbuild').glob('*.py')),
-               *sorted((REPOSITORY / 'build/python-requirement-lists').glob('*.txt')),
+    # Preview/site tooling has its own cache and must not invalidate compiled PDFs.
+    tooling = [p for p in sorted((REPOSITORY / 'build/hkbuild').glob('*.py'))
+               if p.name not in {'html_preview.py', 'website.py'}]
+    tooling += [REPOSITORY / 'build/python-requirement-lists/general-pkgs.txt',
+                REPOSITORY / 'build/python-requirement-lists/python-minted-pkgs.txt',
                REPOSITORY / 'build/build.py', REPOSITORY / 'configure',
                REPOSITORY / 'build/hash-ignore-defaults.txt',
                REPOSITORY / 'build/bootstrap-ubuntu.sh', REPOSITORY / 'build/setup-miktex.sh',

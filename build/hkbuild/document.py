@@ -366,30 +366,8 @@ def build(document, artifact_root, profile=None, source_override=None, artifact_
 
 
 def preview(directory):
-    manifest = json.loads((directory / 'manifest.json').read_text())
-    output = manifest['outputs'].get('primary')
-    if not output or not output['path'].endswith('.pdf'):
-        return
-    pdf = inside(directory, output['path'])
-    key = digest(pdf)
-    preview_dir = directory / '~preview'
-    stamp = directory / 'preview.json'
-    if stamp.exists() and preview_dir.exists():
-        previous = json.loads(stamp.read_text())
-        if previous.get('pdf') == key and previous.get('images') == {p.name: digest(p) for p in sorted(preview_dir.glob('*.png'))}:
-            return
-    if not shutil.which('pdftoppm'):
-        raise ValueError('PDF previews require pdftoppm (Poppler); see README.md')
-    with tempfile.TemporaryDirectory(dir=directory) as temporary:
-        temporary = Path(temporary)
-        run(['pdftoppm', '-png', '-r', '200', '-forcenum', str(pdf), str(temporary / (manifest['target'] + '_preview'))])
-        images = {p.name: digest(p) for p in sorted(temporary.glob('*.png'))}
-        if not images:
-            raise ValueError(f'No preview images generated for {pdf}')
-        if preview_dir.exists():
-            shutil.rmtree(preview_dir)
-        shutil.copytree(temporary, preview_dir)
-    write_json(stamp, {'pdf': key, 'images': images})
+    from .html_preview import preview as generate_html_preview
+    generate_html_preview(directory)
 
 
 def clean(document, distclean=False):

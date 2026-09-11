@@ -173,3 +173,69 @@ All 56 tests pass, including cold, warm, partial and repeated setup; partial
 installer success followed by an error; primary APT success; index/archive fallback;
 and both mirrors failing. Metadata validation, shell syntax, Actionlint and diff
 checks pass. Hosted CI verification after pushing these fixes is still pending.
+
+## HTML preview refactor — 2026-09-11
+
+Branch: `codex/html-preview-refactor`.
+
+- Converted all 29 existing compiled PDFs locally with pdf2htmlEX 0.18.8.rc2,
+  using the pinned Docker image and SVG backgrounds. The PNG background backend
+  crashed on the project report; the SVG backend converted all 303 pages.
+- Assembled the complete 34-entry catalogue: 32 canonical details pages, including
+  three non-PDF project pages, plus two aliases. The Ubuntu ZIP was imported from
+  the currently published artifact; existing PDFs were reused without running TeX.
+- The generated site is in `dist/site`. All 29 preview details pages contain
+  declarative shadow roots in the initial HTML. Every converter text node and page
+  count survived embedding. Standalone converter HTML is removed from public output.
+- 61 build-tool tests pass. Coverage includes preview cache reuse, damaged-asset
+  regeneration, converter changes, preservation of previous previews after failure,
+  font isolation, and separation of preview tooling from PDF source fingerprints.
+- A repeated preview pass reused all 29 cached conversions. Zensical 0.0.41 built
+  the full website without reporting issues.
+- Chrome browser checks visited all 29 PDF detail pages: no JavaScript exceptions,
+  missing local HTTP resources, broken background images or failed preview fonts.
+  Desktop and 390px mobile screenshots were reviewed for the report and cheatsheet.
+  Zoom supports horizontal panning within the reader without widening the webpage.
+  Page jumps clear the sticky toolbar; the desktop reader uses the former TOC space.
+- The report renders all 16 pages with JavaScript disabled. A simulated theme
+  navigation via `innerHTML` also initializes its shadow root. The in-app WebKit
+  accessibility tree exposes all report pages and their text.
+- Local OrbStack Rosetta execution hung; its alternate emulation mode worked.
+  The setting was changed temporarily for validation. No hosted CI, deployment,
+  Google URL inspection or indexing notifications were performed.
+
+The converter preserves fixed PDF layout, including its fragmented text and weak
+semantic structure. These checks establish rendering and text delivery, not WCAG
+conformance or a guarantee of Google indexing.
+
+Follow-up checks: the reader now establishes its own stacking context, so the
+Zensical navigation drawer/backdrop covers its sticky toolbar. The page indicator
+uses viewport-height pixel margins and stays on page 10 after a jump (and page 4
+at mobile width). The upstream AppImage's runtime libraries were checked on Ubuntu
+24.04; all report pages rendered, exposing a missing default manifest path. The
+installer now supplies the extracted data directory explicitly, and a complete
+AppImage report conversion with that path succeeded. The full MiKTeX build image
+and hosted CI were not rerun.
+
+## Remaining SEO fixes
+
+The sitemap now derives URLs from self-canonical rendered HTML pages, excluding
+404, verification, noindex, duplicate, and raw converter pages. It promotes HTML
+details pages while preserving PDF download links. Generated robots.txt advertises
+the sitemap and permits access to preview assets. Existing canonical paths remain
+unchanged. Details have readable titles; static references have descriptions;
+MATH1853 Part I/II and COMP2121 assignments now have distinct descriptions.
+
+Removed Google Indexing API submissions, which are unsupported for these document
+pages. IndexNow remains an explicit post-deployment operation; errors return a
+nonzero status, URL/key scope is validated, and batches respect the 10,000 URL
+limit. CI installs notification dependencies for the test job. No Cloudflare
+configuration was changed and no live indexing requests were sent during testing.
+
+Validation: all 65 unit/integration tests pass; all 34 metadata files validate;
+Actionlint and git diff whitespace checks pass. Complete local website assembly
+succeeds. The output audit finds 43 canonical HTML sitemap entries, including all
+32 details pages, no missing or duplicate descriptions, no duplicate titles, and
+no broken internal file links. All 29 embedded PDF previews remain present. This
+checks the generated site, not Google's eventual indexing decision or hosted CI.
+No MiKTeX/latexmk/TeX compilation processes remain running.

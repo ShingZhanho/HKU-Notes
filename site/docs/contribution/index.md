@@ -1,3 +1,6 @@
+---
+description: Contribute to HKU Notes, configure local document builds, and publish course resources using metadata schema v3.
+---
 # Contribution guide
 
 Documents and the website can be built locally. GitHub Actions runs the same tools;
