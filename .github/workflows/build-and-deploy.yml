@@ -24,7 +24,7 @@ jobs:
           cache: pip
           cache-dependency-path: build/python-requirement-lists/*.txt
       - name: Install Python dependencies
-        run: python -m pip install -r build/python-requirement-lists/general-pkgs.txt -r build/python-requirement-lists/python-minted-pkgs.txt -r build/python-requirement-lists/site-pkgs.txt
+        run: python -m pip install -r build/python-requirement-lists/general-pkgs.txt -r build/python-requirement-lists/python-minted-pkgs.txt -r build/python-requirement-lists/site-pkgs.txt -r build/python-requirement-lists/indexing-pkgs.txt
       - name: Validate metadata and test build tools
         run: |
           python build/build.py validate
@@ -183,22 +183,7 @@ jobs:
         with:
           name: local-build-output
           path: dist
-      - name: Send post-deployment indexing notifications
-        env:
-          GOOGLE_INDEXING_KEY: ${{ secrets.GOOGLE_INDEXING_API_JSON_KEY }}
+      - name: Send post-deployment IndexNow notifications
         run: |
           python -m pip install -r build/python-requirement-lists/indexing-pkgs.txt
-          python - <<'PY'
-          import os
-          from pathlib import Path
-          import subprocess
-          import sys
-          import tempfile
-          command = [sys.executable, 'build/request_indexing.py', '--indexnow-key', 'build/seo/33fe8f8f94504b19ac2625348c5a31d5.txt']
-          with tempfile.TemporaryDirectory() as directory:
-              if os.environ.get('GOOGLE_INDEXING_KEY'):
-                  key = Path(directory) / 'google.json'
-                  key.write_text(os.environ['GOOGLE_INDEXING_KEY'])
-                  command.extend(['--google-key', str(key)])
-              subprocess.run(command, check=True)
-          PY
+          python build/request_indexing.py --indexnow-key build/seo/33fe8f8f94504b19ac2625348c5a31d5.txt

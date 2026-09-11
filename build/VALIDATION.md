@@ -216,3 +216,26 @@ at mobile width). The upstream AppImage's runtime libraries were checked on Ubun
 installer now supplies the extracted data directory explicitly, and a complete
 AppImage report conversion with that path succeeded. The full MiKTeX build image
 and hosted CI were not rerun.
+
+## Remaining SEO fixes
+
+The sitemap now derives URLs from self-canonical rendered HTML pages, excluding
+404, verification, noindex, duplicate, and raw converter pages. It promotes HTML
+details pages while preserving PDF download links. Generated robots.txt advertises
+the sitemap and permits access to preview assets. Existing canonical paths remain
+unchanged. Details have readable titles; static references have descriptions;
+MATH1853 Part I/II and COMP2121 assignments now have distinct descriptions.
+
+Removed Google Indexing API submissions, which are unsupported for these document
+pages. IndexNow remains an explicit post-deployment operation; errors return a
+nonzero status, URL/key scope is validated, and batches respect the 10,000 URL
+limit. CI installs notification dependencies for the test job. No Cloudflare
+configuration was changed and no live indexing requests were sent during testing.
+
+Validation: all 65 unit/integration tests pass; all 34 metadata files validate;
+Actionlint and git diff whitespace checks pass. Complete local website assembly
+succeeds. The output audit finds 43 canonical HTML sitemap entries, including all
+32 details pages, no missing or duplicate descriptions, no duplicate titles, and
+no broken internal file links. All 29 embedded PDF previews remain present. This
+checks the generated site, not Google's eventual indexing decision or hosted CI.
+No MiKTeX/latexmk/TeX compilation processes remain running.

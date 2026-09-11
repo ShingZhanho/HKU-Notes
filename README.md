@@ -159,7 +159,20 @@ outputs and build caches are excluded automatically. See the v3 reference for de
 Indexing runs as a separate post-deployment CI job; local builds never send
 notifications. To invoke it explicitly elsewhere, install
 `build/python-requirement-lists/indexing-pkgs.txt` and run `build/request_indexing.py`
-with its documented arguments if needed.
+with `--indexnow-key PATH_TO_KEY_FILE`. Submission errors fail that notification
+job without undoing deployment. IndexNow receipt does not guarantee indexing.
+
+The sitemap lists canonical HTML pages, including every document details page;
+PDFs remain available through normal download links. Error pages, verification
+files, raw converter output, and ZIP downloads are excluded. Generated `robots.txt`
+advertises the sitemap without blocking previews or their font/image assets.
+Existing canonical URL paths are preserved.
+
+For Google, submit `https://hku.jacobshing.com/sitemap.xml` through Search Console.
+The Google Indexing API is not used: Google limits it to job postings and
+livestream video pages ([official documentation](https://developers.google.com/search/apis/indexing-api/v3/quickstart)).
+Cloudflare crawler/security settings are managed separately and are not changed
+by this build.
 
 
 ### HTML previews
