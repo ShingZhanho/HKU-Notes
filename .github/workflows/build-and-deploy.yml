@@ -10,9 +10,37 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  prepare:
     runs-on: ubuntu-24.04
     if: ${{ !contains(github.event.head_commit.message, '@nobuild') }}
+    outputs:
+      targets: ${{ steps.plan.outputs.targets }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: build/python-requirement-lists/*.txt
+      - name: Install Python dependencies
+        run: python -m pip install -r build/python-requirement-lists/general-pkgs.txt -r build/python-requirement-lists/python-minted-pkgs.txt -r build/python-requirement-lists/site-pkgs.txt
+      - name: Validate metadata and test build tools
+        run: |
+          python build/build.py validate
+          PYTHONPATH=build python -m unittest discover -s build/tests -v
+      - name: Select targets and compilation matrix
+        id: plan
+        env:
+          TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: python build/ci-plan.py
+
+  build:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,62 +58,96 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.miktex
-          key: miktex-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build/bootstrap-ubuntu.sh', 'build/setup-miktex.sh') }}-${{ hashFiles('src/**/*.tex', 'src/**/*.sty', 'src/**/*.cls', 'src/**/metadata.json') }}
+          key: miktex-${{ matrix.target }}-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build/bootstrap-ubuntu.sh', 'build/setup-miktex.sh') }}-${{ hashFiles('src/**/*.tex', 'src/**/*.sty', 'src/**/*.cls', 'src/**/metadata.json') }}
           restore-keys: |
-            miktex-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build/bootstrap-ubuntu.sh', 'build/setup-miktex.sh') }}-
+            miktex-${{ matrix.target }}-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build/bootstrap-ubuntu.sh', 'build/setup-miktex.sh') }}-
       - name: Enable MiKTeX on-the-fly package installation
         run: |
           sh build/setup-miktex.sh
           echo "$HOME/bin" >> "$GITHUB_PATH"
-      - name: Validate metadata and test build tools
-        run: |
-          python build/build.py validate
-          PYTHONPATH=build python -m unittest discover -s build/tests -v
-      - name: Configure targets
+      - name: Configure document
         env:
-          TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
-        run: |
-          python - <<'PY'
-          import os
-          import subprocess
-          import sys
-          branch = os.environ['TARGET_BRANCH'].split('/')
-          arguments = ['--targets', branch[1]] if len(branch) >= 3 and branch[0] == 'targets' else []
-          subprocess.run([sys.executable, 'configure', *arguments], check=True)
-          PY
-      - name: Restore compiled documents and previews
+          TARGET: ${{ matrix.target }}
+        run: python configure --targets "$TARGET"
+      - name: Restore compiled document and previews
         uses: actions/cache@v4
         with:
-          path: dist/artifacts
-          key: documents-v1-${{ runner.os }}-${{ runner.arch }}-py313-${{ github.sha }}
+          path: dist/artifacts/${{ matrix.target }}
+          key: document-v2-${{ runner.os }}-${{ runner.arch }}-py313-${{ matrix.target }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
-            documents-v1-${{ runner.os }}-${{ runner.arch }}-py313-
-      - name: Build changed documents and website
-        # Fingerprints validate restored artifacts individually. Cold builds share
-        # one writable MiKTeX package tree, so document builds remain serial.
+            document-v2-${{ runner.os }}-${{ runner.arch }}-py313-${{ matrix.target }}-
+      - name: Build changed document and previews
+        # Each runner owns its MiKTeX tree; no concurrent package installations
+        # share a writable tree. The runner validates cached source fingerprints.
         env:
           FORCE_REBUILD: ${{ contains(github.event.head_commit.message, '@force-rebuild') && '1' || '0' }}
-        run: make FORCE="$FORCE_REBUILD" site
-      - name: Upload build outputs
+        run: make FORCE="$FORCE_REBUILD" preview
+      - name: Upload document artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: local-build-output
-          path: dist/
+          name: document-${{ matrix.target }}
+          path: dist/artifacts/
+          if-no-files-found: error
           retention-days: 7
       - name: Upload diagnostics on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: build-diagnostics
+          name: build-diagnostics-${{ matrix.target }}
           path: |
             src/**/*.log
             src/**/.build/state.json
-            .build/site/mkdocs.yml
+            ~/.miktex/texmfs/data/miktex/log/
+          include-hidden-files: true
+          retention-days: 7
+
+  assemble:
+    needs: [prepare, build]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: build/python-requirement-lists/*.txt
+      - name: Install website dependencies
+        run: python -m pip install -r build/python-requirement-lists/general-pkgs.txt -r build/python-requirement-lists/site-pkgs.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: document-*
+          merge-multiple: true
+          path: dist/artifacts
+      - name: Assemble website from matrix artifacts
+        env:
+          TARGETS: ${{ needs.prepare.outputs.targets }}
+        run: |
+          python - <<'PYCODE'
+          import json
+          import os
+          import subprocess
+          import sys
+          subprocess.run([sys.executable, 'configure', '--no-check', '--targets', *json.loads(os.environ['TARGETS'])], check=True)
+          PYCODE
+          python build/build.py --config .build/config.json site
+      - name: Upload build outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-build-output
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload website diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-diagnostics
+          path: .build/site/mkdocs.yml
           include-hidden-files: true
           retention-days: 7
 
   deploy:
-    needs: build
+    needs: assemble
     if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
     runs-on: ubuntu-24.04
     permissions:

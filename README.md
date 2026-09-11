@@ -116,10 +116,17 @@ Add `$HOME/bin` to PATH afterward. Only the build CLI tools and a small compatib
 set are installed ahead of time; document packages are downloaded as needed.
 This follows [MiKTeX's installation instructions](https://miktex.org/download).
 
-CI caches `~/.miktex`. CI and the container default to serial document builds so
-cold builds do not install packages concurrently into the same tree. Local `make -j`
-is still available when the required packages are already installed. The shared
-build runner remains compatible with either MiKTeX or TeX Live.
+CI builds canonical targets in parallel with a GitHub Actions matrix. Each job has
+its own writable MiKTeX tree and target-specific package/artifact caches; unchanged
+sources restore verified outputs and previews. Aliases share their canonical build.
+A separate job collects the artifacts and assembles the website without compiling
+again. `targets/<name>/<description>` branches select just that target (and its
+canonical target if it is an alias).
+
+The container defaults to serial document builds so cold builds do not install
+packages concurrently into the same tree. Local `make -j` is available when the
+required packages are already installed. The shared build runner remains compatible
+with either MiKTeX or TeX Live.
 
 The container runs as `builder`; the build argument above matches its UID to the
 host. Do not override it with an arbitrary `docker run --user`, because MiKTeX needs

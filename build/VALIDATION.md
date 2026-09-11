@@ -78,3 +78,27 @@ All 34 tests pass, including installer failure, a zero-exit installer that creat
 no package file, and empty/failed file lookups. Shell syntax checking passes; local
 MiKTeX resolves all four styles. The Ubuntu CI setup itself has not been rerun with
 this fix. Its changed setup-script hash invalidates the previous package cache key.
+
+## SimpleIcons failure and parallel CI restoration
+
+Inspected failed run 34227028174: the xkeyval contingency succeeded, but pdfLaTeX
+failed on `SimpleIcons--simpleiconstwo`, attempting bitmap generation and reporting
+`SimpleIcons.afm` missing. Setup now explicitly installs `simpleicons` before
+refreshing font maps and checks both its Type 1 font files and the active
+`pdftex.map` entry. Other document packages retain on-the-fly installation.
+
+CI now validates and selects targets once, builds canonical targets in a matrix
+with `fail-fast: false`, and assembles the site from downloaded document artifacts.
+Each runner has its own writable MiKTeX installation and per-target caches;
+source-fingerprint verification still skips unchanged compilation. The site job
+uses the shared assembly command directly, without invoking document compilation.
+Target branches preserve aliases in site selection while compiling only their
+canonical target. Deployment waits for assembly.
+
+All 40 unit/integration tests pass, including font setup failure checks, matrix
+selection and alias deduplication, existing cache invalidation/restore tests, and
+website assembly tests. Metadata validation passes for all 34 files. The full-site
+matrix has 32 canonical targets. Actionlint reports no workflow errors, shell syntax
+and git diff whitespace checks pass. The hosted Ubuntu build and artifact transfer
+have not yet been executed with these commits; local checks do not reproduce a
+fresh Ubuntu MiKTeX installation.
