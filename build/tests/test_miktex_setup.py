@@ -14,12 +14,17 @@ initexmf() { echo "initexmf $*" >> "$TEST_LOG"; }
 sleep() { echo "sleep $*" >> "$TEST_LOG"; }
 miktex() {
     echo "miktex $*" >> "$TEST_LOG"
+    if [ "$1" = packages ] && [ "$2" = info ]; then
+        if [ -f "$TEST_FILES/$4.sty" ]; then echo true; else echo false; fi
+    fi
     if [ "$1" = packages ] && [ "$2" = install ]; then
+        if [ -f "$TEST_FILES/$3.sty" ]; then return 1; fi
         [ "$#" -eq 3 ] || return 88
         case "$3" in *,*) return 89 ;; esac
         if [ "$3" = "$TEST_FAIL_PACKAGE" ]; then return 7; fi
         if [ "$3" != "$TEST_MISSING_PACKAGE" ]; then
             : > "$TEST_FILES/$3.sty"
+            if [ "$3" = "$TEST_PARTIAL_PACKAGE" ]; then return 7; fi
         fi
     fi
 }
@@ -34,14 +39,17 @@ kpsewhich() {
 
 
 class MiktexSetupTests(unittest.TestCase):
-    def invoke(self, missing='', fail='', lookup='normal'):
+    def invoke(self, missing='', fail='', lookup='normal', warm=(), twice=False, partial=''):
         with tempfile.TemporaryDirectory(prefix='miktex setup ') as temporary:
             root = Path(temporary)
+            for package in warm:
+                (root / (package + '.sty')).touch()
             env = {**os.environ, 'TEST_LOG': str(root / 'calls'), 'TEST_FILES': str(root),
                    'TEST_SETUP': str(REPOSITORY / 'build/setup-miktex.sh'),
                    'TEST_MISSING_PACKAGE': missing, 'TEST_FAIL_PACKAGE': fail,
-                   'TEST_LOOKUP_MODE': lookup}
-            result = subprocess.run(['sh', '-c', HARNESS], env=env, text=True, capture_output=True)
+                   'TEST_LOOKUP_MODE': lookup, 'TEST_PARTIAL_PACKAGE': partial}
+            harness = HARNESS + ('\n. \"$TEST_SETUP\"\n' if twice else '')
+            result = subprocess.run(['sh', '-c', harness], env=env, text=True, capture_output=True)
             return result, (root / 'calls').read_text().splitlines()
 
     def test_individual_installs_and_verified_styles(self):
@@ -83,3 +91,28 @@ class MiktexSetupTests(unittest.TestCase):
         self.assertEqual(result.returncode, 7)
         self.assertEqual(calls.count('miktex packages install texcount'), 3)
         self.assertEqual([line for line in calls if line.startswith('sleep')], ['sleep 5', 'sleep 10'])
+
+    def test_warm_cache_skips_already_installed_packages(self):
+        packages = ['latexmk', 'texcount', 'xkeyval', 'kvsetkeys', 'iftex', 'kvoptions']
+        result, calls = self.invoke(warm=packages)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse(any(line.startswith('miktex packages install') for line in calls))
+        self.assertIn('Verified xkeyval.sty:', result.stdout)
+
+    def test_partial_cache_installs_only_missing_packages(self):
+        result, calls = self.invoke(warm=['latexmk', 'xkeyval'])
+        self.assertEqual(result.returncode, 0, result.stderr)
+        installs = [line.split()[-1] for line in calls if line.startswith('miktex packages install')]
+        self.assertEqual(installs, ['texcount', 'kvsetkeys', 'iftex', 'kvoptions'])
+
+    def test_setup_can_run_twice(self):
+        result, calls = self.invoke(twice=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(calls.count('miktex packages install latexmk'), 1)
+        self.assertEqual(calls.count('initexmf --enable-installer --mkmaps'), 2)
+
+    def test_retry_rechecks_state_after_partial_success(self):
+        result, calls = self.invoke(partial='latexmk')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(calls.count('miktex packages install latexmk'), 1)
+        self.assertIn('Already installed: latexmk', result.stdout)

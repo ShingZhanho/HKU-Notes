@@ -19,10 +19,20 @@ retry miktexsetup finish
 initexmf --set-config-value '[MPM]AutoInstall=1'
 retry miktex packages update-package-database
 retry miktex packages update
+# MiKTeX install is not idempotent: warm caches report "already installed" as
+# an error. Recheck state on every attempt, including after a partial install.
+ensure_package() {
+    installed=$(miktex packages info --template='{isInstalled}' "$1") || return $?
+    case "$installed" in
+        true|1) echo "Already installed: $1" ;;
+        false|0) miktex packages install "$1" ;;
+        *) echo "Unexpected MiKTeX installation state for $1: $installed" >&2; return 1 ;;
+    esac
+}
 # Restore the original contingency installs individually. The legacy mpm comma
 # list reported "requested package is unknown" in CI without failing setup.
 for package in latexmk texcount xkeyval kvsetkeys iftex kvoptions; do
-    retry miktex packages install "$package"
+    retry ensure_package "$package"
 done
 retry initexmf --enable-installer --update-fndb
 retry initexmf --enable-installer --mkmaps
