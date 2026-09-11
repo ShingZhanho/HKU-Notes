@@ -3,20 +3,29 @@
 # Package installation remains on-the-fly; install only the CLI tools checked by
 # configure and the small compatibility set used by the previous pipeline.
 set -eu
+# Retry individual operations so a failed download preserves completed installs.
+retry() {
+    attempt=1
+    while :; do
+        if "$@"; then return 0; else status=$?; fi
+        if [ "$attempt" -ge 3 ]; then return "$status"; fi
+        echo "Retrying MiKTeX operation ($attempt/3): $*" >&2
+        sleep "$((attempt * 5))"
+        attempt=$((attempt + 1))
+    done
+}
 export PATH="$HOME/bin:$PATH"
-miktexsetup finish
+retry miktexsetup finish
 initexmf --set-config-value '[MPM]AutoInstall=1'
-miktex packages update-package-database
-miktex packages update
+retry miktex packages update-package-database
+retry miktex packages update
 # Restore the original contingency installs individually. The legacy mpm comma
 # list reported "requested package is unknown" in CI without failing setup.
-for package in latexmk texcount xkeyval kvsetkeys iftex kvoptions simpleicons; do
-    miktex packages install "$package"
+for package in latexmk texcount xkeyval kvsetkeys iftex kvoptions; do
+    retry miktex packages install "$package"
 done
-# Install SimpleIcons before generating maps: installing it on demand during
-# pdfLaTeX can leave the new Type 1 font absent from the active pdftex.map.
-initexmf --update-fndb
-initexmf --mkmaps
+retry initexmf --enable-installer --update-fndb
+retry initexmf --enable-installer --mkmaps
 
 # Do not trust the installer exit status alone: MiKTeX has reported success even
 # when a requested package was not installed. Check actual TeX file resolution.
@@ -28,17 +37,3 @@ for package in xkeyval kvsetkeys iftex kvoptions; do
     fi
     echo "Verified $package.sty: $sty_path"
 done
-
-for font_file in simpleicons.map SimpleIcons.pfb; do
-    font_path=$(kpsewhich "$font_file") || font_path=
-    if [ -z "$font_path" ] || [ ! -f "$font_path" ]; then
-        echo "MiKTeX setup failed: $font_file is missing after installing simpleicons." >&2
-        exit 1
-    fi
-done
-pdftex_map=$(kpsewhich pdftex.map) || pdftex_map=
-if [ -z "$pdftex_map" ] || [ ! -f "$pdftex_map" ] || ! grep -q '^SimpleIcons--simpleiconstwo ' "$pdftex_map"; then
-    echo "MiKTeX setup failed: SimpleIcons is missing from the active pdftex.map after refreshing font maps." >&2
-    exit 1
-fi
-echo "Verified SimpleIcons Type 1 font and active pdfTeX mapping."

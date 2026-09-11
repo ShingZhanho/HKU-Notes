@@ -11,6 +11,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 
 from .metadata import load, resolve_alias
 from .fingerprint import fingerprint
@@ -23,6 +24,20 @@ def tool_path():
 def run(argv, cwd=None, capture=False):
     argv = [str(value) for value in argv]
     print('+ ' + ' '.join(argv), flush=True)
+    if capture == 'tee':
+        # Preserve live CI output and retain diagnostics for recovery decisions.
+        with subprocess.Popen(argv, cwd=cwd, text=True,
+                              env={**os.environ, "PATH": tool_path()},
+                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as process:
+            lines = []
+            for line in process.stdout:
+                print(line, end='', flush=True)
+                lines.append(line)
+            status = process.wait()
+        output = ''.join(lines)
+        if status:
+            raise subprocess.CalledProcessError(status, argv, output=output)
+        return subprocess.CompletedProcess(argv, status, stdout=output)
     return subprocess.run(argv, cwd=cwd, check=True, text=True, env={**os.environ, "PATH": tool_path()},
                           stdout=subprocess.PIPE if capture else None)
 
@@ -156,6 +171,41 @@ def input_files(source, patterns):
     return result
 
 
+def compile_latex(command, source, engine):
+    """Recover on-demand MiKTeX installs without enumerating document fonts."""
+    for attempt in range(3):
+        try:
+            run(command, source, capture='tee')
+            return
+        except subprocess.CalledProcessError as failure:
+            diagnostic = failure.output or ''
+            # Source errors need correction, not maintenance or repeated builds.
+            recoverable = re.search(
+                r'Timeout|timed out|Could not connect|Could not resolve|'
+                r'Sorry, but .*did not succeed|'
+                r'Font .*not (?:found|loadable)|AFM file .*not found|'
+                r'auto expansion is only possible with scalable fonts',
+                diagnostic, re.IGNORECASE | re.DOTALL)
+            if attempt == 2 or not recoverable or 'Undefined control sequence' in diagnostic:
+                raise
+            version = run([engine, '--version'], source, capture=True).stdout
+            if 'miktex' not in version.lower():
+                raise
+            print(f'MiKTeX recovery {attempt + 1}/2: refresh installed files and font maps, then restart LaTeX.', flush=True)
+            time.sleep(5 * (attempt + 1))
+            for operation in ['--update-fndb', '--mkmaps']:
+                for maintenance_attempt in range(3):
+                    try:
+                        run(['initexmf', '--enable-installer', operation], source)
+                        break
+                    except subprocess.CalledProcessError:
+                        if maintenance_attempt == 2:
+                            raise
+                        time.sleep(5 * (maintenance_attempt + 1))
+            if '-g' not in command:
+                command = [*command[:1], '-g', *command[1:]]
+
+
 def latex(source, relative, spec, state):
     root = inside(source, relative)
     if not root.is_file():
@@ -175,7 +225,7 @@ def latex(source, relative, spec, state):
         state['tex_roots'].append(str(root))
     if str(root) not in state['failed_tex_roots']:
         state['failed_tex_roots'].append(str(root))
-    run(command, source)
+    compile_latex(command, source, spec.get("engine", "pdflatex"))
     output = root.with_suffix('.pdf')
     if not output.is_file():
         raise ValueError(f'LaTeX did not produce {output}')

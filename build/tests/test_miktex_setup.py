@@ -10,12 +10,8 @@ from hkbuild.metadata import REPOSITORY
 # Shell functions take precedence over PATH, including the user's real ~/bin.
 HARNESS = r'''
 miktexsetup() { echo "setup $*" >> "$TEST_LOG"; }
-initexmf() {
-    echo "initexmf $*" >> "$TEST_LOG"
-    if [ "$1" = --mkmaps ] && [ "$TEST_MISSING_PACKAGE" != fontmap ]; then
-        echo 'SimpleIcons--simpleiconstwo SimpleIcons <SimpleIcons.pfb' > "$TEST_FILES/pdftex.map"
-    fi
-}
+initexmf() { echo "initexmf $*" >> "$TEST_LOG"; }
+sleep() { echo "sleep $*" >> "$TEST_LOG"; }
 miktex() {
     echo "miktex $*" >> "$TEST_LOG"
     if [ "$1" = packages ] && [ "$2" = install ]; then
@@ -24,10 +20,6 @@ miktex() {
         if [ "$3" = "$TEST_FAIL_PACKAGE" ]; then return 7; fi
         if [ "$3" != "$TEST_MISSING_PACKAGE" ]; then
             : > "$TEST_FILES/$3.sty"
-            if [ "$3" = simpleicons ]; then
-                : > "$TEST_FILES/simpleicons.map"
-                : > "$TEST_FILES/SimpleIcons.pfb"
-            fi
         fi
     fi
 }
@@ -55,12 +47,12 @@ class MiktexSetupTests(unittest.TestCase):
     def test_individual_installs_and_verified_styles(self):
         result, calls = self.invoke()
         self.assertEqual(result.returncode, 0, result.stderr)
-        for package in ['latexmk', 'texcount', 'xkeyval', 'kvsetkeys', 'iftex', 'kvoptions', 'simpleicons']:
+        for package in ['latexmk', 'texcount', 'xkeyval', 'kvsetkeys', 'iftex', 'kvoptions']:
             self.assertIn(f'miktex packages install {package}', calls)
         for package in ['xkeyval', 'kvsetkeys', 'iftex', 'kvoptions']:
             self.assertIn(f'Verified {package}.sty:', result.stdout)
         self.assertLess(calls.index('miktex packages update'), calls.index('miktex packages install xkeyval'))
-        self.assertLess(calls.index('miktex packages install kvoptions'), calls.index('initexmf --update-fndb'))
+        self.assertLess(calls.index('miktex packages install kvoptions'), calls.index('initexmf --enable-installer --update-fndb'))
 
     def test_zero_exit_install_that_did_not_install_is_rejected(self):
         result, _ = self.invoke(missing='xkeyval')
@@ -70,7 +62,7 @@ class MiktexSetupTests(unittest.TestCase):
     def test_installer_failure_stops_setup(self):
         result, calls = self.invoke(fail='xkeyval')
         self.assertEqual(result.returncode, 7)
-        self.assertNotIn('initexmf --mkmaps', calls)
+        self.assertNotIn('initexmf --enable-installer --mkmaps', calls)
 
     def test_empty_and_failed_lookup_are_rejected(self):
         for mode in ['empty', 'error']:
@@ -79,15 +71,15 @@ class MiktexSetupTests(unittest.TestCase):
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn('xkeyval.sty is still missing', result.stderr)
 
-    def test_font_install_precedes_map_generation(self):
+    def test_no_font_specific_preinstallation(self):
         result, calls = self.invoke()
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertLess(calls.index('miktex packages install simpleicons'), calls.index('initexmf --mkmaps'))
-        self.assertIn('Verified SimpleIcons', result.stdout)
+        installs = [line.split()[-1] for line in calls if line.startswith('miktex packages install ')]
+        self.assertEqual(installs, ['latexmk', 'texcount', 'xkeyval', 'kvsetkeys', 'iftex', 'kvoptions'])
+        self.assertIn('initexmf --enable-installer --mkmaps', calls)
 
-    def test_missing_font_files_or_active_mapping_are_rejected(self):
-        for missing in ['simpleicons', 'fontmap']:
-            with self.subTest(missing=missing):
-                result, _ = self.invoke(missing=missing)
-                self.assertNotEqual(result.returncode, 0)
-                self.assertIn('MiKTeX setup failed:', result.stderr)
+    def test_retry_budget_is_bounded(self):
+        result, calls = self.invoke(fail='texcount')
+        self.assertEqual(result.returncode, 7)
+        self.assertEqual(calls.count('miktex packages install texcount'), 3)
+        self.assertEqual([line for line in calls if line.startswith('sleep')], ['sleep 5', 'sleep 10'])
