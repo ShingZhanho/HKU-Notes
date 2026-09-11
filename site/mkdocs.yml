@@ -56,9 +56,8 @@ extra:
     property: G-DCVVW9HRJ5
 extra_css:
   - stylesheets/extra.css
-  - stylesheets/preview.css
 extra_javascript:
-  - javascripts/glightbox_events.js
+  - javascripts/html_preview.js
 use_directory_urls: false
 plugins: 
   - glightbox:

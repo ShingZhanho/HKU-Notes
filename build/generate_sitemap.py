@@ -33,7 +33,6 @@ def generate(targets, paths, output, site_url):
     urls = {}
     for file in output.rglob('*.html'):
         urls[str(file.relative_to(output))] = None
-    images = {}
     for target in targets:
         metadata = load(paths.metadata(target))
         if metadata['build']['type'] == 'alias':
@@ -43,10 +42,7 @@ def generate(targets, paths, output, site_url):
         manifest = json.loads((paths.artifacts / target / 'manifest.json').read_text())
         for entry in manifest['outputs'].values():
             urls[f'files/{target}/{entry["path"]}'] = lastmod
-        for file in (output / 'downloads/details' / f'{target}~preview').glob('*.png'):
-            images[str(file.relative_to(output))] = lastmod
-    urls['preview-images-sitemap.xml'] = None
-    for filename, entries in [('sitemap.xml', urls), ('preview-images-sitemap.xml', images)]:
+    for filename, entries in [('sitemap.xml', urls)]:
         tree = ET.Element(f'{{{NAMESPACE}}}urlset')
         for relative, modified in sorted(entries.items()):
             item = ET.SubElement(tree, f'{{{NAMESPACE}}}url')

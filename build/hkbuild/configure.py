@@ -35,7 +35,7 @@ def generate(config, config_path):
                 lines.append(f'{target}:\n\t{build_command} build {shell(target)}\n')
         lines += [f'preview: all\n\t{command} preview\n', f'site: preview\n\t{command} site\n']
     lines += [f'clean:\n\t{command} clean\n', f'distclean:\n\t{command} distclean\n',
-              'help:\n\t@echo "all: compile; preview: PDF images; site: website (repository mode); clean: auxiliaries; distclean: generated outputs and configuration"\n']
+              'help:\n\t@echo "all: compile; preview: HTML pages; site: website (repository mode); clean: auxiliaries; distclean: generated outputs and configuration"\n']
     return '\n'.join(lines)
 
 
