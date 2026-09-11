@@ -26,7 +26,9 @@ def run(argv, cwd=None, capture=False):
     print('+ ' + ' '.join(argv), flush=True)
     if capture == 'tee':
         # Preserve live CI output and retain diagnostics for recovery decisions.
-        with subprocess.Popen(argv, cwd=cwd, text=True,
+        # TeX diagnostics can mix UTF-8 with raw legacy font-encoding bytes.
+        # Decoding a display log must not abort compilation or hide its exit code.
+        with subprocess.Popen(argv, cwd=cwd, text=True, encoding='utf-8', errors='replace',
                               env={**os.environ, "PATH": tool_path()},
                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as process:
             lines = []

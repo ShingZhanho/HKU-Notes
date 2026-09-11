@@ -81,3 +81,23 @@ class TexRecoveryTests(unittest.TestCase):
         for text in ['font failure', 'detail']:
             self.assertIn(text, caught.exception.output)
             self.assertIn(text, output.getvalue())
+
+    def test_live_runner_tolerates_mixed_encodings_and_preserves_exit_status(self):
+        for status in [0, 12]:
+            with self.subTest(status=status), redirect_stdout(io.StringIO()) as output:
+                mixed = b'French: ' + bytes([233]) + '; UTF-8: é'.encode('utf-8') + bytes([10])
+                command = [sys.executable, '-c',
+                           f"import os, sys; os.write(1, {mixed!r}); "
+                           f"print('Font example not found', file=sys.stderr); sys.exit({status})"]
+                if status:
+                    with self.assertRaises(subprocess.CalledProcessError) as caught:
+                        document.run(command, capture='tee')
+                    self.assertEqual(caught.exception.returncode, status)
+                    diagnostic = caught.exception.output
+                else:
+                    result = document.run(command, capture='tee')
+                    self.assertEqual(result.returncode, 0)
+                    diagnostic = result.stdout
+                self.assertIn('French: \ufffd; UTF-8: é', diagnostic)
+                self.assertIn('Font example not found', diagnostic)
+                self.assertIn(diagnostic, output.getvalue())

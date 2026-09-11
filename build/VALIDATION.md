@@ -139,3 +139,17 @@ Actionlint pass. Real local MiKTeX forced builds of CV and COMP2120-Notes succee
 cold-install recovery path is covered by simulated failures, not a fresh Ubuntu
 installation. Docker is installed but its daemon is unavailable. Hosted CI must
 still verify cold Ubuntu installation and recovery after these commits are pushed.
+
+## Mixed-encoding compiler diagnostics
+
+Run 34588097607 passed 31 matrix targets but failed FREN2001-Grammaire in Python's
+new live-output reader: a raw 0xe9 byte raised UnicodeDecodeError before the runner
+could report the compiler result. The tee reader now explicitly decodes UTF-8 with
+replacement for invalid bytes. This affects diagnostic display only, not document
+files or the compiler's exit status. Raw TeX log files remain available in failure
+artifacts.
+
+All 49 tests pass, including a subprocess emitting mixed UTF-8/legacy bytes on
+stdout plus stderr, checked with both zero and nonzero exits. A forced local
+MiKTeX build of FREN2001-Grammaire succeeds. Hosted Ubuntu validation of this fix
+is pending the next pushed run.
