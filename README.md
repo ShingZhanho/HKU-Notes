@@ -116,6 +116,14 @@ Add `$HOME/bin` to PATH afterward. Only the build CLI tools and a small compatib
 set are installed ahead of time; document packages are downloaded as needed.
 This follows [MiKTeX's installation instructions](https://miktex.org/download).
 
+Fonts are installed on demand, with no per-font provisioning list. If MiKTeX fails
+on font resolution or an installation/network error, the shared runner refreshes
+the filename database and font maps with the installer enabled, then forces a new
+LaTeX pass (at most two retries). Source errors such as undefined commands still
+fail immediately; exhausted recovery also fails and publishes no new artifact.
+Provisioning downloads and MiKTeX maintenance have bounded retries too. TeX Live
+builds do not invoke MiKTeX maintenance.
+
 CI builds canonical targets in parallel with a GitHub Actions matrix. Each job has
 its own writable MiKTeX tree and target-specific package/artifact caches; unchanged
 sources restore verified outputs and previews. Aliases share their canonical build.

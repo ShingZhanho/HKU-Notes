@@ -102,3 +102,40 @@ matrix has 32 canonical targets. Actionlint reports no workflow errors, shell sy
 and git diff whitespace checks pass. The hosted Ubuntu build and artifact transfer
 have not yet been executed with these commits; local checks do not reproduce a
 fresh Ubuntu MiKTeX installation.
+
+
+## General MiKTeX recovery and theorem compatibility
+
+Compared the last successful legacy pipeline at 4874955 with the refactor. Legacy
+commands used `latexmk -f -interaction=nonstopmode`, without `-halt-on-error`.
+They also enabled MiKTeX installation explicitly. Restored explicit installer use
+for filename/font-map maintenance, removed the SimpleIcons-specific installation
+and map checks, and added generic bounded recovery in the shared LaTeX runner.
+Compiler output remains live and is retained for diagnosis. Recognized font and
+MiKTeX runtime/network failures refresh maps and force a fresh pass, up to three
+compiler attempts total. Undefined commands and unrecognized source errors are
+not retried. A final compiler/maintenance error still prevents publication.
+
+APT downloads now retry with timeouts, and repository update errors are fatal
+instead of falling through to “Unable to locate package miktex.” Signing-key curl
+requests and individual MiKTeX setup operations have bounded retries. No mirrors
+are hardcoded, and prolonged mirror outages can still exhaust the retry budget.
+
+The COMP2120-Notes failure is reproducible with the current upstream
+[alias-counter implementation](https://github.com/latex3/latex2e/blob/develop/base/ltcounts.dtx)
+and [amsthm adaptation](https://github.com/latex3/latex2e/blob/develop/required/firstaid/latex2e-first-aid-for-external-files.dtx):
+`newcounteralias` defines reference macros locally. The document grouped its
+`newtheorem` declarations, so the new reference macros vanished at group end.
+A temporary minimal fixture using those upstream definitions reproduced undefined
+`p@theorem`; the same fixture with ungrouped declarations compiled successfully.
+Declarations now remain at preamble scope, preserving the shared numbering.
+This does not require ignoring compiler errors or downgrading packages.
+
+All 48 tests pass, including arbitrary font recovery, network recovery, exhausted
+retries, source-error rejection, TeX Live isolation, maintenance failure handling,
+and live stdout/stderr preservation. Metadata validation, shell syntax, and
+Actionlint pass. Real local MiKTeX forced builds of CV and COMP2120-Notes succeed
+(the latter produces 38 pages). These use an existing macOS package tree; the
+cold-install recovery path is covered by simulated failures, not a fresh Ubuntu
+installation. Docker is installed but its daemon is unavailable. Hosted CI must
+still verify cold Ubuntu installation and recovery after these commits are pushed.
