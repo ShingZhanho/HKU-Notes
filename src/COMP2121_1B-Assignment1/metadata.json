@@ -3,7 +3,8 @@
     "static_site": {
         "description": "Assignment 1 of COMP2121 (subclass 1B) (25/26 Fall) with solutions.",
         "custom_md_file": "custom.md",
-        "document_status": "fin"
+        "document_status": "fin",
+        "meta_description": "HKU COMP2121 Discrete Mathematics Assignment 1, subclass 1B (2025/26 Fall), with proposed solutions. Read the preview and download the PDF."
     },
     "build": {
         "type": "latex"

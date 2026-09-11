@@ -34,7 +34,7 @@ class WebsiteTests(unittest.TestCase):
     def fake_zensical(self, argv, cwd):
         self.assertEqual(argv[1:], ['-m', 'zensical', 'build'])
         shutil.copytree(cwd / 'docs', cwd / 'output')
-        (cwd / 'output/index.html').write_text('<html>home</html>')
+        (cwd / 'output/index.html').write_text('<html><link rel="canonical" href="https://example.org/notes/index.html">home</html>')
         for name in ['DOC', 'PAGE']:
             (cwd / f'output/downloads/details/{name}.html').write_text('<div data-html-preview="DOC"></div>' if name == 'DOC' else 'page')
 
@@ -51,7 +51,8 @@ class WebsiteTests(unittest.TestCase):
         self.assertEqual((self.root / 'dist/site/files/DOC/report.pdf').read_bytes(), b'PDF fixture')
         sitemap = ET.parse(self.root / 'dist/site/sitemap.xml')
         urls = [item.text for item in sitemap.findall('.//{*}loc')]
-        self.assertIn('https://example.org/notes/files/DOC/report.pdf', urls)
+        self.assertNotIn('https://example.org/notes/files/DOC/report.pdf', urls)
+        self.assertIn('https://example.org/notes/index.html', urls)
         self.assertNotIn('https://example.org/notes/files/PAGE/NON_FILE_TARGET', urls)
         navigation = (self.root / '.build/site/mkdocs.yml').read_text()
         self.assertIn('"ALIAS2": downloads/details/DOC.md', navigation)

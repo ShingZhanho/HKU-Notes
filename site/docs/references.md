@@ -1,3 +1,6 @@
+---
+description: "Technical references for HKU Notes: contributing, document status, metadata schemas, authors, and build configuration."
+---
 # Technical References
 
 This page groups together all technical references that are useful for understanding the build pipeline and the codebase.
@@ -34,5 +37,5 @@ Checkout the [build-targets.txt syntax reference](contribution/syntax-reference/
 This file is necessary for each build target.
 It tells the build pipeline how to build the document, where to find the built artefacts, etc.
 It also controls the content on the description page of the document on the website.
-It comes with two schema versions, v1 (deprecated) and v2 (current).
+Schema v3 is the only supported version. The v1 and v2 references are retained as historical documentation.
 See the [metadata.json syntax reference](contribution/syntax-reference/metadata.json/index.md) for more details.

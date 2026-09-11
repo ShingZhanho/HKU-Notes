@@ -21,8 +21,9 @@ def gen_details_page(target: str, metadata: Metadata, all_targets: dict[str, dic
 
     # Prepare front matter data
     front_matter = {
+        "title": target.replace("-", " ").replace("_", " "),
         "description": metadata.static_site.meta_description.get() or \
-            f"Download {target} for free - {metadata.static_site.description.get()}",
+            f"{target.replace('-', ' ')}: {metadata.static_site.description.get()}",
         "comments": True,
     }
     if metadata.computed.is_pdf_target.get() and metadata.static_site.pdf_viewer.get() != "hidden":

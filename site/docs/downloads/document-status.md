@@ -1,3 +1,6 @@
+---
+description: Understand HKU Notes document status badges, from work in progress to finished, archived, and obsolete materials.
+---
 # Document Status
 
 The website displays a status badge for each document, indicating its current state.
