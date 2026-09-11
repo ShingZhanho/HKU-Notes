@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch
 
 from hkbuild.document import build
-from hkbuild.fingerprint import fingerprint
+from hkbuild.fingerprint import fingerprint, file_hash
 from hkbuild.metadata import load
 
 SCHEMA = '../../site/docs/statics/schemas/v3.json'
@@ -30,6 +30,19 @@ class FingerprintTests(unittest.TestCase):
 
     def key(self, override=None):
         return fingerprint(self.doc, load(self.doc / 'metadata.json')['build'], source_override=override)
+
+    def test_preview_and_site_tool_changes_do_not_recompile_documents(self):
+        first = self.key()
+        def changed_preview(path):
+            if path.name in {'html_preview.py', 'website.py', 'site-pkgs.txt'}:
+                return 'changed-preview-tool'
+            return file_hash(path)
+        with patch('hkbuild.fingerprint.file_hash', side_effect=changed_preview):
+            self.assertEqual(first, self.key())
+        def changed_compiler(path):
+            return 'changed-compiler' if path.name == 'document.py' else file_hash(path)
+        with patch('hkbuild.fingerprint.file_hash', side_effect=changed_compiler):
+            self.assertNotEqual(first, self.key())
 
     def test_skip_unchanged_even_after_touch_and_restore_deleted_output(self):
         build(self.doc, self.artifacts)

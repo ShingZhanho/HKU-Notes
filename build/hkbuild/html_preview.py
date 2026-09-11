@@ -12,7 +12,7 @@ from .document import digest, inside, write_json
 
 IMAGE = 'pdf2htmlex/pdf2htmlex@sha256:89fc3eaf829f4e786b6b07d4821026bd9ddb14614ec6db2959b0f492dbbcc597'
 FORMAT = 1
-OPTIONS = ['--embed', 'cfijo', '--split-pages', '0', '--process-outline', '0',
+OPTIONS = ['--bg-format', 'svg', '--embed', 'cfijo', '--split-pages', '0', '--process-outline', '0',
            '--correct-text-visibility', '1']
 
 

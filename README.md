@@ -31,8 +31,9 @@ make
 
 The PDF is written to the document directory. `configure` checks dependencies but
 never installs them. Minted documents additionally require the packages in
-`build/python-requirement-lists/python-minted-pkgs.txt`. Preview images require
-Poppler (`pdftoppm`); ordinary PDF builds do not.
+`build/python-requirement-lists/python-minted-pkgs.txt`. HTML previews require the Python packages in
+`build/python-requirement-lists/site-pkgs.txt` and pdf2htmlEX, either installed
+natively or through a running Docker-compatible engine. Ordinary PDF builds do not.
 
 At the repository root, `./configure` selects `build/build-targets.txt`. Use
 `./configure --targets CV COMP2120-Notes` to select a subset, then `make -j2` or
@@ -42,7 +43,7 @@ on every build; rerun configure after changing target selection or aliases.
 
 `make clean` removes LaTeX intermediate files. `make distclean` also removes runner
 outputs, source caches, and generated configuration. Handwritten Makefiles and source
-files are retained. `make preview` builds PDFs and creates page images.
+files are retained. `make preview` builds PDFs and creates HTML previews.
 
 Advanced document options: `--profile=NAME`, `--source-dir=/path/to/source`.
 Repository or document option: `--artifact-dir=/path/to/artifacts`, whose children
@@ -159,3 +160,39 @@ Indexing runs as a separate post-deployment CI job; local builds never send
 notifications. To invoke it explicitly elsewhere, install
 `build/python-requirement-lists/indexing-pkgs.txt` and run `build/request_indexing.py`
 with its documented arguments if needed.
+
+
+### HTML previews
+
+`make preview` runs pdf2htmlEX locally after compilation. No conversion API is
+used. With Docker/OrbStack running, the tool automatically uses a pinned amd64
+image (emulated on Apple Silicon). The first run downloads the image; conversion
+itself has networking disabled. Alternatively install `pdf2htmlEX` on PATH or set
+`PDF2HTMLEX` to its executable. On Ubuntu x86_64, `sudo sh
+build/install-pdf2htmlex.sh` installs the checksum-verified upstream AppImage
+without FUSE. The full build image includes this native installation.
+
+Previews in `dist/artifacts/<target>/~preview` are cached by PDF checksum,
+converter identity, conversion options and preview format version. Changing the
+preview implementation does not force TeX compilation. A failed conversion keeps
+the previous preview; individual converter runs time out after ten minutes.
+
+Website assembly embeds all converted pages into each existing details URL using
+Declarative Shadow DOM. Converter styles stay inside the shadow root; uniquely
+named font definitions are placed in the containing page for browser compatibility.
+Text is delivered in the initial HTML response, with no iframe, page-fetching API,
+or scroll-triggered text loading. A small custom element adds fit-to-width, zoom
+and page navigation. Without JavaScript the full pages remain readable by scrolling.
+The layout remains fixed like the PDF: narrow screens need zoom for dense text.
+This preserves visual layout, not semantic headings, equations or accessible
+figure descriptions. It does not guarantee search indexing.
+
+Preview HTML is injected after Zensical renders Markdown. Raw converter HTML is
+removed from the public output to avoid a duplicate document URL. Font and image
+assets remain alongside the details page in `<target>~preview/`. Matrix compilation
+and source-aware PDF caching continue to work unchanged.
+
+On Apple Silicon, if OrbStack hangs when starting the upstream amd64 converter,
+try its alternate emulation mode (`orbctl config set rosetta false`, then restart
+OrbStack). The local validation needed this workaround. Restore `rosetta true`
+and restart afterward if desired; this is an engine setting, not a build option.

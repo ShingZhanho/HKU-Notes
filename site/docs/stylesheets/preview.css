@@ -1,5 +1,5 @@
 /* Included inside each declarative shadow root, after pdf2htmlEX styles. */
-:host { display:block; min-width:0; color:#222; font:16px/1.4 system-ui,sans-serif; text-align:left; color-scheme:light; }
+:host { position:relative; isolation:isolate; z-index:0; display:block; min-width:0; color:#222; font:16px/1.4 system-ui,sans-serif; text-align:left; color-scheme:light; }
 .reader { background:#e9edef; border-radius:8px; padding:12px; }
 .toolbar { position:sticky; top:3rem; z-index:5; background:#fff; color:#222; border:1px solid #c5cdcf; border-radius:6px; padding:8px; margin-bottom:12px; display:flex; gap:8px; justify-content:space-between; align-items:center; font:14px/1.4 system-ui,sans-serif; }
 .toolbar[hidden] { display:none; }
@@ -8,7 +8,7 @@
 .toolbar button:disabled { opacity:.4; cursor:default; }
 .zoom-controls { display:flex; gap:4px; }
 .pages { overflow-x:auto; }
-.page-frame { position:relative; margin:0 auto 16px; width:max-content; background:transparent; }
+.page-frame { scroll-margin-top:7rem; position:relative; margin:0 auto 16px; width:max-content; background:transparent; }
 .pf { position:relative; margin:0; border:0; box-shadow:0 1px 5px #0002; transform-origin:top left; overflow:hidden; }
 .pc { display:block; }
 .page-caption { font:12px/24px system-ui,sans-serif; text-align:center; margin:0; color:#455458; }

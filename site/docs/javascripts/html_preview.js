@@ -50,17 +50,24 @@
       });
       this.observer = new ResizeObserver(resize);
       this.observer.observe(pages);
-      this.pageObserver = new IntersectionObserver(entries => {
-        const visible = entries.filter(entry => entry.isIntersecting);
-        if (visible.length) select.value = visible[0].target.dataset.page;
-      }, {rootMargin:'-15% 0px -60% 0px'});
-      frames.forEach(frame => this.pageObserver.observe(frame));
+      this.observePages = () => {
+        this.pageObserver?.disconnect();
+        this.pageObserver = new IntersectionObserver(entries => {
+          const visible = entries.filter(entry => entry.isIntersecting);
+          if (visible.length) select.value = visible[0].target.dataset.page;
+        // Use pixels: percentage root margins are based on width, not height.
+        }, {rootMargin: `${-innerHeight * .30}px 0px ${-innerHeight * .69}px 0px`});
+        frames.forEach(frame => this.pageObserver.observe(frame));
+      };
+      this.observePages();
+      window.addEventListener('resize', this.observePages);
       root.querySelector('.toolbar').hidden = false;
       resize();
     }
     disconnectedCallback() {
       this.observer?.disconnect();
       this.pageObserver?.disconnect();
+      window.removeEventListener('resize', this.observePages);
       this.observer = null;
     }
   }

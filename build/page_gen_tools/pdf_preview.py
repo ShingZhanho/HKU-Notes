@@ -44,6 +44,10 @@ def render_preview(target, preview_dir):
             tag['src'] = asset(tag['src'])
             if tag.name == 'img' and not tag.has_attr('alt'):
                 tag['alt'] = ''  # PDF backgrounds are not semantic diagram descriptions.
+        for link in page.select('a[href]'):
+            href = link['href'].strip()
+            if ':' in href and href.split(':', 1)[0].lower() not in ('http', 'https', 'mailto'):
+                del link['href']
         page['role'] = 'group'
         page['aria-label'] = f'Page {number} of {len(pages)}'
         frames.append(f'<section class="page-frame" data-page="{number}">{page}<p class="page-caption">Page {number} of {len(pages)}</p></section>')
