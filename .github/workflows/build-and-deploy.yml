@@ -50,25 +50,8 @@ jobs:
           python-version: '3.13'
           cache: pip
           cache-dependency-path: build/python-requirement-lists/*.txt
-      - name: Install build environment
-        run: |
-          sudo sh build/bootstrap-ubuntu.sh
-          python -m pip install -r build/python-requirement-lists/general-pkgs.txt -r build/python-requirement-lists/python-minted-pkgs.txt -r build/python-requirement-lists/site-pkgs.txt
-      - name: Cache MiKTeX packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.miktex
-          key: miktex-${{ matrix.target }}-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build/bootstrap-ubuntu.sh', 'build/setup-miktex.sh') }}-${{ hashFiles('src/**/*.tex', 'src/**/*.sty', 'src/**/*.cls', 'src/**/metadata.json') }}
-          restore-keys: |
-            miktex-${{ matrix.target }}-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build/bootstrap-ubuntu.sh', 'build/setup-miktex.sh') }}-
-      - name: Enable MiKTeX on-the-fly package installation
-        run: |
-          sh build/setup-miktex.sh
-          echo "$HOME/bin" >> "$GITHUB_PATH"
-      - name: Configure document
-        env:
-          TARGET: ${{ matrix.target }}
-        run: python configure --targets "$TARGET"
+      - name: Install Python build dependencies
+        run: python -m pip install -r build/python-requirement-lists/general-pkgs.txt -r build/python-requirement-lists/python-minted-pkgs.txt -r build/python-requirement-lists/site-pkgs.txt
       - name: Restore compiled document and previews
         uses: actions/cache@v4
         with:
@@ -76,6 +59,34 @@ jobs:
           key: document-v2-${{ runner.os }}-${{ runner.arch }}-py313-${{ matrix.target }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
             document-v2-${{ runner.os }}-${{ runner.arch }}-py313-${{ matrix.target }}-
+      - name: Verify source fingerprint and cached artifacts
+        id: document-cache
+        env:
+          TARGET: ${{ matrix.target }}
+          FORCE_REBUILD: ${{ contains(github.event.head_commit.message, '@force-rebuild') && '1' || '0' }}
+        run: python build/ci-cache.py "$TARGET"
+      - name: Install compiler environment for changed document
+        if: steps.document-cache.outputs.compile == 'true'
+        run: sudo sh build/bootstrap-ubuntu.sh
+      - name: Cache MiKTeX packages
+        if: steps.document-cache.outputs.compile == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.miktex
+          key: miktex-${{ matrix.target }}-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build/bootstrap-ubuntu.sh', 'build/setup-miktex.sh') }}-${{ hashFiles('src/**/*.tex', 'src/**/*.sty', 'src/**/*.cls', 'src/**/metadata.json') }}
+          restore-keys: |
+            miktex-${{ matrix.target }}-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('build/bootstrap-ubuntu.sh', 'build/setup-miktex.sh') }}-
+      - name: Enable MiKTeX on-the-fly package installation
+        if: steps.document-cache.outputs.compile == 'true'
+        run: |
+          sh build/setup-miktex.sh
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+      - name: Configure document
+        env:
+          TARGET: ${{ matrix.target }}
+        # The cache probe verified reusable outputs. On misses, build still checks
+        # compiler dependencies before executing any compilation commands.
+        run: python configure --no-check --targets "$TARGET"
       - name: Build changed document and previews
         # Each runner owns its MiKTeX tree; no concurrent package installations
         # share a writable tree. The runner validates cached source fingerprints.

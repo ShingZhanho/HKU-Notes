@@ -239,3 +239,21 @@ succeeds. The output audit finds 43 canonical HTML sitemap entries, including al
 no broken internal file links. All 29 embedded PDF previews remain present. This
 checks the generated site, not Google's eventual indexing decision or hosted CI.
 No MiKTeX/latexmk/TeX compilation processes remain running.
+
+
+## CI cache setup investigation (2026-10-20)
+
+Run 39426168967 reused 30 verified document artifacts and 29 HTML previews, with
+zero document recompilations. The apparent full rebuild was unconditional MiKTeX
+provisioning/setup in every matrix job before artifact verification.
+
+CI now restores artifacts and uses build/ci-cache.py to verify the existing
+fingerprint and every output checksum before compiler setup. The normal build
+runner still revalidates cached artifacts. The probe and workflow changes do not
+modify fingerprint inputs, preserving existing cache keys. Forced builds and
+cache-disabled documents require setup; page-only targets do not.
+
+All 68 tests pass, including warm-cache execution with compiler checks/commands
+made unavailable, changed sources, corruption, force, disabled caching, and page
+builds. All 35 metadata files validate (34 selected targets). Hosted CI has not
+been run with this change; no local MiKTeX processes were started.

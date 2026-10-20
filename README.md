@@ -209,3 +209,13 @@ On Apple Silicon, if OrbStack hangs when starting the upstream amd64 converter,
 try its alternate emulation mode (`orbctl config set rosetta false`, then restart
 OrbStack). The local validation needed this workaround. Restore `rosetta true`
 and restart afterward if desired; this is an engine setting, not a build option.
+
+### CI cache verification before compiler setup
+
+Each matrix job restores its document artifacts and verifies the source fingerprint
+and output checksums before installing MiKTeX. Verified unchanged targets skip
+compiler provisioning and package setup; the build runner verifies reuse again,
+and HTML previews retain their separate cache check. Page-only targets need no
+compiler. Changed inputs, missing/corrupt artifacts, disabled document caching,
+and `@force-rebuild` still take the normal compilation path. A per-job summary
+reports the decision. Matrix jobs and website assembly still run on cache hits.
