@@ -8,17 +8,23 @@
 
 \subsection*{Why Use a DBMS?}
 Drawbacks of file-based systems:\\
-\emph{Difficult access}: retrieving data may require custom programs or scanning entire files.\\
-\emph{Data isolation}: data scattered across files in different formats are difficult to combine.\\
-\emph{Integrity problems}: enforcing consistency constraints separately in every application is difficult.\\
-\emph{Redundancy / inconsistency}: duplicate data waste storage; updating only some copies causes disagreement.\\
-\emph{Concurrent access}: simultaneous updates can interfere, e.g.\ a lost update.\\
-\emph{Atomicity problems}: a failure may leave an operation partly completed, e.g.\ money deducted but not deposited. Atomicity requires all or nothing.
+\begin{enuminline}
+\item \emph{Difficult access}: retrieving data may require custom programs or scanning entire files.
+\item \emph{Data isolation}: data scattered across files in different formats are difficult to combine.
+\item \emph{Integrity problems}: enforcing consistency constraints separately in every application is difficult.
+\item \emph{Redundancy / inconsistency}: duplicate data waste storage; updating only some copies causes disagreement.
+\item \emph{Concurrent access}: simultaneous updates can interfere, e.g.\ a lost update.
+\item \emph{Atomicity problems}: a failure may leave an operation partly completed, e.g.\ money deducted but not deposited. Atomicity requires all or nothing.
+\end{enuminline}
 
 \subsection*{Abstraction Levels}
-\emph{Physical}: how data are stored; files, indexes, pointers, compression.\\
-\emph{Logical}: what data are stored and how they are related, independent of storage details.\\
-\emph{View}: only the part of the database relevant to a user; different users may have different views.\\
+\begin{enuminline}
+\item \emph{Physical}: how data are stored; files, indexes, pointers, compression.
+\item \emph{Logical}: what data are stored and how they are related, independent of storage details.
+\item \emph{View}: only the part of the database relevant to a user; different users may have different views.
+\end{enuminline}
+
+\subsection*{Data Independence, Schema and Instance}
 \emph{Physical data independence}: changes to physical storage need not change the logical schema or applications.\\
 \emph{Schema}: the database structure.\\
 \emph{Instance}: actual contents at a particular time.
@@ -29,15 +35,23 @@ Drawbacks of file-based systems:\\
 
 \subsection*{System Architecture}
 \emph{Query processor}\\
-\ind\emph{DDL interpreter}: interprets schema definitions and updates the data dictionary.\\
-\ind\emph{DML compiler}: translates queries into evaluation plans; optimization chooses a low-cost plan.\\
-\ind\emph{Query evaluation engine}: executes the plan's low-level instructions.\\
+\begin{enuminline}
+\item \emph{DDL interpreter}: interprets schema definitions and updates the data dictionary.
+\item \emph{DML compiler}: translates queries into evaluation plans; optimization chooses a low-cost plan.
+\item \emph{Query evaluation engine}: executes the plan's low-level instructions.
+\end{enuminline}
+
 \emph{Storage manager}: interface between low-level stored data and applications/queries.\\
-\ind\emph{File manager}: allocates disk space and organizes stored data structures.\\
-\ind\emph{Transaction manager}: coordinates concurrent transactions and handles failures to preserve consistency.\\
-\ind\emph{Authorization / integrity manager}: checks access rights and integrity constraints.\\
-\ind\emph{Buffer manager}: fetches disk data into memory and decides what to cache.\\
+\begin{enuminline}
+\item \emph{File manager}: allocates disk space and organizes stored data structures.
+\item \emph{Transaction manager}: coordinates concurrent transactions and handles failures to preserve consistency.
+\item \emph{Authorization / integrity manager}: checks access rights and integrity constraints.
+\item \emph{Buffer manager}: fetches disk data into memory and decides what to cache.
+\end{enuminline}
+
 \emph{Disk storage}\\
-\ind\emph{Data files}: actual database data.\\
-\ind\emph{Data dictionary}: metadata, e.g.\ tables, attributes and constraints.\\
-\ind\emph{Indexes}: structures for fast record access.
+\begin{enuminline}
+\item \emph{Data files}: actual database data.
+\item \emph{Data dictionary}: metadata, e.g.\ tables, attributes and constraints.
+\item \emph{Indexes}: structures for fast record access.
+\end{enuminline}
