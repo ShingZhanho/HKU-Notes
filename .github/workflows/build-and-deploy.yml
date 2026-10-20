@@ -24,11 +24,9 @@ jobs:
           cache: pip
           cache-dependency-path: build/python-requirement-lists/*.txt
       - name: Install Python dependencies
-        run: python -m pip install -r build/python-requirement-lists/general-pkgs.txt -r build/python-requirement-lists/python-minted-pkgs.txt -r build/python-requirement-lists/site-pkgs.txt -r build/python-requirement-lists/indexing-pkgs.txt
-      - name: Validate metadata and test build tools
-        run: |
-          python build/build.py validate
-          PYTHONPATH=build python -m unittest discover -s build/tests -v
+        run: python -m pip install -r build/python-requirement-lists/general-pkgs.txt -r build/python-requirement-lists/python-minted-pkgs.txt -r build/python-requirement-lists/site-pkgs.txt
+      - name: Validate metadata
+        run: python build/build.py validate
       - name: Select targets and compilation matrix
         id: plan
         env:

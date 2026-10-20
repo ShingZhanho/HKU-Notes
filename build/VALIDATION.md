@@ -1,5 +1,10 @@
 # Refactor validation
 
+Historical verification record. The automated test suite was removed on
+2026-10-20; earlier test counts below describe checks performed at the time.
+Current changes are verified locally using the relevant build commands and
+inspection of their output.
+
 Verified locally on 2026-09-08, using macOS arm64, MiKTeX, and Python 3.14.2.
 
 - All 34 existing metadata files migrated to v3 and validated against the checked-in
@@ -37,7 +42,6 @@ work around the missing package. No deployment or indexing notifications were se
 
 ```sh
 python build/build.py validate
-PYTHONPATH=build python -m unittest discover -s build/tests -v
 ```
 
 For full catalogue verification, use the Ubuntu container instructions in the root

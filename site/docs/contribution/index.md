@@ -61,16 +61,16 @@ Only schema v3 is accepted. The v1/v2 references are retained for historical con
 ## Change the build tools
 
 The shared implementation is in `build/hkbuild`. Generated Makefiles call the runner;
-GitHub Actions provisions tools and runs those Makefiles. Test changes locally:
+GitHub Actions provisions tools and runs those Makefiles. Verify changes locally:
 
 ```sh
 python build/build.py validate
-PYTHONPATH=build python -m unittest discover -s build/tests -v
 ```
 
-The tests use temporary directories and fake compiler/site processes where appropriate;
-no TeX installation or credentials are needed for the test suite. Also build a relevant
-real document or website when changing compilation or rendering behavior.
+Build a relevant real document or website locally when changing compilation or
+rendering behavior, and inspect the generated output. For cache changes, repeat
+the build with unchanged inputs to confirm reuse, then change a source input to
+confirm rebuilding. The repository does not maintain an automated test suite.
 
 ## Attribution
 

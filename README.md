@@ -55,11 +55,10 @@ checks or environment requirements.
 All documents use [metadata v3](site/docs/contribution/syntax-reference/metadata.json/v3.md).
 v1/v2 inputs are rejected; their reference documentation is retained.
 
-Validate metadata and run the build-tool tests without a TeX installation:
+Validate metadata without a TeX installation:
 
 ```sh
 python build/build.py validate
-PYTHONPATH=build python -m unittest discover -s build/tests -v
 ```
 
 ## Build the website
