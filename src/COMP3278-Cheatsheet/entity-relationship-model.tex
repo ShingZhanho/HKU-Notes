@@ -37,3 +37,25 @@
     \text{Primary Key} \subseteq \text{Candidate Key} \subseteq \text{Super Key}
 \]
 \emph{Foreign key}:\\\ind an attribute in a relation that is a primary\\\ind key in another relation\\
+
+\subsection*{Weak Entity Relationship}
+
+The weak entity set must have \emph{total participation} (ensures identifying entity exists), \emph{M-to-1/1-to-1} relationship with the identifying entity set (ensures unique identification).\\
+{\hfill PK(Weak Entity)=PK(Identifying)+Discriminator \hfill}
+
+\subsection*{ER-Diagrams to Schemas}
+\emph{Regular entity \& attribute}: entity $\to$ table; attribute $\to$ column\\
+\emph{Primary key}: underline attribute in schema\\
+\emph{Composite attribute}: dot-access path to leaf component\\
+\emph{Derived attribute}: not included in schema\\
+\emph{Multivalued attribute}: separate entity, with FK to owning entity\\
+\emph{Weak entity set}: FK to identifying entity set
+
+\emph{Relationships}:\\
+\ind\emph{M-to-M}: relationship $\to$ table; FKs to participating entities\\
+\ind\emph{1-to-M/M-to-1}: FK in M-side entity to 1-side entity\\
+\ind\emph{1-to-1}: FK in either entity to the other entity
+
+\emph{Specialization}:\\
+\ind\emph{(1)} higher entity $\to$ table; lower entity $\to$ table; PK of higher entity $\to$ FK in lower entity. \emph{[+ve]}: no redundancy; \emph{[-ve]}: less efficient retrieving\\
+\ind\emph{(2)} lower entity table has all inherited attributes; PK of higher entity $\to$ FK in lower entity. \emph{[+ve]}: more efficient retrieving; \emph{[-ve]}: redundancy\\
