@@ -1,0 +1,39 @@
+\section{Entity Relationship Model}
+
+\subsection*{ER-Diagram Notation}
+
+\emph{Entity} \hfill rectangle\\
+\emph{Attribute} \hfill ellipse\\
+\ind\emph{Primary Key} \hfill ellipse with underline\\
+\ind\emph{Composite Attribute} \hfill ellipse with sub-ellipses\\
+\ind\emph{Derived Attribute} \hfill dashed ellipse\\
+\ind\emph{Multivalued Attribute} \hfill double ellipse\\
+\emph{Relationship} \hfill diamond\\
+\ind\emph{Role} \hfill text on line next to relationship\\
+\hfill useful for unary relationships\\
+\emph{Mapping Cardinality} \hfill\\
+\ind\emph{One}\hfill arrow\\
+\ind\emph{Many}\hfill no arrow\\
+\emph{Participation} \hfill\\
+\ind\emph{Total}\hfill double line\\
+\ind\emph{Partial}\hfill single line\\
+\emph{Weak Entity}\hfill\\
+\ind\emph{Weak Entity Set}\hfill double rectangle\\
+\ind\emph{Identifying Relationship}\hfill double diamond\\
+\ind\emph{Discriminator}\hfill dashed underline\\
+\emph{Specialization}\hfill\\
+\ind\emph{Specialization}\hfill upside-down triangle with ``ISA''\\
+\ind\emph{Disjoint}\hfill ``disjoint'' next to triangle\\
+\ind\emph{Overlapping}\hfill -{}-\\
+\ind\emph{Total Specialization}\hfill double line from ``parent''\\
+\ind\emph{Partial Specialization}\hfill single line\\
+
+\subsection*{Keys}
+
+\emph{Super key}:\\\ind a set of 1+ attributes that uniquely\\\ind identifies a record\\
+\emph{Candidate key}:\\\ind a minimal super key\\
+\emph{Primary key}:\\\ind a candidate key chosen to identify records\\
+\[
+    \text{Primary Key} \subseteq \text{Candidate Key} \subseteq \text{Super Key}
+\]
+\emph{Foreign key}:\\\ind an attribute in a relation that is a primary\\\ind key in another relation\\

@@ -1,0 +1,18 @@
+% !TEX program = latexmk
+% !TEX options = --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf -cd -outdir=. ./COMP3278-Cheatsheet.tex
+
+\documentclass[10pt,landscape,a4paper]{article}
+\input{packages}
+
+\let\bar\overline
+
+\input{preambles}
+
+\begin{document}
+%\footnotesize
+\scriptsize
+\begin{multicols*}{4}
+\raggedright
+\input{entity-relationship-model.tex}
+\end{multicols*}
+\end{document}
