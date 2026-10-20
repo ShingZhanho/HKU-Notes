@@ -72,6 +72,9 @@ COMP2121_1B-Assignment
 	2
 	3
 
+# COMP3278 - Introduction to Database Management Systems
+COMP3278-Cheatsheet
+
 # CCGL9042 - Evolution of Civilisation
 CCGL9042-Question-Bank
 

@@ -1,0 +1,216 @@
+\section{SQL}
+\begingroup
+\setminted{fontsize=\fontsize{6.5}{7}\selectfont,
+  breaklines=true, baselinestretch=1}
+
+\subsection*{DDL}
+
+\begin{minted}[style=manni]{sql}
+--## create a table ##--
+CREATE TABLE TableName (
+    col1 datatype1 UNIQUE,
+    col2 datatype2 NOT NULL,
+    ...,
+    PRIMARY KEY (col1, ...), -- PK -> NOT NULL
+    FOREIGN KEY (col2, ...)
+        REFERENCES OtherTable(col1, ...)
+);
+
+--## common datatypes ##--
+-- numeric: INT, SMALLINT, BIGINT, DECIMAL(p,s),
+--          NUMERIC(p,s), REAL, DOUBLE PRECISION
+-- character: CHAR(n), VARCHAR(n), TEXT
+-- date/time: DATE, TIME, TIMESTAMP
+
+--## delete a table ##--
+DROP TABLE TableName; -- dependent FKs may block
+
+--## modify a table ##--
+ALTER TABLE TableName ADD newCol datatype;
+ALTER TABLE TableName DROP colToDelete;
+ALTER TABLE TableName ADD PRIMARY KEY (col1, ..);
+ALTER TABLE TableName ADD FOREIGN KEY (col2, ..)
+    REFERENCES OtherTable(col1, ..);
+\end{minted}
+
+\subsection*{DML}
+
+\begin{minted}[style=manni]{sql}
+--## insert a row ##--
+INSERT INTO TableName VALUES
+    (val1, val2, ...), -- one row
+    (val1, val2, ...),
+    ...;
+
+--## load from a file ##--
+LOAD DATA LOCAL INFILE 'file.txt'
+INTO TABLE TableName
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n';
+
+--## delete row(s) ##--
+DELETE FROM TableName; -- delete all rows
+DELETE FROM TableName  -- delete rows conditionally
+WHERE condition; 
+
+--## update row(s) ##--
+UPDATE TableName SET col1 = val1, col2 = val2, ...
+WHERE condition; -- update rows conditionally
+UPDATE TableName SET col1 = col1 * 2; -- arithmetic
+
+--## case statement ##--
+UPDATE TableName SET col1 = CASE
+    WHEN condition1 THEN val1
+    WHEN condition2 THEN val2
+    ELSE val3
+END; -- CASE can be used elsewhere, e.g. SELECT
+
+--## query rows ##--
+SELECT col1, col2, ... FROM TableName;
+SELECT * FROM TableName;
+SELECT * FROM TableName WHERE condition;
+
+--## string matching ##--
+SELECT * FROM T WHERE col LIKE 'hello';
+    -- matches 'hello' exactly
+SELECT * FROM T WHERE col LIKE 'hello%';
+    -- matches 'hello', 'hello world', ...
+SELECT * FROM T WHERE col LIKE 'h_llo';
+    -- matches 'hello', 'hallo', 'hxllo', ...
+\end{minted}
+\subsection*{Query}
+\begin{minted}[style=manni]{sql}
+--## select / alias / group / sort ##--
+SELECT DISTINCT dept, COUNT(*) AS n
+FROM Employee E
+WHERE salary > 0       -- filter rows
+GROUP BY dept
+HAVING COUNT(*) >= 2   -- filter groups
+ORDER BY n DESC, dept ASC; -- default ASC
+-- order: FROM -> WHERE -> GROUP BY -> HAVING
+--        -> SELECT/DISTINCT -> ORDER BY
+
+--## aggregate ##--
+SELECT SUM(x), AVG(x), MIN(x), MAX(x),
+       COUNT(*), COUNT(x), COUNT(DISTINCT x)
+FROM T;
+-- COUNT(*): rows; others: ignore NULL
+-- empty input: COUNT -> 0; others -> NULL
+SELECT SUM(CASE WHEN x > 0 THEN x ELSE 0 END)
+FROM T; -- conditional sum
+
+--## join ##--
+SELECT A.*, B.* FROM A
+INNER JOIN B ON A.id = B.aid; -- matched pairs
+-- LEFT/RIGHT JOIN: keep all left/right rows
+-- unmatched side -> NULL; CROSS JOIN: m*n rows
+SELECT A.id, COUNT(B.id) FROM A
+LEFT JOIN B ON A.id = B.aid
+GROUP BY A.id; -- no matches -> 0, not COUNT(*)
+
+--## set operations ##--
+SELECT id FROM A UNION SELECT id FROM B;
+-- UNION: either; INTERSECT: both; EXCEPT: A-B
+-- same #columns + compatible types
+-- duplicates removed; UNION ALL keeps them
+\end{minted}
+
+\subsection*{Nested Query}
+\begin{minted}[style=manni]{sql}
+--## membership ##--
+SELECT * FROM Employee
+WHERE dept IN (SELECT id FROM Dept
+               WHERE budget > 100);
+-- IN / NOT IN: member / not member
+
+--## scalar: 1 column, <=1 row ##--
+SELECT * FROM Employee
+WHERE salary > (SELECT AVG(salary) FROM Employee);
+-- 0 rows -> NULL; >1 row -> error
+
+--## correlated: uses outer alias ##--
+SELECT D.id, (SELECT COUNT(*) FROM Employee E
+              WHERE E.dept = D.id) AS n
+FROM Dept D; -- no matches -> 0
+
+--## exists / not exists ##--
+SELECT D.* FROM Dept D
+WHERE EXISTS (SELECT 1 FROM Employee E
+              WHERE E.dept = D.id);
+-- EXISTS: >=1 row; NOT EXISTS: 0 rows
+-- EXISTS(SELECT COUNT(*) ...) -> true
+-- (without GROUP BY/HAVING)
+
+--## all / some (any) ##--
+SELECT * FROM Employee
+WHERE salary >= ALL (SELECT salary FROM Employee);
+-- ALL: every; SOME/ANY: at least one
+-- empty set: ALL -> true; ANY -> false
+-- = ANY: IN; <> ALL: NOT IN
+
+--## maximum: keep ties ##--
+SELECT * FROM Employee
+WHERE salary = (SELECT MAX(salary) FROM Employee);
+-- MAX ignores NULL; ALL does not
+-- choose population: global vs eligible only
+
+--## derived table: max of group counts ##--
+SELECT MAX(T.n) FROM
+    (SELECT dept, COUNT(*) AS n FROM Employee
+     GROUP BY dept) AS T;
+\end{minted}
+
+\subsection*{NULL \& UNKNOWN}
+\begin{minted}[style=manni]{sql}
+SELECT * FROM T WHERE x IS NULL; -- not = NULL
+SELECT * FROM T WHERE x IS NOT NULL;
+-- arithmetic with NULL -> NULL
+-- comparison with NULL -> UNKNOWN (U)
+-- WHERE/HAVING: only TRUE survives
+--     OR      AND   NOT
+--   T U F    T U F   
+-- T|T T T  T|T U F  T|F
+-- U|T U U  U|U U F  U|U
+-- F|T U F  F|F F F  F|T
+\end{minted}
+
+\subsection*{Useful Patterns}
+\begin{minted}[style=manni]{sql}
+--## every child: x > 0 (NULL fails) ##--
+SELECT P.* FROM Parent P
+WHERE NOT EXISTS (SELECT 1 FROM Child C
+    WHERE C.pid = P.id
+      AND (C.x <= 0 OR C.x IS NULL));
+-- empty set passes; add EXISTS if nonempty
+
+--## every required item has a match ##--
+SELECT P.* FROM Person P
+WHERE NOT EXISTS (SELECT 1 FROM Required R
+    WHERE NOT EXISTS (SELECT 1 FROM Match M
+        WHERE M.pid = P.id AND M.rid = R.id));
+
+--## exactly k distinct items ##--
+SELECT pid FROM Match GROUP BY pid
+HAVING COUNT(DISTINCT rid) = 2;
+-- joins may duplicate rows: count IDs, not rows
+\end{minted}
+
+\subsection*{View / Authorization / Assertion}
+\begin{minted}[style=manni]{sql}
+--## view ##--
+CREATE VIEW V AS SELECT id, name FROM Employee;
+
+--## privileges / roles ##--
+GRANT SELECT ON TableName TO username;
+GRANT UPDATE(col) ON TableName TO roleName;
+REVOKE SELECT ON TableName FROM username;
+CREATE ROLE roleName;
+GRANT roleName TO username;
+
+--## assertion (standard SQL; not MySQL) ##--
+CREATE ASSERTION AssertionName CHECK (
+    (SELECT COUNT(*) FROM Dept) <=
+    (SELECT COUNT(*) FROM Employee)
+); -- DB-wide condition; check on updates
+\end{minted}
+\endgroup

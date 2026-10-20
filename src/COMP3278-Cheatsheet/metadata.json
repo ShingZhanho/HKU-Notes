@@ -15,6 +15,6 @@
     },
     "static_site": {
         "description": "An A4 double-sided cheatsheet for the COMP3278 final exam.",
-        "document_status": "unk"
+        "document_status": "wip"
     }
 }
